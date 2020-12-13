@@ -59,11 +59,11 @@
                 <h5 class="mt-1 mb-2">bsancheza@unah.hn</h5>
 
                 <div class="md-form ml-0 mr-0">
-                    <input type="password" type="text" id="form29" class="form-control form-control-sm validate ml-0">
+                    <input type="password" type="text" id="password" class="form-control form-control-sm validate ml-0">
                     <label data-error="wrong" data-success="right" for="form29" class="ml-0">Digite la nueva clave</label>
                 </div>
                 <div class="md-form ml-0 mr-0">
-                    <input type="password" type="text" id="form29" class="form-control form-control-sm validate ml-0">
+                    <input type="password" type="text" id="newPassword" class="form-control form-control-sm validate ml-0">
                     <label data-error="wrong" data-success="right" for="form29" class="ml-0">Repita la nueva clave</label>
                 </div>
 

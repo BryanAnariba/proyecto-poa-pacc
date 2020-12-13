@@ -13,19 +13,21 @@
 
     <body>
         <div class="container">
-            <div class="forms-container animate__animated animate__flipInX">
+            <div class="forms-container">
                 <div class="signin-signup">
                     <form class="sign-in-form">
-                        <h2 class="title">Inicio de sesion</h2>
-                        <div class="input-field ">
+                        <h2 class="title animate__animated animate__flipInX">Inicio de sesion</h2>
+                        <div class="input-field animate__animated animate__flipInX">
                             <i class="fas fa-user"></i>
                             <input type="text" placeholder="Correo Electronico UNAH" />
                         </div>
-                        <div class="input-field ">
+                        <div class="input-field animate__animated animate__flipInX">
                             <i class="fas fa-lock"></i>
                             <input type="password" placeholder="Contraseña" />
                         </div>
-                        <input type="button" value="Login" class="btn solid" alt="Login al sistema"/>
+                        <button type="button" class="btn solid btn-block animate__animated animate__flipInX" id="sign-up-btn" alt="Inicio de sesion">
+                            Login
+                        </button>
                     </form>
                 </div>
             </div>

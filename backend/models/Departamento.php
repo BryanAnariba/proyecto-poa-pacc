@@ -4,7 +4,7 @@
         protected $nombreDepartamento;
         protected $abrev;
 
-        public function __construct($idDepartamento, $nombreDepartamento, $abrev) {
+        public function __construct($idDepartamento = null, $nombreDepartamento = null, $abrev = null) {
             $this->idDepartamento = $idDepartamento;
             $this->nombreDepartamento = $nombreDepartamento;
             $this->abrev = $abrev;

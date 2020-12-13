@@ -110,7 +110,7 @@
                         break; 
                     ?>
                     <?php case 
-                        'S_AC': // ROLE => Secretaria Academica
+                        'S_AC': // ROLE => usuario administrativo
                     ?>
                         <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">

@@ -1,4 +1,5 @@
-        <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
+        
+        <!--script src="../js/libreria-bootstrap-mdb/jquery-ui.min.js"></script-->
         <script src="../js/libreria-bootstrap-mdb/popper.min.js"></script>
         <script src="../js/libreria-bootstrap-mdb/bootstrap.min.js"></script>
         <script src="../js/libreria-bootstrap-mdb/mdb.min.js"></script>
