@@ -61,13 +61,25 @@ const verificarCamposRegistro = () => {
             nombreLugar: ((nombreLugar.value != '') ? nombreLugar.value : null)
         };
         console.log('User data => ', dataNuevoUsuario);
-        // $.post(`${ API }/usuarios/registro`, function() {
-        //     alert( "success" );
-        // }).success(function(response) {
-        
-        // }).error(function(error) {
 
-        // });
+        
+        $.ajax({
+            url: `${ API }/usuarios/registro.php`, 
+            method: 'POST',
+            dataType: 'json',
+            data: dataNuevoUsuario
+        }).success(function(response) {
+            console.log(response);
+        }).error(function(error) {
+            console.warn(error);
+            Swal.fire({
+                icon: 'success',
+                title: 'Ops...',
+                text: 'Registro insertado con exito',
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+            })
+            
+        });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
             icon: 'error',
