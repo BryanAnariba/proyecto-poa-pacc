@@ -16,7 +16,7 @@
             <div class="forms-container animate__animated animate__flipInX">
                 <div class="signin-signup">
                     <form class="sign-in-form">
-                        <h2 class="title">Inicio de sesion</h2>
+                        <h2 class="title">Inicio de sesión</h2>
                         <div class="input-field ">
                             <i class="fas fa-user"></i>
                             <input type="text" placeholder="Correo Electronico UNAH" />

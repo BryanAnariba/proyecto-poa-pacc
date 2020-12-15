@@ -56,7 +56,7 @@
                     <?php 
                         case 'DF': // ROLE => Decano Facultad
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-informes-decano.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Decano</span>
                         </a>
