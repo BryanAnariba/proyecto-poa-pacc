@@ -366,6 +366,8 @@
             <?php endswitch; ?>
         </div>
         <!--En esta zona podran poner javascripts propios de la vista-->
+        <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
+        <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
 <?php
     include('../partials/endDoctype.php');
 ?>

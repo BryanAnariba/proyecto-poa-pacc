@@ -1,5 +1,5 @@
 <?php
-    class RespuestaPeticion {
+    class Respuesta {
         private $codigoEstadoHttp;
         private $data;
         private $respuesta;
@@ -9,7 +9,7 @@
             $this->data = $data;
         }
 
-        public function respuestaDePeticion () {
+        public function respuestaPeticion () {
             http_response_code($this->codigoEstadoHttp);
             $this->respuesta = array(
                 'codigoEstado' => $this->codigoEstadoHttp,

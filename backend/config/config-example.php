@@ -1,9 +1,9 @@
 <?php
     // Database fields
-    define('HOST', 'localhost:3307');
-    define('DB', 'db-poa');
-    define('USER', 'root');
-    define('PASSWORD', 'root');
+    define('HOST', '');
+    define('DB', '');
+    define('USER', '');
+    define('PASSWORD', '');
     define('CHARSET', 'utf8');
     
     // Http status reques code
