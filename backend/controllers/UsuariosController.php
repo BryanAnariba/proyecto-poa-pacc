@@ -12,4 +12,11 @@
         public function obtenerUsuarioPorId () {
 
         }
+
+        public function peticionNoValida () {
+            $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Tipo de peticion no valida'));
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
     }

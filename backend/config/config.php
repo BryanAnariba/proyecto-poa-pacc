@@ -1,7 +1,7 @@
 <?php
     // Database fields
     define('HOST', 'localhost:3307');
-    define('DB', 'db-poa');
+    define('DB', 'poa-pacc-bd');
     define('USER', 'root');
     define('PASSWORD', 'root');
     define('CHARSET', 'utf8');
@@ -22,3 +22,9 @@
     define('DIRECTORIO_PDFS', 'pdfs');
     define('DIRECTORIO_WORDS', 'words');
     define('DIRECTORIO_USUARIOS', 'usuarios');
+
+    // Entidades
+    define('TBL_PERSONA', 'Persona');
+    define('TBL_USUARIO', 'Usuario');
+    define('TBL_LUGARES', 'Lugar');
+    define('TBL_TIPO_USUARIO', 'TipoUsuario');

@@ -1,5 +1,5 @@
 // Enpoint o URI general, a partir de esta URI se debera hacer las peticiones
-const API = 'http://localhost/php/proyecto-poa-pacc/backend/api/';
+const API = 'http://localhost/proyecto-poa-pacc/backend/api';
 
 // Expresiones regulares
 const numeroTelefonoRefex = /^(2\d{3})(-)?\d{4}/;

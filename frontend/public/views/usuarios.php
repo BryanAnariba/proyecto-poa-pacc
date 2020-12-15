@@ -65,7 +65,14 @@ include('../partials/doctype.php');;
                                                 <img class="card-img-top" src="../img/usuarios/registrar-usuario.svg" alt="registrar usuario">
                                             </div>
                                             <hr>
-                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalRegistrarUsuarios">
+                                            <button 
+                                                type="button" 
+                                                id="cargaDataUsuario"
+                                                class="btn btn-indigo btn-block" 
+                                                data-toggle="modal" 
+                                                data-target="#modalRegistrarUsuarios"
+                                                onclick="cargarModalRegistro()"
+                                                >
                                                 Registrar
                                             </button>
                                         </div>
@@ -132,7 +139,25 @@ include('../partials/doctype.php');;
     <!--Registrar usuarios-->
     <div class="modal fade" id="modalRegistrarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="lds-roller loading-registro">
+                <div>                   
+                </div>
+                <div>                    
+                </div>
+                <div>
+                </div>
+                <div>                    
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="modal-content" id="modalContentRegistro">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Formulario para registro de usuarios</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -157,7 +182,6 @@ include('../partials/doctype.php');;
                                         id="labelR-nombrePersona"
                                     >Escriba los Nombres de la persona
                                     </label>
-                                    
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -239,35 +263,47 @@ include('../partials/doctype.php');;
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <select class="browser-default custom-select" id="R-idPais" required>
-                                        <option value='' selected>Seleccione Direcion Pais</option>
-                                        <option value="1">Honduras</option>
-                                        <option value="2">United States</option>
-                                        <option value="3">Dubail</option>
-                                        <option value="4">Secretaria Administrativa</option>
-                                        <option value="5">Jefe Departamento</option>
-                                        <option value="6">Coordinador Carrera</option>
+                                    <select 
+                                        class="browser-default custom-select" 
+                                        id="R-idPais" 
+                                        required
+                                        onchange="cargarCiudadesPais()">
                                     </select>
                                     <span id="errorsR-idPais" class="text-danger text-small d-none">
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <select class="browser-default custom-select" id="R-idDepartamentoPais" required>
-                                        <option value='' selected>Seleccione Ciudad/Provincia Pais</option>
-                                        <option value="1">Comayagua</option>
-                                        <option value="2">Francisco Morazan</option>
+                                    <div class="spinner-grow text-warning" id="spinneridDepartamentoPais" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <select 
+                                        class="browser-default custom-select d-none" 
+                                        id="R-idDepartamentoPais" 
+                                        onchange="cargarMunicipios()"
+                                        required>
                                     </select>
                                     <span id="errorsR-idDepartamentoPais" class="text-danger text-small d-none">
                                     </span>
                                 </div>
                             </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="md-form">
+                                    <div class="spinner-grow text-warning" id="spinneridMunicipiosCiudad" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <select class="browser-default custom-select d-none" id="R-idMunicipiosCiudad" required>
+                                    </select>
+                                    <span id="errorsR-idMunicipiosCiudad" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="md-form">
                                     <textarea 
                                         id="nombreLugar" 
@@ -280,7 +316,7 @@ include('../partials/doctype.php');;
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="md-form">
                                     <input 
                                         type="email" 
