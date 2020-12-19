@@ -1,6 +1,6 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/config/config.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/database/Conexion.php');
+    require_once('../../config/config.php');
+    require_once('../../database/Conexion.php');
     class Lugar {
         private $idLugar;
         private $idTipoLugar;
@@ -73,13 +73,13 @@
                     } else {
                         return array(
                             'status'=> BAD_REQUEST,
-                            'data' => array('Ha ocurrido un error')
+                            'data' => array('message' => 'Ha ocurrido un error')
                         );
                     }
-                }catch (PDOException $ex) {
+                } catch (PDOException $ex) {
                     return array(
                         'status'=> INTERNAL_SERVER_ERROR,
-                        'data' => array($ex->getMessage())
+                        'data' => array('message' => $ex->getMessage())
                     );
                 } finally {
                     $this->conexionBD = null;
@@ -151,7 +151,7 @@
                 }catch (PDOException $ex) {
                     return array(
                         'status'=> INTERNAL_SERVER_ERROR,
-                        'data' => array($ex->getMessage())
+                        'data' => array('message' => $ex->getMessage())
                     );
                 } finally {
                     $this->conexionBD = null;
@@ -159,3 +159,4 @@
             }
         }
     }
+?>

@@ -1,32 +1,32 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/helpers/Respuesta.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/models/Lugar.php');
+    require_once('../../helpers/Respuesta.php');
+    require_once('../../models/Lugar.php');
     class LugaresController {
-        private $LugarModel;
+        private $lugarModel;
         private $data;
         public function __construct() {
-            $this->LugarModel = new Lugar();
+            $this->lugarModel = new Lugar();
         }
 
         public function listarPaises ($idPais) {
-            $this->LugarModel->setIdTipoLugar($idPais);
-            $this->data = $this->LugarModel->getPaises();
+            $this->lugarModel->setIdTipoLugar($idPais);
+            $this->data = $this->lugarModel->getPaises();
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
 
         public function listarCiudades ($idPais) {
-            $this->LugarModel->setIdLugarPadre($idPais);
-            $this->data = $this->LugarModel->getCiudades();
+            $this->lugarModel->setIdLugarPadre($idPais);
+            $this->data = $this->lugarModel->getCiudades();
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
 
         public function listarMunicipios($idCiudad) {
-            $this->LugarModel->setIdLugarPadre($idCiudad);
-            $this->data = $this->LugarModel->getMunicipios();
+            $this->lugarModel->setIdLugarPadre($idCiudad);
+            $this->data = $this->lugarModel->getMunicipios();
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
@@ -39,3 +39,4 @@
             $_Respuesta->respuestaPeticion();
         }
     }
+?>

@@ -28,3 +28,8 @@
     define('TBL_USUARIO', 'Usuario');
     define('TBL_LUGARES', 'Lugar');
     define('TBL_TIPO_USUARIO', 'TipoUsuario');
+    define('TBL_DEPARTAMENTO', 'Departamento');
+    define('TBL_DIMENSIONES', 'DimensionEstrategica');
+    define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
+    define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
+?>

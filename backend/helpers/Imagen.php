@@ -73,3 +73,4 @@
             return unlink($this->rutaDestino . '/' . $ubicacionImagen);
         }
     }
+?>

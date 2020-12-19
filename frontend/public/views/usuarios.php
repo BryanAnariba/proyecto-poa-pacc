@@ -1,5 +1,5 @@
 <?php
-include('../partials/doctype.php');;
+include('../partials/doctype.php');
 ?>
 <title>Control de Usuarios</title>
 <!--En esta zona podran poner estilos propios de la vista-->
@@ -65,14 +65,7 @@ include('../partials/doctype.php');;
                                                 <img class="card-img-top" src="../img/usuarios/registrar-usuario.svg" alt="registrar usuario">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button" 
-                                                id="cargaDataUsuario"
-                                                class="btn btn-indigo btn-block" 
-                                                data-toggle="modal" 
-                                                data-target="#modalRegistrarUsuarios"
-                                                onclick="cargarModalRegistro()"
-                                                >
+                                            <button type="button" id="cargaDataUsuario" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalRegistrarUsuarios" onclick="cargarModalRegistro()">
                                                 Registrar
                                             </button>
                                         </div>
@@ -140,13 +133,13 @@ include('../partials/doctype.php');;
     <div class="modal fade" id="modalRegistrarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="lds-roller loading-registro">
-                <div>                   
-                </div>
-                <div>                    
+                <div>
                 </div>
                 <div>
                 </div>
-                <div>                    
+                <div>
+                </div>
+                <div>
                 </div>
                 <div>
                 </div>
@@ -169,34 +162,20 @@ include('../partials/doctype.php');;
                         <div class="form-row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <input 
-                                        type="text" 
-                                        id="R-nombrePersona" 
-                                        class="form-control nombrePersona" 
-                                        required>
+                                    <input type="text" id="R-nombrePersona" class="form-control nombrePersona" maxlength="80" minlength="1" required>
                                     <span id="errorsR-nombrePersona" class="text-danger text-small d-none">
 
                                     </span>
-                                    <label 
-                                        for="R-nombrePersona" 
-                                        id="labelR-nombrePersona"
-                                    >Escriba los Nombres de la persona
+                                    <label for="R-nombrePersona" id="labelR-nombrePersona" name="labelR-nombrePersona">Escriba los Nombres de la persona
                                     </label>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <input 
-                                        type="text" 
-                                        id="R-apellidoPersona" 
-                                        class="form-control" 
-                                        required>
+                                    <input type="text" id="R-apellidoPersona" class="form-control" maxlength="80" minlength="1" required>
                                     <span id="errorsR-apellidoPersona" class="text-danger text-small d-none">
                                     </span>
-                                    <label 
-                                        for="R-apellidoPersona"
-                                        id="labelR-apellidoPersona"
-                                    >
+                                    <label for="R-apellidoPersona" id="labelR-apellidoPersona">
                                         Escriba los apellidos de la persona
                                     </label>
                                 </div>
@@ -212,21 +191,11 @@ include('../partials/doctype.php');;
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <div  
-                                        class="md-form md-outline input-with-post-icon datepicker" 
-                                        inline="true">
-                                        <input 
-                                            placeholder="Select date" 
-                                            type="date"
-                                            class="form-control"
-                                            id="R-fechaNacimiento"
-                                            >
+                                    <div class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                                        <input placeholder="Select date" type="date" class="form-control" id="R-fechaNacimiento">
                                         <span id="errorsR-fechaNacimiento" class="text-danger text-small d-none">
                                         </span>
-                                        <label 
-                                            for="R-fechaNacimiento"
-                                            id="labelR-fechaNacimiento"
-                                            >Fecha nacimiento persona
+                                        <label for="R-fechaNacimiento" id="labelR-fechaNacimiento">Fecha nacimiento persona
                                         </label>
                                     </div>
                                 </div>
@@ -236,26 +205,17 @@ include('../partials/doctype.php');;
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="md-form">
                                     <select class="browser-default custom-select" id="R-idDepartamento" required>
-                                        <option value='' selected>Seleccione departamento</option>
-                                        <option value="1">Ingeneria Sistemas</option>
-                                        <option value="2">Ingenieria Civil</option>
-                                        <option value="3">Ingenieria Industrial</option>
-                                        <option value="4">Ingenieria Quimica</option>
+
                                     </select>
                                     <span id="errorsR-idDepartamento" class="text-danger text-small d-none">
+
                                     </span>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="md-form">
                                     <select class="browser-default custom-select" id="R-idTipoUsuario" required>
-                                        <option value='' selected>Seleccione tipo usuario</option>
-                                        <option value="1">Super Administrador</option>
-                                        <option value="2">Secretaria General</option>
-                                        <option value="3">Decano Facultad</option>
-                                        <option value="4">Secretaria Administrativa</option>
-                                        <option value="5">Jefe Departamento</option>
-                                        <option value="6">Coordinador Carrera</option>
+
                                     </select>
                                     <span id="errorsR-idTipoUsuario" class="text-danger text-small d-none">
                                     </span>
@@ -265,11 +225,7 @@ include('../partials/doctype.php');;
                         <div class="form-row">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <div class="md-form">
-                                    <select 
-                                        class="browser-default custom-select" 
-                                        id="R-idPais" 
-                                        required
-                                        onchange="cargarCiudadesPais()">
+                                    <select class="browser-default custom-select" id="R-idPais" required onchange="cargarCiudadesPais()">
                                     </select>
                                     <span id="errorsR-idPais" class="text-danger text-small d-none">
                                     </span>
@@ -280,11 +236,7 @@ include('../partials/doctype.php');;
                                     <div class="spinner-grow text-warning" id="spinneridDepartamentoPais" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <select 
-                                        class="browser-default custom-select d-none" 
-                                        id="R-idDepartamentoPais" 
-                                        onchange="cargarMunicipios()"
-                                        required>
+                                    <select class="browser-default custom-select d-none" id="R-idDepartamentoPais" onchange="cargarMunicipios()" required>
                                     </select>
                                     <span id="errorsR-idDepartamentoPais" class="text-danger text-small d-none">
                                     </span>
@@ -305,32 +257,20 @@ include('../partials/doctype.php');;
                         <div class="form-row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="md-form">
-                                    <textarea 
-                                        id="nombreLugar" 
-                                        class="md-textarea form-control" 
-                                        rows="2">
-                                    </textarea>
-                                    <label 
-                                    for="nombreLugar">
-                                    Direccion residencia persona/ Campo Opcional
+                                    <input type="text" id="R-nombreLugar" class="form-control" maxlength="255" minlength="1" required>
+                                    <span id="errorsR-nombreLugar" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="R-nombreLugar" id="labelR-nombreLugar">
+                                        Escriba la direccion de residencia del usuario/ CAMPO OPCIONAL
                                     </label>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="md-form">
-                                    <input 
-                                        type="email" 
-                                        id="R-correoInstitucional"
-                                        class="form-control" 
-                                        required>
-                                    <span 
-                                        id="errorsR-correoInstitucional" 
-                                        class="text-danger text-small d-none"
-                                    >
+                                    <input type="email" id="R-correoInstitucional" class="form-control" maxlength="60" minlength="1" required>
+                                    <span id="errorsR-correoInstitucional" class="text-danger text-small d-none">
                                     </span>
-                                    <label 
-                                        for="R-correoInstitucional" 
-                                        id="labelR-correoInstitucional">
+                                    <label for="R-correoInstitucional" id="labelR-correoInstitucional">
                                         Escriba correo institucional persona
                                     </label>
                                 </div>
@@ -339,15 +279,8 @@ include('../partials/doctype.php');;
                         <div class="form-row d-none">
                             <div class="col">
                                 <div class="md-form">
-                                    <input 
-                                        type="file" 
-                                        class="custom-file-input" 
-                                        id="avatar" 
-                                        lang="es"
-                                        onchange="verificarImagen(this)">
-                                    <label 
-                                        class="custom-file-label text-center" 
-                                        for="avatar">
+                                    <input type="file" class="custom-file-input" id="avatar" lang="es" onchange="verificarImagen(this)">
+                                    <label class="custom-file-label text-center" for="avatar">
                                         Seleccionar Fotografia / Campo Opcional
                                     </label>
                                 </div>
@@ -357,19 +290,12 @@ include('../partials/doctype.php');;
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button 
-                            type="button" 
-                            class="btn btn-light-green btn-rounded" 
-                            onclick="verificarCamposRegistro()">
+                        <button type="button" class="btn btn-light-green btn-rounded" onclick="verificarCamposRegistro()">
                             Registrar Usuario
                         </button>
                     </div>
                     <div class="text-center mt-4">
-                        <button 
-                            type="button" 
-                            class="btn btn-danger btn-rounded" 
-                            data-dismiss="modal" 
-                            aria-label="Close">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarOperacion()">
                             Cancelar
                         </button>
                     </div>
@@ -408,7 +334,7 @@ include('../partials/doctype.php');;
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
-    <script src="../js/usuarios/usuarios.controller.js"></script>
+    <script src="../js/usuarios/ctrl.registro.usuarios.js"></script>
     <?php
     include('../partials/endDoctype.php');
     ?>

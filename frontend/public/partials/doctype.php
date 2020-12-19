@@ -8,5 +8,4 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="../css/libreria-bootstrap-mdb/bootstrap.min.css">
         <link rel="stylesheet" href="../css/libreria-bootstrap-mdb/mdb.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="icon" type="image/png" href="../img/unah/Logo_UNAH.png">

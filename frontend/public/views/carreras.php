@@ -1,5 +1,5 @@
 <?php
-    include('../partials/doctype.php');;
+include('../partials/doctype.php');
 ?>
 <title>Control de Departamentos</title>
 <!--En esta zona podran poner estilos propios de la vista-->
@@ -9,7 +9,7 @@
 <body id="body-pd">
     <?php include('../layouts/Nabvar.php'); ?>
     <?php include('../layouts/Sidebar.php'); ?>
-    
+
     <div id="profile-card" class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -37,17 +37,10 @@
                                         <div class="card-body">
                                             <br>
                                             <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/carreras/visualizar-carreras.svg" 
-                                                    alt="visualizar carrera">
+                                                <img class="card-img-top" src="../img/carreras/visualizar-carreras.svg" alt="visualizar carrera">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalVisualizarCarreras">
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalVisualizarCarreras">
                                                 Visualizar
                                             </button>
                                         </div>
@@ -69,17 +62,10 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/departamentos/registro-deptos.svg" 
-                                                    alt="registrar carrera">
+                                                <img class="card-img-top" src="../img/departamentos/registro-deptos.svg" alt="registrar carrera">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalRegistrarCarrera">
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalRegistrarCarrera">
                                                 Registrar
                                             </button>
                                         </div>
@@ -101,17 +87,10 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/departamentos/registro-deptos.svg"  
-                                                    alt="Modificar carrera">
+                                                <img class="card-img-top" src="../img/departamentos/registro-deptos.svg" alt="Modificar carrera">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalModificarCarrera">
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalModificarCarrera">
                                                 Modificar
                                             </button>
                                         </div>
@@ -128,14 +107,9 @@
         </div>
     </div>
 
-                                                    <!--modales-->
+    <!--modales-->
     <!--Visualizar usuarios-->
-    <div 
-        class="modal fade" 
-        id="modalVisualizarCarreras" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalVisualizarCarreras" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -155,12 +129,7 @@
     </div>
 
     <!--Registrar usuarios-->
-    <div 
-        class="modal fade" 
-        id="modalRegistrarCarrera" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalRegistrarCarrera" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -185,12 +154,7 @@
     </div>
 
     <!--Modificar usuarios-->
-    <div 
-        class="modal fade" 
-        id="modalModificarCarrera" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalModificarCarrera" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -215,6 +179,6 @@
     </div>
 
     <!--En esta zona podran poner javascripts propios de la vista-->
-<?php
+    <?php
     include('../partials/endDoctype.php');
-?>
+    ?>

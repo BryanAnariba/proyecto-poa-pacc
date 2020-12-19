@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
         <link rel="stylesheet" href="public/css/libreria-bootstrap-mdb/mdb.min.css" />
         <link rel="stylesheet" href="public/css/login/login.css" />
         <link rel="stylesheet" href="public/css/animaciones/animate.min.css" />
@@ -13,19 +13,21 @@
 
     <body>
         <div class="container">
-            <div class="forms-container animate__animated animate__flipInX">
+            <div class="forms-container">
                 <div class="signin-signup">
                     <form class="sign-in-form">
-                        <h2 class="title">Inicio de sesión</h2>
-                        <div class="input-field ">
+                        <h2 class="title animate__animated animate__flipInX">Inicio de sesion</h2>
+                        <div class="input-field animate__animated animate__flipInX">
                             <i class="fas fa-user"></i>
                             <input type="text" placeholder="Correo Electronico UNAH" />
                         </div>
-                        <div class="input-field ">
+                        <div class="input-field animate__animated animate__flipInX">
                             <i class="fas fa-lock"></i>
                             <input type="password" placeholder="Contraseña" />
                         </div>
-                        <input type="button" value="Login" class="btn solid" alt="Login al sistema"/>
+                        <button type="button" class="btn solid btn-block animate__animated animate__flipInX" id="sign-up-btn" alt="Inicio de sesion">
+                            Login
+                        </button>
                     </form>
                 </div>
             </div>

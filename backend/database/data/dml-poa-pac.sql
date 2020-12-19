@@ -2,8 +2,8 @@ INSERT INTO `poa-pacc-bd`.`genero`  (`genero`, `abrev`) VALUES ('Masculino','M')
 INSERT INTO `poa-pacc-bd`.`genero`  (`genero`, `abrev`) VALUES ('Femenino','F');
 INSERT INTO `poa-pacc-bd`.`genero`  (`genero`, `abrev`) VALUES ('Otro','O');
 
-INSERT INTO `poa-pacc-bd`.`estadodcdu` (`estado`) VALUES ('Activo');
-INSERT INTO `poa-pacc-bd`.`estadodcdu` (`estado`) VALUES ('Inactivo');
+INSERT INTO `poa-pacc-bd`.`EstadoDCDUOAO` (`estado`) VALUES ('Activo');
+INSERT INTO `poa-pacc-bd`.`EstadoDCDUOAO` (`estado`) VALUES ('Inactivo');
 
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Super Administrador', 'SU_AD');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Jefe Departamento', 'J_D');
@@ -13,25 +13,27 @@ INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Usuario
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Administrativa', 'SE_AD');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Academica', 'S_AC');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDCDU`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
 1,
 'Ingenieria en Sistemas',
 'IS');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDCDU`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
 1,
 'Ingenieria Industrial',
 'II');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDCDU`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
 1,
 'Ingenieria Mecanica',
 'IM');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDCDU`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
 1,
 'Ingenieria Electrica',
 'IE');
+
+UPDATE departamento SET telefonoDepartamento = '2216-6100' WHERE idDepartamento = 1;
 
 
 

@@ -31,7 +31,7 @@
                     <?php 
                         case 'S_AD': // ROLE => Super Administrador
                     ?>
-                        <a href="../views/usuarios.php" class="nav__link">
+                        <a href="../views/usuarios/usuarios.php" class="nav__link">
                             <img src="../img/partial-sidebar/usuarios-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Control Usuarios</span>
                         </a>

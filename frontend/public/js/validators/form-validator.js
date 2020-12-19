@@ -8,6 +8,22 @@ const despliegeErrores = (valorEtiqueta, id, type) => {
     document.querySelector(`#errors${ id }`).classList.remove('d-none');
 }
 
+const resetearCampos = (valorEtiqueta, id, type) => {
+    valorEtiqueta.classList.remove('is-invalid');
+    if (type === 'text' || type === 'email') {
+        document.querySelector(`#label${ id }`).classList.remove('text-danger');
+        valorEtiqueta.value = '';
+    } else if (type === 'select') {
+        valorEtiqueta.value = '';
+    } else if (type === 'number') {
+        document.querySelector(`#label${ id }`).classList.remove('text-danger');
+        valorEtiqueta.value = '';
+    }
+    valorEtiqueta.classList.remove('text-danger');
+    document.querySelector(`#errors${ id }`).classList.add('d-none');
+    
+}
+
 // Funcion que remueve en pantalla los inputs de color rojo notificando error
 const remueveErrores = (valorEtiqueta, id, type) => {
     valorEtiqueta.classList.remove('is-invalid');
@@ -177,5 +193,10 @@ const  verificarImagen = (obj) => {
         };
         return uploadFile;
     }                 
+}
+
+const limpiarCamposFormulario = (valoresEtiqueta) => {
+    const { valorEtiqueta, id, type } = valoresEtiqueta
+    resetearCampos(valorEtiqueta, id, type);
 }
 

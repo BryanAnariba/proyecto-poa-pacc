@@ -1,6 +1,6 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/helpers/Respuesta.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/models/TipoUsuario.php');
+    require_once('../../helpers/Respuesta.php');
+    require_once('../../models/TipoUsuario.php');
     class TipoUsuarioController {
         private $tipoUsuarioModel;
         private $data;
@@ -22,3 +22,4 @@
             $_Respuesta->respuestaPeticion();
         }
     }
+?>

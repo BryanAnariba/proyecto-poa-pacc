@@ -1,6 +1,6 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/models/Persona.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/config/config.php');
+    require_once('../../models/Persona.php');
+    require_once('../../config/config.php');
     class Usuario extends Persona {
 
         // Propiedades clase
@@ -116,3 +116,4 @@
 
         }
     }
+?>

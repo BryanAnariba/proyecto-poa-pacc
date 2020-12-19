@@ -38,3 +38,4 @@
     // Testeo de la conexion
     //$miConexion = new Conexion();
     //$miConexion->connect();
+?>
