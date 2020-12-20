@@ -93,7 +93,7 @@
 
         public function insertaArea () {
             if (campoTexto($this->areaEstrategica, 1, 200) && is_int($this->idObjetivoInstitucional)) {
-                $this->idEstadoAreaEstrategica = 1;
+                $this->idEstadoAreaEstrategica = ESTADO_ACTIVO;
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
@@ -130,10 +130,10 @@
 
         public function modificarEstadoAreaEstrategica () {
             if (is_int($this->idAreaEstrategica) && is_int($this->idEstadoAreaEstrategica)) {
-                if ($this->idEstadoAreaEstrategica == 1) {
-                    $this->idEstadoAreaEstrategica = 2;
-                } else if ($this->idEstadoAreaEstrategica == 2) {
-                    $this->idEstadoAreaEstrategica = 1;
+                if ($this->idEstadoAreaEstrategica == ESTADO_ACTIVO) {
+                    $this->idEstadoAreaEstrategica = ESTADO_INACTIVO;
+                } else if ($this->idEstadoAreaEstrategica == ESTADO_INACTIVO) {
+                    $this->idEstadoAreaEstrategica = ESTADO_ACTIVO;
                 }
                 try {
                     $this->conexionBD = new Conexion();

@@ -89,11 +89,12 @@ const dimensionesEstrategicas = () => {
     }});
 }
 
-// Registro dimenesion
-const registrarDimension = () => {
 
+// Registro dimenesion
+const registrarDimension = () => { 
     let isValidNombreDimension = verificarInputText(nD);
     if (isValidNombreDimension===true) {
+        $('#btn-registrar-dimension').prop('disabled', true);   
         let parametros = { dimensionEstrategica: nombreDimension.value };
         //console.log(parametros);
 
@@ -111,7 +112,7 @@ const registrarDimension = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
-                
+                $('#btn-registrar-dimension').prop('disabled', false);
                 // Carga y llenado de las dimensiones estrategicas
                 dimensionesEstrategicas();
             },
@@ -186,6 +187,7 @@ function obtenerDimensionEstrategica(dimensionEstrategica,idDimension) {
 const modificarDimension = () => {
     let isValidNombreDimension = verificarInputText(nDM);
     if (isValidNombreDimension===true) {
+        $('#btn-modificar-dimension').prop('disabled', true);
         let parametros = {
             idDimensionEstrategica: parseInt(idDimensionSeleccionada),
             dimensionEstrategica: nombreDimensionModificar.value
@@ -206,6 +208,7 @@ const modificarDimension = () => {
                     text: `${ data.message }`,
                 });
                 cancelarModificacionDimension();
+                $('#btn-modificar-dimension').prop('disabled', false);
                 $('#modalModificarDimension').modal('hide');
                 dimensionesEstrategicas();
             },
@@ -297,6 +300,7 @@ const verObjetivosInstitucionales = (idDimension) => {
 const registrarObjetivo = () => {
     let isValidNombreObjetivo = verificarInputText(nO);
     if (isValidNombreObjetivo===true) {
+        $('#btn-registrar-objetivo').prop('disabled', true);   
         let parametros = {
             idDimensionEstrategica: parseInt(idDimensionSeleccionada),
             objetivoInstitucional: nombreObjetivo.value
@@ -316,7 +320,7 @@ const registrarObjetivo = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
-
+                $('#btn-registrar-objetivo').prop('disabled', false); 
                 $('#modalRegistroObjetivo').modal('hide');
                 verObjetivosInstitucionales(idDimensionSeleccionada);
                 cancelarRegistroObjetivo();
@@ -380,6 +384,7 @@ function obtenerObjetivoInstitucional (idObjetivo, objetivoInstitucional) {
 const modificarObjetivoInstitucional = () => {
     let isValidNombreObjetivo = verificarInputText(nOM);
     if (isValidNombreObjetivo===true) {
+        $('#btn-modificar-objetivo').prop('disabled', true);   
         let parametros = {
             idObjetivo: parseInt(idObjetivoSeleccionado),
             objetivoInstiucional: nombreObjetivoModificar.value
@@ -398,6 +403,7 @@ const modificarObjetivoInstitucional = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-modificar-objetivo').prop('disabled', false);
                 verObjetivosInstitucionales(idDimensionSeleccionada);
                 cancelarModificacionObjetivo();
                 $('#modalModificarObjetivo').modal('hide');
@@ -483,6 +489,7 @@ const visualizarAreasEstrategicas = (idObjetivo) => {
 const registrarArea = () => {
     let isValidArea = verificarInputText(nA);
     if (isValidArea===true) {
+        $('#btn-registrar-area').prop('disabled', true);
         let parametros = {
             idObjetivo: parseInt(idObjetivoSeleccionado),
             areaEstrategica: nombreArea.value
@@ -501,7 +508,7 @@ const registrarArea = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
-
+                $('#btn-registrar-area').prop('disabled', false);
                 $('#modalRegistroArea').modal('hide');
                 visualizarAreasEstrategicas(idObjetivoSeleccionado);
                 cancelarRegistroArea();
@@ -569,6 +576,7 @@ function obtenerAreaEstrategica (idArea, areaEstrategica) {
 const modificarAreaEstrategica = () => {
     let isValidNombreArea = verificarInputText(nAM);
     if (isValidNombreArea===true) {
+        $('#btn-modificar-area').prop('disabled', true);
         let parametros = {
             idArea: parseInt(idAreaEstrategicaSeleccionada),
             areaEstrategica: nombreAreaModificar.value
@@ -587,6 +595,7 @@ const modificarAreaEstrategica = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-modificar-area').prop('disabled', false);
                 visualizarAreasEstrategicas(idObjetivoSeleccionado);
                 cancelarModificacionArea();
                 $('#modalModificarArea').modal('hide');
@@ -610,3 +619,6 @@ const modificarAreaEstrategica = () => {
         });
     }
 }
+
+//$("input").prop('disabled', true);
+//$("input").prop('disabled', false);

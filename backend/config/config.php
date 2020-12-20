@@ -23,6 +23,9 @@
     define('DIRECTORIO_WORDS', 'words');
     define('DIRECTORIO_USUARIOS', 'usuarios');
 
+    define('ESTADO_ACTIVO', 1);
+    define('ESTADO_INACTIVO', 2);
+
     // Entidades
     define('TBL_PERSONA', 'Persona');
     define('TBL_USUARIO', 'Usuario');

@@ -90,7 +90,7 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="registrarDimension()">Registrar Dimension</button>
+                        <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="registrarDimension()">Registrar Dimension</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarRegistroDimension()">Cancelar</button>
@@ -132,7 +132,7 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="modificarDimension()">Modificar Dimension</button>
+                        <button id="btn-modificar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="modificarDimension()">Modificar Dimension</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarModificacionDimension()">Cancelar</button>
@@ -218,7 +218,11 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="registrarObjetivo()">Registrar Objetivo</button>
+                        <button 
+                            id="btn-registrar-objetivo" 
+                            type="button" 
+                            class="btn btn-light-green btn-rounded" 
+                            onclick="registrarObjetivo()">Registrar Objetivo</button>
                     </div>
                     <div class="text-center mt-4">
                         <button 
@@ -264,7 +268,11 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="modificarObjetivoInstitucional()">Modificar Objetivo Institucional</button>
+                        <button 
+                        id="btn-modificar-objetivo"
+                        type="button" 
+                        class="btn btn-light-green btn-rounded" 
+                        onclick="modificarObjetivoInstitucional()">Modificar Objetivo Institucional</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarModificacionObjetivo()">Cancelar</button>
@@ -349,7 +357,11 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="registrarArea()">Registrar Area</button>
+                        <button 
+                            id="btn-registrar-area"
+                            type="button" 
+                            class="btn btn-light-green btn-rounded" 
+                            onclick="registrarArea()">Registrar Area</button>
                     </div>
                     <div class="text-center mt-4">
                         <button 
@@ -395,7 +407,11 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="modificarAreaEstrategica()">Modificar Area Estrategica</button>
+                        <button 
+                            id="btn-modificar-area"
+                            type="button" 
+                            class="btn btn-light-green btn-rounded" 
+                            onclick="modificarAreaEstrategica()">Modificar Area Estrategica</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarModificacionArea()">Cancelar</button>

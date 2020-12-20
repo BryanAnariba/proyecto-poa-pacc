@@ -119,10 +119,10 @@
                     $stmt->bindValue(':idDimensionEstrategica', $this->idDimension);
                     if ($stmt->execute()) {
                         $resultados = $stmt->fetchObject();
-                        if ($resultados->idEstadoDimension == 1) {
-                            return 2;
-                        } else if ($resultados->idEstadoDimension == 2) {
-                            return 1;
+                        if ($resultados->idEstadoDimension == ESTADO_ACTIVO) {
+                            return ESTADO_INACTIVO;
+                        } else if ($resultados->idEstadoDimension == ESTADO_INACTIVO) {
+                            return ESTADO_ACTIVO;
                         }
                     } else {
                         return array(

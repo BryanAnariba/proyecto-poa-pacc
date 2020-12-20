@@ -22,7 +22,7 @@
 
         public function insertaDimension ($dimensionEstrategica) {
             $this->dimensionEstrategicaModel->setDimensionEstrategica($dimensionEstrategica);
-            $this->dimensionEstrategicaModel->setIdEstadoDimension(1);
+            $this->dimensionEstrategicaModel->setIdEstadoDimension(ESTADO_ACTIVO);
             $this->data = $this->dimensionEstrategicaModel->insertaDimension();
 
             $_Respuesta = new Respuesta($this->data);
