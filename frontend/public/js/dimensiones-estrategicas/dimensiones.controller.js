@@ -79,8 +79,8 @@ const dimensionesEstrategicas = () => {
         }
         $('#listado-dimensiones').DataTable({
             language: i18nEspaniol,
-            //dom: 'Blfrtip',
-            //buttons: botonesExportacion,
+            dom: 'Blfrtip',
+            buttons: botonesExportacion,
             retrieve: true
         });
     },
@@ -92,7 +92,7 @@ const dimensionesEstrategicas = () => {
 
 // Registro dimenesion
 const registrarDimension = () => { 
-    let isValidNombreDimension = verificarInputText(nD);
+    let isValidNombreDimension = verificarInputText(nD, letrasEspaciosCaracteresRegex);
     if (isValidNombreDimension===true) {
         $('#btn-registrar-dimension').prop('disabled', true);   
         let parametros = { dimensionEstrategica: nombreDimension.value };
@@ -180,12 +180,12 @@ function obtenerDimensionEstrategica(dimensionEstrategica,idDimension) {
     console.log(idDimension);
     idDimensionSeleccionada = idDimension;
     $('#modalModificarDimension').modal('show');
-    $('#M-nombreDimension').val(dimensionEstrategica);
+    $('#M-nombreDimension').val(dimensionEstrategica).trigger('change');
 }
 
 // Modificamos la dimension
 const modificarDimension = () => {
-    let isValidNombreDimension = verificarInputText(nDM);
+    let isValidNombreDimension = verificarInputText(nDM, letrasEspaciosCaracteresRegex);
     if (isValidNombreDimension===true) {
         $('#btn-modificar-dimension').prop('disabled', true);
         let parametros = {
@@ -298,7 +298,7 @@ const verObjetivosInstitucionales = (idDimension) => {
 }
 
 const registrarObjetivo = () => {
-    let isValidNombreObjetivo = verificarInputText(nO);
+    let isValidNombreObjetivo = verificarInputText(nO, letrasEspaciosCaracteresRegex);
     if (isValidNombreObjetivo===true) {
         $('#btn-registrar-objetivo').prop('disabled', true);   
         let parametros = {
@@ -378,11 +378,11 @@ const modificarEstadoObjetivo = (idObjetivo, idEstadoObjetivo) => {
 function obtenerObjetivoInstitucional (idObjetivo, objetivoInstitucional) {
     $('#modalModificarObjetivo').modal('show');
     idObjetivoSeleccionado = idObjetivo;
-    $('#M-objetivoInstitucional').val(objetivoInstitucional);
+    $('#M-objetivoInstitucional').val(objetivoInstitucional).trigger('change');
 }
 
 const modificarObjetivoInstitucional = () => {
-    let isValidNombreObjetivo = verificarInputText(nOM);
+    let isValidNombreObjetivo = verificarInputText(nOM, letrasEspaciosCaracteresRegex);
     if (isValidNombreObjetivo===true) {
         $('#btn-modificar-objetivo').prop('disabled', true);   
         let parametros = {
@@ -487,7 +487,7 @@ const visualizarAreasEstrategicas = (idObjetivo) => {
 }
 
 const registrarArea = () => {
-    let isValidArea = verificarInputText(nA);
+    let isValidArea = verificarInputText(nA, letrasEspaciosCaracteresRegex);
     if (isValidArea===true) {
         $('#btn-registrar-area').prop('disabled', true);
         let parametros = {
@@ -570,11 +570,11 @@ const modificarEstadoArea = (idArea, idEstadoArea) => {
 function obtenerAreaEstrategica (idArea, areaEstrategica) {
     idAreaEstrategicaSeleccionada = idArea;
     $('#modalModificarArea').modal('show');
-    $('#M-areaEstrategica').val(areaEstrategica);
+    $('#M-areaEstrategica').val(areaEstrategica).trigger('change');``
 }
 
 const modificarAreaEstrategica = () => {
-    let isValidNombreArea = verificarInputText(nAM);
+    let isValidNombreArea = verificarInputText(nAM, letrasEspaciosCaracteresRegex);
     if (isValidNombreArea===true) {
         $('#btn-modificar-area').prop('disabled', true);
         let parametros = {

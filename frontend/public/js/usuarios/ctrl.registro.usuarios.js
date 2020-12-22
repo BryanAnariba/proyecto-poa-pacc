@@ -1,27 +1,27 @@
 // Capturando las etiquetas completas de los inputs para despues obtener el valor
-    let nombrePersona = document.querySelector('#R-nombrePersona');
-    let apellidoPersona = document.querySelector('#R-apellidoPersona');
-    let codigoEmpleado = document.querySelector('#R-codigoEmpleado');
-    let fechaNacimiento = document.querySelector('#R-fechaNacimiento');
-    let idDepartamento = document.querySelector('#R-idDepartamento');
-    let idTipoUsuario = document.querySelector('#R-idTipoUsuario');
-    let correoInstitucional = document.querySelector('#R-correoInstitucional');
-    let idPais = document.querySelector('#R-idPais');
-    let idDepartamentoPais = document.querySelector('#R-idDepartamentoPais');
-    let idMunicipioCiudad = document.querySelector('#R-idMunicipiosCiudad');
-    let nombreLugar = document.querySelector('#R-nombreLugar');
+let nombrePersona = document.querySelector('#R-nombrePersona');
+let apellidoPersona = document.querySelector('#R-apellidoPersona');
+let codigoEmpleado = document.querySelector('#R-codigoEmpleado');
+let fechaNacimiento = document.querySelector('#R-fechaNacimiento');
+let idDepartamento = document.querySelector('#R-idDepartamento');
+let idTipoUsuario = document.querySelector('#R-idTipoUsuario');
+let correoInstitucional = document.querySelector('#R-correoInstitucional');
+let idPais = document.querySelector('#R-idPais');
+let idDepartamentoPais = document.querySelector('#R-idDepartamentoPais');
+let idMunicipioCiudad = document.querySelector('#R-idMunicipiosCiudad');
+let nombreLugar = document.querySelector('#R-nombreLugar');
 
-    // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
-    let nP = { valorEtiqueta: nombrePersona, id: 'R-nombrePersona', name: 'Nombre Persona', min: 1, max: 80, type: 'text' };
-    let aP = { valorEtiqueta: apellidoPersona, id: 'R-apellidoPersona', name: 'Apellido Persona', min: 1, max: 80, type: 'text' };
-    let cE = { valorEtiqueta: codigoEmpleado, id: 'R-codigoEmpleado', name: 'Codigo Empleado', min: 1, max: 5, type: 'number' };
-    let fN = { valorEtiqueta: fechaNacimiento, id: 'R-fechaNacimiento', name: 'Fecha de Nacimiento', type: 'date' };
-    let iD = { valorEtiqueta: idDepartamento, id: 'R-idDepartamento', name: 'Departamento Facultad', type: 'select' };
-    let iTU = { valorEtiqueta: idTipoUsuario, id: 'R-idTipoUsuario', name: 'Tipo Usuario', type: 'select' };
-    let iP = { valorEtiqueta: idPais, id: 'R-idPais', name: 'Pais de residencia', type: 'select' };
-    let iDP = { valorEtiqueta: idDepartamentoPais, id: 'R-idDepartamentoPais', name: 'Ciudad Pais de residencia', type: 'select' };
-    let iMC = { valorEtiqueta: idMunicipioCiudad, id: 'R-idMunicipiosCiudad', name: 'Municipio Ciudad de residencia', type: 'select' };
-    let cI = { valorEtiqueta: correoInstitucional, id: 'R-correoInstitucional', name: 'Correo Institucional', type: 'email'};
+    // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona, REGISTRO
+let nP = { valorEtiqueta: nombrePersona, id: 'R-nombrePersona', name: 'Nombre Persona', min: 1, max: 80, type: 'text' };
+let aP = { valorEtiqueta: apellidoPersona, id: 'R-apellidoPersona', name: 'Apellido Persona', min: 1, max: 80, type: 'text' };
+let cE = { valorEtiqueta: codigoEmpleado, id: 'R-codigoEmpleado', name: 'Codigo Empleado', min: 1, max: 5, type: 'number' };
+let fN = { valorEtiqueta: fechaNacimiento, id: 'R-fechaNacimiento', name: 'Fecha de Nacimiento', type: 'date' };
+let iD = { valorEtiqueta: idDepartamento, id: 'R-idDepartamento', name: 'Departamento Facultad', type: 'select' };
+let iTU = { valorEtiqueta: idTipoUsuario, id: 'R-idTipoUsuario', name: 'Tipo Usuario', type: 'select' };
+let iP = { valorEtiqueta: idPais, id: 'R-idPais', name: 'Pais de residencia', type: 'select' };
+let iDP = { valorEtiqueta: idDepartamentoPais, id: 'R-idDepartamentoPais', name: 'Ciudad Pais de residencia', type: 'select' };
+let iMC = { valorEtiqueta: idMunicipioCiudad, id: 'R-idMunicipiosCiudad', name: 'Municipio Ciudad de residencia', type: 'select' };
+let cI = { valorEtiqueta: correoInstitucional, id: 'R-correoInstitucional', name: 'Correo Institucional', type: 'email'};
                         // Peticiones que se ejecutan al abrir el formulario de registro usuarios
 const cargarCiudadesPais = () => {
     // Limpiamos select
@@ -69,7 +69,7 @@ const cargarCiudadesPais = () => {
                 title: 'Ops...',
                 text: `${ data.message }`,
                 footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
+            });
 		}
     });
 }
@@ -202,11 +202,9 @@ const cargarModalRegistro = () => {
 
 //                                  Peticiones de verificacion, guardado, y actualizado
 const verificarCamposRegistro = () => {
-    
-
     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
-    let isValidNombrePersona = verificarInputText(nP);
-    let isValidApellidoPersona = verificarInputText(aP);
+    let isValidNombrePersona = verificarInputText(nP, nombresApellidosRegex);
+    let isValidApellidoPersona = verificarInputText(aP, nombresApellidosRegex);
     let isValidCodigoEmpleado = verificarInputNumber(cE, codigoEmpleadoRegex);
     let isValidFecha = verificarFecha(fN);
     let isValidIdDepartamento = verificarSelect(iD);
@@ -230,7 +228,24 @@ const verificarCamposRegistro = () => {
         (isValidIdMunicipioCiudad === true) &&
         (isValidCorreoInstitucional === true)
     ) {
-        const dataNuevoUsuario = {
+
+        // Cerramos modal de registro
+        $('#modalRegistrarUsuarios').modal('hide');
+
+        // Desabilitamos boton de registro usuarios
+        $('#btn-registrar-usuario').prop('disabled', true);
+
+        // Abrimos modal de carga
+        $('#modalCargandoPeticionRegistro').modal('show');
+        $('.loading-registro').removeClass('d-none');
+
+        // Extraemos el nombreUsuario del correo
+        const emailSanitizado = generaNombreUsuario(cI.valorEtiqueta.value);
+        //console.log(emailSanitizado);
+        const [ , nombreUsuario, , ,] = emailSanitizado
+
+        // JSON A ENVIAR A LA PETICION
+        const parametros = {
             nombrePersona: nombrePersona.value,
             apellidoPersona: apellidoPersona.value,
             codigoEmpleado: parseInt(codigoEmpleado.value),
@@ -238,19 +253,53 @@ const verificarCamposRegistro = () => {
             idDepartamento: parseInt(idDepartamento.value),
             idTipoUsuario: parseInt(idTipoUsuario.value),
             correoInstitucional: correoInstitucional.value,
+            nombreUsuario: nombreUsuario,
             idPais: parseInt(idPais.value),
             idDepartamentoPais: parseInt(idDepartamentoPais.value),
             idMunicipioCiudad: parseInt(idMunicipioCiudad.value),
-            nombreLugar: ((nombreLugar.value.length != 0) ? nombreLugar.value : null)
+            nombreLugar: ((nombreLugar.value.length != 0) ? nombreLugar.value : 'Omitio Direccion')
         };
-        console.log('User data => ', dataNuevoUsuario);
+
+        console.log('User data => ', parametros);
+
+        $.ajax(`${ API }/usuarios/registrar-usuario.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(parametros),
+        success:function(response) {
+            // Abrimos modal de carga
+            $('#modalCargandoPeticionRegistro').modal('hide');
+            $('.loading-registro').addClass('d-none');
+
+            const { data } = response;
+            console.log(response);
+            Swal.fire({
+                icon: 'success',
+                title: 'Accion realizada Exitosamente',
+                text: `${ data.message }`,
+            });
+
+            $('#btn-registrar-usuario').prop('disabled', false);
+            cancelarOperacion();
+        },
+        error:function(error) {
+            console.error(error);
+            const { data } = error.responseJSON;
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+            });
+        }});
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
             text: 'El registro de la persona no se pudo realizar',
             footer: '<b>Por favor verifique el formulario de registro</b>'
-        })
+        });
     }
 }
 
@@ -269,7 +318,8 @@ const cancelarOperacion = () => {
     $('#R-nombrePersona').trigger('reset');
     $('#R-apellidoPersona').trigger('reset');
     $('#R-codigoEmpleado').trigger('reset');
-    $('#R-fechaNacimiento').trigger('reset');
+    document.querySelector('#R-fechaNacimiento').value = '';
+    //$('#R-fechaNacimiento').trigger('reset');
     $('#R-idDepartamento').trigger('reset');
     $('#R-idTipoUsuario').trigger('reset');
     $('#R-correoInstitucional').trigger('reset');

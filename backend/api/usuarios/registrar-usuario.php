@@ -3,13 +3,31 @@
     require_once('../../controllers/UsuariosController.php');
     
     switch ($_SERVER['REQUEST_METHOD']) {
-        case "POST": 
-            $_POST = json_decode(file_get_contents('php://input'));
-            $usuario = new UsuariosController();
+        case 'POST': 
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            if (
+                isset($_POST['nombrePersona']) && 
+                isset($_POST['apellidoPersona']) && 
+                isset($_POST['codigoEmpleado']) && 
+                isset($_POST['fechaNacimiento']) && 
+                isset($_POST['idDepartamento']) && 
+                isset($_POST['idTipoUsuario']) && 
+                isset($_POST['correoInstitucional']) && 
+                isset($_POST['nombreUsuario']) && 
+                isset($_POST['idPais']) && 
+                isset($_POST['idDepartamentoPais']) && 
+                isset($_POST['idMunicipioCiudad']) && 
+                isset($_POST['nombreLugar'])) {
+                $usuario = new UsuariosController();
+                $usuario->registrarUsuario($_POST['nombrePersona'],$_POST['apellidoPersona'],$_POST['codigoEmpleado'],$_POST['fechaNacimiento'],$_POST['idDepartamento'],$_POST['idTipoUsuario'],$_POST['correoInstitucional'],$_POST['nombreUsuario'],$_POST['idPais'],$_POST['idDepartamentoPais'],$_POST['idMunicipioCiudad'],$_POST['nombreLugar']);
+            } else {
+                $usuario = new UsuariosController();
+                $usuario->peticionNoValida();
+            }
         break;
         default: 
+            $usuario = new UsuariosController();
+            $usuario->peticionNoValida();
         break;
     }
 ?>
-
-    

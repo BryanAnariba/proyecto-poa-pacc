@@ -1,9 +1,9 @@
 <?php
     // Database fields
-    define('HOST', 'localhost:3307');
-    define('DB', 'poa-pacc-bd');
-    define('USER', 'root');
-    define('PASSWORD', 'root');
+    define('HOST', '');
+    define('DB', '');
+    define('USER', '');
+    define('PASSWORD', '');
     define('CHARSET', 'utf8');
     
     // Http status reques code
@@ -35,10 +35,4 @@
     define('TBL_DIMENSIONES', 'DimensionEstrategica');
     define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
     define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
-
-    define('MIN_TAMANIO_CLAVE', 12);
-
-    define('EMAIL_ADMIN_USERNAME','ariel.anarib@unah.edu.hn');
-    define('EMAIL_ADMIN_PASSWORD','Ef5FrUd92D');
-    define('APP_URI', 'https://aws.example.com');
 ?>

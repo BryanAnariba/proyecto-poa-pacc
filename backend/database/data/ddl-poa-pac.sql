@@ -753,9 +753,6 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`DepartamentoPorDimension` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-ALTER TABLE Departamento ADD COLUMN telefonoDepartamento VARCHAR(60);
-alter table objetivoInstitucional MODIFY objetivoInstitucional VARCHAR (180);
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

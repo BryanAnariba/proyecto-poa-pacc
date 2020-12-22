@@ -1,15 +1,17 @@
 // Enpoint o URI general, a partir de esta URI se debera hacer las peticiones
 const API = 'http://localhost/proyecto-poa-pacc/backend/api';
-
+//http://lineadecodigo.com/javascript/extraer-partes-email-javascript/
 // Expresiones regulares
 const numeroTelefonoRefex = /^(2\d{3})(-)?\d{4}/;
 const numerosRegex = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
 const unahEmailRegex = /[A-Za-z][\w]*@unah(\.edu)?\.hn/;
 const letrasEspaciosRegex2 = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]*$/;
-const letrasEspaciosRegex = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]/;
+const letrasEspaciosCaracteresRegex = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]/;
 const avatarUsuarioRegex = /^.+\.(jpe?g|gif|png)$/i;
 const codigoEmpleadoRegex = /^\d{1,5}$/;
-
+const nombresApellidosRegex = /^([a-z ñáéíóú]{1,80})$/i;
+//const nombresApellidosRegex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+const extraeCamposEmailRegex = /^([^]+)@(\w+).(\w+).?(\w+)$/;
 
 const i18nEspaniol = {
     "sProcessing":     "Procesando...",

@@ -4,6 +4,13 @@ include('../partials/doctype.php');
 <title>Control de Usuarios</title>
 <!--En esta zona podran poner estilos propios de la vista-->
 <link rel="stylesheet" href="../css/sweet-alert-two/sweetalert2.min.css">
+
+
+<link rel="stylesheet" href="../js/data-tables/datatables.min.css">
+<link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
 </head>
 
 <body id="body-pd">
@@ -39,7 +46,12 @@ include('../partials/doctype.php');
                                                 <img class="card-img-top" src="../img/usuarios/visualizar-usuarios.svg" alt="registrar usuario">
                                             </div>
                                             <hr>
-                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalVisualizarUsuarios">
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-indigo btn-block" 
+                                                data-toggle="modal" 
+                                                data-target="#modalVisualizarUsuarios"
+                                                onclick="listarUsuarios()">
                                                 Visualizar
                                             </button>
                                         </div>
@@ -111,7 +123,7 @@ include('../partials/doctype.php');
     <!--modales-->
     <!--Visualizar usuarios-->
     <div class="modal fade" id="modalVisualizarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Listado de usuarios registrados</h4>
@@ -120,7 +132,27 @@ include('../partials/doctype.php');
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="table-responsive">
+                            <table class="table" id="listado-usuarios">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre Usuario</th>
+                                        <th scope="col">Apellido Usuario</th>
+                                        <th scope="col">Direccion</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col">Usuario</th>
+                                        <th scope="col">Departamento</th>
+                                        <th scope="col">Cargo</th>
+                                        <th scope="col">Codigo Empleado</th>
+                                        <th scope="col">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usuarios">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
@@ -290,7 +322,7 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded" onclick="verificarCamposRegistro()">
+                        <button id="btn-registrar-usuario" type="button" class="btn btn-light-green btn-rounded" onclick="verificarCamposRegistro()">
                             Registrar Usuario
                         </button>
                     </div>
@@ -303,7 +335,6 @@ include('../partials/doctype.php');
             </div>
         </div>
     </div>
-
     <!--Modificar usuarios-->
     <div class="modal fade" id="modalModificarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -328,13 +359,45 @@ include('../partials/doctype.php');
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalCargandoPeticionRegistro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="lds-roller loading-registro">
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--En esta zona podran poner javascripts propios de la vista-->
 
     <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
+
+    <script src="../js/data-tables/datatables.min.js"></script>
+
+    <script src="../js/data-tables/Buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../js/data-tables/JSZip/jszip.min.js"></script>
+    <script src="../js/data-tables/pdfmake/pdfmake.min.js"></script>
+    <script src="../js/data-tables/pdfmake/vfs_fonts.js"></script>
+    <script src="../js/data-tables/Buttons/js/buttons.html5.min.js"></script>
+
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
     <script src="../js/usuarios/ctrl.registro.usuarios.js"></script>
+    <script src="../js/usuarios/ctrl.modificar.usuarios.js"></script>
     <?php
     include('../partials/endDoctype.php');
     ?>

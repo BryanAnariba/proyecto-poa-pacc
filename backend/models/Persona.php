@@ -1,13 +1,15 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/config/config.php');
+    require_once('../../config/config.php');
+    require_once('../../database/Conexion.php');
     class Persona {
         protected $idPersona;
-        private $idLugar;
-        private $idGenero;
-        private $nombrePersona;
-        private $apellidoPersona;
-        private $telefono;
-        private $fechaNacimiento;
+        protected $idLugar;
+        protected $idGenero; // NO ESTA EN USO
+        protected $nombrePersona;
+        protected $apellidoPersona;
+        protected $telefono; // NO ESTA EN USO
+        protected $fechaNacimiento;
+        protected $direccion;
         private $tablaBaseDatos;
 
         private $conexionBD;
@@ -84,15 +86,47 @@
             return $this;
         }
 
+        public function getDireccion() {
+            return $this->direccion;
+        }
+
+        public function setDireccion($direccion) {
+            $this->direccion = $direccion;
+            return $this;
+        }
+
         //                                          Metodos para la clase Persona
 
         public function registrarPersona () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('INSERT INTO Persona (nombrePersona, apellidoPersona, idLugar, idGenero , direccion,  fechaNacimiento) VALUES (:nombre, :apellido, :lugar,:idGenero, :direccionLugar, :fechaDeNacimiento)');
+                $stmt->bindValue(':nombre', $this->nombrePersona);
+                $stmt->bindValue(':apellido', $this->apellidoPersona);
+                $stmt->bindValue(':lugar', $this->idLugar);
+                $stmt->bindValue(':idGenero', NULL);
+                $stmt->bindValue(':direccionLugar', $this->direccion);
+                $stmt->bindValue(':fechaDeNacimiento', $this->fechaNacimiento);
 
+                // Si la consulta se ejecuto y afecto una fila retorne el ultimo id Insertado
+                if ($stmt->execute()) {
+                    return $this->consulta->lastInsertId();
+                } else {
+                    return null;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
         }
 
         public function actualizarDatosPersona () {
 
         }
-
     }
 ?>

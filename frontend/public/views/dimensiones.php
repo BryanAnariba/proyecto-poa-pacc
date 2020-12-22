@@ -112,7 +112,7 @@ include('../partials/doctype.php');
                     <form id="formulario-modificacion-dimension" class="text-center" style="color: #757575;">
                         <div class="form-row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
+                                <div class="md-form">
                                     <label for="M-nombreDimension" class="" id="labelM-nombreDimension" name="labelM-nombreDimension">
                                         Escriba el nombre de la dimension
                                     </label>
@@ -248,7 +248,7 @@ include('../partials/doctype.php');
                     <form id="formulario-modificacion-objetivo" class="text-center" style="color: #757575;">
                         <div class="form-row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
+                                <div class="md-form">
                                     <label for="M-objetivoInstitucional" class="" id="labelM-objetivoInstitucional" name="labelM-objetivoInstitucional">
                                         Escriba el nombre del objetivo institucional
                                     </label>
@@ -387,7 +387,7 @@ include('../partials/doctype.php');
                     <form id="formulario-modificacion-area" class="text-center" style="color: #757575;">
                         <div class="form-row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
+                                <div class="md-form">
                                     <label for="M-areaEstrategica" class="" id="labelM-areaEstrategica" name="labelM-areaEstrategica">
                                         Escriba el nombre del area estrategica
                                     </label>

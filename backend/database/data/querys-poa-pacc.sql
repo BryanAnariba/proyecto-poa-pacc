@@ -131,3 +131,70 @@ CREATE PROCEDURE SP_MODIFICA_AREA(IN idArea INT, IN area VARCHAR(200))
     WHERE idAreaEstrategica = idArea
 
 -- CALL SP_MODIFICA_AREA(P1,P2)
+
+CREATE PROCEDURE SP_VERIFICA_EMAIL_USUARIO(IN emailUsuario VARCHAR(100))
+	SELECT idPersonaUsuario, correoInstitucional FROM Usuario WHERE correoInstitucional = emailUsuario;
+
+-- SP_VERIFICA_EMAIL_USUARIO('bsancheza@unah.hn');
+
+CREATE PROCEDURE SP_INSERTA_PERSONA(IN nombre VARCHAR(80), IN apellido VARCHAR(80), IN lugar INT, IN direccionLugar VARCHAR(255),IN fechaDeNacimiento DATE)
+    INSERT INTO Persona (nombrePersona, apellidoPersona, idLugar, idGenero , direccion,  fechaNacimiento) VALUES 
+    (nombre, apellido, lugar, NULL, direccionLugar, fechaDeNacimiento);
+    SELECT LAST_INSERT_ID() AS 'idPersonaInsertada';
+
+-- CALL SP_INSERTA_PERSONA(p1,p2,p3,p4,p5)
+
+
+CREATE PROCEDURE SP_INSERTA_USUARIO(
+	IN idUsuario INT, 
+    IN idTUsuario INT, 
+    IN idDepto INT, 
+    IN idEstado INT, 
+    IN usuario VARCHAR(80), 
+    IN correo VARCHAR(100),
+    IN codigo VARCHAR(50),
+    IN password VARCHAR(255))
+    INSERT INTO Usuario (
+		idPersonaUsuario, 
+        idTipoUsuario, 
+        idDepartamento, 
+        idEstadoUsuario, 
+        nombreUsuario, 
+        correoInstitucional,
+        codigoEmpleado,
+        passwordUsuario,
+        avatarUsuario)
+	VALUES 
+		(idUsuario, idTUsuario, idDepto, idEstado, usuario, correo, codigo, password, NULL)
+
+-- CALL SP_INSERTA_USUARIO(P1,P2,P3,P4,P5,P6,P7,P8)
+
+
+CREATE PROCEDURE SP_LISTAR_USUARIOS()
+	SELECT 	Persona.idPersona, 
+		Persona.nombrePersona,
+        Persona.apellidoPersona, 
+        Persona.fechaNacimiento,
+        Persona.direccion,
+        Persona.idLugar,
+        Lugar.nombreLugar,
+        Usuario.nombreUsuario,
+        Usuario.correoInstitucional,
+        Usuario.idTipoUsuario,
+        TipoUsuario.tipoUsuario,
+        Usuario.idEstadoUsuario,
+        EstadoDCDUOAO.estado,
+        Usuario.idDepartamento,
+        Departamento.nombreDepartamento,
+        Departamento.telefonoDepartamento,
+        Departamento.abrev,
+        Usuario.codigoEmpleado,
+        Usuario.avatarUsuario
+		FROM Persona 
+		INNER JOIN Lugar ON (Persona.idLugar = Lugar.idLugar)
+        INNER JOIN Usuario ON (Persona.idPersona = Usuario.idPersonaUsuario)
+        INNER JOIN TipoUsuario ON (Usuario.idTipoUsuario = TipoUsuario.idTipoUsuario)
+        INNER JOIN EstadoDCDUOAO ON (Usuario.idEstadoUsuario = EstadoDCDUOAO.idEstado)
+        INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
+        ORDER BY Usuario.idPersonaUsuario ASC;
+-- CALL SP_LISTAR_USUARIOS()

@@ -79,7 +79,7 @@ const verificarFecha = (date) => {
 }
 
 // Funcion para verificar textos y cadenas de string y su rspectivo tamanio
-const verificarInputText = (inputData) => {
+const verificarInputText = (inputData, regex) => {
     let isValid = false;
     const { valorEtiqueta, id, name, min, max, type } = inputData;
     if (valorEtiqueta.value.length === 0 || (valorEtiqueta.value === null)) {
@@ -94,7 +94,7 @@ const verificarInputText = (inputData) => {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener un maximo ${ max } caracteres`;
         isValid = false;
-    } else if (letrasEspaciosRegex.test(valorEtiqueta.value) === false) {
+    } else if (regex.test(valorEtiqueta.value) === false) {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } no es valido`;
         isValid = false;
@@ -115,10 +115,11 @@ const verificarInputNumber = (inputData, regex) => {
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } es obligatorio`;
         isValid = false;    
     } else if ((valorEtiqueta.value.length < min)) {
+        console.warn(valorEtiqueta.value.length);
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener al menos ${ min } caracteres`;
         isValid = false;
-    } else if (!(valorEtiqueta.value.length === max)) {
+    } else if ((valorEtiqueta.value.length > max)) {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener un maximo ${ max } caracteres`;
         isValid = false;
@@ -149,6 +150,10 @@ const verificarSelect = (selectData) => {
         isValid = true;
     }
     return isValid;
+}
+
+const generaNombreUsuario = (emailUnah) => {
+    return extraeCamposEmailRegex.exec(emailUnah);
 }
 
 const  verificarImagen = (obj) => {

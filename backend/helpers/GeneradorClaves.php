@@ -1,10 +1,11 @@
 <?php
+    require_once('../../config/config.php');
     class GeneradorClaves {
         private $tamanioClave;
         private $claveGenerada;
 
-        public function __construct($tamanioClave) {
-            $this->tamanioClave = $tamanioClave;
+        public function __construct() {
+            $this->tamanioClave = MIN_TAMANIO_CLAVE;
         }
         
         function generarClave() {

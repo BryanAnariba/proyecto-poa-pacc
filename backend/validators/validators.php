@@ -9,19 +9,40 @@
         }
     }
 
-    function campoCodigoEmpleado ($parametro) {
-        
+    function validaCampoCodigoEmpleado ($parametro) {
+        if (preg_match("/^\d{1,5}$/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    function campoEmail ($parametro) {
+    function validaCampoEmail ($parametro) {
+        if (preg_match("/[A-Za-z][\w]*@unah(\.edu)?\.hn/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function validaCampoNumerico ($parametro) {
 
     }
 
-    function campoNumerico ($parametro) {
-
+    function validaCampoNombreApellido ($parametro, $min, $max) {
+        $regex = '/^([a-z ñáéíóú]{1,80})$/i';
+        if ((preg_match($regex, $parametro) == true) &&  (strlen($parametro) >= $min) && (strlen($parametro) <= $max)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    function campoTextoSinNumeros ($parametro, $min, $max) {
-
+    function validaCampotelefono ($parametro) {
+        if (preg_match("/^(2\d{3})(-)?\d{4}/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 ?>
