@@ -1,5 +1,6 @@
 <?php
     require_once('../request-headers.php');
+    require_once('../../helpers/Respuesta.php');
     require_once('../../controllers/DimensionesEstrategicasController.php');
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST': 
