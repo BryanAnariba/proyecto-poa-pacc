@@ -25,53 +25,53 @@
         }
 
         public function obtenerDepartamentos () {
-            $conexion = new Conexion();
 
-            $pdo = $conexion->connect();
+            $Carreras = new Carrera();
 
-            $resp = $pdo->query('SELECT * FROM departamento;')->fetchAll();
-            echo json_encode($resp);
+            $this->data = $Carreras->getDepartamentos();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function obtenerEstados () {
-            $conexion = new Conexion();
 
-            $pdo = $conexion->connect();
+            $Carreras = new Carrera();
 
-            $resp = $pdo->query('SELECT * FROM estadodcdu;')->fetchAll();
-            echo json_encode($resp);
+            $this->data = $Carreras->getEstados();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function obtenerCarreras () {
-            $conexion = new Conexion();
+            $Carreras = new Carrera();
 
-            $pdo = $conexion->connect();
+            $this->data = $Carreras->getCarreras();
 
-            $resp = $pdo->query('SELECT ca.idCarrera, ca.carrera, ca.abrev, dep.nombreDepartamento, es.estado
-                                from carrera as ca
-                                inner join departamento as dep
-                                    on dep.idDepartamento=ca.idDepartamento
-                                inner join estadodcdu as es
-                                    on es.idEstadoDCDU=ca.idEstadoDCDU;')->fetchAll();
-            echo json_encode($resp);
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function obtenerCarrerasPorDepa ($idDepartamento) {
-            $conexion = new Conexion();
 
-            $pdo = $conexion->connect();
+            $Carreras = new Carrera();
 
-            $resp = $pdo->query("SELECT * from carrera where idDepartamento=$idDepartamento")->fetchAll();
-            echo json_encode($resp);
+            $this->data = $Carreras->getCarrerasPorDepa($idDepartamento);
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function obtenerCarreraPorId ($idCarrera) {
-            $conexion = new Conexion();
 
-            $pdo = $conexion->connect();
+            $Carreras = new Carrera();
 
-            $resp = $pdo->query("SELECT * from carrera where idCarrera=$idCarrera")->fetchAll();
-            echo json_encode($resp);
+            $Carreras->setIdCarrera($idCarrera);
+            $this->data = $Carreras->getCarrerasPorId();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
         public function ActualizarCarrera ($idCarrera,$Carrera,$Abreviatura,$idDepartamento,$idEstado) {
             

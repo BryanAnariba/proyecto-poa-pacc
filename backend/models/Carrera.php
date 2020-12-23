@@ -61,6 +61,141 @@
             return $this;
         }
 
+        public function getCarreras () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('SELECT ca.idCarrera, ca.carrera, ca.abrev, dep.nombreDepartamento, es.estado
+                                                  from carrera as ca
+                                                  inner join departamento as dep
+                                                      on dep.idDepartamento=ca.idDepartamento
+                                                  inner join estadodcdu as es
+                                                      on es.idEstadoDCDU=ca.idEstadoDCDU');
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getDepartamentos () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('SELECT * FROM departamento');
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getEstados () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('SELECT * FROM estadodcdu');
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCarrerasPorDepa ($idDepartamento) {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT * from carrera where idDepartamento=$idDepartamento");
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCarrerasPorId () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT * from carrera where idCarrera=$this->idCarrera");
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
         public function insertaCarrera () {
             if (campoTexto($this->Carrera,1,80) && campoTexto($this->Abreviatura,1,2) && is_numeric($this->idDepartamento) && is_numeric($this->idEstado)) {
                 $this->conexionBD = new Conexion();

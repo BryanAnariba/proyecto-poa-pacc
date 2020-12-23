@@ -12,12 +12,12 @@
                     $_POST['Carrera'], $_POST['Abreviatura'], $_POST['Departamento'], $_POST['Estado']
                 );
             }else {
-                $dimension = new CarrerasController();
-                $dimension->peticionNoValida();
+                $carreras = new CarrerasController();
+                $carreras->peticionNoValida();
             }
         break;
         default: 
-            $dimension = new CarrerasController();
-            $dimension->peticionNoValida();
+            $carreras = new CarrerasController();
+            $carreras->peticionNoValida();
         break;
     }

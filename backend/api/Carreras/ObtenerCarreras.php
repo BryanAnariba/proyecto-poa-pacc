@@ -11,5 +11,7 @@
             
         break;
         default: 
+            $carreras = new CarrerasController();
+            $carreras->peticionNoValida();
         break;
     }
