@@ -69,8 +69,8 @@
                                                   from carrera as ca
                                                   inner join departamento as dep
                                                       on dep.idDepartamento=ca.idDepartamento
-                                                  inner join estadodcdu as es
-                                                      on es.idEstadoDCDU=ca.idEstadoDCDU');
+                                                  inner join estadodcduoao as es
+                                                      on es.idEstado=ca.idEstadoCarrera');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -122,7 +122,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM estadodcdu');
+                $stmt = $this->consulta->prepare('SELECT * FROM estadodcduoao');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -202,7 +202,7 @@
                 $this->consulta = $this->conexionBD->connect();
 
                 try {
-                    $stmt = $this->consulta->prepare("CALL Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");
+                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");
                     if ($stmt->execute()) {
                         $resp = $this->consulta->query('SELECT @resp')->fetch();
             
@@ -243,7 +243,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("CALL Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
+                $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
                 if ($stmt->execute()) {
                     $resp = $this->consulta->query('SELECT @resp')->fetch();
                     if(json_encode($resp[0])==0){
