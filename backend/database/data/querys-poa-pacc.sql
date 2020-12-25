@@ -176,8 +176,12 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         Persona.apellidoPersona, 
         Persona.fechaNacimiento,
         Persona.direccion,
-        Persona.idLugar,
-        Lugar.nombreLugar,
+        Persona.idLugar AS idLugarMunicipio,
+        Lugar.nombreLugar AS municipio,
+        LugarCiudad.idLugar AS idLugarCiudad,
+        LugarCiudad.nombreLugar AS ciudad,
+        LugarPais.idLugar AS idLugarPais,
+        LugarPais.nombreLugar AS pais,
         Usuario.nombreUsuario,
         Usuario.correoInstitucional,
         Usuario.idTipoUsuario,
@@ -192,9 +196,41 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         Usuario.avatarUsuario
 		FROM Persona 
 		INNER JOIN Lugar ON (Persona.idLugar = Lugar.idLugar)
+        INNER JOIN Lugar LugarCiudad ON (Lugar.idLugarPadre = LugarCiudad.idLugar)
+        INNER JOIN Lugar LugarPais ON (LugarCiudad.idLugarPadre = LugarPais.idLugar)
         INNER JOIN Usuario ON (Persona.idPersona = Usuario.idPersonaUsuario)
         INNER JOIN TipoUsuario ON (Usuario.idTipoUsuario = TipoUsuario.idTipoUsuario)
         INNER JOIN EstadoDCDUOAO ON (Usuario.idEstadoUsuario = EstadoDCDUOAO.idEstado)
         INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
         ORDER BY Usuario.idPersonaUsuario ASC;
+	
 -- CALL SP_LISTAR_USUARIOS()
+
+CREATE PROCEDURE SP_CAMBIA_ESTADO_USUARIO(IN idUsuario INT, IN identificadorEstadoUsuario INT)
+	UPDATE Usuario SET idEstadoUsuario = identificadorEstadoUsuario 
+    WHERE idPersonaUsuario = idUsuario;
+
+-- CALL SP_CAMBIA_ESTADO_USUARIO(8,2)
+
+
+
+-- CALL SP_MODIF_DATOS_GEN_USUARIO(p1,p2,p3,p4)
+
+CREATE PROCEDURE SP_MODIF_DATOS_GEN_PERSONA( 
+	IN nombre VARCHAR(80), 
+    IN apellido VARCHAR(80),
+    IN fecha DATE,
+    IN idUsuario INT)
+    UPDATE Persona SET 
+		nombrePersona = nombre,
+        apellidoPersona = apellido,
+        fechaNacimiento = fecha
+        WHERE idPersona = idUsuario
+
+-- CALL SP_MODIF_DATOS_GEN_persona(p1,p2,p3,p4)
+
+CREATE PROCEDURE SP_MODIFICA_DIRECCION_PERSONA(IN idUsuario INT, IN lugar INT, direccionLugar VARCHAR(255))
+	UPDATE Persona SET direccion = direccionLugar, 
+    WHERE idPersona = idUsuario;
+
+-- CALL SP_MODIFICA_DIRECCION_PERSONA(P1,P2,P3)

@@ -128,9 +128,5 @@
         public function enviarArchivo () {
 
         }
-
-        public function notificarCambioCorreo () {
-            
-        }
     }
 ?>

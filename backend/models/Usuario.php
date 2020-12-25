@@ -10,7 +10,7 @@
         // Propiedades clase
         private $idTipoUsuario;
         private $idDepartamento;
-        private $idEstadoDCDU;
+        private $idEstadoUsuario;
         private $nombreUsuario;
         private $correoInstitucional;
         private $codigoEmpleado;
@@ -45,12 +45,12 @@
             return $this;
         }
 
-        public function getIdEstadoDCDU() {
-            return $this->idEstadoDCDU;
+        public function getIdEstadoUsuario() {
+            return $this->idEstadoUsuario;
         }
 
-        public function setIdEstadoDCDU($idEstadoDCDU) {
-            $this->idEstadoDCDU = $idEstadoDCDU;
+        public function setIdEstadoUsuario($idEstadoUsuario) {
+            $this->idEstadoUsuario = $idEstadoUsuario;
             return $this;
         }
 
@@ -91,23 +91,20 @@
         }
 
         public function getAvatarUsuario() {
-                return $this->avatarUsuario;
+            return $this->avatarUsuario;
         }
 
         public function setAvatarUsuario($avatarUsuario) {
             $this->avatarUsuario = $avatarUsuario;
             return $this;
         }
-
         //                                                 Metodos clase Usuario
-
         public function verificaEmailUsuario () {
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('CALL SP_VERIFICA_EMAIL_USUARIO(:emailUsuario)');
                 $stmt->bindValue(':emailUsuario', $this->correoInstitucional);
-
                 //  Si la consulta se ejecuto y las filas que retorna la busqueda del email es 0 guarde si no notifique
                 if ($stmt->execute() && ($stmt->rowCount() == 0)) {
                     return true;
@@ -126,17 +123,15 @@
 
         public function registrarUsuario () {
             if (validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && is_int($this->getIdLugar()) && is_int($this->idTipoUsuario) && is_int($this->idDepartamento) && validaCampoEmail($this->correoInstitucional) && validaCampoCodigoEmpleado($this->codigoEmpleado)) {
-
                 // Clave sin hashear aun solo generada
                 $generadorClaves = new GeneradorClaves();
                 $password = $generadorClaves->generarClave();
-
                 // Clave Hasheada
                 $passwordEncriptada = password_hash($password, PASSWORD_DEFAULT);
                 $noEmailEnUso = $this->verificaEmailUsuario();
                 if ($noEmailEnUso) {
                     try {
-                        $idUsuario= parent::registrarPersona();
+                        $idUsuario = parent::registrarPersona();
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
                         if ($idUsuario != null) {
@@ -206,13 +201,8 @@
             }
         }
 
-        public function actualizarDatosUsuario () {
-
-        }
-
         public function getInformacionUsuarios () {
             try {
-                $idUsuario= parent::registrarPersona();
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 
@@ -231,14 +221,239 @@
             } catch (PDOException $ex) {
                 return array(
                     'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $idUsuario . $ex->getMessage())
+                    'data' => array('message' => $ex->getMessage())
                 );
             } finally {
                 $this->conexionBD = null;
             } 
         }
 
-        public function actualizarEstadoUsuario () {
+        public function modificarEstadoUsuario() {
+            if (is_int($this->idPersona) && is_int($this->idEstadoUsuario)) {
+                if ($this->idEstadoUsuario == ESTADO_ACTIVO) {
+                    $this->idEstadoUsuario = ESTADO_INACTIVO;
+                } else {
+                    $this->idEstadoUsuario = ESTADO_ACTIVO;
+                }
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_USUARIO(:idPersonaUsuario,:idEstadoUsuario)');
+                    $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
+                    $stmt->bindValue(':idEstadoUsuario', $this->idEstadoUsuario);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status'=> SUCCESS_REQUEST,
+                            'data' => array('message' => 'El estado del usuario se actualizo con exito')
+                        );
+                    } else {
+                        return array(
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => 'Ha ocurrido un error, el estado del usuario se no se pudo actualizar')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                } 
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error al actualizar el estado del usuario')
+                );
+            }
+        }
+
+        public function modificaInformacionGeneralUsuario() {
+            if (validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && is_int($this->idTipoUsuario) && is_int($this->idDepartamento) && validaCampoCodigoEmpleado($this->codigoEmpleado) && is_int($this->idPersona)) {
+                $resultadoConsulta = parent::modificaInformacionGeneralPersona();
+                if ($resultadoConsulta) {
+                    try {
+                        $this->conexionBD = new Conexion();
+                        $this->consulta = $this->conexionBD->connect();
+                        $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_USUARIO(:idDepto, :idRole, :codigo,:idUsuario)');
+                        $stmt->bindValue(':idDepto', $this->idDepartamento);
+                        $stmt->bindValue(':idRole', $this->idTipoUsuario);
+                        $stmt->bindValue(':codigo', $this->codigoEmpleado);
+                        $stmt->bindValue(':idUsuario', $this->idPersona);
+                        if ($stmt->execute()) {
+                            return array(
+                                'status'=> SUCCESS_REQUEST,
+                                'data' => array('message' => 'El usuario se actualizo exitosamente')
+                            );
+                        } else {
+                            return array(
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => 'Ha ocurrido un error, el usuario se no se pudo actualizar')
+                            );
+                        }
+                    } catch (PDOException $ex) {
+                        return array(
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => $ex->getMessage())
+                        );
+                    } finally {
+                        $this->conexionBD = null;
+                    } 
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al actualizar el usuario')
+                    );
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, los datos ha modificar son erroneos')
+                );
+            }
+        }
+
+        public function reenviarCredenciales () {
+            if (is_int($this->getIdPersona()) && validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && validaCampoEmail($this->correoInstitucional)) {
+                $noExisteEmail = $this->verificaEmailUsuario();
+                if ($noExisteEmail == false) {
+                    // Clave sin hashear aun solo generada
+                    $generadorClaves = new GeneradorClaves();
+                    $password = $generadorClaves->generarClave();
+                    // Clave Hasheada
+                    $passwordEncriptada = password_hash($password, PASSWORD_DEFAULT);
+                    try {
+                        $this->conexionBD = new Conexion();
+                        $this->consulta = $this->conexionBD->connect();
+                        $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idPersonaUsuario');
+                        $stmt->bindValue(':password', $passwordEncriptada);
+                        $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
+                        if ($stmt->execute()) {
+                            $email = new Email();
+                            $email->setEmailDestino($this->correoInstitucional);
+                            $email->setNombreUsuario($this->nombreUsuario);
+                            $email->setNombre($this->nombrePersona);
+                            $email->setApellido($this->apellidoPersona);
+                            $email->setHeaderMensaje('Bienvenido Al Sistema POA PACC');
+                            $email->setTituloMensaje('Reenvio de credenciales: Estas son tus credenciales de acceso al sistema');
+                            $email->setContenido($password);
+                            $enviado = $email->notificarViaCorreo();
+                            if ($enviado) {
+                                return array(
+                                    'status'=> SUCCESS_REQUEST,
+                                    'data' => array('message' => 'El reenvio de credenciales se realizo con exito')
+                                );
+                            } else {
+                                return array(
+                                    'status'=> BAD_REQUEST,
+                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado')
+                                );
+                            }
+                        } else {
+                            return array(
+                                'status'=> BAD_REQUEST,
+                                'data' => array('message' => 'Ha ocurrido un error, el envio de credenciales no se pudo realizar')
+                            );
+                        }
+                    } catch (PDOException $ex) {
+                        return array(
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => $ex->getMessage())
+                        );
+                    } finally {
+                        $this->conexionBD = null;
+                    } 
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => array('message' => 'Ha ocurrido un error, el reevio de credenciales no se pudo realizar')
+                        )
+                    );
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, el reevio de credenciales no se pudo realizar')
+                );
+            }
+        }
+
+        public function modificaCorreo () {
+            if (is_int($this->getIdPersona()) && validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && validaCampoEmail($this->correoInstitucional)) {
+                $noExisteEmail = $this->verificaEmailUsuario();
+                if ($noExisteEmail == false) {
+                    // Clave sin hashear aun solo generada
+                    $generadorClaves = new GeneradorClaves();
+                    $password = $generadorClaves->generarClave();
+                    // Clave Hasheada
+                    $passwordEncriptada = password_hash($password, PASSWORD_DEFAULT);
+                    try {
+                        $this->conexionBD = new Conexion();
+                        $this->consulta = $this->conexionBD->connect();
+                        $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password, correoInstitucional = :correoInstitucional WHERE idPersonaUsuario = :idPersonaUsuario');
+                        $stmt->bindValue(':password', $passwordEncriptada);
+                        $stmt->bindValue(':correoInstitucional', $this->correoInstitucional);
+                        $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
+                        if ($stmt->execute()) {
+                            $email = new Email();
+                            $email->setEmailDestino($this->correoInstitucional);
+                            $email->setNombreUsuario($this->nombreUsuario);
+                            $email->setNombre($this->nombrePersona);
+                            $email->setApellido($this->apellidoPersona);
+                            $email->setHeaderMensaje('Bienvenido Al Sistema POA PACC');
+                            $email->setTituloMensaje('Modificacion y Reenvio de credenciales: Estas son tus credenciales de acceso al sistema');
+                            $email->setContenido($password);
+                            $enviado = $email->notificarViaCorreo();
+                            if ($enviado) {
+                                return array(
+                                    'status'=> SUCCESS_REQUEST,
+                                    'data' => array('message' => 'La modificacion y reenvio de credenciales se realizo con exito')
+                                );
+                            } else {
+                                return array(
+                                    'status'=> BAD_REQUEST,
+                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado')
+                                );
+                            }
+                        } else {
+                            return array(
+                                'status'=> BAD_REQUEST,
+                                'data' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar')
+                            );
+                        }
+                    } catch (PDOException $ex) {
+                        return array(
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => $ex->getMessage())
+                        );
+                    } finally {
+                        $this->conexionBD = null;
+                    } 
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar')
+                        )
+                    );
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar')
+                );
+            }
+        }
+        
+        
+        public function logIn () {
+
+        }
+
+        public function logOut () {
+
+        }
+
+        public function recuperacionCredenciales () {
 
         }
     }

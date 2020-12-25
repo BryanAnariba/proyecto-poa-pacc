@@ -11,5 +11,5 @@
             $usuario = new UsuariosController();
             $usuario->peticionNoValida();
         break;
-        }
-    ?>
+    }
+?>
