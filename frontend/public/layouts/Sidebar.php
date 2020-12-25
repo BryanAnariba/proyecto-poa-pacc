@@ -50,6 +50,11 @@
                             <img src="../img/partial-sidebar/carreras-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Carreras</span>
                         </a>
+
+                        <a href="../views/ObjetosGasto.php" class="nav__link">
+                            <img src="../img/partial-sidebar/ObjetosGasto-icon.png" alt="Control de Objetos de Gasto">
+                            <span class="nav__name">Control Objetos de Gasto</span>
+                        </a>
                     <?php 
                         break; 
                     ?>

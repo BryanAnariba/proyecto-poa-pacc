@@ -203,34 +203,48 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         INNER JOIN EstadoDCDUOAO ON (Usuario.idEstadoUsuario = EstadoDCDUOAO.idEstado)
         INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
         ORDER BY Usuario.idPersonaUsuario ASC;
-	
 -- CALL SP_LISTAR_USUARIOS()
 
-CREATE PROCEDURE SP_CAMBIA_ESTADO_USUARIO(IN idUsuario INT, IN identificadorEstadoUsuario INT)
-	UPDATE Usuario SET idEstadoUsuario = identificadorEstadoUsuario 
-    WHERE idPersonaUsuario = idUsuario;
+DELIMITER ;;
+CREATE PROCEDURE SP_Registrar_Carrera(
+   IN _idCarrera INT,
+   IN _carrera varchar(60),
+   IN _abrev varchar(10),
+   IN _idDepartamento INT,
+   IN _idEstadoDCD INT,
+   IN _peticion varchar(60),
+   OUT _respuesta INT
+)
+BEGIN
+   declare temp int;
+   
+   if _peticion = 'insert' then
+		set temp = (SELECT COUNT(*) FROM carrera WHERE carrera = _carrera or abrev=_abrev);
+        
+        if temp = 1 then
+			set _respuesta = 0;
+		elseif temp = 0 then
+			set _respuesta = 1;
+			insert into carrera (carrera,abrev,idDepartamento,idEstadoCarrera) values (_carrera,_Abrev,_idDepartamento,_idEstadoDCD);
+		end if;
+   elseif _peticion = 'actualizarCarrera' then
+		set temp = (SELECT COUNT(*) FROM carrera WHERE idCarrera=_idCarrera);
+        
+        if temp = 0 then
+			set _respuesta = 0;
+		elseif temp = 1 then
+			set temp = (SELECT COUNT(*) FROM carrera WHERE idCarrera<>_idCarrera and (carrera = _carrera or abrev=_abrev));
+            
+            if temp >= 1 then
+				set _respuesta = 0;
+			elseif temp = 0 then 
+                set _respuesta = 1;
+                UPDATE carrera SET idDepartamento=_idDepartamento,idEstadoCarrera=_idEstadoDCD,carrera=_carrera,abrev=_abrev where idCarrera=_idCarrera;
+			end if;
+        end if;
+   end if;
+   
+END ;;
+DELIMITER ;
 
--- CALL SP_CAMBIA_ESTADO_USUARIO(8,2)
-
-
-
--- CALL SP_MODIF_DATOS_GEN_USUARIO(p1,p2,p3,p4)
-
-CREATE PROCEDURE SP_MODIF_DATOS_GEN_PERSONA( 
-	IN nombre VARCHAR(80), 
-    IN apellido VARCHAR(80),
-    IN fecha DATE,
-    IN idUsuario INT)
-    UPDATE Persona SET 
-		nombrePersona = nombre,
-        apellidoPersona = apellido,
-        fechaNacimiento = fecha
-        WHERE idPersona = idUsuario
-
--- CALL SP_MODIF_DATOS_GEN_persona(p1,p2,p3,p4)
-
-CREATE PROCEDURE SP_MODIFICA_DIRECCION_PERSONA(IN idUsuario INT, IN lugar INT, direccionLugar VARCHAR(255))
-	UPDATE Persona SET direccion = direccionLugar, 
-    WHERE idPersona = idUsuario;
-
--- CALL SP_MODIFICA_DIRECCION_PERSONA(P1,P2,P3)
+-- CALL Registrar_Carrera()
