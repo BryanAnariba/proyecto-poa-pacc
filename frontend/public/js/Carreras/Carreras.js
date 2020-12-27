@@ -1,23 +1,23 @@
-// const verificarCamposRegistro = () => {
+ const insertadoCarrera = () => {
 
-//     // Capturando las etiquetas completas de los inputs para despues obtener el valor
-//     let Carrera = document.querySelector('#Carrera');
-//     let Abreviatura = document.querySelector('#Abreviatura');
-//     let Departamento = document.querySelector('#Departamento');
-//     let Estado = document.querySelector('#Estado');
+     // Capturando las etiquetas completas de los inputs para despues obtener el valor
+     let Carrera = document.querySelector('#Carrera');
+     let Abreviatura = document.querySelector('#Abreviatura');
+     let Departamento = document.querySelector('#Departamento');
+     let Estado = document.querySelector('#Estado');
 
-//     // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
-//     let Cr = { valorEtiqueta: Carrera, id: 'Carrera', name: 'Carrera', min: 1, max: 80, type: 'text' };
-//     let aB = { valorEtiqueta: Abreviatura, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
-//     let Dp = { valorEtiqueta: Departamento, id: 'Departamento', name: 'Departamento', type: 'select' };
-//     let Es = { valorEtiqueta: Estado, id: 'Estado', name: 'Estado' ,type: 'select' };
+     // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
+     let Cr = { valorEtiqueta: Carrera, id: 'Carrera', name: 'Carrera', min: 1, max: 80, type: 'text' };
+     let aB = { valorEtiqueta: Abreviatura, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
+     let Dp = { valorEtiqueta: Departamento, id: 'Departamento', name: 'Departamento', type: 'select' };
+     let Es = { valorEtiqueta: Estado, id: 'Estado', name: 'Estado' ,type: 'select' };
     
 
-//     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
-//     let isValidNombrePersona = verificarInputText(Cr,letrasEspaciosCaracteresRegex);
-//     let isValidAbreviatura = verificarInputText(aB,letrasEspaciosCaracteresRegex);
-//     let isValidIdDepartamento = verificarSelect(Dp);
-//     let isValidEstado = verificarSelect(Es);
+     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
+     let isValidNombrePersona = verificarInputText(Cr,letrasEspaciosCaracteresRegex);
+     let isValidAbreviatura = verificarInputText(aB,letrasEspaciosCaracteresRegex);
+     let isValidIdDepartamento = verificarSelect(Dp);
+     let isValidEstado = verificarSelect(Es);
 
     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
     if (
@@ -39,6 +39,10 @@
             data: (dataNuevoCarrera)
         }).success(function(response) {
             console.log(response);
+            $("#Carrera").val('').trigger("change");
+            $("#Abreviatura").val('').trigger("change");
+            $("#Departamento").val('').trigger("change");
+            $("#Estado").val('').trigger("change");
             Swal.fire({
                 icon: 'success',
                 title: 'Listo',
@@ -296,6 +300,15 @@ const actualizarCarrera = () => {
             data: dataNuevoCarrera
         }).success(function(response) {
             console.log(response);
+            $("#botonModif").attr("disabled", true);
+            $("#Departamento2").val('').trigger("change");
+            $("#carreraDepa").val('').trigger("change");
+            $("#Carrera2").val('').trigger("change");
+            $("#Abreviatura2").val('').trigger("change");
+            $("#DepartamentoModif").val('').trigger("change");
+            $("#EstadoModif").val('').trigger("change");
+            $("#carreraSel").css({'display':'none'});
+            $("#modifAbajo").css({'display':'none'});
             Swal.fire({
                 icon: 'success',
                 title: 'Listo',

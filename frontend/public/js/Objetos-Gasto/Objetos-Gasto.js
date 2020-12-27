@@ -122,6 +122,11 @@ const actualizarObjeto = () => {
             data: dataNuevoCarrera
         }).success(function(response) {
             console.log(response);
+            $("#ObjetoDeGasto").val('').trigger("change");
+            $("#Abreviatura2").val('').trigger("change");
+            $("#CodigoObjeto").val('').trigger("change");
+            $("#EstadoModif").val('').trigger("change");
+            $('#modalModificarObjeto').modal('hide');
             Swal.fire({
                 icon: 'success',
                 title: 'Listo',
@@ -211,6 +216,11 @@ const registrarObjeto = () => {
             data: dataNuevoCarrera
         }).success(function(response) {
             console.log(response);
+            $("#ObjetoDeGastoR").val('').trigger("change");
+            $("#Abreviatura").val('').trigger("change");
+            $("#CodigoObjetoR").val('').trigger("change");
+            $("#Estado").val('').trigger("change");
+            $('#modalRegistrarObjeto').modal('hide');
             Swal.fire({
                 icon: 'success',
                 title: 'Listo',
