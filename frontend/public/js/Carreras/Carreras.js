@@ -19,7 +19,6 @@
 //     let isValidIdDepartamento = verificarSelect(Dp);
 //     let isValidEstado = verificarSelect(Es);
 
-<<<<<<< HEAD
     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
     if (
         (isValidNombrePersona === true) &&
@@ -63,52 +62,6 @@
         })
     }
 };
-=======
-//     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
-//     if (
-//         (isValidNombrePersona === true) &&
-//         (isValidAbreviatura === true) &&
-//         (isValidEstado === true) &&
-//         (isValidIdDepartamento === true) 
-//     ) {
-//         const dataNuevoCarrera = {
-//             Carrera: Carrera.value,
-//             Abreviatura: Abreviatura.value,
-//             Departamento: Departamento.value,
-//             Estado: Estado.value
-//         };
-//         $.ajax({
-//             url: `${ API }/Carreras/registrarCarrera.php`, 
-//             method: 'POST',
-//             dataType: 'json',
-//             data: (dataNuevoCarrera)
-//         }).success(function(response) {
-//             console.log(response);
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Listo',
-//                 text: 'Registro insertado con exito',
-//             })
-//         }).error(function(error) {
-//             console.warn(error);
-//             console.log("hola");
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Ops...',
-//                 text: 'El registro de la carrera no se pudo realizar',
-//                 footer: '<b>Por favor verifique el formulario de registro</b>'
-//             })
-//         });
-//     } else { // caso contrario mostrar alerta y notificar al usuario 
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Ops...',
-//             text: 'El registro de la carrera no se pudo realizar',
-//             footer: '<b>Por favor verifique el formulario de registro</b>'
-//         })
-//     }
-// };
->>>>>>> 169d8b125dedeea6773c84625719191382895490
 const cambiarDepa = () => {
     const peticion = {
         nada: ""
