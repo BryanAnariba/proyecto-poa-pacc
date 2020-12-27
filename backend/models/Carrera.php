@@ -214,7 +214,7 @@
                         }else{
                             return array(
                                 'status' => SUCCESS_REQUEST,
-                                'data' => array('message' => 'Dimension ' . $this->Carrera . ' registrada con exito')
+                                'data' => array('message' => $this->Carrera . ' registrada con exito')
                             );;
                         };
                     } else {

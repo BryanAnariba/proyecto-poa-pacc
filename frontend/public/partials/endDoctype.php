@@ -6,6 +6,5 @@
 
         
         <script src="../js/menu/menu-principal.js"></script>
-        <script src="../js/Carreras/Carreras.js"></script>
     </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
     include('../partials/doctype.php');;
 ?>
-<title>Control de Departamentos</title>
+<title>Control de Carreras</title>
 <!--En esta zona podran poner estilos propios de la vista-->
 <link rel="stylesheet" href="../css/animaciones/animate.min.css" />
 <link rel="stylesheet" href="../css/Carreras/Carrera.css" />
@@ -372,6 +372,8 @@
     
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
+
+    <script src="../js/Carreras/Carreras.js"></script>
 
 <?php
     include('../partials/endDoctype.php');

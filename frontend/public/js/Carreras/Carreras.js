@@ -46,7 +46,6 @@ const verificarCamposRegistro = () => {
             })
         }).error(function(error) {
             console.warn(error);
-            console.log("hola");
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
@@ -235,8 +234,8 @@ const agregarATabla = (dataSet) => {
     }
     $('#CarrerasTodas').DataTable({
         language: i18nEspaniol,
-        //dom: 'Blfrtip',
-        //buttons: botonesExportacion,
+        dom: 'Blfrtip',
+        buttons: botonesExportacion,
         retrieve: true
     });
 };
