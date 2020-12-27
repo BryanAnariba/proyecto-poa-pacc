@@ -176,8 +176,12 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         Persona.apellidoPersona, 
         Persona.fechaNacimiento,
         Persona.direccion,
-        Persona.idLugar,
-        Lugar.nombreLugar,
+        Persona.idLugar AS idLugarMunicipio,
+        Lugar.nombreLugar AS municipio,
+        LugarCiudad.idLugar AS idLugarCiudad,
+        LugarCiudad.nombreLugar AS ciudad,
+        LugarPais.idLugar AS idLugarPais,
+        LugarPais.nombreLugar AS pais,
         Usuario.nombreUsuario,
         Usuario.correoInstitucional,
         Usuario.idTipoUsuario,
@@ -192,6 +196,8 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         Usuario.avatarUsuario
 		FROM Persona 
 		INNER JOIN Lugar ON (Persona.idLugar = Lugar.idLugar)
+        INNER JOIN Lugar LugarCiudad ON (Lugar.idLugarPadre = LugarCiudad.idLugar)
+        INNER JOIN Lugar LugarPais ON (LugarCiudad.idLugarPadre = LugarPais.idLugar)
         INNER JOIN Usuario ON (Persona.idPersona = Usuario.idPersonaUsuario)
         INNER JOIN TipoUsuario ON (Usuario.idTipoUsuario = TipoUsuario.idTipoUsuario)
         INNER JOIN EstadoDCDUOAO ON (Usuario.idEstadoUsuario = EstadoDCDUOAO.idEstado)

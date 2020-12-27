@@ -125,8 +125,65 @@
             }
         }
 
-        public function actualizarDatosPersona () {
+        public function modificaInformacionGeneralPersona () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_PERSONA(:nombre,:apellido,:fecha,:idUsuario)');
+                $stmt->bindValue(':nombre', $this->nombrePersona);
+                $stmt->bindValue(':apellido', $this->apellidoPersona);
+                $stmt->bindValue(':fecha', $this->fechaNacimiento);
+                $stmt->bindValue(':idUsuario', $this->idPersona);
+                if ($stmt->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
 
+        
+        public function modificaDireccion () {
+            if (is_int($this->idPersona) && is_int($this->idLugar)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIRECCION_PERSONA(:idUsuario, :lugar , :direccionLugar)');
+                    $stmt->bindValue(':idUsuario', $this->idPersona);
+                    $stmt->bindValue(':lugar', $this->idLugar);
+                    $stmt->bindValue(':direccionLugar', $this->direccion);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status'=> SUCCESS_REQUEST,
+                            'data' => array('message' => 'La direccion del usuario se actualizo exitosamente')
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error, la direccion del usuario se no se pudo actualizar')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, los datos ha modificar son erroneos')
+                );
+            }
         }
     }
 ?>

@@ -27,6 +27,8 @@ include('../partials/doctype.php');
                     <div class="card-body  blue lighten-5">
                         <div class="container-fluid">
                             <div class="row">
+                                <div class="col-xl-2 col-lg-2 col-md-2 hidden-sm-down hidden-down">
+                                </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                                     <div class="card border border-warning b-2 rounded mb-0 animate__animated animate__flipInY">
                                         <div class="card-header amber accent-4">
@@ -46,12 +48,7 @@ include('../partials/doctype.php');
                                                 <img class="card-img-top" src="../img/usuarios/visualizar-usuarios.svg" alt="registrar usuario">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button" 
-                                                class="btn btn-indigo btn-block" 
-                                                data-toggle="modal" 
-                                                data-target="#modalVisualizarUsuarios"
-                                                onclick="listarUsuarios()">
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalVisualizarUsuarios" onclick="listarUsuarios()">
                                                 Visualizar
                                             </button>
                                         </div>
@@ -83,31 +80,7 @@ include('../partials/doctype.php');
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                                    <div class="card border border-warning b-2 rounded mb-0 animate__animated animate__flipInY">
-                                        <div class="card-header amber accent-4">
-                                            <div class="row">
-                                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8">
-                                                    <h6 class="text-white font-weight-bold">
-                                                        Modificar Usuario
-                                                    </h6>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4">
-                                                    <img src="../img/partial-sidebar/usuarios-icon.svg" alt="Control de Usuarios">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <br>
-                                            <div class="view overlay">
-                                                <img class="card-img-top" src="../img/usuarios/modificar-usuario.svg" alt="registrar usuario">
-                                            </div>
-                                            <hr>
-                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalModificarUsuarios">
-                                                Modificar
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div class="col-xl-2 col-lg-2 col-md-2 hidden-sm-down hidden-down">
                                 </div>
                             </div>
                         </div>
@@ -133,26 +106,24 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                            <table class="table" id="listado-usuarios">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nombre Usuario</th>
-                                        <th scope="col">Apellido Usuario</th>
-                                        <th scope="col">Direccion</th>
-                                        <th scope="col">Correo</th>
-                                        <th scope="col">Usuario</th>
-                                        <th scope="col">Departamento</th>
-                                        <th scope="col">Cargo</th>
-                                        <th scope="col">Codigo Empleado</th>
-                                        <th scope="col">Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="usuarios">
-                                    
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table" id="listado-usuarios">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Codigo Empleado</th>
+                                    <th scope="col">Nombre Completo</th>
+                                    <th scope="col">Estado Empleado</th>
+                                    <th scope="col">Visualizar Informacion General Empleado</th>
+                                    <th scope="col">Visualizar Direccion</th>
+                                    <th scope="col">Visualizar Correo</th>
+                                    <th scope="col">Visualizar Fotografia</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usuarios">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
@@ -336,21 +307,69 @@ include('../partials/doctype.php');
         </div>
     </div>
     <!--Modificar usuarios-->
-    <div class="modal fade" id="modalModificarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+    <div class="modal fade" id="modalModificarInfoEmpleado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content" id="modalContentModificacion">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Formulario para modificar usuarios</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Informacion General Empleado</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form">
+                                <input type="text" id="M-nombrePersona" class="form-control nombrePersona" maxlength="80" minlength="1" required>
+                                <span id="errorsM-nombrePersona" class="text-danger text-small d-none">
+
+                                </span>
+                                <label for="M-nombrePersona" id="labelM-nombrePersona" name="labelM-nombrePersona">Escriba los Nombres de la persona
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="text" id="M-apellidoPersona" class="form-control" maxlength="80" minlength="1" required>
+                                <span id="errorsM-apellidoPersona" class="text-danger text-small d-none">
+                                </span>
+                                <label for="M-apellidoPersona" id="labelM-apellidoPersona">
+                                    Escriba los apellidos de la persona
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="number" id="M-codigoEmpleado" class="form-control" required>
+                                <span id="errorsM-codigoEmpleado" class="text-danger text-small d-none"></span>
+                                <label for="M-codigoEmpleado" id="labelM-codigoEmpleado">Escriba el codigo empleado: XXXXX</label>
+                            </div>
+                            <div class="md-form">
+                                <div class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                                    <input placeholder="Select date" type="date" class="form-control" id="M-fechaNacimiento">
+                                    <span id="errorsM-fechaNacimiento" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="M-fechaNacimiento" id="labelM-fechaNacimiento">Fecha nacimiento persona
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="md-form">
+                                <select class="browser-default custom-select" id="M-idDepartamento" required>
+
+                                </select>
+                                <span id="errorsM-idDepartamento" class="text-danger text-small d-none">
+
+                                </span>
+                            </div>
+                            <div class="md-form">
+                                <select class="browser-default custom-select" id="M-idTipoUsuario" required>
+
+                                </select>
+                                <span id="errorsM-idTipoUsuario" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-light-green btn-rounded">Guardar Cambios</button>
+                        <button id="btn-actualizar-registro-usuario" type="button" class="btn btn-light-green btn-rounded" onclick="actualizarRegistroUsuario()">Guardar Cambios</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
@@ -359,7 +378,156 @@ include('../partials/doctype.php');
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalCargandoPeticionRegistro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalModificarDireccion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Direccion actual del empleado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form" inline="true" disabled>
+                                <input type="text" id="pais" class="form-control" required>
+                                <label for="pais" id="labelpais">Pais actual de residencia
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form" inline="true" disabled>
+                                <input type="text" id="ciudad" class="form-control" required>
+                                <label for="ciudad" id="labelciudad">Ciudad actual de residencia
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form" inline="true" disabled="true">
+                                <input type="text" id="municipio" class="form-control" required>
+                                <label for="municipio" id="labelmunicipio">Municipio actual de residencia
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form">
+                                <textarea id="direccionActual" class="md-textarea form-control" rows="2" disabled></textarea>
+                                <label for="direccionActual">Direccion Colonia/Barrio</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-light-green btn-rounded" onclick="modalCambioDireccion()">Cambiar Direccion</button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalModificarDireccionActualPersona" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Formulario Para Cambio de direaccion</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="md-form">
+                                <select class="browser-default custom-select" id="M-idPais" required onchange="listarCiudadesPais()">
+                                </select>
+                                <span id="errorsM-idPais" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="md-form">
+                                <select class="browser-default custom-select d-none" id="M-idDepartamentoPais" onchange="listarMunicipios()" required>
+                                </select>
+                                <span id="errorsM-idDepartamentoPais" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="md-form">
+                                <select class="browser-default custom-select d-none" id="M-idMunicipiosCiudad" required>
+                                </select>
+                                <span id="errorsM-idMunicipiosCiudad" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="md-form">
+                                <textarea id="M-direccionActual" class="md-textarea form-control" rows="2" ></textarea>
+                                <label for="M-direccionActual">Direccion Colonia/Barrio opcional:</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button 
+                            id="btn-cambiar-direccion-usuario-persona"
+                            type="button" 
+                            class="btn btn-light-green btn-rounded"
+                            onclick="cambiarDireccion()">
+                                Guardar Cambios
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close"
+                        onclick="cancelarModificacionDireccion()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalModificarCorreoInstitucional" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="modalContentReenvioCredenciales">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Correo Institucional Empleado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="email" id="M-correoInstitucional" class="form-control" maxlength="60" minlength="1" required>
+                        <span id="errorsM-correoInstitucional" class="text-danger text-small d-none">
+                        </span>
+                        <label for="M-correoInstitucional" id="labelM-correoInstitucional">
+                            Escriba correo institucional persona
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button id="btn-reenvio-credenciales" type="button" class="btn btn-info btn-rounded" onclick="reenviarCredencialesCorreo()">
+                            Reenviar Credenciales
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button id="btn-modificacion-correo-electronico" type="button" class="btn btn-light-green btn-rounded" onclick="modificarCorreoUsuario()">Modificar Correo
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modalDeCarga" id="modalCargandoPeticionRegistro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="lds-roller loading-registro">
                 <div>
