@@ -49,7 +49,7 @@ CREATE PROCEDURE SP_REGISTRA_DIM_ESTRATEGICA(IN estadoDimension INT, dimension V
 -- CALL SP_REGISTRA_DIM_ESTRATEGICA(p1,p2)
 
 CREATE PROCEDURE SP_GET_DIMENSION_ESTRATEGICA(IN idDimensionEstrategica INT)
-	SELECT idEstadoDimension, idDimension, dimensionEstrategica FROM DimensionEstrategica  WHERE idDimension = idDimensionEstrategica
+	SELECT idEstadoDimension, idDimension, dimensionEstrategica FROM DimensionEstrategica  WHERE idDimension = idDimensionEstrategica;
     
 -- CALL SP_GET_DIMENSION_ESTRATEGICA(1)
 
@@ -116,7 +116,7 @@ CREATE PROCEDURE SP_LISTA_AREAS_POR_OBJ (IN idObjetivo INT)
         FROM AreaEstrategica LEFT JOIN EstadoDCDUOAO 
         ON (AreaEstrategica.idEstadoAreaEstrategica = EstadoDCDUOAO.idEstado) 
         WHERE idObjetivoInstitucional = idObjetivo 
-        ORDER BY AreaEstrategica.idAreaEstrategica ASC
+        ORDER BY AreaEstrategica.idAreaEstrategica ASC;
 
 -- CALL SP_LISTA_AREAS_POR_OBJ(2)
 
@@ -128,7 +128,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_AREA(IN idArea INT,IN idEstadoArea INT)
 
 CREATE PROCEDURE SP_MODIFICA_AREA(IN idArea INT, IN area VARCHAR(200))
 	UPDATE AreaEstrategica SET areaEstrategica = area
-    WHERE idAreaEstrategica = idArea
+    WHERE idAreaEstrategica = idArea;
 
 -- CALL SP_MODIFICA_AREA(P1,P2)
 
@@ -165,7 +165,7 @@ CREATE PROCEDURE SP_INSERTA_USUARIO(
         passwordUsuario,
         avatarUsuario)
 	VALUES 
-		(idUsuario, idTUsuario, idDepto, idEstado, usuario, correo, codigo, password, NULL)
+		(idUsuario, idTUsuario, idDepto, idEstado, usuario, correo, codigo, password, NULL);
 
 -- CALL SP_INSERTA_USUARIO(P1,P2,P3,P4,P5,P6,P7,P8)
 
@@ -296,3 +296,38 @@ BEGIN
 END
 
 -- CALL SP_Registrar_Objeto()
+-- CALL Registrar_Carrera()
+
+
+CREATE PROCEDURE SP_CAMBIA_ESTADO_USUARIO(IN idUsuario INT, IN identificadorEstadoUsuario INT)
+	UPDATE Usuario SET idEstadoUsuario = identificadorEstadoUsuario 
+    WHERE idPersonaUsuario = idUsuario;
+
+-- CALL SP_CAMBIA_ESTADO_USUARIO(8,2)
+
+CREATE PROCEDURE SP_MODIFICA_DIRECCION_PERSONA(IN idUsuario INT, IN lugar INT, direccionLugar VARCHAR(255))
+	UPDATE Persona SET direccion = direccionLugar
+    WHERE idPersona = idUsuario;
+
+-- CALL SP_MODIFICA_DIRECCION_PERSONA(P1,P2,P3)
+
+CREATE PROCEDURE SP_MODIF_DATOS_GEN_PERSONA( 
+	IN nombre VARCHAR(80), 
+    IN apellido VARCHAR(80),
+    IN fecha DATE,
+    IN idUsuario INT)
+    UPDATE Persona SET 
+		nombrePersona = nombre,
+        apellidoPersona = apellido,
+        fechaNacimiento = fecha
+        WHERE idPersona = idUsuario;
+
+-- CALL SP_MODIF_DATOS_GEN_persona(p1,p2,p3,p4)
+
+CREATE PROCEDURE SP_MODIF_DATOS_GEN_USUARIO(IN idUsuario INT,IN departamento INT,IN tipoUsuario INT,IN codigo VARCHAR(50))
+	UPDATE Usuario SET 
+    codigoEmpleado = codigo,
+    idTipoUsuario = tipoUsuario,
+    idDepartamento = departamento
+    WHERE idPersonaUsuario = idUsuario;
+-- CALL SP_MODIF_DATOS_GEN_USUARIO(p1,p2,p3,p4)

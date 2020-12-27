@@ -275,11 +275,11 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
-                        $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_USUARIO(:idDepto, :idRole, :codigo,:idUsuario)');
+                        $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_USUARIO(:idUsuario, :idDepto, :idRole, :codigo)');
+                        $stmt->bindValue(':idUsuario', $this->idPersona);
                         $stmt->bindValue(':idDepto', $this->idDepartamento);
                         $stmt->bindValue(':idRole', $this->idTipoUsuario);
                         $stmt->bindValue(':codigo', $this->codigoEmpleado);
-                        $stmt->bindValue(':idUsuario', $this->idPersona);
                         if ($stmt->execute()) {
                             return array(
                                 'status'=> SUCCESS_REQUEST,
