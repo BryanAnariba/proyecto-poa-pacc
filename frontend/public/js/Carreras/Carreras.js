@@ -1,68 +1,68 @@
-const verificarCamposRegistro = () => {
+// const verificarCamposRegistro = () => {
 
-    // Capturando las etiquetas completas de los inputs para despues obtener el valor
-    let Carrera = document.querySelector('#Carrera');
-    let Abreviatura = document.querySelector('#Abreviatura');
-    let Departamento = document.querySelector('#Departamento');
-    let Estado = document.querySelector('#Estado');
+//     // Capturando las etiquetas completas de los inputs para despues obtener el valor
+//     let Carrera = document.querySelector('#Carrera');
+//     let Abreviatura = document.querySelector('#Abreviatura');
+//     let Departamento = document.querySelector('#Departamento');
+//     let Estado = document.querySelector('#Estado');
 
-    // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
-    let Cr = { valorEtiqueta: Carrera, id: 'Carrera', name: 'Carrera', min: 1, max: 80, type: 'text' };
-    let aB = { valorEtiqueta: Abreviatura, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
-    let Dp = { valorEtiqueta: Departamento, id: 'Departamento', name: 'Departamento', type: 'select' };
-    let Es = { valorEtiqueta: Estado, id: 'Estado', name: 'Estado' ,type: 'select' };
+//     // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
+//     let Cr = { valorEtiqueta: Carrera, id: 'Carrera', name: 'Carrera', min: 1, max: 80, type: 'text' };
+//     let aB = { valorEtiqueta: Abreviatura, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
+//     let Dp = { valorEtiqueta: Departamento, id: 'Departamento', name: 'Departamento', type: 'select' };
+//     let Es = { valorEtiqueta: Estado, id: 'Estado', name: 'Estado' ,type: 'select' };
     
 
-    // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
-    let isValidNombrePersona = verificarInputText(Cr,letrasEspaciosCaracteresRegex);
-    let isValidAbreviatura = verificarInputText(aB,letrasEspaciosCaracteresRegex);
-    let isValidIdDepartamento = verificarSelect(Dp);
-    let isValidEstado = verificarSelect(Es);
+//     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
+//     let isValidNombrePersona = verificarInputText(Cr,letrasEspaciosCaracteresRegex);
+//     let isValidAbreviatura = verificarInputText(aB,letrasEspaciosCaracteresRegex);
+//     let isValidIdDepartamento = verificarSelect(Dp);
+//     let isValidEstado = verificarSelect(Es);
 
-    // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
-    if (
-        (isValidNombrePersona === true) &&
-        (isValidAbreviatura === true) &&
-        (isValidEstado === true) &&
-        (isValidIdDepartamento === true) 
-    ) {
-        const dataNuevoCarrera = {
-            Carrera: Carrera.value,
-            Abreviatura: Abreviatura.value,
-            Departamento: Departamento.value,
-            Estado: Estado.value
-        };
-        $.ajax({
-            url: `${ API }/Carreras/registrarCarrera.php`, 
-            method: 'POST',
-            dataType: 'json',
-            data: (dataNuevoCarrera)
-        }).success(function(response) {
-            console.log(response);
-            Swal.fire({
-                icon: 'success',
-                title: 'Listo',
-                text: 'Registro insertado con exito',
-            })
-        }).error(function(error) {
-            console.warn(error);
-            console.log("hola");
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'El registro de la carrera no se pudo realizar',
-                footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
-        });
-    } else { // caso contrario mostrar alerta y notificar al usuario 
-        Swal.fire({
-            icon: 'error',
-            title: 'Ops...',
-            text: 'El registro de la carrera no se pudo realizar',
-            footer: '<b>Por favor verifique el formulario de registro</b>'
-        })
-    }
-};
+//     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
+//     if (
+//         (isValidNombrePersona === true) &&
+//         (isValidAbreviatura === true) &&
+//         (isValidEstado === true) &&
+//         (isValidIdDepartamento === true) 
+//     ) {
+//         const dataNuevoCarrera = {
+//             Carrera: Carrera.value,
+//             Abreviatura: Abreviatura.value,
+//             Departamento: Departamento.value,
+//             Estado: Estado.value
+//         };
+//         $.ajax({
+//             url: `${ API }/Carreras/registrarCarrera.php`, 
+//             method: 'POST',
+//             dataType: 'json',
+//             data: (dataNuevoCarrera)
+//         }).success(function(response) {
+//             console.log(response);
+//             Swal.fire({
+//                 icon: 'success',
+//                 title: 'Listo',
+//                 text: 'Registro insertado con exito',
+//             })
+//         }).error(function(error) {
+//             console.warn(error);
+//             console.log("hola");
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Ops...',
+//                 text: 'El registro de la carrera no se pudo realizar',
+//                 footer: '<b>Por favor verifique el formulario de registro</b>'
+//             })
+//         });
+//     } else { // caso contrario mostrar alerta y notificar al usuario 
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Ops...',
+//             text: 'El registro de la carrera no se pudo realizar',
+//             footer: '<b>Por favor verifique el formulario de registro</b>'
+//         })
+//     }
+// };
 const cambiarDepa = () => {
     const peticion = {
         nada: ""

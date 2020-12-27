@@ -13,27 +13,35 @@ INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Usuario
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Administrativa', 'SE_AD');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Academica', 'S_AC');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,
 'Ingenieria en Sistemas',
-'IS');
+'IS',
+'2216-6100');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,
 'Ingenieria Industrial',
-'II');
+'II','2216-3014');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,
 'Ingenieria Mecanica',
-'IM');
+'IM',
+'2216-5100');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,
 'Ingenieria Electrica',
-'IE');
+'IE',
+'2216-5155');
 
-UPDATE departamento SET telefonoDepartamento = '2216-6100' WHERE idDepartamento = 1;
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+2,
+'Ingenieria Inactiva',
+'IA',
+'2216-2216');
+
 
 
 

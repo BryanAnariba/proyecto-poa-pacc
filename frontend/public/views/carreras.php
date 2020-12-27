@@ -372,6 +372,7 @@
     
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
+    <script src="../js/Carreras/Carreras.js"></script>
 
 <?php
     include('../partials/endDoctype.php');
