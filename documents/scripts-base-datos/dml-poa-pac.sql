@@ -12,6 +12,7 @@ INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Decano'
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Usuario Estratega', 'U_E');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Administrativa', 'SE_AD');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Academica', 'S_AC');
+update `poa-pacc-bd`.`tipoUsuario` set tipoUsuario = 'Coordinador Carrera' , abrev= 'C_C' WHERE idTIpoUsuario = 3
 
 INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,

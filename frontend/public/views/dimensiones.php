@@ -1,5 +1,7 @@
 <?php
-include('../partials/doctype.php');
+    session_start();
+    include('../partials/doctype.php');
+    include('verifica-session.php');
 ?>
 <title>Control de Dimensiones</title>
 <!--En esta zona podran poner estilos propios de la vista-->

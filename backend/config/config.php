@@ -14,7 +14,7 @@
     define('INTERNAL_SERVER_ERROR', 500);
 
     // Secret key
-    define('SECRET_KEY', 'mi_clave_secreta');
+    define('TIEMPO_VIDA_TOKEN', 'PT1M');
 
     // Rutas direcctorios
     define('DIRECTORIO_UPLOADS', 'localhost/proyecto-poa-pac/backend/uploads');

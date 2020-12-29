@@ -62,7 +62,10 @@ const cargarCiudadesPais = () => {
             }
 		},
 		error:function(error){
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -109,7 +112,10 @@ const cargarMunicipios = () => {
             }
 		},
 		error:function(error){
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -188,14 +194,17 @@ const cargarModalRegistro = () => {
             })
             .fail(function(error) {
                 console.log('Something went wrong', error);
-                const { data } = error.responseJSON;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.log(data);
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
                     text: `${ data.message }`,
                     footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                });
             });
     }, 2000);
 }
@@ -228,16 +237,12 @@ const verificarCamposRegistro = () => {
         (isValidIdMunicipioCiudad === true) &&
         (isValidCorreoInstitucional === true)
     ) {
-
-        // Cerramos modal de registro
-        $('#modalRegistrarUsuarios').modal('hide');
-
         // Desabilitamos boton de registro usuarios
         $('#btn-registrar-usuario').prop('disabled', true);
 
-        // Abrimos modal de carga
-        $('#modalCargandoPeticionRegistro').modal('show');
+        // Mostramos loadings por mientras se ejecutan las peticiones
         $('.loading-registro').removeClass('d-none');
+        $('#modalContentRegistro').addClass('d-none');
 
         // Extraemos el nombreUsuario del correo
         const emailSanitizado = generaNombreUsuario(cI.valorEtiqueta.value);
@@ -268,10 +273,11 @@ const verificarCamposRegistro = () => {
         contentType: 'application/json',
         data: JSON.stringify(parametros),
         success:function(response) {
-            // Abrimos modal de carga
-            $('#modalCargandoPeticionRegistro').modal('hide');
+            // Mostramos loadings por mientras se ejecutan las peticiones
             $('.loading-registro').addClass('d-none');
-
+            $('#modalContentRegistro').removeClass('d-none');
+            $('#modalRegistrarUsuarios').modal('hide');
+            $('#btn-registrar-usuario').prop('disabled', false);
             const { data } = response;
             console.log(response);
             Swal.fire({
@@ -279,18 +285,32 @@ const verificarCamposRegistro = () => {
                 title: 'Accion realizada Exitosamente',
                 text: `${ data.message }`,
             });
-
-            $('#btn-registrar-usuario').prop('disabled', false);
             cancelarOperacion();
         },
         error:function(error) {
+            // Mostramos loadings por mientras se ejecutan las peticiones
+            $('.loading-registro').addClass('d-none');
+            $('#modalContentRegistro').removeClass('d-none');
+            $('#modalRegistrarUsuarios').modal('hide');
+            $('#btn-registrar-usuario').prop('disabled', false);
+            cancelarOperacion();
+            const { status,data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(status);
             console.error(error);
-            const { data } = error.responseJSON;
+            
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
                 text: `${ data.message }`,
                 footer: '<b>Por favor verifique el formulario de registro</b>'
+            }, function() {
+                if (status === 401) {
+                    console.log('saliendo');
+                    window.location = '../../../views/401.php';
+                }
             });
         }});
     } else { // caso contrario mostrar alerta y notificar al usuario 

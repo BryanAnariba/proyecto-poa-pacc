@@ -1,6 +1,10 @@
 // Enpoint o URI general, a partir de esta URI se debera hacer las peticiones
 const API = 'http://localhost/proyecto-poa-pacc/backend/api';
-//http://lineadecodigo.com/javascript/extraer-partes-email-javascript/
+
+const error1 = 'Tipo de peticion no valida';
+const error2 = 'La clave digitada es incorrecta, escriba su clave nuevamente';
+const noAutorizado = 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debe loguearse';
+
 // Expresiones regulares
 const numeroTelefonoRefex = /^(2\d{3})(-)?\d{4}/;
 const numerosRegex = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;

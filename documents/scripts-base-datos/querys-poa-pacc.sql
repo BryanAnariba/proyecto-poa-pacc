@@ -282,3 +282,54 @@ CREATE PROCEDURE SP_MODIF_DATOS_GEN_USUARIO(IN idUsuario INT,IN departamento INT
     idDepartamento = departamento
     WHERE idPersonaUsuario = idUsuario;
 -- CALL SP_MODIF_DATOS_GEN_USUARIO(p1,p2,p3,p4)
+
+
+CREATE PROCEDURE SP_VERIF_CREDENCIALES_USUARIO (IN correo VARCHAR(100))
+	SELECT 
+		Usuario.idPersonaUsuario,
+		Persona.nombrePersona,
+		Persona.apellidoPersona,
+		Persona.direccion,
+		Usuario.idDepartamento,
+		Departamento.nombreDepartamento,
+        Departamento.abrev,
+        Departamento.telefonoDepartamento,
+		Usuario.idEstadoUsuario,
+		estadoDCDUOAO.estado,
+		Usuario.codigoEmpleado,
+		Usuario.idTipoUsuario,
+		TipoUsuario.tipoUsuario,
+        TipoUsuario.abrev as abrevTipoUsuario,
+		Usuario.correoInstitucional,
+		Usuario.passwordUsuario,
+		Usuario.avatarUsuario
+		FROM Persona INNER JOIN Usuario ON (Persona.idPersona = Usuario.idPersonaUsuario)
+		INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
+		INNER JOIN estadoDCDUOAO ON (Usuario.idEstadoUsuario = estadoDCDUOAO.idEstado)
+		INNER JOIN TipoUsuario ON (Usuario.idTipoUsuario = TipoUsuario.idTipoUsuario)
+		WHERE Usuario.correoInstitucional = correo;
+
+-- CALL SP_VERIF_CREDENCIALES_USUARIO('bsancheza@unah.hn')
+
+
+CREATE PROCEDURE SP_GENERAR_TOKEN_ACCESO(IN idUsuario INT, IN token VARCHAR(255), IN fechaExpiracion DATETIME)
+	UPDATE Usuario SET 
+		tokenAcceso = token,
+        tokenExpiracion = fechaExpiracion
+	WHERE idPersonaUsuario = idUsuario;
+
+-- CALL SP_GENERAR_TOKEN_ACCESO(P1,P2,P3)
+
+
+CREATE PROCEDURE SP_REMOVER_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
+	UPDATE Usuario SET 
+		tokenAcceso = NULL,
+        tokenExpiracion = NULL
+	WHERE idPersonaUsuario = idUsuario AND tokenAcceso = token;
+
+-- CALL SP_GENERAR_TOKEN_ACCESO(P1,P2)
+
+CREATE PROCEDURE SP_VERIFICA_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
+	SELECT * FROM Usuario WHERE tokenAcceso = token AND idPersonaUsuario = idUsuario;
+
+-- CALL SP_VERIFICA_TOKEN(P1,P2)

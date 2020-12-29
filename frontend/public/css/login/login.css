@@ -301,3 +301,12 @@ form.sign-in-form {
     left: 50%;
   }
 }
+
+.swal2-styled.swal2-confirm {
+  border: 0;
+  border-radius: .25em;
+  background: initial;
+  background-color:  #222D7D !important;
+  color: #fff;
+  font-size: 1.0625em;
+}

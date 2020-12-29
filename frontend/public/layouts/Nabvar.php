@@ -1,3 +1,10 @@
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    include('../partials/doctype.php');
+    include('verifica-session.php');    
+?>
 <header class="header amber accent-4" id="header">
     <div class="header__toggle">
     <i class="fas fa-bars" id="header-toggle"></i>
@@ -17,7 +24,7 @@
             <li class="nav-item avatar dropdown dropdown-items">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="text-white">bsancheza</span>
-                    <img src="../img/menu/avatar-2.jpg" width="40" class="rounded-circle z-depth-0 " alt="avatar image">
+                    <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" width="40" class="rounded-circle z-depth-0 " alt="avatar image">
                 </a>
                 <div id="dropdown-acciones" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
                     <a class="dropdown-item" href="" data-toggle="modal" data-target="#modalMiPerfil">
@@ -56,7 +63,7 @@
             <!--Body-->
             <div class="modal-body text-center mb-1">
 
-                <h5 class="mt-1 mb-2">bsancheza@unah.hn</h5>
+                <h5 class="mt-1 mb-2"><?= $_SESSION['correoInstitucional']?></h5>
 
                 <div class="md-form ml-0 mr-0">
                     <input type="password" type="text" id="password" class="form-control form-control-sm validate ml-0">
@@ -149,11 +156,11 @@
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
-                <p class="font-weight-bolder"><h5>Nombre Completo:</h5> Bryan Ariel Sanchez Anariba</p>
-                <p class="font-weight-bolder"><h5>Correo:</h5> bsancheza@unah.hn</p>
-                <p class="font-weight-bolder"><h5>Cargo:</h5> Jefe Departamento</p>
-                <p class="font-weight-bolder"><h5>Departamento:</h5> IS</p>
-                <p class="font-weight-bolder"><h5>No Empleado:</h5> 1220231</p>
+                <p class="font-weight-bolder"><h5>Nombre Completo:</h5><?=$_SESSION['nombrePersona']?> <?=$_SESSION['apellidoPersona']?></p>
+                <p class="font-weight-bolder"><h5>Correo:</h5> <?=$_SESSION['correoInstitucional']?></p>
+                <p class="font-weight-bolder"><h5>Cargo:</h5> <?=$_SESSION['tipoUsuario']?></p>
+                <p class="font-weight-bolder"><h5>Departamento:</h5> <?=$_SESSION['abrev']?></p>
+                <p class="font-weight-bolder"><h5>No Empleado:</h5> <?=$_SESSION['codigoEmpleado']?></p>
                 <p class="font-weight-bolder"><h5>Presupuesto Departamento Disponible:</h5> 142,000 Lps</p>
                 <div class="container">
                     <div class="row">

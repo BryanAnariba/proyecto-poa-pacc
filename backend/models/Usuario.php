@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../models/Persona.php');
     require_once('../../config/config.php');
     require_once('../../validators/validators.php');
@@ -99,6 +102,71 @@
             return $this;
         }
         //                                                 Metodos clase Usuario
+
+        private function insertarToken ($idUsuario) {
+            $banderaToken = true;
+            $token = bin2hex(openssl_random_pseudo_bytes(16, $banderaToken));
+            $vigenciaToken = new DateTime();
+            $vigenciaToken->add(new DateInterval(TIEMPO_VIDA_TOKEN));
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('CALL SP_GENERAR_TOKEN_ACCESO(:idUsuario, :token, :fecha)');
+                $stmt->bindValue(':idUsuario', $idUsuario);
+                $stmt->bindValue(':token', $token);
+                $stmt->bindValue(':fecha', $vigenciaToken->format('Y-m-d h:i:s'));
+                if ($stmt->execute()) {
+                    $_SESSION['access-token'] = $token;
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            } 
+        }
+
+        public function destruirToken () {
+            if (isset($_SESSION['idUsuario']) && isset($_SESSION['access-token']) && isset($_SESSION['tipoUsuario']) && isset($_SESSION['nombrePersona']) && isset($_SESSION['apellidoPersona']) && isset($_SESSION['correoInstitucional'])) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('CALL SP_REMOVER_TOKEN(:idUsuario, :token)');
+                    $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
+                    $stmt->bindValue(':token', $_SESSION['access-token']);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status'=> SUCCESS_REQUEST,
+                            'data' => array('message' => 'Saliste del sistema exitosamente')
+                        );
+                        //require_once('../api/destruir-sesiones.php');
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un erro al hacer el cierre de sesion')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                } 
+            } else {
+                return array(
+                    'status'=> SUCCESS_REQUEST,
+                    'data' => array('message' => 'Su token ya ha expirado, el sistema cerro su cuenta automaticamente')
+                );
+            }
+        }
+
         public function verificaEmailUsuario () {
             try {
                 $this->conexionBD = new Conexion();
@@ -189,7 +257,7 @@
                     } 
                 } else {
                     return array(
-                        'status'=> SUCCESS_REQUEST,
+                        'status'=> BAD_REQUEST,
                         'data' => array('message' => 'El correo institucional '. $this->correoInstitucional . ' ya se encuentra en uso')
                     );
                 }
@@ -446,15 +514,114 @@
         
         
         public function logIn () {
-
-        }
-
-        public function logOut () {
-
+            if (validaCampoEmail($this->correoInstitucional)){
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('CALL SP_VERIF_CREDENCIALES_USUARIO(:correo)');
+                    $stmt->bindValue(':correo', $this->correoInstitucional);
+                    if ($stmt->execute() && ($stmt->rowCount() == 1)) {
+                        // Transformamos la data que da la consulta a object para acceder a cada parametro
+                        $data = $stmt->fetchObject();
+                        // Verificamos clave que viene desde el frontend con la que esta en el
+                        $verificaPassword = password_verify($this->passwordEmpleado, $data->passwordUsuario);
+                        if ($verificaPassword) {
+                            if (($data->idEstadoUsuario == ESTADO_ACTIVO)) {
+                                $tokenGenerado = $this->insertarToken($data->idPersonaUsuario);
+                                if ($tokenGenerado) {
+                                    $_SESSION['idUsuario'] = $data->idPersonaUsuario;
+                                    $_SESSION['tipoUsuario'] = $data->tipoUsuario;
+                                    $_SESSION['nombrePersona'] = $data->nombrePersona;
+                                    $_SESSION['apellidoPersona'] = $data->apellidoPersona;
+                                    $_SESSION['correoInstitucional'] = $data->correoInstitucional;
+                                    $_SESSION['tipoUsuario'] = $data->tipoUsuario;
+                                    $_SESSION['nombreDepartamento'] = $data->nombreDepartamento;
+                                    $_SESSION['abrev'] = $data->abrev;
+                                    $_SESSION['avatarUsuario'] = $data->avatarUsuario;
+                                    $_SESSION['telefonoDepartamento'] = $data->telefonoDepartamento;
+                                    $_SESSION['codigoEmpleado'] = $data->codigoEmpleado;
+                                    $_SESSION['abrevTipoUsuario'] = $data->abrevTipoUsuario;
+                                    return array(
+                                        'status'=> SUCCESS_REQUEST,
+                                        'data' => array('message' => 'Estas Logueado -> ' . $_SESSION['access-token'])
+                                    );
+                                } else {
+                                    return array(
+                                        'status'=> SUCCESS_REQUEST,
+                                        'data' => array('message' => 'Ha ocurrido un error con la generacion del token, por favor loguearse de nuevo')
+                                    );
+                                }
+                            } else {
+                                return array(
+                                    'status'=> BAD_REQUEST,
+                                    'data' => array('message' => 'Su usuario esta inactivo, comunicarse con el super administrador para mas informacion')
+                                );
+                            }
+                            
+                        } else {
+                            return array(
+                                'status'=> BAD_REQUEST,
+                                'data' => array('message' => 'La clave digitada es incorrecta, escriba su clave nuevamente')
+                            );
+                        }
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'El correo no existe, escriba nuevamente su correo institucional')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                } 
+                    
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'El correo escrito no es un correo institucional, escriba nuevamente el correo')
+                );
+            }
         }
 
         public function recuperacionCredenciales () {
-
+            if (validaCampoEmail($this->correoInstitucional)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('SELECT Usuario.idPersonaUsuario, Persona.nombrePersona, Persona.apellidoPersona, Usuario.correoInstitucional, Usuario.nombreUsuario FROM Usuario INNER JOIN Persona ON (Usuario.idPersonaUsuario = Persona.idPersona) WHERE Usuario.correoInstitucional = :correo');
+                    $stmt->bindValue(':correo', $this->correoInstitucional);
+                    if ($stmt->execute() && $stmt->rowCount() >= 1) {
+                        $data = $stmt->fetchObject();
+                        $this->setIdPersona($data->idPersonaUsuario);
+                        $this->setNombrePersona($data->nombrePersona);
+                        $this->setApellidoPersona($data->apellidoPersona);
+                        $this->nombreUsuario = $data->nombreUsuario;
+                        $generaNuevaCredencialAcceso = $this->reenviarCredenciales();
+                        return $generaNuevaCredencialAcceso;
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error al enviar las credenciales')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                } 
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'El correo escrito no es un correo institucional, escriba nuevamente el correo')
+                );
+            }
         }
     }
 ?>

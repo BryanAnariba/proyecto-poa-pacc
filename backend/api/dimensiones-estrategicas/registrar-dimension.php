@@ -1,16 +1,25 @@
 <?php
     require_once('../request-headers.php');
     require_once('../../helpers/Respuesta.php');
+    require_once('../../middlewares/VerificarToken.php');
     require_once('../../controllers/DimensionesEstrategicasController.php');
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST': 
             $_POST = json_decode(file_get_contents('php://input'), true);
-            if (isset($_POST['dimensionEstrategica']) && !empty($_POST['dimensionEstrategica'])) {
-                $dimension = new DimensionesEstrategicasController();
-                $dimension->insertaDimension($_POST['dimensionEstrategica']);
+            $verificarTokenAcceso = new verificarTokenAcceso();
+            $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
+            if ($tokenEsValido) {
+                if (isset($_POST['dimensionEstrategica']) && !empty($_POST['dimensionEstrategica'])) {
+                    $dimension = new DimensionesEstrategicasController();
+                    $dimension->insertaDimension($_POST['dimensionEstrategica']);
+                } else {
+                    $dimension = new DimensionesEstrategicasController();
+                    $dimension->peticionNoValida();
+                }
             } else {
                 $dimension = new DimensionesEstrategicasController();
-                $dimension->peticionNoValida();
+                $dimension->peticionNoAutorizada();
+                require_once('../destruir-sesiones.php');
             }
         break;
         default: 
