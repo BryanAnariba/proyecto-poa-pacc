@@ -58,7 +58,7 @@
 
             <!--Header-->
             <div class="modal-header">
-                <img src="../img/menu/avatar-2.jpg" alt="avatar" class="rounded-circle img-responsive">
+                <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto img-fluid" height="128px" width="128px" alt="Foto Perfil">
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
@@ -152,7 +152,7 @@
 
             <!--Header-->
             <div class="modal-header">
-                <img src="../img/menu/avatar-2.jpg" alt="avatar" class="rounded-circle img-responsive">
+            <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto img-fluid rounded-circle img-responsive" alt="Foto Perfil">
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
@@ -196,7 +196,9 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Cerrar Sesion</button>
+                                <button type="button" class="btn btn-light-green btn-rounded"
+                                    onclick="cerrarSesion()"
+                                >Cerrar Sesion</button>
                             </div>
                         </div>
                         <div class="col">

@@ -233,7 +233,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Cerrar Sesion</button>
+                                <button type="button" class="btn btn-light-green btn-rounded"
+                                    onclick="cerrarSesion()">Cerrar Sesion</button>
                             </div>
                         </div>
                         <div class="col">

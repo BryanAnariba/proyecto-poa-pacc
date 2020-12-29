@@ -205,10 +205,11 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         ORDER BY Usuario.idPersonaUsuario ASC;
 -- CALL SP_LISTAR_USUARIOS()
 
+DELIMITER ;;
 CREATE PROCEDURE SP_Registrar_Carrera(
    IN _idCarrera INT,
-   IN _carrera varchar(80),
-   IN _abrev varchar(2),
+   IN _carrera varchar(60),
+   IN _abrev varchar(10),
    IN _idDepartamento INT,
    IN _idEstadoDCD INT,
    IN _peticion varchar(60),
@@ -217,7 +218,6 @@ CREATE PROCEDURE SP_Registrar_Carrera(
 BEGIN
    declare temp int;
    
-   if LENGTH(_carrera) >0 && LENGTH(_carrera)<=80 && LENGTH(_abrev) >0 && LENGTH(_abrev)<=2 then
    if _peticion = 'insert' then
 		set temp = (SELECT COUNT(*) FROM carrera WHERE carrera = _carrera or abrev=_abrev);
         
@@ -243,14 +243,13 @@ BEGIN
 			end if;
         end if;
    end if;
-   else
-      set _respuesta = 0;
-   end if;
    
-END
+END ;;
+DELIMITER ;
 
 -- CALL SP_Registrar_Carrera()
 
+DELIMITER ;;
 CREATE PROCEDURE SP_Registrar_Objeto(
    IN _idObjeto INT,
    IN _objeto varchar(80),
@@ -292,8 +291,8 @@ BEGIN
    else
        set _respuesta = 0;
    end if;
-   
-END
+END ;;
+DELIMITER ;
 
 -- CALL SP_Registrar_Objeto()
 -- CALL Registrar_Carrera()

@@ -1,7 +1,7 @@
 <?php
-    //session_start();
+    session_start();
     include('../partials/doctype.php');
-    //include('verifica-session.php');
+    include('verifica-session.php');
 ?>
 <title>Control de Usuarios</title>
 <!--En esta zona podran poner estilos propios de la vista-->

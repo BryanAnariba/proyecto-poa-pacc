@@ -7,9 +7,10 @@ $(document).ready(function () {
             console.log(response);
         },
         error:function(error) {
-            
-            console.error(error);
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
@@ -18,9 +19,7 @@ $(document).ready(function () {
                     confirmButtonText: "Ir al login"
                 });
                 
-            if (data.status === 401) {
-                window.location = '../../../views/401.php';
-            }
+            
         }
     });
 });
