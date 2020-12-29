@@ -1,7 +1,7 @@
 <?php
     include('../partials/doctype.php');;
 ?>
-<title>Control de Departamentos</title>
+<title>Control de Carreras</title>
 <!--En esta zona podran poner estilos propios de la vista-->
 <link rel="stylesheet" href="../css/animaciones/animate.min.css" />
 <link rel="stylesheet" href="../css/Carreras/Carrera.css" />
@@ -252,7 +252,7 @@
                         <button 
                             type="button" 
                             class="btn btn-light-green btn-rounded btn-sm" 
-                            onclick="verificarCamposRegistro()">
+                            onclick="insertadoCarrera()">
                             Registrar Carrera
                         </button>
                     </div>

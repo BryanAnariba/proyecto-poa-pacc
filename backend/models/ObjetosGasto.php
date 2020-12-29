@@ -1,48 +1,48 @@
 <?php
     require_once('../../validators/validators.php');
     
-    class Carrera { 
-        protected $idCarrera;
-        protected $Carrera;
+    class Objeto { 
+        protected $idObjetoGasto;
+        protected $ObjetoDeGasto;
         protected $Abreviatura;
-        protected $idDepartamento;
+        protected $CodigoObjeto;
         protected $idEstado;
 
-        protected function _construct($idCarrera = null,$Carrera = null,$Abreviatura = null,$idDepartamento = null,$idEstado = null){
-            $this->idCarrera = $idCarrera;
-            $this->Carrera = $Carrera;
+        protected function _construct($idObjetoGasto = null,$ObjetoDeGasto = null,$Abreviatura = null,$CodigoObjeto = null,$idEstado = null){
+            $this->idObjetoGasto = $idObjetoGasto;
+            $this->ObjetoDeGasto = $ObjetoDeGasto;
             $this->Abreviatura = $Abreviatura;
-            $this->idDepartamento = $idDepartamento;
+            $this->CodigoObjeto = $CodigoObjeto;
             $this->idEstado = $idEstado;
         }
 
-        public function getIdCarrera(){
-            return $this->idCarrera;
+        public function getIdObjetoGasto(){
+            return $this->idObjetoGasto;
         }
 
-        public function getCarrera(){
-            return $this->Carrera;
+        public function getObjetoDeGasto(){
+            return $this->ObjetoDeGasto;
         }
 
         public function getAbreviatura(){
             return $this->Abreviatura;
         }
 
-        public function getidDepartamento(){
-            return $this->idDepartamento;
+        public function getCodigoObjeto(){
+            return $this->CodigoObjeto;
         }
 
         public function getidEstado(){
             return $this->idEstado;
         }
 
-        public function setIdCarrera($idCarrera){
-            $this->idCarrera = $idCarrera;
+        public function setIdObjetoGasto($idObjetoGasto){
+            $this->idObjetoGasto = $idObjetoGasto;
             return $this;
         }
         
-        public function setCarrera($Carrera){
-            $this->Carrera = $Carrera;
+        public function setObjetoDeGasto($ObjetoDeGasto){
+            $this->ObjetoDeGasto = $ObjetoDeGasto;
             return $this;
         }
     
@@ -51,8 +51,8 @@
             return $this;
         }
         
-        public function setidDepartamento($idDepartamento){
-            $this->idDepartamento = $idDepartamento;
+        public function setCodigoObjeto($CodigoObjeto){
+            $this->CodigoObjeto = $CodigoObjeto;
             return $this;
         }
 
@@ -61,16 +61,15 @@
             return $this;
         }
 
-        public function getCarreras () {
+        public function getObjetos () {
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT ca.idCarrera, ca.carrera, ca.abrev, dep.nombreDepartamento, es.estado
-                                                  from carrera as ca
-                                                  inner join departamento as dep
-                                                      on dep.idDepartamento=ca.idDepartamento
+                $stmt = $this->consulta->prepare('SELECT * from 
+                                                  objetogasto as og
                                                   inner join estadodcduoao as es
-                                                      on es.idEstado=ca.idEstadoCarrera');
+                                                  on og.idEstadoObjetoGasto=es.idEstado
+                                                  order by og.codigoObjetoGasto asc');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -92,31 +91,6 @@
             }
         }
 
-        public function getDepartamentos () {
-            try {
-                $this->conexionBD = new Conexion();
-                $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM departamento');
-                if ($stmt->execute()) {
-                    return array(
-                        'status' => SUCCESS_REQUEST,
-                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
-                    );
-                } else {
-                    return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
-                    );
-                }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
-            }
-        }
 
         public function getEstados () {
             try {
@@ -144,65 +118,13 @@
             }
         }
 
-        public function getCarrerasPorDepa ($idDepartamento) {
-            try {
-                $this->conexionBD = new Conexion();
-                $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT * from carrera where idDepartamento=$idDepartamento");
-                if ($stmt->execute()) {
-                    return array(
-                        'status' => SUCCESS_REQUEST,
-                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
-                    );
-                } else {
-                    return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
-                    );
-                }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
-            }
-        }
-
-        public function getCarrerasPorId () {
-            try {
-                $this->conexionBD = new Conexion();
-                $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT * from carrera where idCarrera=$this->idCarrera");
-                if ($stmt->execute()) {
-                    return array(
-                        'status' => SUCCESS_REQUEST,
-                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
-                    );
-                } else {
-                    return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
-                    );
-                }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
-            }
-        }
-
-        public function insertaCarrera () {
-            if (campoTexto($this->Carrera,1,80) && campoTexto($this->Abreviatura,1,2) && is_numeric($this->idDepartamento) && is_numeric($this->idEstado)) {
+        public function insertarObjeto () {
+            if (campoTexto($this->ObjetoDeGasto,1,80) && campoTexto($this->Abreviatura,1,5) && is_numeric($this->CodigoObjeto) && is_numeric($this->idEstado)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
                 try {
-                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");
+                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto (0, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'insert', @resp)");
                     if ($stmt->execute()) {
                         $resp = $this->consulta->query('SELECT @resp')->fetch();
             
@@ -214,7 +136,7 @@
                         }else{
                             return array(
                                 'status' => SUCCESS_REQUEST,
-                                'data' => array('message' => $this->Carrera . ' registrada con exito')
+                                'data' => array('message' => $this->ObjetoDeGasto . ' registrada con exito')
                             );;
                         };
                     } else {
@@ -239,11 +161,11 @@
                 );
             }
         }
-        public function modificarCarrera () {
+        public function modificarObjeto () {
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
+                $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto ($this->idObjetoGasto, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'actualizarCarrera', @resp)");
                 if ($stmt->execute()) {
                     $resp = $this->consulta->query('SELECT @resp')->fetch();
                     if(json_encode($resp[0])==0){
