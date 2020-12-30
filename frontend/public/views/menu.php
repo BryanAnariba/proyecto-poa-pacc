@@ -23,7 +23,7 @@
                     <div class="row mx-auto">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <div class="card-body d-flex flex-row">
-                                <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto img-fluid" height="128px" width="128px" alt="Foto Perfil">
+                                <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto" height="128" width="128" alt="Foto Perfil">
                             </div>
                         </div>
                         <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mr-auto">
@@ -334,6 +334,7 @@
     <!--En esta zona podran poner javascripts propios de la vista-->
     <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
+    <script src="../js/validators/form-validator.js"></script>
     <script src="../js/config/config.js"></script>
     <script src="../js/menu/menu-controller.js"></script>
     <?php

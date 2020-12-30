@@ -17,7 +17,7 @@
     define('TIEMPO_VIDA_TOKEN', 'PT10M');
 
     // Rutas direcctorios
-    define('DIRECTORIO_UPLOADS', 'localhost/proyecto-poa-pac/backend/uploads');
+    define('DIRECTORIO_UPLOADS', 'http://localhost/proyecto-poa-pacc/backend/uploads');
     define('DIRECTORIO_IMAGES', 'images');
     define('DIRECTORIO_PDFS', 'pdfs');
     define('DIRECTORIO_WORDS', 'words');

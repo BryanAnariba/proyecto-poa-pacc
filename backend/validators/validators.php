@@ -45,4 +45,12 @@
             return false;
         }
     }
+
+    function validaCampoPassword ($parametro) {
+        if (preg_match("/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,16}$/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 ?>

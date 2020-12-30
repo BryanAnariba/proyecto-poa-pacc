@@ -533,6 +533,7 @@
                                     $_SESSION['tipoUsuario'] = $data->tipoUsuario;
                                     $_SESSION['nombrePersona'] = $data->nombrePersona;
                                     $_SESSION['apellidoPersona'] = $data->apellidoPersona;
+                                    $_SESSION['nombreUsuario'] = $data->nombreUsuario;
                                     $_SESSION['correoInstitucional'] = $data->correoInstitucional;
                                     $_SESSION['tipoUsuario'] = $data->tipoUsuario;
                                     $_SESSION['nombreDepartamento'] = $data->nombreDepartamento;
@@ -622,6 +623,91 @@
                     'data' => array('message' => 'El correo escrito no es un correo institucional, escriba nuevamente el correo')
                 );
             }
+        }
+
+        public function cambiarClaveAcceso() {
+            if (validaCampoPassword($this->passwordEmpleado))  {
+                $passwordEncriptada = password_hash($this->passwordEmpleado, PASSWORD_DEFAULT);
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idUsuario');
+                    $stmt->bindValue(':password', $passwordEncriptada);
+                    $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
+                    if ($stmt->execute()) {
+                            $email = new Email();
+                            $email->setEmailDestino($_SESSION['correoInstitucional']);
+                            $email->setNombreUsuario($_SESSION['nombreUsuario']);
+                            $email->setNombre($_SESSION['nombrePersona']);
+                            $email->setApellido($_SESSION['apellidoPersona']);
+                            $email->setHeaderMensaje('Sistema POA PACC');
+                            $email->setTituloMensaje('Modificacion y Reenvio de clave de acceso: Estas son tus credenciales de acceso al sistema');
+                            $email->setContenido($this->passwordEmpleado);
+                            $enviado = $email->notificarViaCorreo();
+                            if ($enviado) {
+                                return array(
+                                    'status'=> SUCCESS_REQUEST,
+                                    'data' => array('message' => 'La modificacion y reenvio de credenciales se realizo con exito')
+                                );
+                            } else {
+                                return array(
+                                    'status'=> BAD_REQUEST,
+                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado')
+                                );
+                            }
+                        return array(
+                            'status'=> SUCCESS_REQUEST,
+                            'data' => array('message' => 'Clave de acceso cambiada exitosamente, la clave se envio al correo')
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error cambiar la clave de accesso')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                } 
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'La clave no cumple con las reglas minimas de seguridad, debe contener al menos una letra y un número y un carácter especial de !@#$%^&*()_+ y tener de 8 a 16 caracteres')
+                );
+            }
+        }
+
+        public function modificarAvatar() {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET avatarUsuario = :avatar WHERE idPersonaUsuario = :idUsuario');
+                $stmt->bindValue(':avatar', $this->avatarUsuario);
+                $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
+                if ($stmt->execute()) {
+                    $_SESSION['avatarUsuario'] = $this->avatarUsuario;
+                    return array(
+                        'status'=> SUCCESS_REQUEST,
+                        'data' => array('message' => 'Fotografia cambiada con exito')
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al procesar el guardado de la fotografia')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            } 
         }
     }
 ?>

@@ -338,6 +338,7 @@ CREATE PROCEDURE SP_VERIF_CREDENCIALES_USUARIO (IN correo VARCHAR(100))
 		Persona.nombrePersona,
 		Persona.apellidoPersona,
 		Persona.direccion,
+        Usuario.nombreUsuario,
 		Usuario.idDepartamento,
 		Departamento.nombreDepartamento,
         Departamento.abrev,
