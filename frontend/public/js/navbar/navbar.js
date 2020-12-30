@@ -7,7 +7,7 @@ const cerrarSesion = () => {
         success:function (response) {
             const { status, data } = response;
             if (status === 200) {
-                window.location.href = '../views/401.php';
+                window.location.href = '../../index.php';
             }
         }, 
         error: function(error) {
