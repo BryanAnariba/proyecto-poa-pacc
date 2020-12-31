@@ -78,11 +78,15 @@
         }
 
         public function removerImagen ($nombreArchivo) {
-            $remover = unlink($nombreArchivo);
-            if ($remover) {
-                return true;
+            if (file_exists($nombreArchivo)) {
+                $remover = unlink($nombreArchivo);
+                if ($remover) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return true;
             }
         }
     }

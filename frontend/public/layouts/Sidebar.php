@@ -2,17 +2,19 @@
     if (!isset($_SESSION)) {
         session_start();
     }
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
     include('../partials/doctype.php');
     include('verifica-session.php');
-        
-    // Tipos de roles de usuarios en el sistema
+     // Tipos de roles de usuarios en el sistema
     define('ROL_SUPER_ADMIN', 'SU_AD');
     define('ROL_DECANO', 'D_F');
     define('ROL_SECRETARIA_ACADEMICA', 'S_AC');
     define('ROL_SECRETARIA_ADMINISTRATIVA', 'SE_AD');
     define('ROL_COORDINADOR', 'C_C');
     define('ROL_JEFE', 'J_D');
-    define('ROL_ESTRATEGA', 'U_E');
+    define('ROL_ESTRATEGA', 'U_E');   
 ?>
 <div class="l-navbar" id="nav-bar">
         <nav class="nav">
@@ -136,7 +138,7 @@
                             <span class="nav__name">Depto Administrativo</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>

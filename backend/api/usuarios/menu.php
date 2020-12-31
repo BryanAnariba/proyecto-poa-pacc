@@ -7,9 +7,9 @@
             $verificarTokenAcceso = new verificarTokenAcceso();
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if (!$tokenEsValido) {
-                $usuario = new UsuariosController();
-                $usuario->peticionNoAutorizada();
                 require_once('../destruir-sesiones.php');
+                $usuario->peticionNoAutorizada();
+                $usuario = new UsuariosController();
                 header('Location: ../../frontend/index.php');
                 exit;
             } else {

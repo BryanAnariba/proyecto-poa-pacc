@@ -3,7 +3,6 @@
     require_once('../../models/Usuario.php');
     class UsuariosController {
 
-        // https://anexsoft.com/tipos-de-autenticacion-token-session-base-de-datos-con-php
 
         private $usuariosModel;
         private $personasModel;

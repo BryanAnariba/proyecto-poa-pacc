@@ -53,4 +53,12 @@
             return false;
         }
     }
+
+    function validaCampoMonetario ($parametro) {
+        if (preg_match("/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 ?>

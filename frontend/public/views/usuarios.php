@@ -1,5 +1,12 @@
 <?php
     session_start();
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
+    $superAdmin = 'SU_AD';
+    if ($_SESSION['abrevTipoUsuario'] != $superAdmin) {
+        header('Location: 401.php');
+    }
     include('../partials/doctype.php');
     include('verifica-session.php');
 ?>

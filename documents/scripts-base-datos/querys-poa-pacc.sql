@@ -96,7 +96,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_OBJETIVO(IN idObjetivo INT,IN idEstado INT)
 
 CREATE PROCEDURE SP_MODIFICA_OBJETIVO(IN idObjetivo INT, IN objetivo VARCHAR(180))
 	UPDATE ObjetivoInstitucional SET ObjetivoInstitucional = objetivo
-    WHERE idObjetivoInstitucional = idObjetivo
+    WHERE idObjetivoInstitucional = idObjetivo;
 
 -- CALL SP_MODIFICA_OBJETIVO(P1,P2)
 
@@ -305,7 +305,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_USUARIO(IN idUsuario INT, IN identificadorEsta
 -- CALL SP_CAMBIA_ESTADO_USUARIO(8,2)
 
 CREATE PROCEDURE SP_MODIFICA_DIRECCION_PERSONA(IN idUsuario INT, IN lugar INT, direccionLugar VARCHAR(255))
-	UPDATE Persona SET direccion = direccionLugar
+	UPDATE Persona SET direccion = direccionLugar, idLugar = lugar
     WHERE idPersona = idUsuario;
 
 -- CALL SP_MODIFICA_DIRECCION_PERSONA(P1,P2,P3)
@@ -382,3 +382,10 @@ CREATE PROCEDURE SP_VERIFICA_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
 	SELECT * FROM Usuario WHERE tokenAcceso = token AND idPersonaUsuario = idUsuario;
 
 -- CALL SP_VERIFICA_TOKEN(P1,P2)
+
+
+--WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, presupuestoDepartamento.idPresupuestoPorDepartamento, presupuestoDepartamento.montoPresupuesto, presupuestoDepartamento.fechaAprobacionPresupuesto, presupuestoDepartamento.idDepartamento, departamento.nombreDepartamento, departamento.abrev, departamento.idEstadoDepartamento as estadoDepartamento, estadodcduoao.estado FROM " . $this->tablaBaseDatos . " LEFT JOIN presupuestoDepartamento ON (controlPresupuestoActividad.idControlPresupuestoActividad = presupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN departamento ON (presupuestoDepartamento.idDepartamento = departamento.idDepartamento) INNER JOIN estadodcduoao ON (departamento.idEstadoDepartamento = estadodcduoao.idEstado) ORDER BY controlPresupuestoActividad.idControlPresupuestoActividad DESC) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO WHERE CTE_VER_PRESUPUESTOS_DEPTO.estadoDepartamento = :estado;
+
+
+
+

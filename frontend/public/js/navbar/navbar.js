@@ -160,7 +160,8 @@ const subirImagen = () => {
                     }).then((result) => { window.location.href = '../views/menu.php'; });
 
             }, 
-            error: function(error) {
+            error:function(error) {
+                console.log(error.responseText);
                 const { status, data } = error.responseJSON;
                     if (status === 401) {
                         window.location.href = '../views/401.php';
