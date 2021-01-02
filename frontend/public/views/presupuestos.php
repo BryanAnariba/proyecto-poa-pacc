@@ -1,16 +1,16 @@
 <?php
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-    $secretaria = 'SE_AD';
-    if ($_SESSION['abrevTipoUsuario'] != $secretaria) {
-        header('Location: 401.php');
-    }
-    if (!isset($_SESSION['correoInstitucional'])) {
-        header('Location: 401.php');
-    }
-    include('../partials/doctype.php');
-    include('verifica-session.php');
+if (!isset($_SESSION)) {
+    session_start();
+}
+$secretaria = 'SE_AD';
+if ($_SESSION['abrevTipoUsuario'] != $secretaria) {
+    header('Location: 401.php');
+}
+if (!isset($_SESSION['correoInstitucional'])) {
+    header('Location: 401.php');
+}
+include('../partials/doctype.php');
+include('verifica-session.php');
 ?>
 <title>Control de Presupuesto</title>
 <!--En esta zona podran poner estilos propios de la vista-->
@@ -57,7 +57,7 @@
                                                 <img class="card-img-top" src="../img/presupuestos/registrar-presupuesto.svg" alt="registrar-presupuesto">
                                             </div>
                                             <hr>
-                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalRegistrarPresupuestoAnual">
+                                            <button type="button" class="btn btn-indigo btn-block" onclick="openModalRegistroPresupuesto()">
                                                 Registrar
                                             </button>
                                         </div>
@@ -82,12 +82,7 @@
                                                 <img class="card-img-top" src="../img/presupuestos/visualizar-presupuestos.svg" alt="visualizar presupuesto">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button" 
-                                                class="btn btn-indigo btn-block" 
-                                                data-toggle="modal" 
-                                                data-target="#modalVisualizarPresupuesto"
-                                                onclick="listarPresupuestos()">
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalVisualizarPresupuesto" onclick="listarPresupuestos()">
                                                 Visualizar
                                             </button>
                                         </div>
@@ -141,7 +136,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                <div class="card-body">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table" id="listado-presupuestos">
                                 <thead>
@@ -155,7 +150,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="presupuestos-estrategicas">
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -202,36 +197,33 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
                             <div class="md-form">
                                 <input type="number" id="R-presupuestoAnual" class="form-control" maxlength="1" minlength="11" required>
                                 <span id="errorsR-presupuestoAnual" class="text-danger text-small d-none">
                                 </span>
                                 <label for="R-presupuestoAnual" id="labelR-presupuestoAnual" name="labelR-presupuestoAnual">
-                                Digite el la cantidad para el presupuesto anual
+                                    Digite el la cantidad para el presupuesto anual
                                 </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                            <div class="md-form">
+                                <select name="" id="estadoPresupuestoAnual" class="form-control">
+
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button 
-                            id="btn-registrar-presupuesto"
-                            type="button" 
-                            class="btn btn-light-green btn-rounded"
-                            onclick="registrarPresupuesto()"
-                            >
+                        <button id="btn-registrar-presupuesto" type="button" class="btn btn-light-green btn-rounded" onclick="registrarPresupuesto()">
                             Guardar Presupuesto
                         </button>
                     </div>
                     <div class="text-center mt-4">
-                        <button 
-                            type="button" 
-                            class="btn btn-danger btn-rounded" 
-                            data-dismiss="modal" 
-                            aria-label="Close"
-                            onclick="cancelarRegistroPresupuesto()">Cancelar</button>
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarRegistroPresupuesto()">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -248,36 +240,33 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
                             <div class="md-form">
                                 <input type="number" id="M-presupuestoAnual" class="form-control" maxlength="1" minlength="11" required>
                                 <span id="errorsM-presupuestoAnual" class="text-danger text-small d-none">
                                 </span>
                                 <label for="M-presupuestoAnual" id="labelM-presupuestoAnual" name="labelM-presupuestoAnual">
-                                Digite el la cantidad para el presupuesto anual
+                                    Digite el la cantidad para el presupuesto anual
                                 </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                            <div class="md-form">
+                                <select name="" id="M-estadoPresupuestoAnual" class="form-control">
+
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button 
-                            id="btn-modif-presupuesto"
-                            type="button" 
-                            class="btn btn-light-green btn-rounded"
-                            onclick="modificaPresupuesto()"
-                            >
+                        <button id="btn-modif-presupuesto" type="button" class="btn btn-light-green btn-rounded" onclick="modificaPresupuesto()">
                             Guardar Cambios
                         </button>
                     </div>
                     <div class="text-center mt-4">
-                        <button 
-                            type="button" 
-                            class="btn btn-danger btn-rounded" 
-                            data-dismiss="modal" 
-                            aria-label="Close"
-                            onclick="cancelarModificacionPresupuesto()">Cancelar Operacion</button>
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close" onclick="cancelarModificacionPresupuesto()">Cancelar Operacion</button>
                     </div>
                 </div>
             </div>

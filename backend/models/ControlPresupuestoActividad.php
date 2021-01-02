@@ -75,15 +75,15 @@
             } 
         }
         public function registrarPresupuesto () {
-            if (validaCampoMonetario($this->presupuestoAnual)) {
+            if (validaCampoMonetario($this->presupuestoAnual) && is_int($this->estadoPresupuestoAnual)) {
                 $noExistePresupuestoParaAnio = $this->verificaExistenciaPresupuestoAnual();
                 if ($noExistePresupuestoParaAnio) {
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
-                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual) VALUES (:presupuesto, NOW()), idEstadoPresupuestoAnual');
+                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) VALUES (:presupuesto, NOW(), :estadoPresupuestoAnual)');
                         $stmt->bindValue(':presupuesto', $this->presupuestoAnual);
-                        $stmt->bindValue(':idEstadoPresupuestoAnual', $this->estadoPresupuestoAnual);
+                        $stmt->bindValue(':estadoPresupuestoAnual', $this->estadoPresupuestoAnual);
                         if ($stmt->execute()) {
                             return array(
                                 'status'=> SUCCESS_REQUEST,
@@ -186,13 +186,15 @@
         }
 
         public function modificaPresupuesto() {
-            if (is_int($this->idControlPresupuestoActividad) && validaCampoMonetario($this->presupuestoAnual)) {
+            if (is_int($this->idControlPresupuestoActividad) && validaCampoMonetario($this->presupuestoAnual) && is_int($this->estadoPresupuestoAnual)) {
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
-                    $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET presupuestoAnual = :presupuesto WHERE idControlPresupuestoActividad = :idPresupuestoAnual');
+                    $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET presupuestoAnual = :presupuesto, idEstadoPresupuestoAnual = :estado WHERE idControlPresupuestoActividad = :idPresupuestoAnual');
                     $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);
+                    $stmt->bindValue(':estado', $this->estadoPresupuestoAnual);
                     $stmt->bindValue(':presupuesto', $this->presupuestoAnual);
+                    
                     if ($stmt->execute()) {
                         return array(
                             'status'=> SUCCESS_REQUEST,

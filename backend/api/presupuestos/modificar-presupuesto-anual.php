@@ -13,9 +13,11 @@
                     isset($_POST['idControlPresupuestoActividad']) && 
                     !empty($_POST['idControlPresupuestoActividad']) &&
                     isset($_POST['presupuestoAnual']) && 
-                    !empty($_POST['presupuestoAnual'])) {
+                    !empty($_POST['presupuestoAnual']) &&
+                    isset($_POST['estadoPresupuestoAnual']) &&
+                    !empty($_POST['estadoPresupuestoAnual'])) {
                     $presupuesto = new PresupuestosController();
-                    $presupuesto->cambiaPresupuesto($_POST['idControlPresupuestoActividad'], $_POST['presupuestoAnual']);
+                    $presupuesto->cambiaPresupuesto($_POST['idControlPresupuestoActividad'], $_POST['presupuestoAnual'], $_POST['estadoPresupuestoAnual']);
                 } else {
                     $presupuesto = new PresupuestosController();
                     $presupuesto->peticionNoValida();

@@ -9,9 +9,14 @@
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
                 $_POST = json_decode(file_get_contents('php://input'), true);
-                if (isset($_POST['presupuestoAnual']) && !empty($_POST['presupuestoAnual'])) {
+                if (
+                    isset($_POST['presupuestoAnual']) && 
+                    !empty($_POST['presupuestoAnual']) &&
+                    isset($_POST['estadoPresupuestoAnual']) &&
+                    !empty($_POST['estadoPresupuestoAnual'])
+                    ) {
                     $presupuesto = new PresupuestosController();
-                    $presupuesto->registrarPresupuestoAnual($_POST['presupuestoAnual']);
+                    $presupuesto->registrarPresupuestoAnual($_POST['presupuestoAnual'], $_POST['estadoPresupuestoAnual']);
                 } else {
                     $presupuesto = new PresupuestosController();
                     $presupuesto->peticionNoValida();

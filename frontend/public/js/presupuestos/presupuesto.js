@@ -1,13 +1,45 @@
+const openModalRegistroPresupuesto = () => {
+    $('#estadoPresupuestoAnual').html(``);
+    $.ajax(`${ API }/estados/listar-estados.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success:function(response) {
+            const { data } = response;
+            $('#modalRegistrarPresupuestoAnual').modal('show');
+            console.log(data);
+            for(let i=0;i<data.length; i++) {
+                $('#estadoPresupuestoAnual').append(`
+                    <option value="${ data[i].idEstado }">${ data[i].estado }</option>
+                `);
+            }
+        },
+        error:function(error) {
+            console.log(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+            });
+        }
+    });
+}
+
 const registrarPresupuesto = () => {
     let presupuestoAnual = document.querySelector('#R-presupuestoAnual');
-    let pA = { valorEtiqueta: presupuestoAnual, id: 'R-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 11, type: 'number' };
+    let pA = { valorEtiqueta: presupuestoAnual, id: 'R-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
 
     let isValidPresupuestoAnual = verificarInputNumber(pA, regexCampoMonetario);
 
     if (isValidPresupuestoAnual === true) {
         $('#btn-registrar-presupuesto').prop('disabled', true);
         let parametros = {
-            presupuestoAnual: Number(presupuestoAnual.value)
+            presupuestoAnual: Number(presupuestoAnual.value),
+            estadoPresupuestoAnual: parseInt($('#estadoPresupuestoAnual').val())
         };
         console.log(parametros);
         $.ajax(`${ API }/presupuestos/registrar-presupuesto-anual.php` , {
@@ -130,31 +162,43 @@ let presupuestoAnualModificar = document.querySelector('#M-presupuestoAnual');
 let pAM = { valorEtiqueta: presupuestoAnualModificar, id: 'M-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
 let idPresupuestoSeleccionado = null;
 const modificarPresupuesto = (idControlPresupuestoActividad) => {
+    
+    $('#M-estadoPresupuestoAnual').html(``);
     idPresupuestoSeleccionado = idControlPresupuestoActividad;
     let parametros ={ idPresupuestoAnual: parseInt(idControlPresupuestoActividad) };
-    $.ajax(`${ API }/presupuestos/verifica-presupuesto-modificar.php` , {
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(parametros),
-        success:function(response) {
-            const { data } = response;
-            $('#M-presupuestoAnual').val(data.presupuestoAnual).trigger('change');
-            $('#modalModificarPresupuestoAnual').modal('show');
-        },
-        error:function(error) {
-            console.log(error);
-            const { status, data } = error.responseJSON;
-            if (status === 401) {
-                window.location.href = '../views/401.php';
-            }
-            console.log(data);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: `${ data.message }`
-            });
+    $.when(
+        $.ajax(`${ API }/presupuestos/verifica-presupuesto-modificar.php` , {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros)
+        }),
+        $.ajax(`${ API }/estados/listar-estados.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json'
+    }))
+    .done(function(presupuestoResponse, estadosResponse) {
+        $('#M-presupuestoAnual').val(presupuestoResponse[0].data.presupuestoAnual).trigger('change');
+        for(let i=0;i<estadosResponse[0].data.length; i++) {
+            $('#M-estadoPresupuestoAnual').append(`
+                <option value="${ estadosResponse[0].data[i].idEstado }">${ estadosResponse[0].data[i].estado }</option>
+            `);
         }
+        $('#modalModificarPresupuestoAnual').modal('show');
+    })
+    .fail(function(error) {
+        const { status, data } = error.responseJSON;
+        if (status === 401) {
+            window.location.href = '../views/401.php';
+        }
+        console.log(data);
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: `${ data.message }`,
+            footer: '<b>Por favor recargue la pagina</b>'
+        });
     });
 }
 
@@ -163,9 +207,10 @@ const modificaPresupuesto = () => {
     if (isValidPresupuestoAnual === true) {
         let parametros = {
             idControlPresupuestoActividad: idPresupuestoSeleccionado,
-            presupuestoAnual: Number(document.querySelector('#M-presupuestoAnual').value)
+            presupuestoAnual: Number(document.querySelector('#M-presupuestoAnual').value),
+            estadoPresupuestoAnual: parseInt($('#M-estadoPresupuestoAnual').val())
         };
-        //console.log(parametros);
+        console.log(parametros);
         $.ajax(`${ API }/presupuestos/modificar-presupuesto-anual.php` , {
             type: 'POST',
             dataType: 'json',
