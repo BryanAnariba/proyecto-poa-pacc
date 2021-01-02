@@ -6,6 +6,7 @@
         private $idControlPresupuestoActividad;
         private $presupuestoAnual;
         private $fechaPresupuestoAnual;
+        private $estadoPresupuestoAnual;
 
         private $conexionBD;
         private $consulta;
@@ -41,6 +42,15 @@
             return $this;
         }
 
+        public function getEstadoPresupuestoAnual(){
+            return $this->estadoPresupuestoAnual;
+        }
+
+        public function setEstadoPresupuestoAnual($estadoPresupuestoAnual){
+            $this->estadoPresupuestoAnual = $estadoPresupuestoAnual;
+            return $this;
+        }
+
         public function verificaExistenciaPresupuestoAnual () {
             try {
                 $this->conexionBD = new Conexion();
@@ -71,8 +81,9 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
-                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual) VALUES (:presupuesto, NOW())');
+                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual) VALUES (:presupuesto, NOW()), idEstadoPresupuestoAnual');
                         $stmt->bindValue(':presupuesto', $this->presupuestoAnual);
+                        $stmt->bindValue(':idEstadoPresupuestoAnual', $this->estadoPresupuestoAnual);
                         if ($stmt->execute()) {
                             return array(
                                 'status'=> SUCCESS_REQUEST,
@@ -144,7 +155,7 @@
                         if ($stmt->rowCount() == 0) {
                             return array(
                                 'status'=> BAD_REQUEST,
-                                'data' => array('message' => 'ha ocurrido un error al ingresar el presupuesto, vuelva a ingresar la informacion')
+                                'data' => array('message' => 'Este presupuesto no pertenece a este año, no es posible modificarlo')
                             );
                         } else {
                             return array(

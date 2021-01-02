@@ -420,3 +420,8 @@ INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) V
 
 
 
+
+INSERT INTO 
+controlPresupuestoActividad (presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) 
+VALUES 
+(800000.00, '2020-12-31 13:55:30', 1);
