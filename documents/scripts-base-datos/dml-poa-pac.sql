@@ -12,6 +12,7 @@ INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Decano'
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Usuario Estratega', 'U_E');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Administrativa', 'SE_AD');
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Academica', 'S_AC');
+update `poa-pacc-bd`.`tipoUsuario` set tipoUsuario = 'Coordinador Carrera' , abrev = 'C_C' WHERE idTIpoUsuario = 3;
 
 INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
 1,
@@ -419,3 +420,8 @@ INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) V
 
 
 
+
+INSERT INTO 
+controlPresupuestoActividad (presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) 
+VALUES 
+(800000.00, '2020-12-31 13:55:30', 1);

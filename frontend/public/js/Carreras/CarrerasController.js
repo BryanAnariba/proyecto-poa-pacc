@@ -82,7 +82,7 @@ const cambiarDepa = () => {
         }
         
     }).error(function(error) {
-       console.warn(error); 
+        console.warn(error); 
     });
 };
 const cambiarEst = () => {

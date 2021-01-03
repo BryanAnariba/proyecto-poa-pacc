@@ -42,7 +42,10 @@ const listarCiudadesPais = () => {
             }
 		},
 		error:function(error){
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -89,7 +92,10 @@ const listarMunicipios = () => {
             }
 		},
 		error:function(error){
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -160,7 +166,10 @@ const listarUsuarios = () => {
             });
         },
         error:function (error) {
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -189,7 +198,10 @@ const cambiarEstadoUsuario = (idPersonaUsuario, idEstadoUsuario) => {
             listarUsuarios();
         },
         error:function (error) {
-            const { data } = error.responseJSON;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.log(data);
             Swal.fire({
                 icon: 'error',
@@ -253,8 +265,10 @@ const cargarInfoSelectslModificacion = (
         })
         .fail(function(error) {
             console.log('Something went wrong', error);
-            const { data } = error.responseJSON;
-            console.log(data);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
@@ -337,7 +351,10 @@ const actualizarRegistroUsuario = () => {
                 listarUsuarios();
             }, 
             error:function(error) {
-                const { data } = error;
+                const { status, data } = error;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -359,6 +376,8 @@ const actualizarRegistroUsuario = () => {
 
 
 const accionesCorreoElectronico = (idPersona, correoInstitucional, nombreUsuario, nombrePersona, apellidoPersona) => {
+    $('.loading-registro').addClass('d-none');
+    $('#modalContentReenvioCredenciales').removeClass('d-none');
     nombre = nombrePersona;
     apellido = apellidoPersona;
     nUsuario = nombreUsuario;
@@ -377,7 +396,8 @@ const reenviarCredencialesCorreo = () => {
         $('#modalVisualizarUsuarios').modal('hide');
         $('.modalDeCarga').modal('show');
         $('#btn-reenvio-credenciales').prop('disabled', true);
-        $('#modalModificarCorreoInstitucional').modal('hide');
+        $('.loading-registro').removeClass('d-none');
+        $('#modalContentReenvioCredenciales').addClass('d-none');
         let parametros = { 
             idUsuario: parseInt(usuarioAModificar), 
             correoInstitucional: correoInstitucional.value,
@@ -393,6 +413,8 @@ const reenviarCredencialesCorreo = () => {
             contentType: 'application/json',
             success:function(response) {
                 $('#btn-reenvio-credenciales').prop('disabled', false);
+                $('.loading-registro').addClass('d-none');
+                $('#modalContentReenvioCredenciales').removeClass('d-none');
                 $('#modalModificarCorreoInstitucional').modal('hide');
                 const { data } = response;
                 console.log(response);
@@ -405,7 +427,14 @@ const reenviarCredencialesCorreo = () => {
                 listarUsuarios();
             }, 
             error:function(error) {
-                const { data } = error;
+                $('#btn-reenvio-credenciales').prop('disabled', false);
+                $('.loading-registro').addClass('d-none');
+                $('#modalContentReenvioCredenciales').removeClass('d-none');
+                $('#modalModificarCorreoInstitucional').modal('hide');
+                const { status, data } = error;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -432,10 +461,10 @@ const modificarCorreoUsuario = () => {
     let isValidCorreoInstitucional = verificarEmail(cI);
 
     if ((isValidCorreoInstitucional === true)) {
-        $('#modalModificarCorreoInstitucional').modal('hide');
         $('#btn-modificacion-correo-electronico').prop('disabled', true);
         $('#modalVisualizarUsuarios').modal('hide');
-        $('.modalDeCarga').modal('show');
+        $('.loading-registro').removeClass('d-none');
+        $('#modalContentReenvioCredenciales').addClass('d-none');
 
         // Extraemos el nombreUsuario del correo
         const emailSanitizado = generaNombreUsuario(cI.valorEtiqueta.value);
@@ -456,6 +485,9 @@ const modificarCorreoUsuario = () => {
             contentType: 'application/json',
             success:function(response) {
                 $('#btn-modificacion-correo-electronico').prop('disabled', false);
+                
+                $('#modalModificarCorreoInstitucional').modal('hide');
+                $('#modalContentReenvioCredenciales').removeClass('d-none');
                 const { data } = response;
                 console.log(response);
                 Swal.fire({
@@ -467,7 +499,13 @@ const modificarCorreoUsuario = () => {
                 listarUsuarios();
             }, 
             error:function(error) {
-                const { data } = error;
+                $('#btn-modificacion-correo-electronico').prop('disabled', false);
+                $('#modalContentReenvioCredenciales').removeClass('d-none');
+                $('#modalModificarCorreoInstitucional').modal('hide');
+                const { status, data } = error;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -523,6 +561,10 @@ const modalCambioDireccion = () => {
             }
         },
         error:function (error) {
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
@@ -585,7 +627,10 @@ const cambiarDireccion = () => {
             error:function(error) {
                 $('#btn-cambiar-direccion-usuario').prop('disabled', false);
                 //$('.modalDeCarga').modal('hide');
-                const { data } = error;
+                const { status, data } = error;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',

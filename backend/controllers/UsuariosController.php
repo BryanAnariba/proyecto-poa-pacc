@@ -3,7 +3,6 @@
     require_once('../../models/Usuario.php');
     class UsuariosController {
 
-        // https://anexsoft.com/tipos-de-autenticacion-token-session-base-de-datos-con-php
 
         private $usuariosModel;
         private $personasModel;
@@ -101,8 +100,66 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function loginUsuario ($correoInstitucional, $passwordUsuario) {
+            $this->usuariosModel->setCorreoInstitucional($correoInstitucional);
+            $this->usuariosModel->setPasswordEmpleado($passwordUsuario);
+            $this->data = $this->usuariosModel->login();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function destruirTokenAcceso() {
+            $this->data = $this->usuariosModel->destruirToken();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function recuperarCrendeciales ($correoInstitucional) {
+            $this->usuariosModel->setCorreoInstitucional($correoInstitucional);
+
+            $this->data = $this->usuariosModel->recuperacionCredenciales();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function cambiaAvatarUsuario($ubicacionAvatar) {
+            $this->usuariosModel->setAvatarUsuario($ubicacionAvatar);
+
+            $this->data = $this->usuariosModel->modificarAvatar();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function peticionNoAutorizada () {
+            $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
+                'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function peticionNoValida () {
             $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Tipo de peticion no valida'));
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function cambioClaveUsuario ($passwordUsuario) {
+            $this->usuariosModel->setPasswordEmpleado($passwordUsuario);
+            $this->data = $this->usuariosModel->cambiarClaveAcceso();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function logueado () {
+            $this->data = array('status' => SUCCESS_REQUEST, 'data' => array(
+                'message' => true));
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();

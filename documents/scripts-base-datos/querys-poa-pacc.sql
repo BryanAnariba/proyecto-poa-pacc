@@ -96,7 +96,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_OBJETIVO(IN idObjetivo INT,IN idEstado INT)
 
 CREATE PROCEDURE SP_MODIFICA_OBJETIVO(IN idObjetivo INT, IN objetivo VARCHAR(180))
 	UPDATE ObjetivoInstitucional SET ObjetivoInstitucional = objetivo
-    WHERE idObjetivoInstitucional = idObjetivo
+    WHERE idObjetivoInstitucional = idObjetivo;
 
 -- CALL SP_MODIFICA_OBJETIVO(P1,P2)
 
@@ -205,10 +205,11 @@ CREATE PROCEDURE SP_LISTAR_USUARIOS()
         ORDER BY Usuario.idPersonaUsuario ASC;
 -- CALL SP_LISTAR_USUARIOS()
 
+DELIMITER ;;
 CREATE PROCEDURE SP_Registrar_Carrera(
    IN _idCarrera INT,
-   IN _carrera varchar(80),
-   IN _abrev varchar(2),
+   IN _carrera varchar(60),
+   IN _abrev varchar(10),
    IN _idDepartamento INT,
    IN _idEstadoDCD INT,
    IN _peticion varchar(60),
@@ -217,7 +218,6 @@ CREATE PROCEDURE SP_Registrar_Carrera(
 BEGIN
    declare temp int;
    
-   if LENGTH(_carrera) >0 && LENGTH(_carrera)<=80 && LENGTH(_abrev) >0 && LENGTH(_abrev)<=2 then
    if _peticion = 'insert' then
 		set temp = (SELECT COUNT(*) FROM carrera WHERE carrera = _carrera or abrev=_abrev);
         
@@ -243,14 +243,13 @@ BEGIN
 			end if;
         end if;
    end if;
-   else
-      set _respuesta = 0;
-   end if;
    
-END
+END ;;
+DELIMITER ;
 
 -- CALL SP_Registrar_Carrera()
 
+DELIMITER ;;
 CREATE PROCEDURE SP_Registrar_Objeto(
    IN _idObjeto INT,
    IN _objeto varchar(80),
@@ -292,8 +291,8 @@ BEGIN
    else
        set _respuesta = 0;
    end if;
-   
-END
+END ;;
+DELIMITER ;
 
 -- CALL SP_Registrar_Objeto()
 -- CALL Registrar_Carrera()
@@ -306,7 +305,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_USUARIO(IN idUsuario INT, IN identificadorEsta
 -- CALL SP_CAMBIA_ESTADO_USUARIO(8,2)
 
 CREATE PROCEDURE SP_MODIFICA_DIRECCION_PERSONA(IN idUsuario INT, IN lugar INT, direccionLugar VARCHAR(255))
-	UPDATE Persona SET direccion = direccionLugar
+	UPDATE Persona SET direccion = direccionLugar, idLugar = lugar
     WHERE idPersona = idUsuario;
 
 -- CALL SP_MODIFICA_DIRECCION_PERSONA(P1,P2,P3)
@@ -331,3 +330,80 @@ CREATE PROCEDURE SP_MODIF_DATOS_GEN_USUARIO(IN idUsuario INT,IN departamento INT
     idDepartamento = departamento
     WHERE idPersonaUsuario = idUsuario;
 -- CALL SP_MODIF_DATOS_GEN_USUARIO(p1,p2,p3,p4)
+
+
+CREATE PROCEDURE SP_VERIF_CREDENCIALES_USUARIO (IN correo VARCHAR(100))
+	SELECT 
+		Usuario.idPersonaUsuario,
+		Persona.nombrePersona,
+		Persona.apellidoPersona,
+		Persona.direccion,
+        Usuario.nombreUsuario,
+		Usuario.idDepartamento,
+		Departamento.nombreDepartamento,
+        Departamento.abrev,
+        Departamento.telefonoDepartamento,
+		Usuario.idEstadoUsuario,
+		estadoDCDUOAO.estado,
+		Usuario.codigoEmpleado,
+		Usuario.idTipoUsuario,
+		TipoUsuario.tipoUsuario,
+        TipoUsuario.abrev as abrevTipoUsuario,
+		Usuario.correoInstitucional,
+		Usuario.passwordUsuario,
+		Usuario.avatarUsuario
+		FROM Persona INNER JOIN Usuario ON (Persona.idPersona = Usuario.idPersonaUsuario)
+		INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
+		INNER JOIN estadoDCDUOAO ON (Usuario.idEstadoUsuario = estadoDCDUOAO.idEstado)
+		INNER JOIN TipoUsuario ON (Usuario.idTipoUsuario = TipoUsuario.idTipoUsuario)
+		WHERE Usuario.correoInstitucional = correo;
+
+-- CALL SP_VERIF_CREDENCIALES_USUARIO('bsancheza@unah.hn')
+
+
+CREATE PROCEDURE SP_GENERAR_TOKEN_ACCESO(IN idUsuario INT, IN token VARCHAR(255), IN fechaExpiracion DATETIME)
+	UPDATE Usuario SET 
+		tokenAcceso = token,
+        tokenExpiracion = fechaExpiracion
+	WHERE idPersonaUsuario = idUsuario;
+
+-- CALL SP_GENERAR_TOKEN_ACCESO(P1,P2,P3)
+
+
+CREATE PROCEDURE SP_REMOVER_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
+	UPDATE Usuario SET 
+		tokenAcceso = NULL,
+        tokenExpiracion = NULL
+	WHERE idPersonaUsuario = idUsuario AND tokenAcceso = token;
+
+-- CALL SP_GENERAR_TOKEN_ACCESO(P1,P2)
+
+CREATE PROCEDURE SP_VERIFICA_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
+	SELECT * FROM Usuario WHERE tokenAcceso = token AND idPersonaUsuario = idUsuario;
+
+-- CALL SP_VERIFICA_TOKEN(P1,P2)
+
+
+--WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, presupuestoDepartamento.idPresupuestoPorDepartamento, presupuestoDepartamento.montoPresupuesto, presupuestoDepartamento.fechaAprobacionPresupuesto, presupuestoDepartamento.idDepartamento, departamento.nombreDepartamento, departamento.abrev, departamento.idEstadoDepartamento as estadoDepartamento, estadodcduoao.estado FROM " . $this->tablaBaseDatos . " LEFT JOIN presupuestoDepartamento ON (controlPresupuestoActividad.idControlPresupuestoActividad = presupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN departamento ON (presupuestoDepartamento.idDepartamento = departamento.idDepartamento) INNER JOIN estadodcduoao ON (departamento.idEstadoDepartamento = estadodcduoao.idEstado) ORDER BY controlPresupuestoActividad.idControlPresupuestoActividad DESC) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO WHERE CTE_VER_PRESUPUESTOS_DEPTO.estadoDepartamento = :estado;
+
+
+-- Query inserta presupuesto a depto
+
+--INSERT INTO `poa-pacc-bd`.`presupuestodepartamento`(idDepartamento,idControlPresupuestoActividad,montoPresupuesto,fechaAprobacionPresupuesto) VALUES (4,1,200000.00,NOW());
+
+-- SUMA DE PRESUPUESTOS -> SI LA SUMA DE PRESUPUESTOS ES MAYOR AL PRESUPUESTO NOTIFICAR
+SELECT 
+    SUM(PresupuestoDepartamento.montoPresupuesto) AS montoTotalPorDepartamentos,
+    ControlPresupuestoActividad.idControlPresupuestoActividad,
+    ControlPresupuestoActividad.presupuestoAnual
+    FROM Departamento INNER JOIN EstadoDCDUOAO ON (Departamento.idEstadoDepartamento = EstadoDCDUOAO.idEstado)
+    LEFT JOIN PresupuestoDepartamento ON (Departamento.idDepartamento = PresupuestoDepartamento.idDepartamento)
+    LEFT JOIN ControlPresupuestoActividad ON (PresupuestoDepartamento.idControlPresupuestoActividad = ControlPresupuestoActividad.idControlPresupuestoActividad)
+    WHERE Departamento.idEstadoDepartamento = 1 AND (DATE_FORMAT(PresupuestoDepartamento.fechaAprobacionPresupuesto, '%Y') = DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y'))
+    GROUP BY ControlPresupuestoActividad.idControlPresupuestoActividad;
+
+-- QUERY pRESUPUESTO TOTAL Y PRESUPUESTO RESTANTE
+
+--  
+
+
