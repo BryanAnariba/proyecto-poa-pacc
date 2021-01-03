@@ -1,5 +1,5 @@
 <?php
-    require_once('../config/config.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/proyecto-poa-pacc/backend/config/config.php');
     Class Conexion {
         private $host;
         private $dataBase;
@@ -33,12 +33,8 @@
                 die();
             }
         }
-
-        public function closeConnection () {
-            $this->conexion = null;
-        }
     }
-
     // Testeo de la conexion
     //$miConexion = new Conexion();
     //$miConexion->connect();
+?>

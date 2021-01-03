@@ -1,7 +1,7 @@
 <?php
     // Database fields
     define('HOST', 'localhost:3307');
-    define('DB', 'db-poa');
+    define('DB', 'poa-pacc-bd');
     define('USER', 'root');
     define('PASSWORD', 'root');
     define('CHARSET', 'utf8');
@@ -13,10 +13,35 @@
     define('UNAUTHORIZED_REQUEST', 401);
     define('INTERNAL_SERVER_ERROR', 500);
 
-    // Validaciones de campos
-    define('INTEGER', '1');
-    define('STRING', '2');
-    define('NUMERIC', '3');
-
     // Secret key
-    define('SECRET_KEY', 'mi_clave_secreta');
+    define('TIEMPO_VIDA_TOKEN', 'PT50M');
+
+    // Rutas direcctorios
+    define('DIRECTORIO_UPLOADS', 'http://localhost/proyecto-poa-pacc/backend/uploads');
+    define('DIRECTORIO_IMAGES', 'images');
+    define('DIRECTORIO_PDFS', 'pdfs');
+    define('DIRECTORIO_WORDS', 'words');
+    define('DIRECTORIO_USUARIOS', 'usuarios');
+
+    define('ESTADO_ACTIVO', 1);
+    define('ESTADO_INACTIVO', 2);
+
+    // Entidades
+    define('TBL_PERSONA', 'Persona');
+    define('TBL_USUARIO', 'Usuario');
+    define('TBL_LUGARES', 'Lugar');
+    define('TBL_TIPO_USUARIO', 'TipoUsuario');
+    define('TBL_DEPARTAMENTO', 'Departamento');
+    define('TBL_DIMENSIONES', 'DimensionEstrategica');
+    define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
+    define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
+    define('TBL_PRESUPUESTO_ANUAL', 'ControlPresupuestoActividad');
+    define('TBL_PRESUPUESTO_DEPTO', 'PresupuestoDepartamento');
+    define('TBL_ESTADOS', 'EstadoDCDUOAO');
+
+    define('MIN_TAMANIO_CLAVE', 12);
+
+    define('EMAIL_ADMIN_USERNAME','ariel.anarib@unah.edu.hn');
+    define('EMAIL_ADMIN_PASSWORD','Ef5FrUd92D');
+    define('APP_URI', 'https://aws.example.com');
+?>

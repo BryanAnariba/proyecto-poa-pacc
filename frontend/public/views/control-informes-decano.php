@@ -40,16 +40,17 @@
                                             <br>
                                             <div class="view overlay">
                                                 <img 
-                                                    class="card-img-top" 
-                                                    src="../img/control-informes-decano/informes-aprobados.svg" 
+                                                    class="card-img-top"   
+                                                    src="../img/control-informes-decano/informesAprobados.svg" 
                                                     alt="visualizar informes aprobados">
                                             </div>
                                             <hr>
                                             <button 
                                                 type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalInformesAprobados">
+                                                class="btn btn-indigo btn-block"             
+                                                href='informes-aprobados-decano.php' 
+                                                onclick = " location.href='informes-aprobados-decano.php' "    
+                                            >
                                                 Ver Informes Aprobados
                                             </button>
                                         </div>
@@ -74,16 +75,17 @@
                                             <div class="view overlay">
                                                 <img 
                                                     class="card-img-top" 
-                                                    src="../img/control-informes-decano/informes-pendientes.svg" 
+                                                    src="../img/control-informes-decano/informesPendientes.svg"  
                                                     alt="control informes">
                                             </div>
                                             <hr>
                                             <button 
                                                 type="button"
                                                 class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalInformesPendientes">
-                                                    Ver Informes Pendientes
+                                                href='informes-pendientes-decano.php' 
+                                                onclick = " location.href='informes-pendientes-decano.php' " 
+                                            >
+                                                Ver Informes Pendientes
                                             </button>
                                         </div>
                                     </div>

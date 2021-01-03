@@ -1,3 +1,13 @@
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
+    include('../partials/doctype.php');
+    include('verifica-session.php');    
+?>
 <header class="header amber accent-4" id="header">
     <div class="header__toggle">
     <i class="fas fa-bars" id="header-toggle"></i>
@@ -16,8 +26,8 @@
             </li>
             <li class="nav-item avatar dropdown dropdown-items">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="text-white">bsancheza</span>
-                    <img src="../img/menu/avatar-2.jpg" width="40" class="rounded-circle z-depth-0 " alt="avatar image">
+                    <span class="text-white"><?=$_SESSION['nombreUsuario']?></span>
+                    <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" width="40" height="40" class="rounded-circle z-depth-0 " alt="avatar image">
                 </a>
                 <div id="dropdown-acciones" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
                     <a class="dropdown-item" href="" data-toggle="modal" data-target="#modalMiPerfil">
@@ -45,38 +55,82 @@
 <!--Zona de modales-->
 <!--Cambio Clave-->
 <div class="modal fade" id="modalCambioClave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-md" role="document">
-        <!--Content-->
-        <div class="modal-content">
-
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="lds-roller loading-registro d-none">
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
+        <div class="modal-content" id="modalContentCambioClave">
             <!--Header-->
             <div class="modal-header">
-                <img src="../img/menu/avatar-2.jpg" alt="avatar" class="rounded-circle img-responsive">
+                <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto" height="128" width="128px" alt="Foto Perfil">
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
 
-                <h5 class="mt-1 mb-2">bsancheza@unah.hn</h5>
-
+                <h5 class="mt-1 mb-2 font-weight-bolder"><?= $_SESSION['correoInstitucional']?></h5>
+                <hr>
+                <p class="lead">
+                    La nueva clave debe contener al menos una letra y un número y un carácter especial de !@#$%^&*()_+ y tener de 8 a 16 caracteres
+                </p>
+                <hr>
                 <div class="md-form ml-0 mr-0">
-                    <input type="password" type="text" id="password" class="form-control form-control-sm validate ml-0">
-                    <label data-error="wrong" data-success="right" for="form29" class="ml-0">Digite la nueva clave</label>
+                    <input type="password" type="text" id="R-nuevaPasswordEmpleado" class="form-control form-control-sm ml-0">
+                    <span id="errorsR-nuevaPasswordEmpleado" class="text-danger text-small d-none">
+                    </span>
+                    <label 
+                        data-error="wrong" 
+                        data-success="right" 
+                        for="form29" 
+                        class="ml-0"
+                        for="R-nuevaPasswordEmpleado" id="labelR-nuevaPasswordEmpleado"
+                        >Digite la nueva clave</label>
                 </div>
                 <div class="md-form ml-0 mr-0">
-                    <input type="password" type="text" id="newPassword" class="form-control form-control-sm validate ml-0">
-                    <label data-error="wrong" data-success="right" for="form29" class="ml-0">Repita la nueva clave</label>
+                    <input type="password" type="text" id="R-repeatNuevaPasswordEmpleado" class="form-control form-control-sm ml-0">
+                    <span id="errorsR-repeatNuevaPasswordEmpleado" class="text-danger text-small d-none">
+                    </span>
+                    <label 
+                        data-error="wrong" 
+                        data-success="right" 
+                        for="form29" 
+                        class="ml-0" 
+                        for="R-repeatNuevaPasswordEmpleado" id="labelR-repeatNuevaPasswordEmpleado">Repita la nueva clave</label>
                 </div>
 
                 <div class="container">
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Guardar</button>
+                                <button 
+                                    id="btn-cambia-clave" 
+                                    type="button" 
+                                    class="btn btn-light-green btn-rounded"
+                                    onclick="cambiarCredenciales()">Guardar</button>
                             </div>
                         </div>
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-danger btn-rounded" 
+                                    data-dismiss="modal" 
+                                    aria-label="Close"
+                                    onclick="cancelarCambioClave()">Cancelar</button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +138,8 @@
             </div>
 
             <div class="modal-footer amber accent-4">
-                
+                <span id="msm-error" class="text-danger text-small">
+                </span>
             </div>
         </div>
     </div>
@@ -106,12 +161,12 @@
                 <div class="file-field">
                     <div class="mb-4">
                         <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-                            class="rounded-circle z-depth-1-half avatar-pic mx-auto d-flex" alt="agregar foto perfil">
+                            class="rounded-circle z-depth-1-half avatar-pic mx-auto d-flex" id="avatarPrevia" alt="agregar foto perfil">
                         </div>
                         <div class="d-flex justify-content-center">
                         <div class="btn btn-mdb-color btn-rounded float-left">
                             <span>Agregar Foto</span>
-                            <input type="file">
+                            <input type="file" id="avatarUsuario">
                         </div>
                         </div>
                     </div>
@@ -122,7 +177,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Guardar</button>
+                                <button type="button" class="btn btn-light-green btn-rounded" onclick="subirImagen()">Guardar</button>
                             </div>
                         </div>
                         <div class="col">
@@ -145,15 +200,15 @@
 
             <!--Header-->
             <div class="modal-header">
-                <img src="../img/menu/avatar-2.jpg" alt="avatar" class="rounded-circle img-responsive">
+            <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto img-fluid rounded-circle img-responsive" alt="Foto Perfil">
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
-                <p class="font-weight-bolder"><h5>Nombre Completo:</h5> Bryan Ariel Sanchez Anariba</p>
-                <p class="font-weight-bolder"><h5>Correo:</h5> bsancheza@unah.hn</p>
-                <p class="font-weight-bolder"><h5>Cargo:</h5> Jefe Departamento</p>
-                <p class="font-weight-bolder"><h5>Departamento:</h5> IS</p>
-                <p class="font-weight-bolder"><h5>No Empleado:</h5> 1220231</p>
+                <p class="font-weight-bolder"><h5>Nombre Completo:</h5><?=$_SESSION['nombrePersona']?> <?=$_SESSION['apellidoPersona']?></p>
+                <p class="font-weight-bolder"><h5>Correo:</h5> <?=$_SESSION['correoInstitucional']?></p>
+                <p class="font-weight-bolder"><h5>Cargo:</h5> <?=$_SESSION['tipoUsuario']?></p>
+                <p class="font-weight-bolder"><h5>Departamento:</h5> <?=$_SESSION['abrev']?></p>
+                <p class="font-weight-bolder"><h5>No Empleado:</h5> <?=$_SESSION['codigoEmpleado']?></p>
                 <p class="font-weight-bolder"><h5>Presupuesto Departamento Disponible:</h5> 142,000 Lps</p>
                 <div class="container">
                     <div class="row">
@@ -189,7 +244,9 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Cerrar Sesion</button>
+                                <button type="button" class="btn btn-light-green btn-rounded"
+                                    onclick="cerrarSesion()"
+                                >Cerrar Sesion</button>
                             </div>
                         </div>
                         <div class="col">
