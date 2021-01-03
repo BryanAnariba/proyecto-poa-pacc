@@ -79,7 +79,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                        'data' => array('message' => 'Ha ocurrido un error al listar las carreras')
                     );
                 }
             } catch (PDOException $ex) {
@@ -105,7 +105,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                        'data' => array('message' => 'Ha ocurrido un error al listar los departamentos')
                     );
                 }
             } catch (PDOException $ex) {
@@ -131,7 +131,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                        'data' => array('message' => 'Ha ocurrido un error al listar los estados de la carrera')
                     );
                 }
             } catch (PDOException $ex) {
@@ -157,7 +157,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                        'data' => array('message' => 'Ha ocurrido un error al listar las carreras')
                     );
                 }
             } catch (PDOException $ex) {
@@ -183,7 +183,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                        'data' => array('message' => 'Ha ocurrido un error al listar las carreras')
                     );
                 }
             } catch (PDOException $ex) {
@@ -209,7 +209,7 @@
                         if(json_encode($resp[0])==0){
                             return array(
                                 'status'=> BAD_REQUEST,
-                                'data' => array('error' => 'Ha ocurrido un error al insertar la dimension')
+                                'data' => array('error' => 'Ha ocurrido un error al insertar la carrera')
                             );
                         }else{
                             return array(
@@ -220,7 +220,7 @@
                     } else {
                         return array(
                             'status'=> BAD_REQUEST,
-                            'data' => array('error' => 'Ha ocurrido un error al insertar la dimension')
+                            'data' => array('error' => 'Ha ocurrido un error al insertar la carrera')
                         );
                     }
                 } catch (PDOException $ex) {
@@ -249,18 +249,18 @@
                     if(json_encode($resp[0])==0){
                         return array(
                             'status'=> BAD_REQUEST,
-                            'data' => array('message' => 'Ha ocurrido un error al actualizar el estado de la dimension')
+                            'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
                         );
                     }else{
                         return array(
                             'status' => SUCCESS_REQUEST,
-                            'data' => array('message'=>'Estado dimension estrategica actualizado con exito')
+                            'data' => array('message'=>'Informacion de la carrera actualizado con exito')
                         );
                     }
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al actualizar el estado de la dimension')
+                        'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
                     );
                 }
             } catch (PDOException $ex) {

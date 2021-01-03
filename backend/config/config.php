@@ -1,9 +1,9 @@
 <?php
     // Database fields
-    define('HOST', 'localhost:3307');
+    define('HOST', 'localhost:3306');
     define('DB', 'poa-pacc-bd');
     define('USER', 'root');
-    define('PASSWORD', 'root');
+    define('PASSWORD', '');
     define('CHARSET', 'utf8');
     
     // Http status reques code
@@ -35,9 +35,9 @@
     define('TBL_DIMENSIONES', 'DimensionEstrategica');
     define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
     define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
-    define('TBL_PRESUPUESTO_ANUAL', 'ControlPresupuestoActividad');
-    define('TBL_PRESUPUESTO_DEPTO', 'PresupuestoDepartamento');
-    define('TBL_ESTADOS', 'EstadoDCDUOAO');
+    define('TBL_PRESUPUESTO_ANUAL', 'controlPresupuestoActividad');
+    define('TBL_PRESUPUESTO_DEPTO', 'presupuestoDepartamento');
+    define('TBL_ESTADOS', 'estadoDCDUOAO');
 
     define('MIN_TAMANIO_CLAVE', 12);
 
