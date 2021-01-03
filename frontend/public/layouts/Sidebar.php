@@ -7,7 +7,7 @@
                 </a>
                     <div class="nav__list">
                     <?php 
-                        $role = 'S_AD'; 
+                        $role = 'JD'; //JD
                         switch($role): 
                             case 'SG': // ROLE => Secretaria General
                     ?>
@@ -172,7 +172,7 @@
                     <?php 
                         case 'JD': // ROLE => Jefe Departamento
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Administrativo</span>
                         </a>
