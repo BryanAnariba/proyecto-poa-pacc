@@ -381,29 +381,3 @@ CREATE PROCEDURE SP_REMOVER_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
 CREATE PROCEDURE SP_VERIFICA_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
 	SELECT * FROM Usuario WHERE tokenAcceso = token AND idPersonaUsuario = idUsuario;
 
--- CALL SP_VERIFICA_TOKEN(P1,P2)
-
-
---WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, presupuestoDepartamento.idPresupuestoPorDepartamento, presupuestoDepartamento.montoPresupuesto, presupuestoDepartamento.fechaAprobacionPresupuesto, presupuestoDepartamento.idDepartamento, departamento.nombreDepartamento, departamento.abrev, departamento.idEstadoDepartamento as estadoDepartamento, estadodcduoao.estado FROM " . $this->tablaBaseDatos . " LEFT JOIN presupuestoDepartamento ON (controlPresupuestoActividad.idControlPresupuestoActividad = presupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN departamento ON (presupuestoDepartamento.idDepartamento = departamento.idDepartamento) INNER JOIN estadodcduoao ON (departamento.idEstadoDepartamento = estadodcduoao.idEstado) ORDER BY controlPresupuestoActividad.idControlPresupuestoActividad DESC) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO WHERE CTE_VER_PRESUPUESTOS_DEPTO.estadoDepartamento = :estado;
-
-
--- Query inserta presupuesto a depto
-
---INSERT INTO `poa-pacc-bd`.`presupuestodepartamento`(idDepartamento,idControlPresupuestoActividad,montoPresupuesto,fechaAprobacionPresupuesto) VALUES (4,1,200000.00,NOW());
-
--- SUMA DE PRESUPUESTOS -> SI LA SUMA DE PRESUPUESTOS ES MAYOR AL PRESUPUESTO NOTIFICAR
-SELECT 
-    SUM(PresupuestoDepartamento.montoPresupuesto) AS montoTotalPorDepartamentos,
-    ControlPresupuestoActividad.idControlPresupuestoActividad,
-    ControlPresupuestoActividad.presupuestoAnual
-    FROM Departamento INNER JOIN EstadoDCDUOAO ON (Departamento.idEstadoDepartamento = EstadoDCDUOAO.idEstado)
-    LEFT JOIN PresupuestoDepartamento ON (Departamento.idDepartamento = PresupuestoDepartamento.idDepartamento)
-    LEFT JOIN ControlPresupuestoActividad ON (PresupuestoDepartamento.idControlPresupuestoActividad = ControlPresupuestoActividad.idControlPresupuestoActividad)
-    WHERE Departamento.idEstadoDepartamento = 1 AND (DATE_FORMAT(PresupuestoDepartamento.fechaAprobacionPresupuesto, '%Y') = DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y'))
-    GROUP BY ControlPresupuestoActividad.idControlPresupuestoActividad;
-
--- QUERY pRESUPUESTO TOTAL Y PRESUPUESTO RESTANTE
-
---  
-
-
