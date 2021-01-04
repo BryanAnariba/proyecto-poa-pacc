@@ -1,3 +1,5 @@
+let idcontrolPresupuestoSeleccionado = null;
+let idPresupuestoAnualSeleccionadoDepto = null;
 const openModalRegistroPresupuesto = () => {
     $('#estadoPresupuestoAnual').html(``);
     $.ajax(`${ API }/estados/listar-estados.php`, {
@@ -106,8 +108,13 @@ const listarPresupuestos = () => {
         success:function(response) {
             const { data } = response;
             console.log(data);
-            $('#listado-presupuestos tbody').html(``);
-            for (let i=0;i<data.length; i++) {
+            if (data.length === 0) {
+                $('#notificacion-presupuesto-anual').html(`
+                    <span class="text-primary font-weigth-bolder text-center">No se ha asignado presupuestos para este año<span>
+                `);
+            } else {
+                $('#listado-presupuestos tbody').html(``);
+                for (let i=0;i<data.length; i++) {
                 $('#listado-presupuestos tbody').append(`
                     <tr class="my-auto">
                         <td class="my-auto">
@@ -134,13 +141,14 @@ const listarPresupuestos = () => {
                         </td>
                     </tr>
                 `)
+                }
+                $('#listado-presupuestos').DataTable({
+                    language: i18nEspaniol,
+                    //dom: 'Blfrtip',
+                    //buttons: botonesExportacion,
+                    retrieve: true
+                });
             }
-            $('#listado-presupuestos').DataTable({
-                language: i18nEspaniol,
-                //dom: 'Blfrtip',
-                //buttons: botonesExportacion,
-                retrieve: true
-            });
         },
         error:function(error) {
             const { status, data } = error.responseJSON;
@@ -252,4 +260,234 @@ const modificaPresupuesto = () => {
             footer: '<b>Por favor verifique el formulario de registro</b>'
         });
     }
+}
+
+const asignarPresupuestoDepto = () => {
+    $('#modalRegistrarPresupuesto').modal('show');
+    $.when(
+        $.ajax(`${ API }/presupuestos-departamentos/listar-informacion-presupuesto-anual.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json'
+        }),
+        $.ajax(`${ API }/presupuestos-departamentos/listar-presupuestos-deptos.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json'
+        }),
+        $.ajax(`${ API }/departamentos/listar-departamentos.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ idEstadoDepartamento: 1 })
+        }))
+        .done(function(informacionPresupuestoResponse, presupuestoDepartamentosResponse, departamentosFacultadResponse) {
+            let infoPresupuestos = informacionPresupuestoResponse[0].data;
+            let listadoDepartamentos = departamentosFacultadResponse[0].data;
+            let presupuestoTotal = (infoPresupuestos.presupuestoAnual === null ? 0 : infoPresupuestos.presupuestoAnual);
+            let presupuestoUtilizado = (infoPresupuestos.montoTotalPorDepartamentos === null ? 0 : infoPresupuestos.montoTotalPorDepartamentos);
+            idcontrolPresupuestoSeleccionado = infoPresupuestos.idControlPresupuestoActividad;
+
+            $('#departamento-facultad').html(``);
+            $('#presupuestoAnualTotal').val(presupuestoTotal).trigger('change');
+            $('#presupuestoAnualDisponible').val(presupuestoUtilizado).trigger('change');
+            for(let i=0; i<listadoDepartamentos.length; i++) {
+                $('#departamento-facultad').append(`
+                    <option value="${ listadoDepartamentos[i].idDepartamento }">${ listadoDepartamentos[i].nombreDepartamento }</option>
+                `)
+            }
+
+            console.log(presupuestoDepartamentosResponse[0].data);
+            if (presupuestoDepartamentosResponse[0].data.length === 0) {
+                $('#notificacion-presupuesto-departamentos').html(`
+                    <span class="text-primary font-weigth-bolder text-center">No se ha asignado presupuesto, a los departamentos para este año<span>
+                `);
+            } else {
+                let presupuestoDepartamentos = presupuestoDepartamentosResponse[0].data;
+                $('#listado-presupuestos-departamentos tbody').html(``);
+                for (let i=0;i<presupuestoDepartamentos.length; i++) {
+                $('#listado-presupuestos-departamentos tbody').append(`
+                    <tr class="my-auto">
+                        <td class="my-auto">
+                            <h5>${ i + 1 }</h5>
+                        </td>
+                        <td class="my-auto">
+                            <h5>${ presupuestoDepartamentos[i].nombreDepartamento }</h5>
+                        </td>
+                        <td class="my-auto">
+                            <h5>${ presupuestoDepartamentos[i].abrev }</h5>
+                        </td>
+                        <td class="my-auto">
+                            <h5>${ presupuestoDepartamentos[i].montoPresupuesto }</h5>
+                        </td>
+                        <td class="my-auto">
+                            <h5>${ presupuestoDepartamentos[i].fechaPresupuesto }</h5>
+                        </td>
+                        <td class="my-auto">
+                            <button 
+                                type="button" 
+                                class="btn btn-info btn-sm" 
+                                onclick="modificarPresupuestoDepartamento('${ presupuestoDepartamentos[i].idControlPresupuestoActividad }', '${ presupuestoDepartamentos[i].idDepartamento }', '${ presupuestoDepartamentos[i].nombreDepartamento }' ,'${ presupuestoDepartamentos[i].montoPresupuesto }')">
+                                <img src="../img/menu/visualizar-icon.svg" alt="Modificar Presupuesto"/>
+                            </button>
+                        </td>
+                    </tr>
+                `)
+                }
+                $('#listado-presupuestos').DataTable({
+                    language: i18nEspaniol,
+                    //dom: 'Blfrtip',
+                    //buttons: botonesExportacion,
+                    retrieve: true
+                });
+            }
+        })
+        .fail(function(error) {
+            console.log(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor recargue la pagina</b>'
+            });
+        });
+}
+
+const registrarPresupuestoDepartamento = () => {
+    let presupuestoDepartamento = document.querySelector('#R-presupuestoDepartamento');
+    let pD = { valorEtiqueta: presupuestoDepartamento, id: 'R-presupuestoDepartamento', name: 'Presupuesto Departamento', min: 1, max: 15, type: 'number' };
+
+    let isValidPresupuestoDepartamento = verificarInputNumber(pD, regexCampoMonetario);
+
+    if (isValidPresupuestoDepartamento === true) { 
+        $('#btn-registra-presupuesto-depto').prop('disabled', true);
+        let parametros = {
+            idControlPresupuestoActividad: parseInt(idcontrolPresupuestoSeleccionado),
+            idDepartamento: parseInt($('#departamento-facultad').val()),
+            montoPresupuesto: Number(presupuestoDepartamento.value)
+        };
+        console.log(parametros);
+        $.ajax(`${ API }/presupuestos-departamentos/registrar-presupuesto-depto.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function(response) {
+                asignarPresupuestoDepto();
+                $('#btn-registra-presupuesto-depto').prop('disabled', false);
+                cancelarPresupuestoDepto(); 
+                const { data } = response;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error) {
+                $('#btn-registra-presupuesto-depto').prop('disabled', false);
+                console.log(error);
+                cancelarPresupuestoDepto();
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor recargue la pagina</b>'
+                });
+            }
+        })
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'El registro del presupuesto de departamento no se pudo realizar',
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }
+}
+
+const cancelarPresupuestoDepto = () => {
+    let presupuestoDepartamento = document.querySelector('#R-presupuestoDepartamento');
+    let pD = { valorEtiqueta: presupuestoDepartamento, id: 'R-presupuestoDepartamento', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
+    limpiarCamposFormulario(pD);
+    $('#R-presupuestoDepartamento').trigger('reset');
+}
+
+const modificarPresupuestoDepartamento = (idPresupuestoAnual, idDepartamento, nombreDepartamento, montoPresupuesto) => {
+    $('#M-Depto').html(``);
+    idPresupuestoAnualSeleccionadoDepto = idPresupuestoAnual;
+    $('#modalModificarPresupuestoDepto').modal('show');
+    $('#M-presupuestoDepto').val(montoPresupuesto).trigger('change');
+    $('#M-Depto').html(`<option value="${ idDepartamento }">${ nombreDepartamento }</option>`);
+}
+
+const mPresupuestoDepartamento = () => {
+    let presupuestoDepartamento = document.querySelector('#M-presupuestoDepto');
+    let pD = { valorEtiqueta: presupuestoDepartamento, id: 'M-presupuestoDepto', name: 'Presupuesto Departamento', min: 1, max: 15, type: 'number' };
+
+    let isValidPresupuestoDepartamento = verificarInputNumber(pD, regexCampoMonetario);
+
+    if (isValidPresupuestoDepartamento) {
+        let parametros = {
+            idDepartamento: parseInt($('#M-Depto').val()),
+            montoPresupuesto: Number($('#M-presupuestoDepto').val()),
+            idControlPresupuestoActividad: parseInt(idPresupuestoAnualSeleccionadoDepto)
+        };
+        console.log(parametros);
+        $('#btn-modif-presupuesto-dep').prop('disabled', true);
+        $.ajax(`${ API }/presupuestos-departamentos/modificar-presupuesto-depto.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function(response) {
+                asignarPresupuestoDepto();
+                $('#btn-modif-presupuesto-dep').prop('disabled', false);
+                cancelarModificacionPresupuestoDepartamentos(); 
+                const { data } = response;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error) {
+                $('#btn-modif-presupuesto-dep').prop('disabled', false);
+                console.log(error);
+                cancelarModificacionPresupuestoDepartamentos();
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor recargue la pagina</b>'
+                });
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'El registro del presupuesto de departamento no se pudo realizar',
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }
+}
+
+const cancelarModificacionPresupuestoDepartamentos = () => {
+    let presupuestoDepartamento = document.querySelector('#M-presupuestoDepto');
+    let pD = { valorEtiqueta: presupuestoDepartamento, id: 'M-presupuestoDepto', name: 'Presupuesto Departamento', min: 1, max: 15, type: 'number' };
+    limpiarCamposFormulario(pD);
+    $('#M-presupuestoDepto').trigger('reset');
 }
