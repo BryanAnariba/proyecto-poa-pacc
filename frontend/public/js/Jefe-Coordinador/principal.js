@@ -10,7 +10,7 @@ var arreglo = [
     {estado: "llena", dimension:"Dimension 9"},
     {estado: "pendiente", dimension:"Dimension 10"},
     {estado: "llena", dimension:"Dimension 11"}];
-var estado = 0;
+var estado = 1;
 
 var dimension = [];
 
@@ -26,8 +26,28 @@ $(document).ready(function(){
         $("#aga").css("opacity", "1");
         $("#aga div div button").prop('disabled', false);
     }
+    $("#ventana2").css("display","none");
+    $("#ventana3").css("display","none");
+    $(".foot-modif").css("display","none");
+    $("#ventana1A").css("display","none");
+    $(".foot-agr").css("display","none");
 });
-
+const avanzarA = () =>{
+    $("#ventana1").css("display","none");
+    $("#ventana2").css("display","block");
+    llenar("DimensionesTablaModificar3");
+}
+const avanzarB = () =>{
+    $("#ventana1").css("display","none");
+    $("#ventana2").css("display","none");
+    $("#ventana3").css("display","block");
+    $(".foot-modif").css("display","block");
+}
+const avanzarAgreg = ()=>{
+    $("#ventanaA").css("display","none");
+    $("#ventana1A").css("display","block");
+    $(".foot-agr").css("display","block");
+};
 const llenar = (tabla) => {
     $('#'+tabla).dataTable().fnDestroy();
     $('#'+tabla+' tbody').html(``);
@@ -70,6 +90,10 @@ const llenar = (tabla) => {
             };
           break;
         case 'DimensionesTablaModificar':
+            $("#ventana1").css("display","block");
+            $("#ventana2").css("display","none");
+            $("#ventana3").css("display","none");
+            $(".foot-modif").css("display","none");
             for (let i=0;i<this.arreglo.length; i++) {
                 if(this.arreglo[i].estado=="pendiente"){
                     
@@ -92,6 +116,29 @@ const llenar = (tabla) => {
                 }
             };
           break;
+          case 'DimensionesTablaModificar3':
+            for (let i=0;i<this.arreglo.length; i++) {
+                if(this.arreglo[i].estado=="pendiente"){
+                    
+                }else if(this.arreglo[i].estado=="llena"){
+                    $('#DimensionesTablaModificar3 tbody').append(`
+                        <tr align="center">
+                            <td>
+                                <div class="verde row">
+                                    <i class="fas fa-exclamation"></i><div style="display:none">${this.arreglo[i].estado}</div>
+                                </div>
+                            </td>
+                            <td>${ this.arreglo[i].dimension }</td>
+                            <td>
+                                <button type="button" class="btn btn-amber" onclick="avanzarB()">
+                                    <img src="../img/menu/editar.svg" alt="modificar dimension"/>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                }
+            };
+          break;
         case 'DimensionesTablaAgregar':
             for (let i=0;i<this.arreglo.length; i++) {
                 if(this.arreglo[i].estado=="pendiente"){
@@ -106,7 +153,7 @@ const llenar = (tabla) => {
                             </td>
                             <td>${ this.arreglo[i].dimension }</td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="">
+                                <button type="button" class="btn btn-amber" onclick="avanzarAgreg()">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>

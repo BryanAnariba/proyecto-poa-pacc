@@ -163,7 +163,7 @@
                     <?php 
                         case $_SESSION['abrevTipoUsuario'] == ROL_COORDINADOR: // ROLE => Coordinador Departamento
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Administrativo</span>
                         </a>
