@@ -32,30 +32,31 @@
             Departamento: Departamento.value,
             Estado: Estado.value
         };
-        $.ajax({
-            url: `${ API }/Carreras/registrarCarrera.php`, 
-            method: 'POST',
+        $.ajax(`${ API }/Carreras/registrarCarrera.php`, {
+            type: 'POST',
             dataType: 'json',
-            data: (dataNuevoCarrera)
-        }).success(function(response) {
-            console.log(response);
-            $("#Carrera").val('').trigger("change");
-            $("#Abreviatura").val('').trigger("change");
-            $("#Departamento").val('').trigger("change");
-            $("#Estado").val('').trigger("change");
-            Swal.fire({
-                icon: 'success',
-                title: 'Listo',
-                text: 'Registro insertado con exito',
-            })
-        }).error(function(error) {
-            console.warn(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'El registro de la carrera no se pudo realizar',
-                footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
+            data: (dataNuevoCarrera),
+            success:function(response) {
+                console.log(response);
+                $("#Carrera").val('').trigger("change");
+                $("#Abreviatura").val('').trigger("change");
+                $("#Departamento").val('').trigger("change");
+                $("#Estado").val('').trigger("change");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'Registro insertado con exito',
+                })
+            },
+            error:function(error) {
+                console.warn(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'El registro de la carrera no se pudo realizar',
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                })
+            }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
@@ -70,38 +71,38 @@ const cambiarDepa = () => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerDepartamentos.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/obtenerDepartamentos.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("Departamento").innerHTML="<option value='' disabled selected></option>";
-        for(let i = 0; i < response.data.length;i++){
-            document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("Departamento").innerHTML="<option value='' disabled selected></option>";
+            for(let i = 0; i < response.data.length;i++){
+                document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+            }
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        
-    }).error(function(error) {
-        console.warn(error); 
     });
 };
 const cambiarEst = () => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerEstado.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/obtenerEstado.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("Estado").innerHTML="<option value='' disabled selected></option>";
-        for(let i = 0; i < response.data.length;i++){
-            document.getElementById("Estado").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("Estado").innerHTML="<option value='' disabled selected></option>";
+            for(let i = 0; i < response.data.length;i++){
+                document.getElementById("Estado").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+            }
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        
-    }).error(function(error) {
-       console.warn(error); 
     });
 };
 const cambiarDepaEstado = () => {
@@ -112,19 +113,20 @@ const cambiarDepa2 = () => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerDepartamentos.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/obtenerDepartamentos.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("Departamento2").innerHTML="<option value= disabled selected></option>";
-        for(let i = 0; i < response.data.length;i++){
-            document.getElementById("Departamento2").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("Departamento2").innerHTML="<option value= disabled selected></option>";
+            for(let i = 0; i < response.data.length;i++){
+                document.getElementById("Departamento2").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+            }
+            $("#botonModif").attr("disabled", true);
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        $("#botonModif").attr("disabled", true);
-    }).error(function(error) {
-       console.warn(error); 
     });
 };
 const cambiarModif = () => {
@@ -136,66 +138,68 @@ const cambiarDepaModificado = (carrera) => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerDepartamentos.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/obtenerDepartamentos.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("DepartamentoModif").innerHTML="<option value='' disabled></option>";
-        for(let i = 0; i < response.data.length;i++){
-            if(carrera.idDepartamento==response.data[i].idDepartamento){
-                document.getElementById("DepartamentoModif").innerHTML+=`<option value="${response.data[i].idDepartamento}" selected>${response.data[i].nombreDepartamento}</option>`;
-            }else{
-                document.getElementById("DepartamentoModif").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("DepartamentoModif").innerHTML="<option value='' disabled></option>";
+            for(let i = 0; i < response.data.length;i++){
+                if(carrera.idDepartamento==response.data[i].idDepartamento){
+                    document.getElementById("DepartamentoModif").innerHTML+=`<option value="${response.data[i].idDepartamento}" selected>${response.data[i].nombreDepartamento}</option>`;
+                }else{
+                    document.getElementById("DepartamentoModif").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+                }
             }
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        
-    }).error(function(error) {
-       console.warn(error); 
     });
 };
 const cambiarEstadoModificado = (carrera) => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerEstado.php`, 
-        method: 'POST',
+
+    $.ajax(`${ API }/Carreras/obtenerEstado.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("EstadoModif").innerHTML="<option value='' disabled></option>";
-        for(let i = 0; i < response.data.length;i++){
-            if(carrera.idEstadoCarrera==response.data[i].idEstado){
-                document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;
-            }else{
-                document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("EstadoModif").innerHTML="<option value='' disabled></option>";
+            for(let i = 0; i < response.data.length;i++){
+                if(carrera.idEstadoCarrera==response.data[i].idEstado){
+                    document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;
+                }else{
+                    document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+                }
             }
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        
-    }).error(function(error) {
-       console.warn(error); 
     });
 };
 const cambiarCarreraModif = () => {
     const peticion = {
         idCarrera: document.querySelector('#carreraDepa').value
     };
-    $.ajax({
-        url: `${ API }/Carreras/obtenerCarreraPorId.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/obtenerCarreraPorId.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        $("#modifAbajo").css({'display':'block'});
-        $("#botonModif").attr("disabled", false);
-        $("#Carrera2").val(response.data[0].carrera).trigger("change");
-        $("#Abreviatura2").val(response.data[0].abrev).trigger("change");
-        cambiarDepaModificado(response.data[0]);
-        cambiarEstadoModificado(response.data[0]);
-    }).error(function(error) {
-       console.warn(error); 
+        data: (peticion),
+        success:function(response) {
+            $("#modifAbajo").css({'display':'block'});
+            $("#botonModif").attr("disabled", false);
+            $("#Carrera2").val(response.data[0].carrera).trigger("change");
+            $("#Abreviatura2").val(response.data[0].abrev).trigger("change");
+            cambiarDepaModificado(response.data[0]);
+            cambiarEstadoModificado(response.data[0]);
+        },
+        error:function(error) {
+            console.warn(error);
+        }
     });
 };
 const cambiarDepaModif = () => {
@@ -205,19 +209,21 @@ const cambiarDepaModif = () => {
     const peticion = {
         idDepartamento: document.querySelector('#Departamento2').value
     };
-    $.ajax({
-        url: `${ API }/Carreras/ObtenerCarrerasPorIdDepa.php`, 
-        method: 'POST',
+
+    $.ajax(`${ API }/Carreras/ObtenerCarrerasPorIdDepa.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("carreraDepa").innerHTML="<option value= disabled selected></option>";
-        for(let i = 0; i < response.data.length;i++){
-            document.getElementById("carreraDepa").innerHTML+=`<option value="${response.data[i].idCarrera}">${response.data[i].carrera}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("carreraDepa").innerHTML="<option value= disabled selected></option>";
+            for(let i = 0; i < response.data.length;i++){
+                document.getElementById("carreraDepa").innerHTML+=`<option value="${response.data[i].idCarrera}">${response.data[i].carrera}</option>`;
+            }
+            $("#botonModif").attr("disabled", true);
+        },
+        error:function(error) {
+            console.warn(error);
         }
-        $("#botonModif").attr("disabled", true);
-    }).error(function(error) {
-        console.warn(error);
     });
 
 };
@@ -247,15 +253,17 @@ const obtenerCarreras = () => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/Carreras/ObtenerCarreras.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/Carreras/ObtenerCarreras.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        agregarATabla(response.data);
-    }).error(function(error) {
-        console.error(error);
+        data: (peticion),
+        success:function(response) {
+            console.log(response);
+            agregarATabla(response.data);
+        },
+        error:function(error) {
+            console.error(error);
+        }
     });
 };
 const actualizarCarrera = () => {
@@ -293,35 +301,37 @@ const actualizarCarrera = () => {
             Departamento: Departamento.value,
             Estado: Estado.value
         };
-        $.ajax({
-            url: `${ API }/Carreras/ActualizarCarrera.php`, 
-            method: 'POST',
+        
+        $.ajax(`${ API }/Carreras/ActualizarCarrera.php`, {
+            type: 'POST',
             dataType: 'json',
-            data: dataNuevoCarrera
-        }).success(function(response) {
-            console.log(response);
-            $("#botonModif").attr("disabled", true);
-            $("#Departamento2").val('');
-            $("#carreraDepa").val('');
-            $("#Carrera2").val('').trigger("change");
-            $("#Abreviatura2").val('').trigger("change");
-            $("#DepartamentoModif").val('').trigger("change");
-            $("#EstadoModif").val('').trigger("change");
-            $("#carreraSel").css({'display':'none'});
-            $("#modifAbajo").css({'display':'none'});
-            Swal.fire({
-                icon: 'success',
-                title: 'Listo',
-                text: 'Registro insertado con exito',
-            })
-        }).error(function(error) {
-            console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'El registro de la carrera no se pudo realizar',
-                footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
+            data: (dataNuevoCarrera),
+            success:function(response) {
+                console.log(response);
+                $("#botonModif").attr("disabled", true);
+                $("#Departamento2").val('');
+                $("#carreraDepa").val('');
+                $("#Carrera2").val('').trigger("change");
+                $("#Abreviatura2").val('').trigger("change");
+                $("#DepartamentoModif").val('').trigger("change");
+                $("#EstadoModif").val('').trigger("change");
+                $("#carreraSel").css({'display':'none'});
+                $("#modifAbajo").css({'display':'none'});
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'Registro insertado con exito',
+                })
+            },
+            error:function(error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'El registro de la carrera no se pudo realizar',
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                })
+            }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({

@@ -35,7 +35,6 @@ const obtenerCarreras = () => {
     $.ajax(`${ API }/ObjetosGasto/ObtenerObjetosGasto.php`, {
         type: 'POST',
         dataType: 'json',
-        contentType: 'application/json',
         data: (peticion),
         success:function(response) {
             agregarATabla(response.data);
@@ -50,23 +49,23 @@ const cambiarEstadoModificado = (idEstado) => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/ObjetosGasto/obtenerEstado.php`, 
-        method: 'POST',
+    $.ajax(`${ API }/ObjetosGasto/obtenerEstado.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("EstadoModif").innerHTML="<option value='' disabled></option>";
-        for(let i = 0; i < response.data.length;i++){
-            if(idEstado==response.data[i].idEstado){
-                document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;
-            }else{
-                document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("EstadoModif").innerHTML="<option value='' disabled></option>";
+            for(let i = 0; i < response.data.length;i++){
+                if(idEstado==response.data[i].idEstado){
+                    document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;
+                }else{
+                    document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+                }
             }
+        },
+        error:function(error) {
+            console.warn(error); 
         }
-        
-    }).error(function(error) {
-       console.warn(error); 
     });
 };
 var id = 0;
@@ -108,39 +107,41 @@ const actualizarObjeto = () => {
         (isValidEstado === true) &&
         (isValidCodigo === true) 
     ) {
-        const dataNuevoCarrera = {
+        const dataModifObjeto = {
             idObjetoGasto: this.id,
             ObjetoDeGasto: ObjetoDeGasto.value,
             Abreviatura: Abreviatura.value,
             CodigoObjeto: CodigoObjeto.value,
             Estado: Estado.value
         };
-        $.ajax({
-            url: `${ API }/ObjetosGasto/ActualizarObjeto.php`, 
-            method: 'POST',
+        
+        $.ajax(`${ API }/ObjetosGasto/ActualizarObjeto.php`, {
+            type: 'POST',
             dataType: 'json',
-            data: dataNuevoCarrera
-        }).success(function(response) {
-            console.log(response);
-            $("#ObjetoDeGasto").val('').trigger("change");
-            $("#Abreviatura2").val('').trigger("change");
-            $("#CodigoObjeto").val('').trigger("change");
-            $("#EstadoModif").val('').trigger("change");
-            $('#modalModificarObjeto').modal('hide');
-            Swal.fire({
-                icon: 'success',
-                title: 'Listo',
-                text: 'Registro insertado con exito',
-            });
-            obtenerCarreras();
-        }).error(function(error) {
-            console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'El registro del objeto del gasto no se pudo realizar',
-                footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
+            data: (dataModifObjeto),
+            success:function(response) {
+                console.log(response);
+                $("#ObjetoDeGasto").val('').trigger("change");
+                $("#Abreviatura2").val('').trigger("change");
+                $("#CodigoObjeto").val('').trigger("change");
+                $("#EstadoModif").val('').trigger("change");
+                $('#modalModificarObjeto').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'Registro insertado con exito',
+                });
+                obtenerCarreras();
+            },
+            error:function(error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'El registro del objeto del gasto no se pudo realizar',
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                }) 
+            }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
@@ -159,18 +160,20 @@ const cambiarEst = () => {
     const peticion = {
         nada: ""
     };
-    $.ajax({
-        url: `${ API }/ObjetosGasto/obtenerEstado.php`, 
-        method: 'POST',
+    
+    $.ajax(`${ API }/ObjetosGasto/obtenerEstado.php`, {
+        type: 'POST',
         dataType: 'json',
-        data: peticion
-    }).success(function(response) {
-        document.getElementById("Estado").innerHTML="<option value='' disabled selected></option>";
-        for(let i = 0; i < response.data.length;i++){
-            document.getElementById("Estado").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
-        };
-    }).error(function(error) {
-       console.warn(error); 
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("Estado").innerHTML="<option value='' disabled selected></option>";
+            for(let i = 0; i < response.data.length;i++){
+                document.getElementById("Estado").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
+            };
+        },
+        error:function(error) {
+            console.warn(error);
+        }
     });
 };
 const registrarObjeto = () => {
@@ -201,7 +204,7 @@ const registrarObjeto = () => {
         (isValidEstado === true) &&
         (isValidCodigo === true) 
     ) {
-        const dataNuevoCarrera = {
+        const dataNuevoObjeto = {
             idObjetoGasto: this.id,
             ObjetoDeGasto: ObjetoDeGasto.value,
             Abreviatura: Abreviatura.value,
@@ -209,32 +212,33 @@ const registrarObjeto = () => {
             Estado: Estado.value
         };
 
-        $.ajax({
-            url: `${ API }/ObjetosGasto/RegistrarObjeto.php`, 
-            method: 'POST',
+        $.ajax(`${ API }/ObjetosGasto/RegistrarObjeto.php`, {
+            type: 'POST',
             dataType: 'json',
-            data: dataNuevoCarrera
-        }).success(function(response) {
-            console.log(response);
-            $("#ObjetoDeGastoR").val('').trigger("change");
-            $("#Abreviatura").val('').trigger("change");
-            $("#CodigoObjetoR").val('').trigger("change");
-            $("#Estado").val('').trigger("change");
-            $('#modalRegistrarObjeto').modal('hide');
-            Swal.fire({
-                icon: 'success',
-                title: 'Listo',
-                text: 'Registro insertado con exito',
-            });
-            obtenerCarreras();
-        }).error(function(error) {
-            console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'El registro del objeto del gasto no se pudo realizar',
-                footer: '<b>Por favor verifique el formulario de registro</b>'
-            })
+            data: (dataNuevoObjeto),
+            success:function(response) {
+                console.log(response);
+                $("#ObjetoDeGastoR").val('').trigger("change");
+                $("#Abreviatura").val('').trigger("change");
+                $("#CodigoObjetoR").val('').trigger("change");
+                $("#Estado").val('').trigger("change");
+                $('#modalRegistrarObjeto').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'Registro insertado con exito',
+                });
+                obtenerCarreras();
+            },
+            error:function(error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'El registro del objeto del gasto no se pudo realizar',
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                })
+            }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({

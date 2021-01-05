@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="../js/data-tables/datatables.min.css">
 <link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </head>
 
