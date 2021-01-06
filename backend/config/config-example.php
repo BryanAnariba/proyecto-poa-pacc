@@ -22,3 +22,17 @@
     define('DIRECTORIO_PDFS', 'pdfs');
     define('DIRECTORIO_WORDS', 'words');
     define('DIRECTORIO_USUARIOS', 'usuarios');
+
+    define('ESTADO_ACTIVO', 1);
+    define('ESTADO_INACTIVO', 2);
+
+    // Entidades
+    define('TBL_PERSONA', 'Persona');
+    define('TBL_USUARIO', 'Usuario');
+    define('TBL_LUGARES', 'Lugar');
+    define('TBL_TIPO_USUARIO', 'TipoUsuario');
+    define('TBL_DEPARTAMENTO', 'Departamento');
+    define('TBL_DIMENSIONES', 'DimensionEstrategica');
+    define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
+    define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
+?>

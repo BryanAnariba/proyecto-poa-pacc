@@ -8,6 +8,22 @@ const despliegeErrores = (valorEtiqueta, id, type) => {
     document.querySelector(`#errors${ id }`).classList.remove('d-none');
 }
 
+const resetearCampos = (valorEtiqueta, id, type) => {
+    valorEtiqueta.classList.remove('is-invalid');
+    if (type === 'text' || type === 'email') {
+        document.querySelector(`#label${ id }`).classList.remove('text-danger');
+        valorEtiqueta.value = '';
+    } else if (type === 'select') {
+        valorEtiqueta.value = '';
+    } else if (type === 'number') {
+        document.querySelector(`#label${ id }`).classList.remove('text-danger');
+        valorEtiqueta.value = '';
+    }
+    valorEtiqueta.classList.remove('text-danger');
+    document.querySelector(`#errors${ id }`).classList.add('d-none');
+    
+}
+
 // Funcion que remueve en pantalla los inputs de color rojo notificando error
 const remueveErrores = (valorEtiqueta, id, type) => {
     valorEtiqueta.classList.remove('is-invalid');
@@ -63,7 +79,7 @@ const verificarFecha = (date) => {
 }
 
 // Funcion para verificar textos y cadenas de string y su rspectivo tamanio
-const verificarInputText = (inputData) => {
+const verificarInputText = (inputData, regex) => {
     let isValid = false;
     const { valorEtiqueta, id, name, min, max, type } = inputData;
     if (valorEtiqueta.value.length === 0 || (valorEtiqueta.value === null)) {
@@ -78,7 +94,7 @@ const verificarInputText = (inputData) => {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener un maximo ${ max } caracteres`;
         isValid = false;
-    } else if (letrasEspaciosRegex.test(valorEtiqueta.value) === false) {
+    } else if (regex.test(valorEtiqueta.value) === false) {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } no es valido`;
         isValid = false;
@@ -99,10 +115,11 @@ const verificarInputNumber = (inputData, regex) => {
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } es obligatorio`;
         isValid = false;    
     } else if ((valorEtiqueta.value.length < min)) {
+        console.warn(valorEtiqueta.value.length);
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener al menos ${ min } caracteres`;
         isValid = false;
-    } else if (!(valorEtiqueta.value.length === max)) {
+    } else if ((valorEtiqueta.value.length > max)) {
         despliegeErrores(valorEtiqueta, id, type);
         document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } debe tener un maximo ${ max } caracteres`;
         isValid = false;
@@ -135,19 +152,13 @@ const verificarSelect = (selectData) => {
     return isValid;
 }
 
+const generaNombreUsuario = (emailUnah) => {
+    return extraeCamposEmailRegex.exec(emailUnah);
+}
+
 const  verificarImagen = (obj) => {
     var uploadFile = obj.files[0]; // Para extraer el mimetype nombre imagen etc
     const { name } = uploadFile;
-
-    if (!window.FileReader) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Ops...',
-            text: 'Su navegador no soporta la lectura de archivos',
-            footer: '<b>Por favor actualizar navegador o usar otro navegador</b>'
-        });
-        return false;
-    }
 
     if (!(/\.(jpg|png|gif)$/i).test(name)) {
         Swal.fire({
@@ -168,14 +179,15 @@ const  verificarImagen = (obj) => {
                     text: 'El tamaño de la imagen es muy grande',
                     footer: '<b>Por favor seleccione una imagen de maximo 1MB</b>'
                 });
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Imagen correcta'
-                });              
+            } else {              
             }
         };
         return uploadFile;
     }                 
+}
+
+const limpiarCamposFormulario = (valoresEtiqueta) => {
+    const { valorEtiqueta, id, type } = valoresEtiqueta
+    resetearCampos(valorEtiqueta, id, type);
 }
 
