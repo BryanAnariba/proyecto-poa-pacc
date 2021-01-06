@@ -41,8 +41,13 @@
                             <span class="nav__name">Control Dimensiones</span>
                         </a>
 
-                        <a href="../views/departamentos.php" class="nav__link">
-                        <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Departamentos">
+                        <a href="../views/dimensiones-Administrativas.php" class="nav__link">
+                            <img src="../img/partial-sidebar/dimensiones.svg" alt="Control de Dimensiones Admin">
+                            <span class="nav__name">Control Dimensiones Admin</span>
+                        </a>
+
+                        <a href="../views/control-departamentos.php" class="nav__link">
+                            <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Departamentos">
                             <span class="nav__name">Control Departamentos</span>
                         </a>
 
