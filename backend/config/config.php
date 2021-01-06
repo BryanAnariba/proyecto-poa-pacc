@@ -1,9 +1,9 @@
 <?php
     // Database fields
-    define('HOST', 'localhost:3307');
+    define('HOST', 'localhost:3306');
     define('DB', 'poa-pacc-bd');
     define('USER', 'root');
-    define('PASSWORD', 'root');
+    define('PASSWORD', '');
     define('CHARSET', 'utf8');
     
     // Http status reques code
@@ -14,10 +14,10 @@
     define('INTERNAL_SERVER_ERROR', 500);
 
     // Secret key
-    define('SECRET_KEY', 'mi_clave_secreta');
+    define('TIEMPO_VIDA_TOKEN', 'PT50M');
 
     // Rutas direcctorios
-    define('DIRECTORIO_UPLOADS', 'localhost/proyecto-poa-pac/backend/uploads');
+    define('DIRECTORIO_UPLOADS', 'http://localhost/proyecto-poa-pacc/backend/uploads');
     define('DIRECTORIO_IMAGES', 'images');
     define('DIRECTORIO_PDFS', 'pdfs');
     define('DIRECTORIO_WORDS', 'words');
@@ -35,6 +35,9 @@
     define('TBL_DIMENSIONES', 'DimensionEstrategica');
     define('TBL_OBJETIVO_INSTITUCIONAL', 'ObjetivoInstitucional');
     define('TBL_AREA_ESTRATEGICA', 'AreaEstrategica');
+    define('TBL_PRESUPUESTO_ANUAL', 'controlPresupuestoActividad');
+    define('TBL_PRESUPUESTO_DEPTO', 'presupuestoDepartamento');
+    define('TBL_ESTADOS', 'estadoDCDUOAO');
 
     define('MIN_TAMANIO_CLAVE', 12);
 

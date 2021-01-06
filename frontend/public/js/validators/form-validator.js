@@ -160,16 +160,6 @@ const  verificarImagen = (obj) => {
     var uploadFile = obj.files[0]; // Para extraer el mimetype nombre imagen etc
     const { name } = uploadFile;
 
-    if (!window.FileReader) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Ops...',
-            text: 'Su navegador no soporta la lectura de archivos',
-            footer: '<b>Por favor actualizar navegador o usar otro navegador</b>'
-        });
-        return false;
-    }
-
     if (!(/\.(jpg|png|gif)$/i).test(name)) {
         Swal.fire({
             icon: 'error',
@@ -189,11 +179,7 @@ const  verificarImagen = (obj) => {
                     text: 'El tamaño de la imagen es muy grande',
                     footer: '<b>Por favor seleccione una imagen de maximo 1MB</b>'
                 });
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Imagen correcta'
-                });              
+            } else {              
             }
         };
         return uploadFile;

@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="../js/data-tables/datatables.min.css">
 <link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </head>
 
@@ -372,7 +371,7 @@
     
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
-    <script src="../js/Carreras/Carreras.js"></script>
+    <script src="../js/Carreras/CarrerasController.js"></script>
 
 <?php
     include('../partials/endDoctype.php');

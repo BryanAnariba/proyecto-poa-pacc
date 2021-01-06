@@ -79,13 +79,17 @@ const dimensionesEstrategicas = () => {
         }
         $('#listado-dimensiones').DataTable({
             language: i18nEspaniol,
-            dom: 'Blfrtip',
-            buttons: botonesExportacion,
+            //dom: 'Blfrtip',
+            //buttons: botonesExportacion,
             retrieve: true
         });
     },
     error:function (error) {
-        console.error(error);
+        // console.error(error);
+        const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
     }});
 }
 
@@ -117,8 +121,10 @@ const registrarDimension = () => {
                 dimensionesEstrategicas();
             },
             error:function(error) {
-                const { data } = error.responseJSON;
-                console.log(data);
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
@@ -162,7 +168,10 @@ const modificaEstadoDimension = (idDimension) => {
         },
         error:function(error) {
             console.error(error);
-            const { data } = error;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
@@ -213,7 +222,10 @@ const modificarDimension = () => {
                 dimensionesEstrategicas();
             },
             error:function(error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -287,8 +299,10 @@ const verObjetivosInstitucionales = (idDimension) => {
         });
     },
     error:function (error) {
-        const { data } = error;
-        console.error(error);
+        const { status, data } = error.responseJSON;
+        if (status === 401) {
+            window.location.href = '../views/401.php';
+        }
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
@@ -326,7 +340,10 @@ const registrarObjetivo = () => {
                 cancelarRegistroObjetivo();
             },
             error:function (error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -364,7 +381,10 @@ const modificarEstadoObjetivo = (idObjetivo, idEstadoObjetivo) => {
             verObjetivosInstitucionales(idDimensionSeleccionada);
         },
         error:function (error) {
-            const { data } = error;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.error(error);
             Swal.fire({
                 icon: 'error',
@@ -409,7 +429,10 @@ const modificarObjetivoInstitucional = () => {
                 $('#modalModificarObjetivo').modal('hide');
             },
             error:function (error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -475,7 +498,10 @@ const visualizarAreasEstrategicas = (idObjetivo) => {
         });
         },
         error:function (error) {
-            const { data } = error;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             console.error(error);
             Swal.fire({
                 icon: 'error',
@@ -514,7 +540,10 @@ const registrarArea = () => {
                 cancelarRegistroArea();
             },
             error:function (error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -546,6 +575,9 @@ const modificarEstadoArea = (idArea, idEstadoArea) => {
             data: JSON.stringify(parametros),
             success:function (response) {
                 const { data } = response;
+                if (data.status === 401) {
+                    window.location = '../../../views/401.php';
+                }
                 console.log(response);
                 Swal.fire({
                     icon: 'success',
@@ -555,7 +587,10 @@ const modificarEstadoArea = (idArea, idEstadoArea) => {
                 visualizarAreasEstrategicas(idObjetivoSeleccionado);
             },
             error:function (error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',
@@ -601,7 +636,10 @@ const modificarAreaEstrategica = () => {
                 $('#modalModificarArea').modal('hide');
             },
             error:function (error) {
-                const { data } = error;
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 console.error(error);
                 Swal.fire({
                     icon: 'error',

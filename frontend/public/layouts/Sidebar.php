@@ -1,3 +1,21 @@
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
+    include('../partials/doctype.php');
+    include('verifica-session.php');
+     // Tipos de roles de usuarios en el sistema
+    define('ROL_SUPER_ADMIN', 'SU_AD');
+    define('ROL_DECANO', 'D_F');
+    define('ROL_SECRETARIA_ACADEMICA', 'S_AC');
+    define('ROL_SECRETARIA_ADMINISTRATIVA', 'SE_AD');
+    define('ROL_COORDINADOR', 'C_C');
+    define('ROL_JEFE', 'J_D');
+    define('ROL_ESTRATEGA', 'U_E');   
+?>
 <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div>
@@ -7,9 +25,8 @@
                 </a>
                     <div class="nav__list">
                     <?php 
-                        $role = 'S_AD'; 
-                        switch($role): 
-                            case 'SG': // ROLE => Secretaria General
+                        switch($_SESSION['abrevTipoUsuario']): 
+                            case $_SESSION['abrevTipoUsuario'] == ROL_SECRETARIA_ACADEMICA: // ROLE => Secretaria Academica
                     ?>
                         <a href="../views/control-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
@@ -29,7 +46,7 @@
                         break; 
                     ?>
                     <?php 
-                        case 'S_AD': // ROLE => Super Administrador
+                        case $_SESSION['abrevTipoUsuario'] == ROL_SUPER_ADMIN: // ROLE => Super Administrador
                     ?>
                         <a href="../views/usuarios.php" class="nav__link">
                             <img src="../img/partial-sidebar/usuarios-icon.svg" alt="Control de Usuarios">
@@ -64,7 +81,7 @@
                         break; 
                     ?>
                     <?php 
-                        case 'DF': // ROLE => Decano Facultad
+                        case $_SESSION['abrevTipoUsuario'] == ROL_DECANO // ROLE => Decano Facultad
                     ?>
                         <a href="../views/control-informes-decano.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
@@ -89,7 +106,7 @@
                         break; 
                     ?>
                     <?php 
-                        case 'SE': // ROLE => Secretaria Estratega
+                        case $_SESSION['abrevTipoUsuario'] == ROL_ESTRATEGA: // ROLE => Secretaria Estratega
                     ?>
                         <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
@@ -119,15 +136,14 @@
                     <?php 
                         break; 
                     ?>
-                    <?php case 
-                        'S_AC': // ROLE => usuario administrativo
+                    <?php case $_SESSION['abrevTipoUsuario'] == ROL_SECRETARIA_ADMINISTRATIVA: // ROLE => usuario administrativo
                     ?>
                         <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Depto Administrativo</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>
@@ -150,9 +166,9 @@
                         break; 
                     ?>
                     <?php 
-                        case 'CD': // ROLE => Coordinador Departamento
+                        case $_SESSION['abrevTipoUsuario'] == ROL_COORDINADOR: // ROLE => Coordinador Departamento
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Administrativo</span>
                         </a>
@@ -175,9 +191,9 @@
                         break; 
                     ?>
                     <?php 
-                        case 'JD': // ROLE => Jefe Departamento
+                        case $_SESSION['abrevTipoUsuario'] == ROL_JEFE: // ROLE => Jefe Departamento
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Administrativo</span>
                         </a>
@@ -224,7 +240,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-4">
-                                <button type="button" class="btn btn-light-green btn-rounded">Cerrar Sesion</button>
+                                <button type="button" class="btn btn-light-green btn-rounded"
+                                    onclick="cerrarSesion()">Cerrar Sesion</button>
                             </div>
                         </div>
                         <div class="col">

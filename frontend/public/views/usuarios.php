@@ -1,5 +1,14 @@
 <?php
-include('../partials/doctype.php');
+    session_start();
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
+    $superAdmin = 'SU_AD';
+    if ($_SESSION['abrevTipoUsuario'] != $superAdmin) {
+        header('Location: 401.php');
+    }
+    include('../partials/doctype.php');
+    include('verifica-session.php');
 ?>
 <title>Control de Usuarios</title>
 <!--En esta zona podran poner estilos propios de la vista-->
@@ -96,7 +105,7 @@ include('../partials/doctype.php');
     <!--modales-->
     <!--Visualizar usuarios-->
     <div class="modal fade" id="modalVisualizarUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Listado de usuarios registrados</h4>
@@ -493,6 +502,24 @@ include('../partials/doctype.php');
     </div>
     <div class="modal fade" id="modalModificarCorreoInstitucional" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
+            <div class="lds-roller loading-registro">
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
             <div class="modal-content" id="modalContentReenvioCredenciales">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Correo Institucional Empleado</h4>
@@ -523,28 +550,6 @@ include('../partials/doctype.php');
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade modalDeCarga" id="modalCargandoPeticionRegistro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="lds-roller loading-registro">
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
-                </div>
-                <div>
                 </div>
             </div>
         </div>

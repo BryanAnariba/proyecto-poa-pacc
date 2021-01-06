@@ -15,7 +15,7 @@ include('../partials/doctype.php');;
             <div class="col-xl-12 mx-auto">
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-light-green btn-rounded">
-                         Ver el historial de informes
+                        Ver el historial de informes
                     </button>
 
                     <button 

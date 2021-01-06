@@ -1,7 +1,14 @@
 <?php
-include('../partials/doctype.php');
+    session_start();
+    if (!isset($_SESSION['correoInstitucional'])) {
+        header('Location: 401.php');
+    }
+    include('../partials/doctype.php');
+    include('verifica-session.php');
 ?>
 <title>Menu Principal</title>
+
+<link rel="stylesheet" href="../css/sweet-alert-two/sweetalert2.min.css">
 <!--En esta zona podran poner estilos propios de la vista-->
 </head>
 
@@ -19,7 +26,7 @@ include('../partials/doctype.php');
                     <div class="row mx-auto">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <div class="card-body d-flex flex-row">
-                                <img src="../img/menu/avatar-2.jpg" class="rounded-circle mx-auto img-fluid" height="128px" width="128px" alt="Foto Perfil">
+                                <img src="<?= ($_SESSION['avatarUsuario'] != null) ? $_SESSION['avatarUsuario'] : '../img/menu/usuario.svg'?>" class="rounded-circle mx-auto" height="128" width="128" alt="Foto Perfil">
                             </div>
                         </div>
                         <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mr-auto">
@@ -27,17 +34,19 @@ include('../partials/doctype.php');
                                 <h4 class="card-title font-weight-bold mb-2">
                                     Bienvenido@
                                 </h4>
-                                <p class="card-text font-weigth-bolder text-dark">Bryan Ariel Sanchez Anariba</p>
-                                <p class="card-text font-weigth-bolder text-dark">bsancheza@unah.hn</p>
-                                <p class="card-text font-weigth-bolder text-dark">IS-231233</p>
+                                <p class="card-text font-weigth-bolder text-dark">
+                                    <?= $_SESSION['nombrePersona']?> 
+                                    <?= $_SESSION['apellidoPersona']?></p>
+                                <p class="card-text font-weigth-bolder text-dark"><?= $_SESSION['correoInstitucional']?></p>
+                                <p class="card-text font-weigth-bolder text-dark"><?= $_SESSION['telefonoDepartamento']?></p>
                             </section>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <section>
                                 <h4 class="card-title font-weight-bold mb-2">Datos de mi cargo</h4>
-                                <p class="card-text">Jefe Departamento</p>
-                                <p class="card-text">Ingenieria en Sistemas</p>
-                                <p class="card-text">IS</p>
+                                <p class="card-text"><?= $_SESSION['tipoUsuario']?></p>
+                                <p class="card-text"><?= $_SESSION['nombreDepartamento']?></p>
+                                <p class="card-text"><?= $_SESSION['abrev']?></p>
                             </section>
                         </div>
                     </div>
@@ -328,6 +337,9 @@ include('../partials/doctype.php');
     <!--En esta zona podran poner javascripts propios de la vista-->
     <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
+    <script src="../js/validators/form-validator.js"></script>
+    <script src="../js/config/config.js"></script>
+    <script src="../js/menu/menu-controller.js"></script>
     <?php
     include('../partials/endDoctype.php');
     ?>
