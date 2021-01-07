@@ -1,6 +1,6 @@
 <?php
     require_once('../request-headers.php');
-    require_once('../../controllers/DepartamentosController.php');
+    require_once('../../controllers/DepartamentoController.php');
     
     switch ($_SERVER['REQUEST_METHOD']) {
         case "POST": 
@@ -11,7 +11,7 @@
                 $_POST['abreviaturaDepartamentoM'] && 
                 $_POST['telefonoDepartamentoM'] && 
                 $_POST['correoDepartamentoM']) {
-                $Departamentos = new DepartamentosController();
+                $Departamentos = new DepartamentoController();
                 
                 $Departamentos->modificarDepartamento(
                     $_POST['idDepartamentoM'],
@@ -22,12 +22,12 @@
                     $_POST['correoDepartamentoM'],
                 );
             }else {
-                $Departamentos = new DepartamentosController();
+                $Departamentos = new DepartamentoController();
                 $Departamentos->peticionNoValida();
             }
         break;
         default: 
-            $Departamentos = new DepartamentosController();
+            $Departamentos = new DepartamentoController();
             $Departamentos->peticionNoValida();
         break;
     }

@@ -36,7 +36,7 @@ const cancelarRegistroDepartamento = () => {
 //cargar los departamentos registrados 
 const verDepartamentos = () => {
     $('#listado-departamentos').dataTable().fnDestroy();
-    $.ajax(`${ API }/departamentos/listar-departamentos.php`, {
+    $.ajax(`${ API }/control-departamentos/listar-departamentos.php`, {
     type: 'POST',
     dataType: 'json',
     contentType: 'application/json',
@@ -97,7 +97,7 @@ const registrarDepartamento = () => {
             correoDepartamento: correoDepartamento.value
         };
         //console.log(parametros);
-        $.ajax(`${ API }/departamentos/registrar-departamento.php`, {
+        $.ajax(`${ API }/control-departamentos/registrar-departamento.php`, {
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json',
@@ -135,7 +135,7 @@ const cambiarEstado = () => {
     const peticion = {
         vacio: ""
     };
-    $.ajax(`${ API }/departamentos/obtenerEstadoDepartamento.php`, {
+    $.ajax(`${ API }/control-departamentos/obtenerEstadoDepartamento.php`, {
         type: 'POST',
         dataType: 'json',
         data: (peticion),
@@ -157,7 +157,7 @@ const cambiarDepartamento = () => {
     const peticion = {
         vacio: ""
     };
-    $.ajax(`${ API }/Departamentos/obtenerDepartamentos.php`, {
+    $.ajax(`${ API }/control-departamentos/obtenerDepartamentos.php`, {
         type: 'POST',
         dataType: 'json',
         data: (peticion),
@@ -183,7 +183,7 @@ const cambiarEstadoDepartamento = (departamento) => {
         vacio: ""
     };
 
-    $.ajax(`${ API }/departamentos/obtenerEstadoDepartamento.php`, {
+    $.ajax(`${ API }/control-departamentos/obtenerEstadoDepartamento.php`, {
         type: 'POST',
         dataType: 'json',
         data: (peticion),
@@ -208,7 +208,7 @@ const cambiarDepartamentoModificado = () => {
     const peticion = {
         idDepartamento: document.querySelector('#M-Departamento').value
     };
-    $.ajax(`${ API }/departamentos/obtenerDepartamentoPorId.php`, {
+    $.ajax(`${ API }/control-departamentos/obtenerDepartamentoPorId.php`, {
         type: 'POST',
         dataType: 'json',
         data: (peticion),
@@ -271,7 +271,7 @@ const modificarDepartamento = () => {
             correoDepartamentoM: correoDepartamentoM.value 
         };
         
-        $.ajax(`${ API }/departamentos/modificarDepartamento.php`, {
+        $.ajax(`${ API }/control-departamentos/modificarDepartamento.php`, {
             type: 'POST',
             dataType: 'json',
             data: (dataNuevoDepartamento),

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (!isset($_SESSION['correoInstitucional'])) {
+     if (!isset($_SESSION['correoInstitucional'])) {
         header('Location: 401.php');
     }
     include('../partials/doctype.php');
