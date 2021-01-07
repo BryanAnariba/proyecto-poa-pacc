@@ -4,7 +4,7 @@
     require_once('../../controllers/LugaresController.php');
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST': 
-            $_POST = json_decode(file_get_contents('php:input'), true);
+            $_POST = json_decode(file_get_contents('php://input'), true);
             $verificarTokenAcceso = new verificarTokenAcceso();
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
