@@ -8,7 +8,20 @@
             return false;
         }
     }
-
+    function campoCodigo ($parametro, $min, $max) {
+        if ((preg_match("/^[0-9]{5}(-[0-9]{2})?$/", $parametro) == true) &&  (strlen($parametro) >= $min) && (strlen($parametro) <= $max)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function campoAbrevCodigo ($parametro, $min, $max) {
+        if ((preg_match("/[0-9-]/", $parametro) == true) &&  (strlen($parametro) >= $min) && (strlen($parametro) <= $max)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     function validaCampoCodigoEmpleado ($parametro) {
         if (preg_match("/^\d{1,5}$/", $parametro)) {
             return true;

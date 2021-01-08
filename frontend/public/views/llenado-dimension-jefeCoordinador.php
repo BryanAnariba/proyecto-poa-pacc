@@ -11,9 +11,8 @@
 <link rel="stylesheet" href="../js/data-tables/datatables.min.css">
 <link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </head>
 

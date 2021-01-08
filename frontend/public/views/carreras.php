@@ -147,7 +147,7 @@
         tabindex="-1" role="dialog" 
         aria-labelledby="myModalLabel" 
         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Listado de carreras registradas</h4>
@@ -197,7 +197,7 @@
                             <div class="col-10">
                                 <!-- Carrera -->
                                 <div class="md-form">
-                                    <input type="text" id="Carrera" class="form-control">
+                                    <input type="text" id="Carrera" class="form-control" maxlength="80">
                                     <span id="errorsCarrera" class="text-danger text-small d-none">
                                     </span>
                                     <label 
@@ -211,7 +211,7 @@
                             <div class="col-2">
                                 <!-- Abrev -->
                                 <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                    <input type="text" id="Abreviatura" class="form-control">
+                                    <input type="text" id="Abreviatura" class="form-control" maxlength="2">
                                     <span id="errorsAbreviatura" class="text-danger text-small d-none">
                                     </span>
                                     <label 
@@ -302,7 +302,7 @@
                             <div class="col-8">
                                 <!-- Carrera -->
                                 <div class="md-form">
-                                    <input type="text" id="Carrera2" class="form-control">
+                                    <input type="text" id="Carrera2" class="form-control" maxlength="80">
                                     <span id="errorsCarrera2" class="text-danger text-small d-none">
                                     </span>
                                     <label 
@@ -316,7 +316,7 @@
                             <div class="col-4">
                                 <!-- Abrev -->
                                 <div class="md-form">
-                                    <input type="text" id="Abreviatura2" class="form-control">
+                                    <input type="text" id="Abreviatura2" class="form-control" maxlength="2">
                                     <span id="errorsAbreviatura2" class="text-danger text-small d-none">
                                     </span>
                                     <label 

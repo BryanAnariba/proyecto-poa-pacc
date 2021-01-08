@@ -95,7 +95,7 @@ const cambiarEst = () => {
         dataType: 'json',
         data: (peticion),
         success:function(response) {
-            document.getElementById("Estado").innerHTML="<option value='' disabled selected></option>";
+            document.getElementById("Estado").innerHTML="";
             for(let i = 0; i < response.data.length;i++){
                 document.getElementById("Estado").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
             }
@@ -167,7 +167,7 @@ const cambiarEstadoModificado = (carrera) => {
         dataType: 'json',
         data: (peticion),
         success:function(response) {
-            document.getElementById("EstadoModif").innerHTML="<option value='' disabled></option>";
+            document.getElementById("EstadoModif").innerHTML="";
             for(let i = 0; i < response.data.length;i++){
                 if(carrera.idEstadoCarrera==response.data[i].idEstado){
                     document.getElementById("EstadoModif").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;

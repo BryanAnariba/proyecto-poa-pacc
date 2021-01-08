@@ -38,13 +38,13 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="modal-body table-responsive">
-                                    <table id="CarrerasTodas" class="table" cellspacing="0" width="100%">
+                                    <table id="ObjetosTodas" class="table" cellspacing="0" width="100%">
                                         <thead>
                                             <tr align="center">
                                                 <th scope="col">#</th>
                                                 <th scope="col">codigoObjetoGasto</th>
                                                 <th scope="col">DescripcionCuenta</th>
-                                                <th scope="col">Abreviatura</th>
+                                                <th scope="col">Abreviatura del codigo</th>
                                                 <th scope="col">Estado</th>
                                                 <th scope="col">Modificar Objeto del Gasto</th>
                                             </tr>
@@ -98,23 +98,8 @@
                             <div class="col-4">
                                 <!-- Abrev -->
                                 <div class="md-form">
-                                    <input type="text" id="Abreviatura" class="form-control">
-                                    <span id="errorsAbreviatura" class="text-danger text-small d-none">
-                                    </span>
-                                    <label 
-                                        for="Abreviatura"
-                                        id="labelAbreviatura"
-                                    >
-                                    Abrev
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <!-- Abrev -->
-                                <div class="md-form">
-                                    <input type="number" id="CodigoObjetoR" class="form-control">
+                                    <input type="text" id="CodigoObjetoR" class="form-control" maxlength="8" onkeypress="return validaC(event,'CodigoObjetoR')">
+                                    <h6>Nota: Contiene solo numeros y guiones, ejemplo:"11100-01", despues del guio es opcional.</h6>
                                     <span id="errorsCodigoObjetoR" class="text-danger text-small d-none">
                                     </span>
                                     <label 
@@ -125,7 +110,45 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="input-field col-4" align="left">
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12" style="margin:auto">
+                                <label 
+                                    for="Abreviatura"
+                                    id="labelAbreviatura"
+                                >
+                                Abreviatura Codigo
+                                </label>
+                                <div class="row" id="Abreviatura">
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num1" maxlength="2" class="form-control" onkeypress="return validaAC(event)" >
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num2" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num3" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num4" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6>Nota: Este es el codigo al que se referencia este objeto (preferible coincida con codigo escrito anteriormente),<br/> ejemplo:"codigo = 111000-01, Abreviatura=11-10-00-01".</h6>
+                                <span id="errorsAbreviatura" class="text-danger text-small d-none"></span>
+                            </div>
+                            
+                            <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" align="left" style="margin:auto">
                                 <label for="Estado" id="labelEstado">Estado:</label>
                                 <select name="Estado" id="Estado" class="browser-default custom-select mb-4">
             
@@ -148,7 +171,14 @@
                         </button>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <button 
+                            type="button" 
+                            class="btn btn-danger btn-rounded btn-sm" 
+                            data-dismiss="modal" 
+                            aria-label="Close"
+                            onclick="restablecerCampos()">
+                            Cancelar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -191,25 +221,8 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <!-- Abrev -->
                                 <div class="md-form">
-                                    <input type="text" id="Abreviatura2" class="form-control">
-                                    <span id="errorsAbreviatura2" class="text-danger text-small d-none">
-                                    </span>
-                                    <label 
-                                        for="Abreviatura2"
-                                        id="labelAbreviatura2"
-                                    >
-                                    Abrev
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <!-- Abrev -->
-                                <div class="md-form">
-                                    <input type="number" id="CodigoObjeto" class="form-control">
+                                    <input type="text" id="CodigoObjeto" class="form-control" maxlength="8" onkeypress="return validaC(event,'CodigoObjeto')">
                                     <span id="errorsCodigoObjeto" class="text-danger text-small d-none">
                                     </span>
                                     <label 
@@ -218,9 +231,48 @@
                                     >
                                     Codigo Objeto de Gasto
                                     </label>
+                                    <h6>Nota: Contiene solo numeros y guiones, ejemplo:"11100-01", despues del guio es opcional.</h6>
                                 </div>
                             </div>
-                            <div class="input-field col-4" align="left">
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12" style="margin:auto">
+                                <label 
+                                    for="Abreviatura2"
+                                    id="labelAbreviatura2"
+                                >
+                                Abreviatura Codigo
+                                </label>
+                                <div class="row" id="Abreviatura2">
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num1M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num2M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num3M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num4M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6>Nota: Este es el codigo al que se referencia este objeto (preferible coincida con codigo escrito anteriormente),<br/> ejemplo:"codigo = 111000-01, Abreviatura=11-10-00-01".</h6>
+                                <span id="errorsAbreviatura2" class="text-danger text-small d-none"></span>
+                            </div>
+                            
+                            <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" align="left" style="margin:auto">
                                 <label for="EstadoModif" id="labelEstadoModif">Estado:</label>
                                 <select name="EstadoModif" id="EstadoModif" class="browser-default custom-select mb-4">
             
@@ -237,7 +289,7 @@
                         <button id="botonModif" type="button" class="btn btn-light-green btn-rounded btn-sm" onclick="actualizarObjeto()">Guardar Cambios</button>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close" onclick="restablecerCamposM()">Cancelar</button>
                     </div>
                 </div>
             </div>

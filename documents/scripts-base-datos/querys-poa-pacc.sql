@@ -253,7 +253,7 @@ DELIMITER ;;
 CREATE PROCEDURE SP_Registrar_Objeto(
    IN _idObjeto INT,
    IN _objeto varchar(80),
-   IN _abrev varchar(5),
+   IN _abrev varchar(25),
    IN _codigoObjeto varchar(8),
    IN _idEstadoDCD INT,
    IN _peticion varchar(60),
@@ -262,7 +262,7 @@ CREATE PROCEDURE SP_Registrar_Objeto(
 BEGIN
    declare temp int;
    
-   if LENGTH(_objeto) >0 && LENGTH(_objeto)<=80 && LENGTH(_abrev) >0 && LENGTH(_abrev)<=5 && LENGTH(_codigoObjeto) >0 && LENGTH(_codigoObjeto)<=8 then
+   if LENGTH(_objeto) >0 && LENGTH(_objeto)<=80 && LENGTH(_abrev) >0 && LENGTH(_abrev)<=25 && LENGTH(_codigoObjeto) >0 && LENGTH(_codigoObjeto)<=8 then
    if _peticion = 'insert' then
 		set temp = (SELECT COUNT(*) FROM objetogasto WHERE (codigoObjetoGasto = _codigoObjeto or abrev=_abrev or DescripcionCuenta=_objeto));
         

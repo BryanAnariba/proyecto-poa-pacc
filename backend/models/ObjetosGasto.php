@@ -119,7 +119,7 @@
         }
 
         public function insertarObjeto () {
-            if (campoTexto($this->ObjetoDeGasto,1,80) && campoTexto($this->Abreviatura,1,5) && is_numeric($this->CodigoObjeto) && is_numeric($this->idEstado)) {
+            if (campoTexto($this->ObjetoDeGasto,1,80) && campoAbrevCodigo($this->Abreviatura,1,15) && campoCodigo($this->CodigoObjeto,1,15) && is_numeric($this->idEstado)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
@@ -162,36 +162,38 @@
             }
         }
         public function modificarObjeto () {
-            try {
-                $this->conexionBD = new Conexion();
-                $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto ($this->idObjetoGasto, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'actualizarCarrera', @resp)");
-                if ($stmt->execute()) {
-                    $resp = $this->consulta->query('SELECT @resp')->fetch();
-                    if(json_encode($resp[0])==0){
+            if (campoTexto($this->ObjetoDeGasto,1,80) && campoAbrevCodigo($this->Abreviatura,1,15) && campoCodigo($this->CodigoObjeto,1,15) && is_numeric($this->idObjetoGasto) && is_numeric($this->idEstado)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto ($this->idObjetoGasto, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'actualizarCarrera', @resp)");
+                    if ($stmt->execute()) {
+                        $resp = $this->consulta->query('SELECT @resp')->fetch();
+                        if(json_encode($resp[0])==0){
+                            return array(
+                                'status'=> BAD_REQUEST,
+                                'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion del objeto de gasto')
+                            );
+                        }else{
+                            return array(
+                                'status' => SUCCESS_REQUEST,
+                                'data' => array('message'=>'Informacion del objeto de gasto actualizado con exito')
+                            );
+                        }
+                    } else {
                         return array(
                             'status'=> BAD_REQUEST,
                             'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion del objeto de gasto')
                         );
-                    }else{
-                        return array(
-                            'status' => SUCCESS_REQUEST,
-                            'data' => array('message'=>'Informacion del objeto de gasto actualizado con exito')
-                        );
                     }
-                } else {
+                } catch (PDOException $ex) {
                     return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion del objeto de gasto')
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
                     );
+                } finally {
+                    $this->conexionBD = null;
                 }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
             }
         }
     }

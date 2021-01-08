@@ -168,7 +168,7 @@
                             <span class="nav__name">Administrativo</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/VisualizacionActividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Actividades</span>
                         </a>
@@ -193,7 +193,7 @@
                             <span class="nav__name">Administrativo</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/VisualizacionActividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Actividades</span>
                         </a>
