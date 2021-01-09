@@ -81,7 +81,7 @@ CREATE PROCEDURE SP_LISTA_OBJ_POR_DIM(IN idDimension INT)
 -- CALL SP_LISTA_OBJ_POR_DIM(1)
 
 
-CREATE PROCEDURE SP_REGISTRA_OBJETIVO(IN dimensionEstrategica INT, IN estadoObjetivoInstitucional INT , objetivo VARCHAR(150))
+CREATE PROCEDURE SP_REGISTRA_OBJETIVO(IN dimensionEstrategica INT, IN estadoObjetivoInstitucional INT , objetivo TEXT)
 	INSERT INTO ObjetivoInstitucional(idDimensionEstrategica, idEstadoObjetivoInstitucional, objetivoInstitucional) 
     VALUES (dimensionEstrategica, estadoObjetivoInstitucional, objetivo);
 
@@ -94,13 +94,13 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_OBJETIVO(IN idObjetivo INT,IN idEstado INT)
 
 -- CALL SP_CAMBIA_ESTADO_OBJETIVO(3, 2)
 
-CREATE PROCEDURE SP_MODIFICA_OBJETIVO(IN idObjetivo INT, IN objetivo VARCHAR(180))
+CREATE PROCEDURE SP_MODIFICA_OBJETIVO(IN idObjetivo INT, IN objetivo TEXT)
 	UPDATE ObjetivoInstitucional SET ObjetivoInstitucional = objetivo
     WHERE idObjetivoInstitucional = idObjetivo;
 
 -- CALL SP_MODIFICA_OBJETIVO(P1,P2)
 
-CREATE PROCEDURE SP_REGISTRA_AREA_ESTRATEGICA(IN idObjetivo INT,IN idEstado INT, IN area VARCHAR(200))
+CREATE PROCEDURE SP_REGISTRA_AREA_ESTRATEGICA(IN idObjetivo INT,IN idEstado INT, IN area TEXT)
 	INSERT INTO AreaEstrategica (idObjetivoInstitucional, idEstadoAreaEstrategica, areaEstrategica)
     VALUES (idObjetivo, idEstado, area);
 
@@ -126,7 +126,7 @@ CREATE PROCEDURE SP_CAMBIA_ESTADO_AREA(IN idArea INT,IN idEstadoArea INT)
 
 -- CALL SP_CAMBIA_ESTADO_AREA(P1,P2)
 
-CREATE PROCEDURE SP_MODIFICA_AREA(IN idArea INT, IN area VARCHAR(200))
+CREATE PROCEDURE SP_MODIFICA_AREA(IN idArea INT, IN area TEXT)
 	UPDATE AreaEstrategica SET areaEstrategica = area
     WHERE idAreaEstrategica = idArea;
 

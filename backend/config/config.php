@@ -38,6 +38,7 @@
     define('TBL_PRESUPUESTO_ANUAL', 'controlPresupuestoActividad');
     define('TBL_PRESUPUESTO_DEPTO', 'presupuestoDepartamento');
     define('TBL_ESTADOS', 'estadoDCDUOAO');
+    define('TBL_RESULTADOS_INSTITUCIONALES', 'ResultadoInstitucional');
 
     define('MIN_TAMANIO_CLAVE', 12);
 

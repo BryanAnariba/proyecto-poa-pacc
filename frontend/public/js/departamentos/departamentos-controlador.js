@@ -111,6 +111,10 @@ const registrarDepartamento = () => {
                 cancelarRegistroDepartamento();
             },
             error:function (error) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
@@ -140,6 +144,7 @@ const cambiarEstado = () => {
         dataType: 'json',
         data: (peticion),
         success:function(response) {
+            document.getElementById("R-estadoDepartamento").innerHTML = ``;
             for(let i = 0; i < response.data.length;i++){
                 document.getElementById("R-estadoDepartamento").innerHTML+=`<option value="${response.data[i].idEstado}">${response.data[i].estado}</option>`;
             }
@@ -188,6 +193,7 @@ const cambiarEstadoDepartamento = (departamento) => {
         dataType: 'json',
         data: (peticion),
         success:function(response) {
+            document.getElementById("M-estadoDepartamento").innerHTML = ``;
             for(let i = 0; i < response.data.length;i++){
                 if(departamento.idEstadoDepartamento==response.data[i].idEstado){
                     document.getElementById("M-estadoDepartamento").innerHTML+=`<option value="${response.data[i].idEstado}" selected>${response.data[i].estado}</option>`;

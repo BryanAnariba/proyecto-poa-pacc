@@ -1,6 +1,3 @@
--- ---------------PARA EL CONTROL DE DEPARTAMENTOS---------------------------------------------------------
--- agregando campo correoDepartamento a la tabla departamento
-ALTER TABLE Departamento ADD COLUMN correoDepartamento VARCHAR(60);
 
 -- PROCEDIMIENTOS PARA CONTROL DE DEPARTAMENTOS
 -- Procedimiento para registrar nuevo departamento 
@@ -47,33 +44,6 @@ CREATE PROCEDURE SP_MODIFICAR_DEPARTAMENTO(
         correoDepartamento = correoDepartamentoM
     WHERE idDepartamento = idDepartamentoM;
 
-
-
--- ----------------------------------------------------------------------------------------------------------------------
-
--- --------------------------------esto tambien debe revisarse 
--- agregando una tabla para las dimensiones administrativas, 
-CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`DimensionAdmin` (
-  `idDimension` INT NOT NULL AUTO_INCREMENT,
-  `idEstadoDimension` INT NOT NULL,
-  `dimensionAdministrativa` VARCHAR(150) NOT NULL,
-  PRIMARY KEY (`idDimension`),
-  INDEX `fk_DimensionAdministrativa_EstadoDCD1_idx` (`idEstadoDimension`),
-  CONSTRAINT `fk_DimensionAdministrativa_EstadoDCD1`
-    FOREIGN KEY (`idEstadoDimension`)
-    REFERENCES `poa-pacc-bd`.`EstadoDCDUOAO` (`idEstado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-INSERT INTO `dimensionadmin` (`idDimension`, `idEstadoDimension`, `dimensionAdministrativa`) 
-VALUES (NULL, '1', 'TALLERES SEMINARIOS');
--- ------------------------------------------------------------------
-
-
-
-
-
 -- Procedimientos almacenados para dimensiones administrativas
 
 -- CALL SP_REGISTRA_DIM_ADMINISTRATIVA
@@ -119,3 +89,28 @@ CREATE PROCEDURE SP_MODIFICA_DIMENSION_ADMIN(
 UPDATE DimensionAdmin 
 SET dimensionAdministrativa = dimension 
 WHERE idDimension = idDimensionAdministrativa;
+
+
+
+
+-- ----------------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------esto tambien debe revisarse 
+-- agregando una tabla para las dimensiones administrativas, 
+CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`DimensionAdmin` (
+  `idDimension` INT NOT NULL AUTO_INCREMENT,
+  `idEstadoDimension` INT NOT NULL,
+  `dimensionAdministrativa` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`idDimension`),
+  INDEX `fk_DimensionAdministrativa_EstadoDCD1_idx` (`idEstadoDimension`),
+  CONSTRAINT `fk_DimensionAdministrativa_EstadoDCD1`
+    FOREIGN KEY (`idEstadoDimension`)
+    REFERENCES `poa-pacc-bd`.`EstadoDCDUOAO` (`idEstado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+INSERT INTO `dimensionadmin` (`idDimension`, `idEstadoDimension`, `dimensionAdministrativa`) 
+VALUES (NULL, '1', 'TALLERES SEMINARIOS');
+-- ------------------------------------------------------------------
+

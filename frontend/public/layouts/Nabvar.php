@@ -3,7 +3,7 @@
         session_start();
     }
     if (!isset($_SESSION['correoInstitucional'])) {
-       header('Location: 401.php');
+        header('Location: 401.php');
     }
     include('../partials/doctype.php');
     include('verifica-session.php');    
@@ -209,7 +209,6 @@
                 <p class="font-weight-bolder"><h5>Cargo:</h5> <?=$_SESSION['tipoUsuario']?></p>
                 <p class="font-weight-bolder"><h5>Departamento:</h5> <?=$_SESSION['abrev']?></p>
                 <p class="font-weight-bolder"><h5>No Empleado:</h5> <?=$_SESSION['codigoEmpleado']?></p>
-                <p class="font-weight-bolder"><h5>Presupuesto Departamento Disponible:</h5> 142,000 Lps</p>
                 <div class="container">
                     <div class="row">
                         <div class="col">

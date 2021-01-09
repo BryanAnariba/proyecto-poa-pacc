@@ -90,7 +90,7 @@
         }
 
         public function registrarObjetivoPorDimension () {
-            if (campoTexto($this->objetivoInstitucional, 1, 180) && is_int($this->idDimensionEstrategica)) {
+            if (campoTexto($this->objetivoInstitucional, 1, 500) && is_int($this->idDimensionEstrategica)) {
                 $this->idEstadoObjetivoInstitucional = ESTADO_ACTIVO;
                 try {
                     $this->conexionBD = new Conexion();
@@ -167,7 +167,7 @@
         }
 
         public function modificarObjetivo () {
-            if (campoTexto($this->objetivoInstitucional, 1, 180) && is_int($this->idObjetivoInstitucional)) {
+            if (campoTexto($this->objetivoInstitucional, 1, 500) && is_int($this->idObjetivoInstitucional)) {
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();

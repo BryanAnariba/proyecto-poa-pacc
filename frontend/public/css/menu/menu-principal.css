@@ -195,12 +195,12 @@ a{
     
     /*Show navbar desktop*/
     .show{
-        width: calc(var(--nav-width) + 180px);
+        width: calc(var(--nav-width) + 200px);
     }
 
     /*Add padding body desktop*/
     .body-pd{
-        padding-left: calc(var(--nav-width) + 188px);
+        padding-left: calc(var(--nav-width) + 220px);
   }
 
     .dropdown-items {

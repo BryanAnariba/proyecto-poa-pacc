@@ -5,6 +5,7 @@ $(document).ready(function (){
 let idDimensionSeleccionada;
 let idObjetivoSeleccionado;
 let idAreaEstrategicaSeleccionada;
+let idResultadoInstitucionalSeleccionado;
 
 let nombreDimension = document.querySelector('#R-nombreDimension');
 let nD = { valorEtiqueta: nombreDimension, id: 'R-nombreDimension', name: 'Nombre Dimension', min: 1, max: 150, type: 'text' };
@@ -121,6 +122,7 @@ const registrarDimension = () => {
                 dimensionesEstrategicas();
             },
             error:function(error) {
+                $('#btn-registrar-dimension').prop('disabled', false);
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -222,6 +224,7 @@ const modificarDimension = () => {
                 dimensionesEstrategicas();
             },
             error:function(error) {
+                $('#btn-modificar-dimension').prop('disabled', false);
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -247,9 +250,9 @@ const modificarDimension = () => {
 
                         // Peticiones de los objetivos institucionales
 let nombreObjetivo = document.querySelector('#R-objetivoInstitucional');
-let nO = { valorEtiqueta: nombreObjetivo, id: 'R-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 180, type: 'text' };
+let nO = { valorEtiqueta: nombreObjetivo, id: 'R-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
 let nombreObjetivoModificar = document.querySelector('#M-objetivoInstitucional');
-let nOM = { valorEtiqueta: nombreObjetivoModificar, id: 'M-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 180, type: 'text' };
+let nOM = { valorEtiqueta: nombreObjetivoModificar, id: 'M-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
 
 const verObjetivosInstitucionales = (idDimension) => {
     idDimensionSeleccionada = idDimension;
@@ -280,7 +283,14 @@ const verObjetivosInstitucionales = (idDimension) => {
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" onclick="visualizarAreasEstrategicas('${data[i].idObjetivoInstitucional}')">
-                            Areas Estrategicas
+                            <img src="../img/menu/ver-icon.svg"/>
+                            Ver
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-rounded" onclick="visualizarResultadosInstitucionales('${data[i].idObjetivoInstitucional}')">
+                            <img src="../img/menu/ver-icon.svg"/>
+                            Ver
                         </button>
                     </td>
                     <td>
@@ -340,6 +350,7 @@ const registrarObjetivo = () => {
                 cancelarRegistroObjetivo();
             },
             error:function (error) {
+                $('#btn-registrar-objetivo').prop('disabled', false); 
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -429,6 +440,7 @@ const modificarObjetivoInstitucional = () => {
                 $('#modalModificarObjetivo').modal('hide');
             },
             error:function (error) {
+                $('#btn-modificar-objetivo').prop('disabled', false);
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -453,9 +465,9 @@ const modificarObjetivoInstitucional = () => {
 
                         // Peticiones de las areas estrategicas
 let nombreArea = document.querySelector('#R-areaEstrategica');
-let nA = { valorEtiqueta: nombreArea, id: 'R-areaEstrategica', name: 'Area Estrategica', min: 1, max: 200, type: 'text' };
+let nA = { valorEtiqueta: nombreArea, id: 'R-areaEstrategica', name: 'Area Estrategica', min: 1, max: 500, type: 'text' };
 let nombreAreaModificar = document.querySelector('#M-areaEstrategica');
-let nAM = { valorEtiqueta: nombreAreaModificar, id: 'M-areaEstrategica', name: 'Area Estrategica', min: 1, max: 200, type: 'text' };
+let nAM = { valorEtiqueta: nombreAreaModificar, id: 'M-areaEstrategica', name: 'Area Estrategica', min: 1, max: 500, type: 'text' };
                         
 const visualizarAreasEstrategicas = (idObjetivo) => {
     idObjetivoSeleccionado = idObjetivo;
@@ -540,6 +552,7 @@ const registrarArea = () => {
                 cancelarRegistroArea();
             },
             error:function (error) {
+                $('#btn-registrar-area').prop('disabled', false);
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -556,7 +569,7 @@ const registrarArea = () => {
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
-            text: 'El registro del objetivo no se pudo realizar',
+            text: 'El registro del area no se pudo realizar',
             footer: '<b>Por favor verifique el formulario de registro</b>'
         });
     }
@@ -605,7 +618,7 @@ const modificarEstadoArea = (idArea, idEstadoArea) => {
 function obtenerAreaEstrategica (idArea, areaEstrategica) {
     idAreaEstrategicaSeleccionada = idArea;
     $('#modalModificarArea').modal('show');
-    $('#M-areaEstrategica').val(areaEstrategica).trigger('change');``
+    $('#M-areaEstrategica').val(areaEstrategica).trigger('change');
 }
 
 const modificarAreaEstrategica = () => {
@@ -636,6 +649,7 @@ const modificarAreaEstrategica = () => {
                 $('#modalModificarArea').modal('hide');
             },
             error:function (error) {
+                $('#btn-modificar-area').prop('disabled', false);
                 const { status, data } = error.responseJSON;
                 if (status === 401) {
                     window.location.href = '../views/401.php';
@@ -658,6 +672,228 @@ const modificarAreaEstrategica = () => {
     }
 }
 
-//$("input").prop('disabled', true);
-//$("input").prop('disabled', false);
+const visualizarResultadosInstitucionales = (idObjetivoInstitucional) => {
+    idObjetivoSeleccionado = idObjetivoInstitucional;
+    let parametros = { idObjetivoInstitucional: idObjetivoInstitucional };
+    $.ajax(`${ API }/resultados-institucionales/listar-resultados.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(parametros),
+        success:function(response) {
+            const { data } = response;
+            console.log(data);
+            
+            $('#modalResultadosInstitucionales').modal('show');
+            $('#listado-resultados tbody').html(``);
+        
+            for (let i=0;i<data.length; i++) {
+            $('#listado-resultados tbody').append(`
+                <tr>
+                    <td scope="row">${ i + 1}</td>
+                    <td>${ data[i].resultadoInstitucional }</td>
+                    <td>
+                        <button type="button" ${data[i].idEstadoResultadoInstitucional === 1 ? `class="btn btn-success" ` : `class="btn btn-danger" `}
+                        onclick=(modificarEstadoResultado('${data[i].idResultadoInstitucional}','${data[i].idEstadoResultadoInstitucional}'))>
+                            ${data[i].estado }
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-amber" onclick="modalModificarResultadoSeleccionado('${data[i].idResultadoInstitucional}','${data[i].resultadoInstitucional}')">
+                            <img src="../img/menu/editar.svg" alt="modificar resultado"/>
+                        </button>
+                    </td>
+                </tr>
+            `)
+        }
+        $('#listado-resultados').DataTable({
+            language: i18nEspaniol,
+            //dom: 'Blfrtip',
+            //buttons: botonesExportacion,
+            retrieve: true
+        });
+        },
+        error:function(error) {
+            const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`
+                });
+        }
+    });
+}
 
+const modalRegistraResultadoInstitucional = () => {
+    $('#modalRegistraResultadosInstitucionales').modal('show');
+}
+
+const registrarResultado = () => {
+    let resultadoInstitucional = document.querySelector('#R-resultadoInstitucional');
+    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    const isValidResultado = verificarInputText(rI, letrasEspaciosCaracteresRegex);
+    if (isValidResultado) {
+        let parametros = {
+            idObjetivoInstitucional: parseInt(idObjetivoSeleccionado),
+            resultadoInstitucional: resultadoInstitucional.value
+        };
+        console.log(parametros);
+        $('#btn-registrar-resultado').prop('disabled', true);
+        $.ajax(`${ API }/resultados-institucionales/registrar-resultado.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function(response) {
+                $('#modalRegistraResultadosInstitucionales').modal('hide');
+                const { data } = response;
+                console.log(data);
+                visualizarResultadosInstitucionales(idObjetivoSeleccionado);
+                cancelarRegistroResultado();
+                $('#btn-registrar-resultado').prop('disabled', false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error) {
+                console.log(error);
+                $('#btn-registrar-resultado').prop('disabled', false);
+                const { status, data } = error.responseJSON;
+                    if (status === 401) {
+                        window.location.href = '../views/401.php';
+                    }
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`
+                    });
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'El registro del resultado no se puede realizar',
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }
+}
+
+cancelarRegistroResultado = () => {
+    let resultadoInstitucional = document.querySelector('#R-resultadoInstitucional');
+    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    limpiarCamposFormulario(rI);
+    $(`#R-resultadoInstitucional`).trigger('reset');
+}
+
+const modificarEstadoResultado = (idResultadoInstitucional, idEstadoResultadoInstitucional) => {
+    let parametros = {
+        idResultadoInstitucional: parseInt(idResultadoInstitucional),
+        idEstadoResultadoInstitucional:parseInt(idEstadoResultadoInstitucional)
+    };
+    console.log(parametros);
+    $.ajax(`${ API }/resultados-institucionales/modificar-estado-resultado.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(parametros),
+        success:function(response) {
+            const { data } = response;
+            console.log(data);
+            visualizarResultadosInstitucionales(idObjetivoSeleccionado);
+            Swal.fire({
+                icon: 'success',
+                title: 'Accion realizada Exitosamente',
+                text: `${ data.message }`,
+            });
+        },
+        error:function(error) {
+            console.log(error);
+            const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`
+                });
+        }
+    })
+}
+
+const modalModificarResultadoSeleccionado = (idResultadoInstitucional, resultadoInstitucional) => {
+    $('#modalModificaResultadosInstitucionales').modal('show');
+    idResultadoInstitucionalSeleccionado = idResultadoInstitucional;
+    $('#M-resultadoInstitucional').val(resultadoInstitucional).trigger('change');
+}
+
+
+const modificarResultado = () => {
+    let resultadoInstitucionalModificado = document.querySelector('#M-resultadoInstitucional');
+    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    const isValidResultado = verificarInputText(rIM, letrasEspaciosCaracteresRegex);
+    if (isValidResultado) {
+        let parametros = {
+            idResultadoInstitucional: parseInt(idResultadoInstitucionalSeleccionado),
+            resultadoInstitucional: resultadoInstitucionalModificado.value
+        };
+        console.log(parametros);
+        $('#btn-modificar-resultado').prop('disabled', true);
+        $.ajax(`${ API }/resultados-institucionales/modificar-resultado.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function(response) {
+                $('#modalModificaResultadosInstitucionales').modal('hide');
+                const { data } = response;
+                console.log(data);
+                visualizarResultadosInstitucionales(idObjetivoSeleccionado);
+                cancelarRegistroResultado();
+                $('#btn-modificar-resultado').prop('disabled', false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error) {
+                console.log(error);
+                $('#btn-modificar-resultado').prop('disabled', false);
+                const { status, data } = error.responseJSON;
+                    if (status === 401) {
+                        window.location.href = '../views/401.php';
+                    }
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`
+                    });
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'El registro del resultado no se puede realizar',
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }
+}
+
+cancelarModificacionResultado = () => {
+    let resultadoInstitucionalModificado = document.querySelector('#M-resultadoInstitucional');
+    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    limpiarCamposFormulario(rIM);
+    $(`#R-resultadoInstitucional`).trigger('reset');
+}

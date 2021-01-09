@@ -14,34 +14,39 @@ INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secreta
 INSERT INTO `poa-pacc-bd`.`tipousuario` (`tipoUsuario`,`abrev`) VALUES ('Secretaria Academica', 'S_AC');
 update `poa-pacc-bd`.`tipoUsuario` set tipoUsuario = 'Coordinador Carrera' , abrev = 'C_C' WHERE idTIpoUsuario = 3;
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`, `correoDepartamento`) VALUES (
 1,
 'Ingenieria en Sistemas',
 'IS',
-'2216-6100');
+'2216-6100',
+'testIS@unah.hn');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`, `correoDepartamento`) VALUES (
 1,
 'Ingenieria Industrial',
-'II','2216-3014');
+'II','2216-3014',
+'testII@unah.hn');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`, `correoDepartamento`) VALUES (
 1,
 'Ingenieria Mecanica',
 'IM',
-'2216-5100');
+'2216-5100',
+'testIM@unah.hn');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`, `correoDepartamento`) VALUES (
 1,
 'Ingenieria Electrica',
 'IE',
-'2216-5155');
+'2216-5155',
+'testIE@unah.hn');
 
-INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`) VALUES (
+INSERT INTO `poa-pacc-bd`.`departamento` (`idEstadoDepartamento`,`nombreDepartamento`,`abrev`,`telefonoDepartamento`, `correoDepartamento`) VALUES (
 2,
 'Ingenieria Inactiva',
 'IA',
-'2216-2216');
+'2216-2216',
+'testIA@unah.hn');
 
 
 
@@ -55,26 +60,20 @@ INSERT INTO `poa-pacc-bd`.`tipolugar` (`tipoLugar`) VALUES ('Municipio');
 INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
 VALUES ('1',null,'Honduras');
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'El Salvador');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'El Salvador');
 
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'Nicaragua');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'Nicaragua');
 
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'Costa Rica');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'Costa Rica');
 
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'Panama');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'Panama');
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'Guatemala');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'Guatemala');
 
-INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`)
-VALUES ('1',null,'Estados Unidos');
+INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES ('1',null,'Estados Unidos');
 
 
 INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES (2, 1, 'Francisco Morazan');
