@@ -4,7 +4,7 @@
 <title>Control de actividades</title>
 <!--En esta zona podran poner estilos propios de la vista-->
 
-<link rel="stylesheet" href="../css/Jefe-Coordinador/control-actividades2.css">
+<link rel="stylesheet" href="../css/Jefe-Coordinador/control-actividades.css">
 <link rel="stylesheet" href="../css/Jefe-Coordinador/llenado.css">
 <link rel="stylesheet" href="../css/sweet-alert-two/sweetalert2.min.css">
 
@@ -150,7 +150,7 @@
                                                     <li id="Justificacion"><strong>Justificacion</strong></li>
                                                     <li id="ActividadeEspeciales"><strong>Actividade Especiales</strong></li>
                                                 </ul> <!-- fieldsets -->
-                                                <fieldset >
+                                                <fieldset id="primero">
                                                     <div class="form-card" >
                                                         <h2 class="fs-title">Resultados</h2> 
                                                         <div class="col-12">
@@ -181,7 +181,7 @@
                                                     </div> 
                                                     <input type="button" name="next" class="next action-button" value="Next Step" />
                                                 </fieldset>
-                                                <fieldset>
+                                                <fieldset id="segundo">
                                                     <div class="form-card">
                                                         <h2 class="fs-title">Actividad</h2> 
                                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -203,7 +203,7 @@
                                                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
                                                     <input type="button" name="next" class="next action-button" value="Next Step" />
                                                 </fieldset>
-                                                <fieldset>
+                                                <fieldset id="tercero">
                                                     <div class="form-card">
                                                         <h2 class="fs-title">Metas trimestrales</h2>
                                                         <div class="row">
@@ -350,7 +350,7 @@
                                                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
                                                     <input type="button" name="next" class="next action-button" value="Next Step" />
                                                 </fieldset>
-                                                <fieldset>
+                                                <fieldset id="cuarto">
                                                     <div class="form-card" >
                                                         <h2 class="fs-title">Justificacion</h2> 
                                                         <div class="col-12">
@@ -385,7 +385,7 @@
                                                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
                                                     <input type="button" name="next" class="next action-button" value="Next Step" />
                                                 </fieldset>
-                                                <fieldset>
+                                                <fieldset id="quinto">
                                                     <div class="form-card" >
                                                         <h2 class="fs-title">Actividade Especiales</h2> 
                                                         <div class="container row">
@@ -393,7 +393,7 @@
                                                                 <button 
                                                                     type="button"
                                                                     class="btn btn-indigo btn-block"  
-                                                                    onclick="agregarAct()">
+                                                                    id="bot">
                                                                     Agregar
                                                                 </button>
                                                             </div>
@@ -439,7 +439,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
-                                                    <input type="button" name="next" class="action-button" value="Continue" />
+                                                    <input id="save" type="button" name="save" class="action-button" value="Aceptar" />
                                                 </fieldset>
                                             </form>
                                         </div>
@@ -450,36 +450,164 @@
                     </div>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
+                    <div class="text-center" id="foote-modal">
+                        <button id="close" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--Modificar Actividades-->
-    <div 
+    <!--Agregar Actividad-->
+    <div
         class="modal fade" 
-        id="modalModificarActividades" 
+        id="modalActividad" 
         tabindex="-1" role="dialog" 
         aria-labelledby="myModalLabel" 
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Modificar Actividad</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro actividad</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <div class="container tabla">    
+                        <form class="text-center" style="color: #757575;" action="#!">
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div class="md-form">
+                                        <input type="text" id="ActividadL" class="form-control">
+                                        <span id="errorsActividadL" class="text-danger text-small d-none">
+                                        </span>
+                                        <label 
+                                            for="ActividadL"
+                                            id="labelActividadL"
+                                        >
+                                        Actividad
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
+                                        <input type="number" id="Cantidad" class="form-control">
+                                        <span id="errorsCantidad" class="text-danger text-small d-none">
+                                        </span>
+                                        <label 
+                                            for="Cantidad"
+                                            id="labelCantidad"
+                                        >
+                                        Cantidad
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
+                                        <input type="number" id="Costo" class="form-control">
+                                        <span id="errorsCosto" class="text-danger text-small d-none">
+                                        </span>
+                                        <label 
+                                            for="Costo"
+                                            id="labelCosto"
+                                        >
+                                        Costo
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6 row">
+                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
+                                        <input type="number" id="CostoT" class="form-control" readonly disabled>
+                                        <label 
+                                            for="CostoT"
+                                            id="labelCostoT"
+                                        >
+                                        Costo Total
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col-4" style="padding-left:0;margin-left:auto">
+                                    <label for="TipoPresupuesto" id="labelTipoPresupuesto">Tipo de presupuesto:</label>
+                                    <select name="TipoPresupuesto" id="TipoPresupuesto" class="browser-default custom-select mb-4">
+
+                                    </select>
+                                    <span id="errorsTipoPresupuesto" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                                <div class="input-field col-4" style="padding-left:0;margin-right:auto">
+                                    <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label>
+                                    <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4">
+
+                                    </select>
+                                    <span id="errorsObjGasto" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="text" id="DescripcionCuenta" class="form-control">
+                                    <span id="errorsDescripcionCuenta" class="text-danger text-small d-none">
+                                    </span>
+                                    <label 
+                                        for="DescripcionCuenta"
+                                        id="labelDescripcionCuenta"
+                                    >
+                                    Descripcion de la cuenta
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="text" id="DimensionEstrategicaS" class="form-control">
+                                    <span id="errorsDimensionEstrategicaS" class="text-danger text-small d-none">
+                                    </span>
+                                    <label 
+                                        for="DimensionEstrategicaS"
+                                        id="labelDimensionEstrategicaS"
+                                    >
+                                    Dimension Estrategica
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="date" id="Mes" class="form-control">
+                                    <span id="errorsMes" class="text-danger text-small d-none">
+                                    </span>
+                                    <label 
+                                        for="Mes"
+                                        id="labelMes"
+                                    >
+                                    Mes requerido
+                                    </label>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
-                    
+                    <div class="row col-12">
+                        <div class="text-center" style="margin-left:auto">
+                            <button 
+                                type="button" 
+                                class="btn btn-light-green btn-rounded btn-sm"
+                                id="ingresarAct">
+                                Ingresar
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!--En esta zona podran poner javascripts propios de la vista-->
     

@@ -1,4 +1,5 @@
 let clientsArr =  JSON.parse(localStorage.getItem('Dimension')) || [];
+var pos=1;
 clientsArr.push({'hola':'bye'});
 localStorage.setItem('Dimension', JSON.stringify(clientsArr));
 
@@ -15,8 +16,9 @@ var arreglo = [
     {correlativo: "pendiente", objetivoInstitucional: "hola",area:"hola",actividad:"hola",monto:'400000',responsable:"Dimension 10", noActividades:"4"},
     {correlativo: "llena", objetivoInstitucional: "hola",area:"hola",actividad:"hola",monto:'400000',responsable:"Dimension 11", noActividades:"4"}];
 
+// <<--- Inicializa todo lo de los select y el datatable, asi como tambien las funcionalidades del wizard --->>
+
 $(document).ready(function(){
-    console.log(arreglo);
     $('#ActividadTabla').dataTable().fnDestroy();
     $('#ActividadTabla'+' tbody').html(``);
     for (let i=0;i<arreglo.length; i++) {
@@ -49,8 +51,262 @@ $(document).ready(function(){
         "lengthMenu": [[3, 6, 9, -1], [3, 6, 9, "All"]],
         retrieve: true
     });
+    var current_fs, next_fs, previous_fs; //fieldsets
+    var opacity;
+    
+    $(".next").click(function(){
+        if(validar(pos)){
+            pos=pos+1
+            current_fs = $(this).parent();
+            next_fs = $(this).parent().next();
+            
+            //Add Class Active
+            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+            
+            //show the next fieldset
+            next_fs.show();
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+            step: function(now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+            
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+                next_fs.css({'opacity': opacity});
+            },
+                duration: 600
+            });
+        }
+    });
+    
+    $(".previous").click(function(){
+        pos=pos-1;
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+        
+        //Remove class active
+        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+        
+        //show the previous fieldset
+        previous_fs.show();
+        
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+        step: function(now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+            
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+                previous_fs.css({'opacity': opacity});
+            },
+                duration: 600
+        });
+    });
+    
+    $('.radio-group .radio').click(function(){
+    $(this).parent().find('.radio').removeClass('selected');
+    $(this).addClass('selected');
+    });
+    
+    $(".submit").click(function(){
+    return false;
+    });
+    $("#save").click(function(){
+        pos=1;
+        current_fs = $(this).parent();
+        $('#modalLlenadoActividades').modal('hide');
+        for(let i=1;i<5;i++){
+            $("#progressbar li").eq(i).removeClass("active");
+        };
+        current_fs.animate({opacity: 0}, {
+        step: function(now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+            
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+                $("#primero").css({'opacity': opacity});
+            },
+                duration: 600
+        });
+        $("#primero").show();
+        $("#msform")[0].reset();
+        $("form").trigger("change");
+        resetW();
+    });
+    $("#close").click(function(){
+        pos=1;
+        $('#modalLlenadoActividades').modal('hide');
+        for(let i=1;i<5;i++){
+            $("#progressbar li").eq(i).removeClass("active");
+        };
+        $("#segundo").css({'display': 'none','position': 'relative'});
+        $("#tercero").css({'display': 'none','position': 'relative'});
+        $("#cuarto").css({'display': 'none','position': 'relative'});
+        $("#quinto").css({'display': 'none','position': 'relative'});
+        $("#primero").css({'opacity': 1});
+        $("#primero").show();
+        $("#msform")[0].reset();
+        $("#foote-modal").css({'display': 'block','position': ''});
+        $("#foote-modal").show();
+        resetW();
+    });
+    $('#bot').click(function(){
+        $('#modalActividad').modal('show');
+        $('body').addClass('modal-open');
+    });
+    $("body").click(function(){
+        $('#modalActividad').on('hidden.bs.modal', function () {
+            $('#modalLlenadoActividades').modal('show');
+            $('body').addClass('modal-open');
+        })
+    });
+    $('#ingresarAct').click(function(){
+        agregarAct();
+    });
+    $('#closeAct').click(function(){
+        vaciarAct();
+    });
 });
+
+// <<--- Funciones --->>
+
 //localStorage.removeItem("Dimension");
+
+const vaciarAct = () => {
+    document.querySelector(`#labelActividadL`).classList.remove('text-danger')
+    document.querySelector('#ActividadL').classList.remove('text-danger');
+    document.querySelector('#ActividadL').classList.remove('is-invalid')
+    document.querySelector(`#errorsActividadL`).classList.add('d-none');
+    $("#ActividadL").val("").trigger("change");
+    document.querySelector(`#labelCantidad`).classList.remove('text-danger')
+    document.querySelector('#Cantidad').classList.remove('text-danger');
+    document.querySelector('#Cantidad').classList.remove('is-invalid')
+    document.querySelector(`#errorsCantidad`).classList.add('d-none');
+    $("#Cantidad").val("").trigger("change");
+    document.querySelector(`#labelCosto`).classList.remove('text-danger')
+    document.querySelector('#Costo').classList.remove('text-danger');
+    document.querySelector('#Costo').classList.remove('is-invalid')
+    document.querySelector(`#errorsCosto`).classList.add('d-none');
+    $("#Costo").val("").trigger("change");
+    document.querySelector(`#labelTipoPresupuesto`).classList.remove('text-danger')
+    document.querySelector('#TipoPresupuesto').classList.remove('text-danger');
+    document.querySelector('#TipoPresupuesto').classList.remove('is-invalid')
+    document.querySelector(`#errorsTipoPresupuesto`).classList.add('d-none');
+    $("#TipoPresupuesto").val("").trigger("change");
+    document.querySelector(`#labelObjGasto`).classList.remove('text-danger')
+    document.querySelector('#ObjGasto').classList.remove('text-danger');
+    document.querySelector('#ObjGasto').classList.remove('is-invalid')
+    document.querySelector(`#errorsObjGasto`).classList.add('d-none');
+    $("#ObjGasto").val("").trigger("change");
+    document.querySelector(`#labelDescripcionCuenta`).classList.remove('text-danger')
+    document.querySelector('#DescripcionCuenta').classList.remove('text-danger');
+    document.querySelector('#DescripcionCuenta').classList.remove('is-invalid')
+    document.querySelector(`#errorsDescripcionCuenta`).classList.add('d-none');
+    $("#DescripcionCuenta").val("").trigger("change");
+    document.querySelector(`#labelDimensionEstrategicaS`).classList.remove('text-danger')
+    document.querySelector('#DimensionEstrategicaS').classList.remove('text-danger');
+    document.querySelector('#DimensionEstrategicaS').classList.remove('is-invalid')
+    document.querySelector(`#errorsDimensionEstrategicaS`).classList.add('d-none');
+    $("#DimensionEstrategicaS").val("").trigger("change");
+    document.querySelector(`#labelMes`).classList.remove('text-danger')
+    document.querySelector('#Mes').classList.remove('text-danger');
+    document.querySelector('#Mes').classList.remove('is-invalid')
+    document.querySelector(`#errorsMes`).classList.add('d-none');
+    $("#Mes").val("").trigger("change");
+};
+
+const resetW = () => {
+    document.querySelector(`#labelResultadosInstitucional`).classList.remove('text-danger')
+    document.querySelector('#ResultadosInstitucional').classList.remove('text-danger');
+    document.querySelector('#ResultadosInstitucional').classList.remove('is-invalid')
+    document.querySelector(`#errorsResultadosInstitucional`).classList.add('d-none');
+    $("#ResultadosInstitucional").trigger("change");
+    document.querySelector(`#labelResultadosDeUnidad`).classList.remove('text-danger')
+    document.querySelector('#ResultadosDeUnidad').classList.remove('text-danger');
+    document.querySelector('#ResultadosDeUnidad').classList.remove('is-invalid')
+    document.querySelector(`#errorsResultadosDeUnidad`).classList.add('d-none');
+    $("#ResultadosDeUnidad").trigger("change");
+    document.querySelector(`#labelIndicador`).classList.remove('text-danger')
+    document.querySelector('#Indicador').classList.remove('text-danger');
+    document.querySelector('#Indicador').classList.remove('is-invalid')
+    document.querySelector(`#errorsIndicador`).classList.add('d-none');
+    $("#Indicador").trigger("change");
+    document.querySelector(`#labelActividads`).classList.remove('text-danger')
+    document.querySelector('#Actividads').classList.remove('text-danger');
+    document.querySelector('#Actividads').classList.remove('is-invalid')
+    document.querySelector(`#errorsActividads`).classList.add('d-none');
+    $("#Actividads").trigger("change");
+    document.querySelector(`#labelPorcentPTrimestre`).classList.remove('text-danger')
+    document.querySelector('#PorcentPTrimestre').classList.remove('text-danger');
+    document.querySelector('#PorcentPTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsPorcentPTrimestre`).classList.add('d-none');
+    $("#PorcentPTrimestre").trigger("change");
+    document.querySelector(`#labelMontoPTrimestre`).classList.remove('text-danger')
+    document.querySelector('#MontoPTrimestre').classList.remove('text-danger');
+    document.querySelector('#MontoPTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsMontoPTrimestre`).classList.add('d-none');
+    $("#MontoPTrimestre").trigger("change");
+    document.querySelector(`#labelPorcentSTrimestre`).classList.remove('text-danger')
+    document.querySelector('#PorcentSTrimestre').classList.remove('text-danger');
+    document.querySelector('#PorcentSTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsPorcentSTrimestre`).classList.add('d-none');
+    $("#PorcentSTrimestre").trigger("change");
+    document.querySelector(`#labelMontoSTrimestre`).classList.remove('text-danger')
+    document.querySelector('#MontoSTrimestre').classList.remove('text-danger');
+    document.querySelector('#MontoSTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsMontoSTrimestre`).classList.add('d-none');
+    $("#MontoSTrimestre").trigger("change");
+    document.querySelector(`#labelPorcentTTrimestre`).classList.remove('text-danger')
+    document.querySelector('#PorcentTTrimestre').classList.remove('text-danger');
+    document.querySelector('#PorcentTTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsPorcentTTrimestre`).classList.add('d-none');
+    $("#PorcentTTrimestre").trigger("change");
+    document.querySelector(`#labelMontoTTrimestre`).classList.remove('text-danger')
+    document.querySelector('#MontoTTrimestre').classList.remove('text-danger');
+    document.querySelector('#MontoTTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsMontoTTrimestre`).classList.add('d-none');
+    $("#MontoTTrimestre").trigger("change");
+    document.querySelector(`#labelPorcentCTrimestre`).classList.remove('text-danger')
+    document.querySelector('#PorcentCTrimestre').classList.remove('text-danger');
+    document.querySelector('#PorcentCTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsPorcentCTrimestre`).classList.add('d-none');
+    $("#PorcentCTrimestre").trigger("change");
+    document.querySelector(`#labelMontoCTrimestre`).classList.remove('text-danger')
+    document.querySelector('#MontoCTrimestre').classList.remove('text-danger');
+    document.querySelector('#MontoCTrimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsMontoCTrimestre`).classList.add('d-none');
+    $("#MontoCTrimestre").trigger("change");
+    document.querySelector(`#labelJustificacions`).classList.remove('text-danger')
+    document.querySelector('#Justificacions').classList.remove('text-danger');
+    document.querySelector('#Justificacions').classList.remove('is-invalid')
+    document.querySelector(`#errorsJustificacions`).classList.add('d-none');
+    $("#Justificacions").trigger("change");
+    document.querySelector(`#labelMedio`).classList.remove('text-danger')
+    document.querySelector('#Medio').classList.remove('text-danger');
+    document.querySelector('#Medio').classList.remove('is-invalid')
+    document.querySelector(`#errorsMedio`).classList.add('d-none');
+    $("#Medio").trigger("change");
+    document.querySelector(`#labelPoblacion`).classList.remove('text-danger')
+    document.querySelector('#Poblacion').classList.remove('text-danger');
+    document.querySelector('#Poblacion').classList.remove('is-invalid')
+    document.querySelector(`#errorsPoblacion`).classList.add('d-none');
+    $("#Poblacion").trigger("change");
+    document.querySelector(`#labelResponsable`).classList.remove('text-danger')
+    document.querySelector('#Responsable').classList.remove('text-danger');
+    document.querySelector('#Responsable').classList.remove('is-invalid')
+    document.querySelector(`#errorsResponsable`).classList.add('d-none');
+    $("#Responsable").trigger("change");
+};
+
 const modif = () =>{
     $('#modalModificarActividades').modal('show');
 };
@@ -227,82 +483,57 @@ const validar = (posicion) =>{
         // code block
     }
 }
-var pos=1;
-$(document).ready(function(){
-
-  var current_fs, next_fs, previous_fs; //fieldsets
-  var opacity;
-  
-  $(".next").click(function(){
-    console.log(pos);
-    if(validar(pos)){
-        pos=pos+1
-        current_fs = $(this).parent();
-        next_fs = $(this).parent().next();
-        
-        //Add Class Active
-        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-        
-        //show the next fieldset
-        next_fs.show();
-        //hide the current fieldset with style
-        current_fs.animate({opacity: 0}, {
-        step: function(now) {
-        // for making fielset appear animation
-        opacity = 1 - now;
-        
-        current_fs.css({
-            'display': 'none',
-            'position': 'relative'
-        });
-            next_fs.css({'opacity': opacity});
-        },
-            duration: 600
-        });
-    }
-  });
-  
-  $(".previous").click(function(){
-  pos=pos-1;
-  current_fs = $(this).parent();
-  previous_fs = $(this).parent().prev();
-  
-  //Remove class active
-  $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-  
-  //show the previous fieldset
-  previous_fs.show();
-  
-  //hide the current fieldset with style
-  current_fs.animate({opacity: 0}, {
-  step: function(now) {
-    // for making fielset appear animation
-    opacity = 1 - now;
-    
-    current_fs.css({
-        'display': 'none',
-        'position': 'relative'
-    });
-        previous_fs.css({'opacity': opacity});
-    },
-        duration: 600
-    });
-  });
-  
-  $('.radio-group .radio').click(function(){
-  $(this).parent().find('.radio').removeClass('selected');
-  $(this).addClass('selected');
-  });
-  
-  $(".submit").click(function(){
-  return false;
-  })
-  
-  });
   var valor;
   const agregarAct = ()=>{
-    $(document).off('focusin.modal');
-    Swal.fire({
+    let Actividads = document.querySelector('#ActividadL');
+    let Cantidad = document.querySelector('#Cantidad');
+    let Costo = document.querySelector('#Costo');
+    let TipoPresupuesto = document.querySelector('#TipoPresupuesto');
+    let ObjGasto = document.querySelector('#ObjGasto');
+    let DescripcionCuenta = document.querySelector('#DescripcionCuenta');
+    let DimensionEstrategicaS = document.querySelector('#DimensionEstrategicaS');
+    let Mes = document.querySelector('#Mes');
+
+    let aC = { valorEtiqueta: ActividadL, id: 'ActividadL', name: 'Actividad', min: 1, max: 500, type: 'text' };
+    let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
+    let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 10,type: 'number' };
+    let Tp = { valorEtiqueta: TipoPresupuesto, id: 'TipoPresupuesto', name: 'TipoPresupuesto' ,type: 'select' };
+    let oG = { valorEtiqueta: ObjGasto, id: 'ObjGasto', name: 'ObjGasto' ,type: 'select' };
+    let dC = { valorEtiqueta: DescripcionCuenta, id: 'DescripcionCuenta', name: 'Descripcion Cuenta', min: 1, max: 500, type: 'text' };
+    let De = { valorEtiqueta: DimensionEstrategicaS, id: 'DimensionEstrategicaS', name: 'Dimension Estrategica', min: 1, max: 10, type: 'text' };
+    let M = { valorEtiqueta: Mes, id: 'Mes', name: 'Mes' ,type: 'date' };
+
+
+    let isValidActividads = verificarInputText(aC,letrasEspaciosCaracteresRegex);
+    let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
+    let isValidCosto = verificarInputNumber(Co,numerosRegex);
+    let isValidTipoPresupuesto = verificarSelect(Tp);
+    let isValidObjGasto = verificarSelect(oG);
+    let isValidDescripcionCuenta = verificarInputText(dC,letrasEspaciosCaracteresRegex);
+    let isValidDimensionEstrategicaS = verificarInputText(De,letrasEspaciosCaracteresRegex);
+    let isValidMes = verificarFecha(M);
+
+   if (
+       (isValidActividads === true) &&
+       (isValidCantidad === true) &&
+       (isValidCosto === true) &&
+       (isValidTipoPresupuesto === true) &&
+       (isValidObjGasto === true) &&
+       (isValidDescripcionCuenta === true) &&
+       (isValidDimensionEstrategicaS === true) &&
+       (isValidMes === true) 
+   ) {
+       return true
+   } else { // caso contrario mostrar alerta y notificar al usuario 
+       Swal.fire({
+           icon: 'error',
+           title: 'Ops...',
+           text: 'El registro de la carrera no se pudo realizar',
+           footer: '<b>Por favor verifique el formulario de registro</b>'
+       })
+       return false
+   }
+    /*Swal.fire({
         title: 'Registro actividad',
         html: `
         <div class="container">    
@@ -437,7 +668,7 @@ $(document).ready(function(){
                 confirmButtonColor: "#8bc34a",
                 confirmButtonText: "Continuar",
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
+                 Read more about isConfirmed, isDenied 
                 if (result.isConfirmed) {
                     $('#modalVisualizarCarreras').modal('show');
                 } else if (result.isDenied) {
@@ -448,5 +679,5 @@ $(document).ready(function(){
         } else {
             return false;
         }
-      })
+      })*/
   }
