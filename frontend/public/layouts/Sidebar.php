@@ -7,7 +7,7 @@
     }
     include('../partials/doctype.php');
     include('verifica-session.php');
-     // Tipos de roles de usuarios en el sistema
+    //Tipos de roles de usuarios en el sistema
     define('ROL_SUPER_ADMIN', 'SU_AD');
     define('ROL_DECANO', 'D_F');
     define('ROL_SECRETARIA_ACADEMICA', 'S_AC');
