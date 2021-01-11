@@ -7,7 +7,7 @@
     }
     include('../partials/doctype.php');
     include('verifica-session.php');
-     // Tipos de roles de usuarios en el sistema
+    //Tipos de roles de usuarios en el sistema
     define('ROL_SUPER_ADMIN', 'SU_AD');
     define('ROL_DECANO', 'D_F');
     define('ROL_SECRETARIA_ACADEMICA', 'S_AC');
@@ -158,7 +158,7 @@
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/recibimiento-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
