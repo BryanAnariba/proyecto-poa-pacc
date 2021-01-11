@@ -101,7 +101,7 @@
             $this->avatarUsuario = $avatarUsuario;
             return $this;
         }
-        //                                                 Metodos clase Usuario
+        //                                                 Metodos clase Usuario -> America/Tegucigalpa
 
         private function insertarToken ($idUsuario) {
             $banderaToken = true;
@@ -114,7 +114,7 @@
                 $stmt = $this->consulta->prepare('CALL SP_GENERAR_TOKEN_ACCESO(:idUsuario, :token, :fecha)');
                 $stmt->bindValue(':idUsuario', $idUsuario);
                 $stmt->bindValue(':token', $token);
-                $stmt->bindValue(':fecha', $vigenciaToken->format('Y-m-d h:i:s'));
+                $stmt->bindValue(':fecha',$vigenciaToken->format('Y-m-d h:i:s'));
                 if ($stmt->execute()) {
                     $_SESSION['access-token'] = $token;
                     return true;

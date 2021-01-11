@@ -158,7 +158,7 @@
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/recibimiento-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
