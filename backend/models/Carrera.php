@@ -208,8 +208,8 @@
             
                         if(json_encode($resp[0])==0){
                             return array(
-                                'status'=> BAD_REQUEST,
-                                'data' => array('error' => 'Ha ocurrido un error al insertar la carrera')
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => array($ex->getMessage()))
                             );
                         }else{
                             return array(
@@ -248,8 +248,8 @@
                     $resp = $this->consulta->query('SELECT @resp')->fetch();
                     if(json_encode($resp[0])==0){
                         return array(
-                            'status'=> BAD_REQUEST,
-                            'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => $ex->getMessage())
                         );
                     }else{
                         return array(

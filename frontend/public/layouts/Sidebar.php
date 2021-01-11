@@ -170,7 +170,7 @@
                     ?>
                         <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
-                            <span class="nav__name">Administrativo</span>
+                            <span class="nav__name">Control de actividades</span>
                         </a>
 
                         <a href="../views/VisualizacionActividades-JefeCoordinador.php" class="nav__link">
@@ -195,7 +195,7 @@
                     ?>
                         <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
-                            <span class="nav__name">Administrativo</span>
+                            <span class="nav__name">Control de actividades</span>
                         </a>
 
                         <a href="../views/VisualizacionActividades-JefeCoordinador.php" class="nav__link">

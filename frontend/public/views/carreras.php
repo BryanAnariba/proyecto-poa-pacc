@@ -256,7 +256,7 @@
                         </button>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <button onclick="limpiarR()" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
                     </div>
                 </div>
             </div>

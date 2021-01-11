@@ -1,3 +1,9 @@
+const limpiarR = () => {
+    $("#Carrera").val('').trigger("change");
+    $("#Abreviatura").val('').trigger("change");
+    $("#Departamento").val('').trigger("change");
+    $("#Estado").val('').trigger("change");
+ };
  const insertadoCarrera = () => {
 
      // Capturando las etiquetas completas de los inputs para despues obtener el valor
@@ -49,13 +55,23 @@
                 })
             },
             error:function(error) {
-                console.warn(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro de la carrera no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                if (error.status === 401) {
+                    window.location.href = '../views/401.php';
+                }else if(error.status === 200){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b align="center">Es posible que la carrera o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
+                    })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                };
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
@@ -324,20 +340,30 @@ const actualizarCarrera = () => {
                 })
             },
             error:function(error) {
-                console.log(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro de la carrera no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                if (error.status === 401) {
+                    window.location.href = '../views/401.php';
+                }else if(error.status === 200){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'No se pudo modificar la carrera',
+                        footer: '<b align="center">Es posible que la carrera o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
+                    })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'No se pudo modificar la carrera',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
-            text: 'El registro de la carrera no se pudo realizar',
+            text: 'No se pudo modificar la carrera',
             footer: '<b>Por favor verifique el formulario de registro</b>'
         })
     }
