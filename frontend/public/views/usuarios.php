@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="../js/data-tables/datatables.min.css">
 <link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+<link rel="stylesheet" href="https:use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
 </head>
 
@@ -476,7 +476,7 @@
                         </div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="md-form">
-                                <textarea id="M-direccionActual" class="md-textarea form-control" rows="2" ></textarea>
+                                <textarea id="M-direccionActual" class="md-textarea form-control" rows="2"></textarea>
                                 <label for="M-direccionActual">Direccion Colonia/Barrio opcional:</label>
                             </div>
                         </div>

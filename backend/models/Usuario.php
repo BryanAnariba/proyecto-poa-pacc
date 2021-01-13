@@ -447,9 +447,13 @@
         }
 
         public function modificaCorreo () {
-            if (is_int($this->getIdPersona()) && validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && validaCampoEmail($this->correoInstitucional)) {
+            if ((is_int($this->getIdPersona()) == true) && 
+                (validaCampoNombreApellido($this->getNombrePersona(), 1, 80) == true) && 
+                (validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) == true)&& 
+                (validaCampoEmail($this->correoInstitucional) == true)
+            ) {
                 $noExisteEmail = $this->verificaEmailUsuario();
-                if ($noExisteEmail == false) {
+                if ($noExisteEmail) { // ->debe retornar true
                     // Clave sin hashear aun solo generada
                     $generadorClaves = new GeneradorClaves();
                     $password = $generadorClaves->generarClave();
@@ -480,7 +484,7 @@
                             } else {
                                 return array(
                                     'status'=> BAD_REQUEST,
-                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado')
+                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado ')
                                 );
                             }
                         } else {
@@ -500,7 +504,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar')
+                        'data' => array('message' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar' . validaCampoEmail($this->correoInstitucional))
                         )
                     );
                 }

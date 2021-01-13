@@ -288,6 +288,7 @@ const verificarCamposRegistro = () => {
             cancelarOperacion();
         },
         error:function(error) {
+            console.log(error.responseText);
             // Mostramos loadings por mientras se ejecutan las peticiones
             $('.loading-registro').addClass('d-none');
             $('#modalContentRegistro').removeClass('d-none');
@@ -299,7 +300,7 @@ const verificarCamposRegistro = () => {
                 window.location.href = '../views/401.php';
             }
             console.log(status);
-            console.error(error);
+            console.error(error.responseText);
             
             Swal.fire({
                 icon: 'error',

@@ -128,3 +128,7 @@ Aplicacion para la facultad de ingenieria
     ```
 ## 3 - Despues de comentar esto ya podras registrar un usuario, una vez registrado descomentar el codigo para evitar los huecos de seguridad y hacer login como se debe
 ## 4 - Tip util -> deben comentaro todo lo relacionado con sesiones en php
+
+
+my user -> bsancheza@unah.hn , 161ban9Favtb
+        -> mfsancheza@unah.hn , ZicuU8ZO@TM1
