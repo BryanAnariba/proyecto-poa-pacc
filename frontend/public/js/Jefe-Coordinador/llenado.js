@@ -1,9 +1,9 @@
-let clientsArr =  JSON.parse(localStorage.getItem('Dimension')) || [];
+// let clientsArr =  JSON.parse(localStorage.getItem('Dimension')) || [];
 var pos=1;
-clientsArr.push({'hola':'bye'});
-localStorage.setItem('Dimension', JSON.stringify(clientsArr));
+// clientsArr.push({'hola':'bye'});
+// localStorage.setItem('Dimension', JSON.stringify(clientsArr));
 
-var arreglo = [
+var arreglo2 = [
     {correlativo: "pendiente", objetivoInstitucional: "hola",area:"hola",actividad:"hola",monto:'400000',responsable:"Dimension 1", noActividades:"4"},
     {correlativo: "llena", objetivoInstitucional: "hola",area:"hola",actividad:"hola",monto:'400000',responsable:"Dimension 2", noActividades:"4"},
     {correlativo: "llena", objetivoInstitucional: "hola",area:"hola",actividad:"hola",monto:'400000',responsable:"Dimension 3", noActividades:"4"},
@@ -21,17 +21,17 @@ var arreglo = [
 $(document).ready(function(){
     $('#ActividadTabla').dataTable().fnDestroy();
     $('#ActividadTabla'+' tbody').html(``);
-    for (let i=0;i<arreglo.length; i++) {
-        if(arreglo[i]!=null){
+    for (let i=0;i<arreglo2.length; i++) {
+        if(arreglo2[i]!=null){
             $('#ActividadTabla tbody').append(`
                 <tr align="center">
-                    <td>${ arreglo[i].correlativo }</td>
-                    <td>${ arreglo[i].objetivoInstitucional }</td>
-                    <td>${ arreglo[i].area }</td>
-                    <td>${ arreglo[i].actividad }</td>
-                    <td>${ arreglo[i].monto }</td>
-                    <td>${ arreglo[i].responsable }</td>
-                    <td>${ arreglo[i].noActividades }</td>
+                    <td>${ arreglo2[i].correlativo }</td>
+                    <td>${ arreglo2[i].objetivoInstitucional }</td>
+                    <td>${ arreglo2[i].area }</td>
+                    <td>${ arreglo2[i].actividad }</td>
+                    <td>${ arreglo2[i].monto }</td>
+                    <td>${ arreglo2[i].responsable }</td>
+                    <td>${ arreglo2[i].noActividades }</td>
                     <td>
                         <button type="button" class="btn btn-amber" onclick="modif()">
                             <img src="../img/menu/editar.svg" alt="modificar dimension"/>
@@ -43,18 +43,17 @@ $(document).ready(function(){
     }
     $('#ActividadTabla').DataTable({
         language: i18nEspaniol,
-        "lengthMenu": [[3, 6, 9, -1], [3, 6, 9, "All"]],
         retrieve: true
     });
     $('#Actividades').DataTable({
         language: i18nEspaniol,
-        "lengthMenu": [[3, 6, 9, -1], [3, 6, 9, "All"]],
         retrieve: true
     });
     var current_fs, next_fs, previous_fs; //fieldsets
     var opacity;
     
     $(".next").click(function(){
+        console.log(pos);
         if(validar(pos)){
             pos=pos+1
             current_fs = $(this).parent();
@@ -371,6 +370,7 @@ const ag = () => {
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
+                $('#modalFormLlenadoDimension').modal('hide');
                 $('#modalLlenadoActividades').modal('show');
             } else if (result.isDenied) {
               
@@ -411,7 +411,7 @@ const validar = (posicion) =>{
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
-                    text: 'El registro de la carrera no se pudo realizar',
+                    text: 'No se puede avanzar',
                     footer: '<b>Por favor verifique el formulario de registro</b>'
                 })
                 return false
@@ -433,7 +433,7 @@ const validar = (posicion) =>{
                Swal.fire({
                    icon: 'error',
                    title: 'Ops...',
-                   text: 'El registro de la carrera no se pudo realizar',
+                   text: 'No se puede avanzar',
                    footer: '<b>Por favor verifique el formulario de registro</b>'
                })
                return false
@@ -470,7 +470,7 @@ const validar = (posicion) =>{
                Swal.fire({
                    icon: 'error',
                    title: 'Ops...',
-                   text: 'El registro de la carrera no se pudo realizar',
+                   text: 'No se puede avanzar',
                    footer: '<b>Por favor verifique el formulario de registro</b>'
                })
                return false

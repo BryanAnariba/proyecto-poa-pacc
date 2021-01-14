@@ -240,36 +240,38 @@
             }
         }
         public function modificarCarrera () {
-            try {
-                $this->conexionBD = new Conexion();
-                $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
-                if ($stmt->execute()) {
-                    $resp = $this->consulta->query('SELECT @resp')->fetch();
-                    if(json_encode($resp[0])==0){
+            if (campoTexto($this->Carrera,1,80) && campoTexto($this->Abreviatura,1,2) && is_numeric($this->idCarrera) && is_numeric($this->idDepartamento) && is_numeric($this->idEstado)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
+                    if ($stmt->execute()) {
+                        $resp = $this->consulta->query('SELECT @resp')->fetch();
+                        if(json_encode($resp[0])==0){
+                            return array(
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => $ex->getMessage())
+                            );
+                        }else{
+                            return array(
+                                'status' => SUCCESS_REQUEST,
+                                'data' => array('message'=>'Informacion de la carrera actualizado con exito')
+                            );
+                        }
+                    } else {
                         return array(
-                            'status'=> INTERNAL_SERVER_ERROR,
-                            'data' => array('message' => $ex->getMessage())
-                        );
-                    }else{
-                        return array(
-                            'status' => SUCCESS_REQUEST,
-                            'data' => array('message'=>'Informacion de la carrera actualizado con exito')
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
                         );
                     }
-                } else {
+                } catch (PDOException $ex) {
                     return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
                     );
+                } finally {
+                    $this->conexionBD = null;
                 }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
             }
         }
     }

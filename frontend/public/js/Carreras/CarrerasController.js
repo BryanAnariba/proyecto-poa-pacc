@@ -260,8 +260,8 @@ const agregarATabla = (dataSet) => {
     }
     $('#CarrerasTodas').DataTable({
         language: i18nEspaniol,
-        dom: 'Blfrtip',
-        buttons: botonesExportacion,
+        // dom: 'Blfrtip',
+        // buttons: botonesExportacion,
         retrieve: true
     });
 };

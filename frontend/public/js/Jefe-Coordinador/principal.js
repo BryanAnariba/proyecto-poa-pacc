@@ -15,6 +15,7 @@ var estado = 1;
 var dimension = [];
 
 $(document).ready(function(){
+    // Manejo del estado de la dimension.
     if(estado==0){
         $("#mda").css("opacity", "0.6");
         $("#mda div div button").prop('disabled', true);
@@ -31,6 +32,22 @@ $(document).ready(function(){
     $(".foot-modif").css("display","none");
     $("#ventana1A").css("display","none");
     $(".foot-agr").css("display","none");
+
+
+    $("body").click(function(){
+        $('#modalFormLlenadoDimension').on('hidden.bs.modal', function () {
+            if(($("#modalLlenadoActividades").data('bs.modal') || {})._isShown != true){
+                $('#modalLlenadoDimension').modal('show');
+                $('body').addClass('modal-open');
+            }else{
+                $('body').addClass('modal-open');
+            }
+        })
+        $('#modalLlenadoActividades').on('hidden.bs.modal', function () {
+            $('#modalFormLlenadoDimension').modal('show');
+            $('body').addClass('modal-open');
+        })
+    });
 });
 const avanzarA = () =>{
     $("#ventana1").css("display","none");
@@ -64,7 +81,7 @@ const llenar = (tabla) => {
                             </td>
                             <td>${ this.arreglo[i].dimension }</td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="avanzar('${ this.arreglo[i].dimension }','${this.arreglo[i].estado}')">
+                                <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ this.arreglo[i].dimension }','${this.arreglo[i].estado}')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -174,7 +191,9 @@ const llenar = (tabla) => {
 };
 
 const avanzar = (dimension,estado) =>{
-  this.dimension.push(dimension,estado);
-  localStorage.setItem("Dimension", JSON.stringify(this.dimension));
-  window.location.href = "/proyecto-poa-pacc/frontend/public/views/llenado-dimension-jefeCoordinador.php";
+    this.dimension.push(dimension,estado);
+//   localStorage.setItem("Dimension", JSON.stringify(this.dimension));
+//   window.location.href = "/proyecto-poa-pacc/frontend/public/views/llenado-dimension-jefeCoordinador.php";
+    $('#modalLlenadoDimension').modal('hide');
+    $('#modalFormLlenadoDimension').modal('show');
 };
