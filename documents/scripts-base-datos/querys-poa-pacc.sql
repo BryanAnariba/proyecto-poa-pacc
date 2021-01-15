@@ -381,3 +381,119 @@ CREATE PROCEDURE SP_REMOVER_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
 CREATE PROCEDURE SP_VERIFICA_TOKEN(IN idUsuario INT, IN token VARCHAR(255))
 	SELECT * FROM Usuario WHERE tokenAcceso = token AND idPersonaUsuario = idUsuario;
 
+-- PROCEDIMIENTOS PARA CONTROL DE DEPARTAMENTOS
+-- Procedimiento para registrar nuevo departamento 
+-- CALL SP_REGISTRAR_DEPARTAMENTO
+CREATE PROCEDURE SP_REGISTRAR_DEPARTAMENTO(
+    IN idDepartamento INT,
+    IN idEstadoDepartamento INT,
+    IN nombreDepartamento varchar(80),
+    IN telefonoDepartamento varchar(60),
+    IN abreviaturaDepartamento varchar(2), 
+    IN correoDepartamento varchar(60)
+    )
+    INSERT INTO departamento (
+        idDepartamento,
+		idEstadoDepartamento, 
+        nombreDepartamento, 
+        telefonoDepartamento, 
+        abrev, 
+        correoDepartamento)
+	VALUES 
+		(idDepartamento,
+		idEstadoDepartamento, 
+        nombreDepartamento, 
+        telefonoDepartamento, 
+        abreviaturaDepartamento, 
+        correoDepartamento);
+
+
+-- Procedimiento para modificar departamento
+-- CALL SP_MODIFICAR_DEPARTAMENTO
+CREATE PROCEDURE SP_MODIFICAR_DEPARTAMENTO(
+    IN idDepartamentoM INT,
+    IN idEstadoDepartamentoM INT,
+    IN nombreDepartamentoM varchar(80),
+    IN telefonoDepartamentoM varchar(60),
+    IN abrevM varchar(2), 
+    IN correoDepartamentoM varchar(60)
+    )
+	UPDATE departamento
+    SET idEstadoDepartamento = idEstadoDepartamentoM,
+        nombreDepartamento = nombreDepartamentoM,
+        telefonoDepartamento = telefonoDepartamentoM,
+        abrev = abrevM,
+        correoDepartamento = correoDepartamentoM
+    WHERE idDepartamento = idDepartamentoM;
+
+-- Procedimientos almacenados para dimensiones administrativas
+
+-- CALL SP_REGISTRA_DIM_ADMINISTRATIVA
+CREATE PROCEDURE SP_REGISTRA_DIM_ADMINISTRATIVA(
+    IN estadoDimension INT, 
+    IN dimension VARCHAR(150)
+)
+INSERT INTO DimensionAdmin(
+    idEstadoDimension, 
+    dimensionAdministrativa
+) 
+VALUES (estadoDimension, 
+    dimension
+);
+
+-- CALL SP_GET_DIMENSION_ADMINISTRATIVA
+CREATE PROCEDURE SP_GET_DIMENSION_ADMINISTRATIVA(
+    IN idDimensionAdministrativa INT
+)
+SELECT idEstadoDimension, 
+    idDimension, 
+    dimensionAdministrativa 
+FROM DimensionAdmin 
+WHERE idDimension = idDimensionAdministrativa;
+    
+
+
+-- CALL SP_CAMBIA_ESTADO_DIMENSION_ADMIN
+CREATE PROCEDURE SP_CAMBIA_ESTADO_DIMENSION_ADMIN(
+    IN idDimensionAdministrativa INT, 
+    IN estadoDimension INT
+)
+UPDATE DimensionAdmin
+SET idEstadoDimension = estadoDimension
+WHERE idDimension = idDimensionAdministrativa;
+
+
+-- CALL SP_MODIFICA_DIMENSION_ADMIN
+CREATE PROCEDURE SP_MODIFICA_DIMENSION_ADMIN(
+    IN idDimensionAdministrativa INT, 
+    IN dimension VARCHAR(150)
+)
+UPDATE DimensionAdmin 
+SET dimensionAdministrativa = dimension 
+WHERE idDimension = idDimensionAdministrativa;
+
+WITH CTE_LISTADO_ACT_POR_DIM AS (
+	SELECT 
+    COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension,
+    DimensionEstrategica.idDimension,
+    DimensionEstrategica.dimensionEstrategica,
+    DimensionEstrategica.idEstadoDimension,
+    Estadodcduoao.estado
+    FROM 
+    Actividad 
+    RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)
+    INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado)
+    GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica
+)
+SELECT * FROM CTE_LISTADO_ACT_POR_DIM 
+WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = 1 AND 
+(
+    SELECT 
+    ControlPresupuestoActividad.idEstadoPresupuestoAnual
+    FROM ControlPresupuestoActividad 
+    LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad)
+    RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
+    LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento)
+    INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado)
+    WHERE Departamento.idDepartamento = 2 AND Usuario.idPersonaUsuario = 2 AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')
+);
