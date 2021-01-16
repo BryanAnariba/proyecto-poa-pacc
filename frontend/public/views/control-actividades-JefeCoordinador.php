@@ -160,7 +160,7 @@
                         <thead>
                             <tr align="center">
                                 <th scope="col">Estado</th>
-                                <th scope="col">Dimension Acadaemica</th>
+                                <th scope="col">Dimension Academica</th>
                                 <th scope="col">Llenar dimension</th>
                             </tr>
                         </thead>
@@ -194,7 +194,7 @@
                                 <thead>
                                     <tr align="center">
                                         <th scope="col">Estado</th>
-                                        <th scope="col">Dimension Acadaemica</th>
+                                        <th scope="col">Dimension Academica</th>
                                         <th scope="col">Llenar dimension</th>
                                     </tr>
                                 </thead>
@@ -252,7 +252,7 @@
                                     <thead>
                                         <tr align="center">
                                             <th scope="col">Estado</th>
-                                            <th scope="col">Dimension Acadaemica</th>
+                                            <th scope="col">Dimension Academica</th>
                                             <th scope="col">Llenar dimension</th>
                                         </tr>
                                     </thead>
@@ -411,7 +411,7 @@
                             <thead>
                                 <tr align="center">
                                     <th scope="col">Estado</th>
-                                    <th scope="col">Dimension Acadaemica</th>
+                                    <th scope="col">Dimension Academica</th>
                                     <th scope="col">Llenar dimension</th>
                                 </tr>
                             </thead>
@@ -612,12 +612,18 @@
                         <div class="form-row col-12" style="margin-left: auto;margin-right:auto">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="input-field col-12" style="padding-left:0" align="left">
+                                    <label for="DimEstrategica" id="labelDimEstrategica">Dimension Estrategica Seleccionada:</label>
+                                    <select name="DimEstrategica" id="DimEstrategica" class="browser-default custom-select mb-4">
+                                    </select>
+                                    <span id="errorsObjInstitucional" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="input-field col-12" style="padding-left:0" align="left">
                                     <label for="ObjInstitucional" id="labelObjInstitucional">Objetivo Institucional:</label>
                                     <select name="ObjInstitucional" id="ObjInstitucional" class="browser-default custom-select mb-4">
-                                        <option value="" selected disabled></option>
-                                        <option value="1">Opcion</option>
-                                        <option value="2">Opcion</option>
-                                        <option value="3">Opcion</option>
+                                        
                                     </select>
                                     <span id="errorsObjInstitucional" class="text-danger text-small d-none">
                                     </span>
@@ -628,9 +634,6 @@
                                     <label for="AreaEstrategica" id="labelAreaEstrategica">Area Estrategica:</label>
                                     <select name="AreaEstrategica" id="AreaEstrategica" class="browser-default custom-select mb-4">
                                         <option value="" selected disabled></option>
-                                        <option value="1">Opcion</option>
-                                        <option value="2">Opcion</option>
-                                        <option value="3">Opcion</option>
                                     </select>
                                     <span id="errorsAreaEstrategica" class="text-danger text-small d-none">
                                     </span>

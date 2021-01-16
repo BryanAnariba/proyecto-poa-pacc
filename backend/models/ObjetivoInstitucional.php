@@ -86,7 +86,38 @@
         }
 
         public function getObjetivosActivosPorDimension () {
-
+            if (is_int($this->idDimensionEstrategica)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('WITH CTE_LISTA_OBJETIVOS_ACTIVOS AS (SELECT * FROM ObjetivoInstitucional) SELECT * FROM CTE_LISTA_OBJETIVOS_ACTIVOS WHERE CTE_LISTA_OBJETIVOS_ACTIVOS.idDimensionEstrategica = :idDimension AND CTE_LISTA_OBJETIVOS_ACTIVOS.idEstadoObjetivoInstitucional = :idEstado;');
+                    $stmt->bindValue(':idDimension', $this->idDimensionEstrategica);
+                    $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error al listar los objetivos institucionales')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error al listar los objetivos institucionales')
+                );
+            }
         }
 
         public function registrarObjetivoPorDimension () {

@@ -18,6 +18,15 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function listarObjetivosActivosPorDimension($idDimension) {
+            $this->objetivoInstitucionalModel->setIdDimensionEstrategica($idDimension);
+            $this->objetivoInstitucionalModel->setIdEstadoObjetivoInstitucional(ESTADO_ACTIVO);
+            $this->data = $this->objetivoInstitucionalModel->getObjetivosActivosPorDimension();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function insertarObjetivoPorDimension ($idDimension, $objetivoInstitucional) {
             $this->objetivoInstitucionalModel->setIdDimensionEstrategica($idDimension);
             $this->objetivoInstitucionalModel->setObjetivoInstitucional($objetivoInstitucional);

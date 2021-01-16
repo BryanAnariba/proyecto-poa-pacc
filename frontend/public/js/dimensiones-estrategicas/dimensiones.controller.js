@@ -288,12 +288,6 @@ const verObjetivosInstitucionales = (idDimension) => {
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info btn-rounded" onclick="visualizarResultadosInstitucionales('${data[i].idObjetivoInstitucional}')">
-                            <img src="../img/menu/ver-icon.svg"/>
-                            Ver
-                        </button>
-                    </td>
-                    <td>
                         <button type="button" class="btn btn-amber" onclick="obtenerObjetivoInstitucional('${data[i].idObjetivoInstitucional}','${data[i].ObjetivoInstitucional}')">
                             <img src="../img/menu/editar.svg" alt="modificar objetivos"/>
                         </button>
@@ -495,6 +489,12 @@ const visualizarAreasEstrategicas = (idObjetivo) => {
                         </button>
                     </td>
                     <td>
+                        <button type="button" class="btn btn-info btn-rounded" onclick="visualizarResultadosInstitucionales('${data[i].idAreaEstrategica}')">
+                            <img src="../img/menu/ver-icon.svg"/>
+                            Ver
+                        </button>
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-amber" onclick="obtenerAreaEstrategica('${data[i].idAreaEstrategica}','${data[i].areaEstrategica}')">
                             <img src="../img/menu/editar.svg" alt="modificar objetivos"/>
                         </button>
@@ -672,9 +672,10 @@ const modificarAreaEstrategica = () => {
     }
 }
 
-const visualizarResultadosInstitucionales = (idObjetivoInstitucional) => {
-    idObjetivoSeleccionado = idObjetivoInstitucional;
-    let parametros = { idObjetivoInstitucional: idObjetivoInstitucional };
+const visualizarResultadosInstitucionales = (idAreaEstrategica) => {
+    idAreaEstrategicaSeleccionada = idAreaEstrategica;
+    $('#listado-resultados').dataTable().fnDestroy();
+    let parametros = { idAreaEstrategica: idAreaEstrategicaSeleccionada };
     $.ajax(`${ API }/resultados-institucionales/listar-resultados.php`, {
         type: 'POST',
         dataType: 'json',
@@ -738,7 +739,7 @@ const registrarResultado = () => {
     const isValidResultado = verificarInputText(rI, letrasEspaciosCaracteresRegex);
     if (isValidResultado) {
         let parametros = {
-            idObjetivoInstitucional: parseInt(idObjetivoSeleccionado),
+            idAreaEstrategica: parseInt(idAreaEstrategicaSeleccionada),
             resultadoInstitucional: resultadoInstitucional.value
         };
         console.log(parametros);
@@ -752,7 +753,7 @@ const registrarResultado = () => {
                 $('#modalRegistraResultadosInstitucionales').modal('hide');
                 const { data } = response;
                 console.log(data);
-                visualizarResultadosInstitucionales(idObjetivoSeleccionado);
+                visualizarResultadosInstitucionales(idAreaEstrategicaSeleccionada);
                 cancelarRegistroResultado();
                 $('#btn-registrar-resultado').prop('disabled', false);
                 Swal.fire({

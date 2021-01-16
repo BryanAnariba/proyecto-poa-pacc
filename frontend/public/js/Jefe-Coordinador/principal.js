@@ -1,19 +1,7 @@
-var arreglo = [
-    {estado: "pendiente", dimension:"Dimension 1"},
-    {estado: "llena", dimension:"Dimension 2"},
-    {estado: "llena", dimension:"Dimension 3"},
-    {estado: "pendiente", dimension:"Dimension 4"},
-    {estado: "llena", dimension:"Dimension 5"},
-    {estado: "pendiente", dimension:"Dimension 6"},
-    {estado: "llena", dimension:"Dimension 7"},
-    {estado: "pendiente", dimension:"Dimension 8"},
-    {estado: "llena", dimension:"Dimension 9"},
-    {estado: "pendiente", dimension:"Dimension 10"},
-    {estado: "llena", dimension:"Dimension 11"}];
 var estado = 1;
-
-var dimension = [];
-
+let idDimensionSeleccionada = null;
+let idObjetivoSeleccionado = null;
+let idAreaEstrategicaSeleccionada = null;
 $(document).ready(function(){
     // Manejo del estado de la dimension.
     if(estado==0){
@@ -88,7 +76,7 @@ const llenar = (tabla) => {
                                     </td>
                                     <td>${ data[i].dimensionEstrategica }</td>
                                     <td>
-                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','pendiente')">
+                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','${ data[i].dimensionEstrategica }')">
                                             <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                         </button>
                                     </td>
@@ -104,7 +92,7 @@ const llenar = (tabla) => {
                                     </td>
                                     <td>${ data[i].dimensionEstrategica }</td>
                                     <td>
-                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','pendiente')">
+                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','${ data[i].dimensionEstrategica }')">
                                             <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                         </button>
                                     </td>
@@ -132,7 +120,7 @@ const llenar = (tabla) => {
                     }
                 }
             });
-          break;
+        break;
         case 'DimensionesTablaModificar':
             $("#ventana1").css("display","block");
             $("#ventana2").css("display","none");
@@ -159,8 +147,8 @@ const llenar = (tabla) => {
                     `);
                 }
             };
-          break;
-          case 'DimensionesTablaModificar3':
+        break;
+        case 'DimensionesTablaModificar3':
             for (let i=0;i<this.arreglo.length; i++) {
                 if(this.arreglo[i].estado=="pendiente"){
                     
@@ -182,7 +170,7 @@ const llenar = (tabla) => {
                     `);
                 }
             };
-          break;
+        break;
         case 'DimensionesTablaAgregar':
             for (let i=0;i<this.arreglo.length; i++) {
                 if(this.arreglo[i].estado=="pendiente"){
@@ -205,16 +193,53 @@ const llenar = (tabla) => {
                     `);
                 }
             };
-          break;
+        break;
         default:
             console.error("opcion no disponible");
     };
 };
 
-const avanzar = (dimension,estado) =>{
-    this.dimension.push(dimension,estado);
-//   localStorage.setItem("Dimension", JSON.stringify(this.dimension));
-//   window.location.href = "/proyecto-poa-pacc/frontend/public/views/llenado-dimension-jefeCoordinador.php";
+const avanzar = (idDimension,dimensionEstrategica) =>{  
+    idDimensionSeleccionada = idDimension
+    $('#ObjInstitucional').html(``);
+    console.log(idDimensionSeleccionada);
+    console.log(dimensionEstrategica);
+    $('#DimEstrategica').html(`<option value="${ idDimension }">${ dimensionEstrategica }</option>`);
+    let parametros = { 
+        idDimension: parseInt(idDimensionSeleccionada)
+    };
+
+    $.ajax(`${ API }/objetivos-institucionales/listar-objetivos-activos-por-dimension.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(parametros),
+        success:function(response) {
+            const { data } = response;
+            console.log(data);
+            $('#ObjInstitucional').append(`<option value="" selected>Seleccione Objetivo</option>`);
+            for(let i=0; i<data.length; i++) {
+                $('#ObjInstitucional').append(`
+                    <option value="${ data[i].idObjetivoInstitucional }">${ data[i].objetivoInstitucional }</option>
+                `);
+            }
+        },
+        error:function(error) {
+            console.log(error.responseText);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor recarge la pagina o comuniquese con el super administrador</b>'
+                });
+            }
+        }
+    });
+    
     $('#modalLlenadoDimension').modal('hide');
     $('#modalFormLlenadoDimension').modal('show');
 };

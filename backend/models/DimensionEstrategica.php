@@ -70,7 +70,30 @@
         }
 
         public function getDimensionesActivas () {
-
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('WITH CTE_LISTAR_DIMENSIONES_ESTRATEGICAS AS (SELECT  DimensionEstrategica.idDimension, DimensionEstrategica.idEstadoDimension, DimensionEstrategica.dimensionEstrategica, EstadoDCDUOAO.estado FROM DimensionEstrategica LEFT JOIN EstadoDCDUOAO ON (DimensionEstrategica.idEstadoDimension = EstadoDCDUOAO.idEstado) ORDER BY DimensionEstrategica.idDimension ASC) SELECT * FROM CTE_LISTAR_DIMENSIONES_ESTRATEGICAS WHERE CTE_LISTAR_DIMENSIONES_ESTRATEGICAS.idEstadoDimension = :idEstado;');
+                $stmt->bindValue(':idEstado', $this->idEstadoDimension);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las dimensiones')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
         }
 
         public function insertaDimension () {

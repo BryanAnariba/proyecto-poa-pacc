@@ -168,7 +168,6 @@ include('verifica-session.php');
                                     <th scope="col">Objetivo Institucional</th>
                                     <th scope="col">Estado Objetivo</th>
                                     <th scope="col">Areas Estrategicas</th>
-                                    <th scope="col">Resultados Institucionales</th>
                                     <th scope="col">Modificar Objetivo</th>
                                 </tr>
                             </thead>
@@ -280,6 +279,7 @@ include('verifica-session.php');
                                     <th scope="col">#</th>
                                     <th scope="col">Area Estrategica</th>
                                     <th scope="col">Estado Area</th>
+                                    <th scope="col">Resultados Institucionales</th>
                                     <th scope="col">Modificar Area Estrategica</th>
                                 </tr>
                             </thead>
