@@ -70,41 +70,68 @@ const llenar = (tabla) => {
     $('#'+tabla+' tbody').html(``);
     switch(tabla) {
         case 'DimensionesTabla':
-            for (let i=0;i<this.arreglo.length; i++) {
-                if(this.arreglo[i].estado=="pendiente"){
-                    $('#DimensionesTabla tbody').append(`
-                        <tr align="center">
-                            <td>
-                                <div class="rojo" row>
-                                    <i class="fas fa-exclamation"></i><div style="display:none">${this.arreglo[i].estado}</div>
-                                </div>
-                            </td>
-                            <td>${ this.arreglo[i].dimension }</td>
-                            <td>
-                                <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ this.arreglo[i].dimension }','${this.arreglo[i].estado}')">
-                                    <img src="../img/menu/editar.svg" alt="modificar dimension"/>
-                                </button>
-                            </td>
-                        </tr>
-                    `);
-                }else if(this.arreglo[i].estado=="llena"){
-                    $('#DimensionesTabla tbody').append(`
-                        <tr align="center">
-                            <td>
-                                <div class="verde row">
-                                    <i class="fas fa-exclamation"></i><div style="display:none">${this.arreglo[i].estado}</div>
-                                </div>
-                            </td>
-                            <td>${ this.arreglo[i].dimension }</td>
-                            <td>
-                                <button type="button" class="btn btn-amber" onclick="avanzarM()" disabled>
-                                    <img src="../img/menu/editar.svg" alt="modificar dimension"/>
-                                </button>
-                            </td>
-                        </tr>
-                    `);
+            $.ajax(`${ API }/actividades/lista-actividades-por-dimension.php`, {
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                success:function(response) {
+                    const { data } = response;
+                    console.log(data);
+                    for (let i=0;i<data.length; i++) {
+                        if(data[i].cantidadActividadesPorDimension === 0){
+                            $('#DimensionesTabla tbody').append(`
+                                <tr align="center">
+                                    <td>
+                                        <div class="rojo" row>
+                                            <i class="fas fa-exclamation"></i><div style="display:none"></div>
+                                        </div>
+                                    </td>
+                                    <td>${ data[i].dimensionEstrategica }</td>
+                                    <td>
+                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','pendiente')">
+                                            <img src="../img/menu/editar.svg" alt="modificar dimension"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        } else if(data[i].cantidadActividadesPorDimension > 0){
+                            $('#DimensionesTabla tbody').append(`
+                                <tr align="center">
+                                    <td>
+                                        <div class="verde row">
+                                            <i class="fas fa-exclamation"></i><div style="display:none"></div>
+                                        </div>
+                                    </td>
+                                    <td>${ data[i].dimensionEstrategica }</td>
+                                    <td>
+                                        <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','pendiente')">
+                                            <img src="../img/menu/editar.svg" alt="modificar dimension"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        }
+                    };
+                    $('#'+tabla).DataTable({
+                        language: i18nEspaniol,
+                        retrieve: true
+                    });
+                },
+                error:function(error) {
+                    console.log(error.responseText);
+                    const { status, data } = error.responseJSON;
+                        if (status === 401) {
+                            window.location.href = '../views/401.php';
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ops...',
+                                text: `${ data.message }`,
+                                footer: '<b>Por favor recarge la pagina o comuniquese con el super administrador</b>'
+                        });
+                    }
                 }
-            };
+            });
           break;
         case 'DimensionesTablaModificar':
             $("#ventana1").css("display","block");
@@ -182,12 +209,6 @@ const llenar = (tabla) => {
         default:
             console.error("opcion no disponible");
     };
-    $('#'+tabla).DataTable({
-        language: i18nEspaniol,
-        "lengthMenu": [[3, 6, 9, -1], [3, 6, 9, "All"]],
-        retrieve: true
-    });
-    
 };
 
 const avanzar = (dimension,estado) =>{
