@@ -495,5 +495,16 @@ WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = 1 AND
     RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
     LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento)
     INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado)
-    WHERE Departamento.idDepartamento = 2 AND Usuario.idPersonaUsuario = 2 AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')
+    WHERE Departamento.idDepartamento = 1 AND Usuario.idPersonaUsuario = 2 AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')
+) AND 
+CTE_LISTADO_ACT_POR_DIM.idDimension BETWEEN (
+    SELECT 
+	LlenadoActividadDimension.valorLlenadoDimensionInicial
+    FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+    WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
+) AND (
+    SELECT 
+	LlenadoActividadDimension.valorLlenadoDimensionFinal
+    FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+    WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
 );

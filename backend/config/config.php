@@ -39,6 +39,7 @@
     define('TBL_PRESUPUESTO_DEPTO', 'presupuestoDepartamento');
     define('TBL_ESTADOS', 'estadoDCDUOAO');
     define('TBL_RESULTADOS_INSTITUCIONALES', 'ResultadoInstitucional');
+    define('TBL_CONTROL_LLENADO_ACTIVIDADES', 'LlenadoActividadDimension');
 
     define('MIN_TAMANIO_CLAVE', 12);
 

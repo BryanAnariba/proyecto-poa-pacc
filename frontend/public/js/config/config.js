@@ -18,6 +18,7 @@ const nombresApellidosRegex = /^([a-z ñáéíóú]{1,80})$/i;
 const extraeCamposEmailRegex = /^([^]+)@(\w+).(\w+).?(\w+)$/;
 const claveUsuarioRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,16}$/;
 const regexCampoMonetario = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
+const regexNumeroPositivoEntero = /^[0-9]{1,3}$/;
 
 const codigoObjRegex = /^[0-9]{5}(-[0-9]{2})?$/;
 

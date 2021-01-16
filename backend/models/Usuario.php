@@ -534,6 +534,8 @@
                                 $tokenGenerado = $this->insertarToken($data->idPersonaUsuario);
                                 if ($tokenGenerado) {
                                     $_SESSION['idUsuario'] = $data->idPersonaUsuario;
+                                    $_SESSION['idDepartamento'] = $data->idDepartamento;
+                                    $_SESSION['idTipoUsuario'] = $data->idTipoUsuario;
                                     $_SESSION['tipoUsuario'] = $data->tipoUsuario;
                                     $_SESSION['nombrePersona'] = $data->nombrePersona;
                                     $_SESSION['apellidoPersona'] = $data->apellidoPersona;

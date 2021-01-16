@@ -74,4 +74,12 @@
             return false;
         }
     }
+
+    function validaNumerZPositivo($parametro) {
+        if (preg_match("/^[0-9]{1,3}$/", $parametro)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 ?>

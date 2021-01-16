@@ -130,5 +130,5 @@ Aplicacion para la facultad de ingenieria
 ## 4 - Tip util -> deben comentaro todo lo relacionado con sesiones en php
 
 
-my user -> bsancheza@unah.hn , bsancheza@123
-        -> mfsancheza@unah.hn , 8T6I3b9fXzFz
+my user -> bsancheza@unah.hn , C@PvASxFxyTw
+        -> mfsancheza@unah.hn , qOuYcb9JQSkJ
