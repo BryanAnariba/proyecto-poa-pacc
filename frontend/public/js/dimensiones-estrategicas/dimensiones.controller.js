@@ -464,6 +464,7 @@ let nombreAreaModificar = document.querySelector('#M-areaEstrategica');
 let nAM = { valorEtiqueta: nombreAreaModificar, id: 'M-areaEstrategica', name: 'Area Estrategica', min: 1, max: 500, type: 'text' };
                         
 const visualizarAreasEstrategicas = (idObjetivo) => {
+    $('#listado-areas').dataTable().fnDestroy();
     idObjetivoSeleccionado = idObjetivo;
     let parametros = { idObjetivo: parseInt(idObjetivo) };
     $.ajax(`${ API }/areas-estrategicas/listar-areas-por-objetivo.php`, {

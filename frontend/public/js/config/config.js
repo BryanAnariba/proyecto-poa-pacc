@@ -19,6 +19,7 @@ const extraeCamposEmailRegex = /^([^]+)@(\w+).(\w+).?(\w+)$/;
 const claveUsuarioRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,16}$/;
 const regexCampoMonetario = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
 const regexNumeroPositivoEntero = /^[0-9]{1,3}$/;
+const regexNumeroPositivoEnteroCalculo = /^[+]?[0-9]{1,9}(?:.[0-9]{1,2})?$/;
 
 const codigoObjRegex = /^[0-9]{5}(-[0-9]{2})?$/;
 
@@ -64,4 +65,4 @@ const botonesExportacion = [{
     text: '<i class="fas fa-print"><i/>',
     titleAttr:'Imprimir tabla',
     className: 'btn btn-info'
-}]
+}];

@@ -1,5 +1,14 @@
 <?php
-    include('../partials/doctype.php');;
+session_start();
+if (!isset($_SESSION['correoInstitucional'])) {
+    header('Location: 401.php');
+}
+$coordinadorCarrera = 'C_C';
+if ($_SESSION['abrevTipoUsuario'] != $coordinadorCarrera) {
+    header('Location: 401.php');
+}
+include('../partials/doctype.php');
+include('verifica-session.php');
 ?>
 <title>Control de actividades</title>
 <!--En esta zona podran poner estilos propios de la vista-->
@@ -17,7 +26,7 @@
 <body id="body-pd">
     <?php include('../layouts/Nabvar.php'); ?>
     <?php include('../layouts/Sidebar.php'); ?>
-    
+
     <div id="profile-card" class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -27,8 +36,9 @@
                     </div>
                     <div class="card-body  blue lighten-5">
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                            <div class="row text-center mx-auto">
+                                <div class="col-xl-2 col-lg-2 hidden-col-md hidden-col-sm"></div>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
                                     <div class="card border border-warning b-2 rounded mb-0 animate__animated animate__flipInY">
                                         <div class="card-header amber accent-4">
                                             <div class="row">
@@ -45,30 +55,22 @@
                                         <div class="card-body">
                                             <br>
                                             <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/jefe-coordinador/pending_approval.svg" 
-                                                    alt="visualizar carrera">
+                                                <img class="card-img-top" src="../img/jefe-coordinador/pending_approval.svg" alt="visualizar carrera">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalLlenadoDimension"
-                                                onclick="llenar('DimensionesTabla')">
-                                                Ir
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalLlenadoDimension" onclick="llenar('DimensionesTabla')">
+                                                Registrar
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3" id="mda">
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3" id="mda">
                                     <div class="card border border-warning b-2 rounded mb-0 animate__animated animate__flipInY">
                                         <div class="card-header amber accent-4">
                                             <div class="row">
                                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8">
                                                     <h6 class="text-white font-weight-bold">
-                                                        Modidificar Actividades
+                                                        Visualizar Actividades
                                                     </h6>
                                                 </div>
                                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4">
@@ -78,56 +80,16 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/jefe-coordinador/Reviewed_docs.svg" 
-                                                    alt="registrar carrera">
+                                                <img class="card-img-top" src="../img/jefe-coordinador/Reviewed_docs.svg" alt="registrar carrera">
                                             </div>
                                             <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalModificarDimension"
-                                                onclick="llenar('DimensionesTablaModificar')">
-                                                Ir
+                                            <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalModificarDimension" onclick="llenar('DimensionesTablaModificar')">
+                                                Visualizar
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3" id="aga">
-                                    <div class="card border border-warning b-2 rounded mb-0 animate__animated animate__flipInY">
-                                        <div class="card-header amber accent-4">
-                                            <div class="row">
-                                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8">
-                                                    <h6 class="text-white font-weight-bold">
-                                                        Agregar actividad
-                                                    </h6>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4">
-                                                    <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Departamentos">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="view overlay">
-                                                <img 
-                                                    class="card-img-top" 
-                                                    src="../img/jefe-coordinador/add_file.svg"  
-                                                    alt="Modificar carrera">
-                                            </div>
-                                            <hr>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-indigo btn-block"  
-                                                data-toggle="modal" 
-                                                data-target="#modalAgregarActividades"
-                                                onclick="llenar('DimensionesTablaAgregar')">
-                                                Ir
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col-xl-2 col-lg-2 hidden-col-md hidden-col-sm"></div>
                             </div>
                         </div>
                     </div>
@@ -139,14 +101,9 @@
         </div>
     </div>
 
-                                                    <!--modales-->
+    <!--modales-->
     <!--llenado de dimensiones-->
-    <div 
-        class="modal fade" 
-        id="modalLlenadoDimension" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalLlenadoDimension" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -173,13 +130,8 @@
     </div>
 
     <!--Modificar Actividades-->
-    <div 
-        class="modal fade" 
-        id="modalModificarDimension" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalModificarDimension" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Listado de dimensiones a modificar</h4>
@@ -189,15 +141,17 @@
                 </div>
                 <div class="modal-body">
                     <div id="ventana1">
-                        <div class="table-responsive">
-                            <table id="DimensionesTablaModificar" class="table" cellspacing="0" width="100%">
+                        <div class="tabla table-responsive">
+                            <table id="Actividades-Por-Dimension" class="table" cellspacing="0" width="100%">
                                 <thead>
                                     <tr align="center">
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Dimension Academica</th>
-                                        <th scope="col">Llenar dimension</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Dimension Estrategica</th>
+                                        <th scope="col">Ver actividades planificadas</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -212,7 +166,7 @@
 
                                         </select>
                                     </div>
-                                    <div id="ObjSelM"  class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div id="ObjSelM" class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                         <label>Objetivo institucional:</label>
                                         <select id="ObIn" class="browser-default custom-select mb-4" onchange="">
 
@@ -232,13 +186,13 @@
                                         <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Utilizado (Lps.):</div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <input type="text" id="PresupuestoUtilizado2M" class="form-control" placeholder="10,000" readonly disable>
+                                                <input type="text" id="PresupuestoUtilizado2M" class="form-control" readonly disabled>
                                             </div>
                                         </div>
                                         <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Disponible (Lps.):</div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Total Depto (Lps.):</div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <input type="text" id="PresupuestoDisponible2M" class="form-control" placeholder="10,000" readonly disable>
+                                                <input type="text" id="PresupuestoDisponible2M" class="form-control" readonly disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +215,7 @@
                         </div>
                     </div>
                     <div id="ventana3">
-                        <div class="container tabla">    
+                        <div class="container tabla">
                             <form class="text-center" style="color: #757575;" action="#!">
                                 <div class="form-row">
                                     <div class="col-12">
@@ -269,11 +223,8 @@
                                             <input type="text" id="ActividadsM" class="form-control">
                                             <span id="errorsActividadsM" class="text-danger text-small d-none">
                                             </span>
-                                            <label 
-                                                for="ActividadsM"
-                                                id="labelActividadsM"
-                                            >
-                                            Actividad
+                                            <label for="ActividadsM" id="labelActividadsM">
+                                                Actividad
                                             </label>
                                         </div>
                                     </div>
@@ -282,11 +233,8 @@
                                             <input type="number" id="CantidadM" class="form-control">
                                             <span id="errorsCantidadM" class="text-danger text-small d-none">
                                             </span>
-                                            <label 
-                                                for="CantidadM"
-                                                id="labelCantidadM"
-                                            >
-                                            Cantidad
+                                            <label for="CantidadM" id="labelCantidadM">
+                                                Cantidad
                                             </label>
                                         </div>
                                     </div>
@@ -295,22 +243,16 @@
                                             <input type="number" id="CostoM" class="form-control">
                                             <span id="errorsCostoM" class="text-danger text-small d-none">
                                             </span>
-                                            <label 
-                                                for="CostoM"
-                                                id="labelCostoM"
-                                            >
-                                            Costo
+                                            <label for="CostoM" id="labelCostoM">
+                                                Costo
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-6 row">
                                         <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
                                             <input type="number" id="CostoMT" class="form-control" readonly disabled>
-                                            <label 
-                                                for="CostoMT"
-                                                id="labelCostoMT"
-                                            >
-                                            Costo Total
+                                            <label for="CostoMT" id="labelCostoMT">
+                                                Costo Total
                                             </label>
                                         </div>
                                     </div>
@@ -339,11 +281,8 @@
                                         <input type="text" id="DescripcionCuentaM" class="form-control">
                                         <span id="errorsDescripcionCuentaM" class="text-danger text-small d-none">
                                         </span>
-                                        <label 
-                                            for="DescripcionCuentaM"
-                                            id="labelDescripcionCuentaM"
-                                        >
-                                        Descripcion de la cuenta
+                                        <label for="DescripcionCuentaM" id="labelDescripcionCuentaM">
+                                            Descripcion de la cuenta
                                         </label>
                                     </div>
                                 </div>
@@ -352,11 +291,8 @@
                                         <input type="text" id="DimensionEstrategicaSM" class="form-control">
                                         <span id="errorsDimensionEstrategicaSM" class="text-danger text-small d-none">
                                         </span>
-                                        <label 
-                                            for="DimensionEstrategicaSM"
-                                            id="labelDimensionEstrategicaSM"
-                                        >
-                                        Dimension Estrategica
+                                        <label for="DimensionEstrategicaSM" id="labelDimensionEstrategicaSM">
+                                            Dimension Estrategica
                                         </label>
                                     </div>
                                 </div>
@@ -365,11 +301,8 @@
                                         <input type="text" id="MesM" class="form-control">
                                         <span id="errorsMesM" class="text-danger text-small d-none">
                                         </span>
-                                        <label 
-                                            for="MesM"
-                                            id="labelMesM"
-                                        >
-                                        Mes requerido
+                                        <label for="MesM" id="labelMesM">
+                                            Mes requerido
                                         </label>
                                     </div>
                                 </div>
@@ -390,215 +323,10 @@
         </div>
     </div>
 
-    <!--Agregar Actividades-->
-    <div 
-        class="modal fade" 
-        id="modalAgregarActividades" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Seccion para agregar actividad</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="ventanaA" class="table-responsive">
-                        <table id="DimensionesTablaAgregar" class="table" cellspacing="0" width="100%">
-                            <thead>
-                                <tr align="center">
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Dimension Academica</th>
-                                    <th scope="col">Llenar dimension</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div id="ventana1A">
-                        <form class="text-center" style="color: #757575;" action="#!">
-                            <div class="tabla">
-                                <h4 align="center">Seleccione lista de actividades que desea editar:</h4>
-                                <div class="form-row">
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Dimension academica:</label>
-                                        <select id="DimensionAc" class="browser-default custom-select mb-4" onchange="">
 
-                                        </select>
-                                    </div>
-                                    <div id="ObjSelAg"  class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Objetivo institucional:</label>
-                                        <select id="ObjInstitucionalAg" class="browser-default custom-select mb-4" onchange="">
-
-                                        </select>
-                                    </div>
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Area estrategica:</label>
-                                        <select id="AreaEAg" class="browser-default custom-select mb-4" onchange="">
-        
-                                        </select>
-                                    </div>
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Actividad:</label>
-                                        <select id="Activ" class="browser-default custom-select mb-4" onchange="">
-        
-                                        </select>
-                                    </div>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Utilizado (Lps.):</div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                    <input type="text" id="PresupuestoUtilizado2Ag" class="form-control" placeholder="10,000" readonly disable>
-                                                </div>
-                                            </div>
-                                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Disponible (Lps.):</div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                    <input type="text" id="PresupuestoDisponible2Ag" class="form-control" placeholder="10,000" readonly disable>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tabla">
-                                <h4 align="center">Actividad: Contrtatacion personal</h4>
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="md-form">
-                                            <input type="text" id="ActividadsAg" class="form-control">
-                                            <span id="errorsActividadsAg" class="text-danger text-small d-none">
-                                            </span>
-                                            <label 
-                                                for="ActividadsAg"
-                                                id="labelActividadsAg"
-                                            >
-                                            Actividad
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CantidadAg" class="form-control">
-                                            <span id="errorsCantidadAg" class="text-danger text-small d-none">
-                                            </span>
-                                            <label 
-                                                for="CantidadAg"
-                                                id="labelCantidadAg"
-                                            >
-                                            Cantidad
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CostoAg" class="form-control">
-                                            <span id="errorsCostoAg" class="text-danger text-small d-none">
-                                            </span>
-                                            <label 
-                                                for="CostoAg"
-                                                id="labelCostoAg"
-                                            >
-                                            Costo
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 row">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CostoAgT" class="form-control" readonly disabled>
-                                            <label 
-                                                for="CostoAgT"
-                                                id="labelCostoAgT"
-                                            >
-                                            Costo Total
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" style="padding-left:0;margin-left:auto">
-                                        <label for="TipoPresupuestoAg" id="labelTipoPresupuestoAg">Tipo de presupuesto:</label>
-                                        <select name="TipoPresupuestoAg" id="TipoPresupuestoAg" class="browser-default custom-select mb-4">
-
-                                        </select>
-                                        <span id="errorsTipoPresupuestoAg" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                    <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" style="padding-left:0;margin-right:auto">
-                                        <label for="ObjGastoAg" id="labelObjGastoAg">Objeto de Gasto:</label>
-                                        <select name="ObjGastoAg" id="ObjGastoAg" class="browser-default custom-select mb-4">
-
-                                        </select>
-                                        <span id="errorsObjGastoAg" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="DescripcionCuentaAg" class="form-control">
-                                        <span id="errorsDescripcionCuentaAg" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="DescripcionCuentaAg"
-                                            id="labelDescripcionCuentaAg"
-                                        >
-                                        Descripcion de la cuenta
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="DimensionEstrategicaSAg" class="form-control">
-                                        <span id="errorsDimensionEstrategicaSAg" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="DimensionEstrategicaSAg"
-                                            id="labelDimensionEstrategicaSAg"
-                                        >
-                                        Dimension Estrategica
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="MesAg" class="form-control">
-                                        <span id="errorsMesAg" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="MesAg"
-                                            id="labelMesAg"
-                                        >
-                                        Mes requerido
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer card-footer amber accent-4">
-                    <div class="text-center foot-agr">
-                        <button id="botonModif" type="button" class="btn btn-light-green btn-rounded btn-sm" onclick="" disabled>Guardar Cambios</button>
-                    </div>
-                    <div class="text-center foot-agr">
-                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--formulario llenado de dimension-->
-    <div 
-        class="modal fade" 
-        id="modalFormLlenadoDimension" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalFormLlenadoDimension" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -622,14 +350,14 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="input-field col-12" style="padding-left:0" align="left">
                                     <label for="ObjInstitucional" id="labelObjInstitucional">Objetivo Institucional:</label>
-                                    <select name="ObjInstitucional" id="ObjInstitucional" class="browser-default custom-select mb-4">
-                                        
+                                    <select name="ObjInstitucional" id="ObjInstitucional" class="browser-default custom-select mb-4" onchange="cargarAreasEstrategicasActivas()">
+
                                     </select>
                                     <span id="errorsObjInstitucional" class="text-danger text-small d-none">
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-none" id="selecciona-registro-area">
                                 <div class="input-field col-12" style="padding-left:0" align="left">
                                     <label for="AreaEstrategica" id="labelAreaEstrategica">Area Estrategica:</label>
                                     <select name="AreaEstrategica" id="AreaEstrategica" class="browser-default custom-select mb-4">
@@ -641,19 +369,12 @@
                             </div>
                             <div class="row col-12" style="margin-left:auto;margin-right:auto">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12" style="margin-top:2px">
-                                    <button 
-                                        type="button"
-                                        class="btn btn-indigo btn-block"  
-                                        onclick="ag()">
+                                    <button type="button" class="btn btn-indigo btn-block" onclick="ag()">
                                         Agregar actividad
                                     </button>
                                 </div>
                                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="margin-left:auto;margin-top:2px">
-                                    <button 
-                                        type="button"
-                                        class="btn btn-indigo btn-block"  
-                                        data-toggle="modal" 
-                                        data-target="#modalActividadesPlanificadas">
+                                    <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalActividadesPlanificadas">
                                         Ver planificación
                                     </button>
                                 </div>
@@ -663,12 +384,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
-                                <label for="PresupuestoUtilizado">Presupuesto Utilizado (Lps.):</label>
-                                <input style="width:50%" type="text" id="PresupuestoUtilizado" class="form-control" placeholder="10,000" readonly disable>
+                                <label for=" PresupuestoUtilizado">Presupuesto Utilizado (Lps.):</label>
+                                <input style="width:50%" type="text" id="PresupuestoUtilizado" class="form-control" readonly disabled>
                             </div>
                             <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
-                                <label for="PresupuestoDisponible">Presupuesto Disponible (Lps.):</label>
-                                <input style="width:50%" type="text" id="PresupuestoDisponible" class="form-control" placeholder="10,000" readonly disable>
+                                <label for=" PresupuestoDisponible">Presupuesto Disponible (Lps.):</label>
+                                <input style="width:50%" type="text" id="PresupuestoDisponible" class="form-control" readonly disabled>
                             </div>
                         </div>
                     </div>
@@ -676,10 +397,7 @@
                 <div class="modal-footer card-footer amber accent-4">
                     <div class="row col-12">
                         <div class="text-center" style="margin-left:auto">
-                            <button 
-                                type="button" 
-                                class="btn btn-light-green btn-rounded btn-sm"
-                                disabled>
+                            <button type="button" class="btn btn-light-green btn-rounded btn-sm" disabled>
                                 Enviar
                             </button>
                         </div>
@@ -693,12 +411,7 @@
     </div>
 
     <!--Actividades planificadas-->
-    <div 
-        class="modal fade" 
-        id="modalActividadesPlanificadas" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
+    <div class="modal fade" id="modalActividadesPlanificadas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -732,15 +445,10 @@
         </div>
     </div>
 
-                                                    <!--modales-->
+    <!--modales-->
     <!--llenado de actividades-->
-    <div 
-        class="modal fade" 
-        id="modalLlenadoActividades" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalLlenadoActividades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="myModalLabel">Dimensiones Academicas pendientes</h4>
@@ -759,303 +467,234 @@
                                             <form id="msform">
                                                 <!-- progressbar -->
                                                 <ul id="progressbar">
-                                                    <li class="active" id="Resultados" ><strong>Resultados</strong></li>
+                                                    <li class="active" id="Resultados"><strong>Resultados</strong></li>
                                                     <li id="Actividad"><strong>Actividad</strong></li>
                                                     <li id="MetasTrimestrales"><strong>Metas Trimestrales</strong></li>
                                                     <li id="Justificacion"><strong>Justificacion</strong></li>
-                                                    <li id="ActividadeEspeciales"><strong>Actividade Especiales</strong></li>
+                                                    <!-- <li id="ActividadeEspeciales"><strong>Desglosar Actividad</strong></li> -->
                                                 </ul> <!-- fieldsets -->
                                                 <fieldset id="primero">
-                                                    <div class="form-card" >
-                                                        <h2 class="fs-title">Resultados</h2> 
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Resultados</h2>
                                                         <div class="col-12">
                                                             <div class="input-field">
                                                                 <label for="ResultadosInstitucional" id="labelResultadosInstitucional">Resultados Institucionales:</label>
                                                                 <select name="ResultadosInstitucional" id="ResultadosInstitucional" class="browser-default custom-select mb-4">
                                                                     <option value="" selected disabled></option>
-                                                                    <option value="1">Opcion</option>
-                                                                    <option value="2">Opcion</option>
                                                                 </select>
                                                                 <span id="errorsResultadosInstitucional" class="text-danger text-small d-none"></span>
                                                             </div>
-                                                        </div> 
+                                                        </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label for="ResultadosDeUnidad"id="labelResultadosDeUnidad">Resultados de la unidad:</label>
-                                                                <textarea  type="text" id="ResultadosDeUnidad" class="md-textarea form-control"></textarea >
+                                                                <label for="ResultadosDeUnidad" id="labelResultadosDeUnidad">Resultados de la unidad:</label>
+                                                                <textarea type="text" id="ResultadosDeUnidad" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
                                                                 <span id="errorsResultadosDeUnidad" class="text-danger text-small d-none"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label for="Indicador"id="labelIndicador">Indicador:</label>
-                                                                <textarea  type="text" id="Indicador" class="md-textarea form-control"></textarea >
+                                                                <label for="Indicador" id="labelIndicador">Indicador:</label>
+                                                                <textarea type="text" id="Indicador" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
                                                                 <span id="errorsIndicador" class="text-danger text-small d-none"></span>
                                                             </div>
                                                         </div>
-                                                    </div> 
-                                                    <input type="button" name="next" class="next action-button" value="Next Step" />
+                                                    </div>
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
                                                 </fieldset>
                                                 <fieldset id="segundo">
                                                     <div class="form-card">
-                                                        <h2 class="fs-title">Actividad</h2> 
+                                                        <h2 class="fs-title">Actividad</h2>
                                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                                             <div class="row" style="margin:auto">
                                                                 <label for="Correlativo">Correlativo</label>
                                                                 <div class="col-xl-4 col-lg-4 col-md-7 col-sm-8">
-                                                                    <input type="text" id="Correlativo" class="form-control" readonly disabled>
+                                                                    <input type="text" id="CorrelativoGeneradoParaRegistrar" class="form-control" readonly disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <input type="text" id="Actividads" class="form-control">
+                                                                <input type="text" id="Actividads" class="form-control" minlength="1" maxlength="200">
                                                                 <span id="errorsActividads" class="text-danger text-small d-none"></span>
-                                                                <label for="Actividads"id="labelActividads">Actividad</label>
+                                                                <label for="Actividads" id="labelActividads">Actividad</label>
                                                             </div>
                                                         </div>
-                                                    </div> 
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
-                                                    <input type="button" name="next" class="next action-button" value="Next Step" />
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
                                                 </fieldset>
                                                 <fieldset id="tercero">
                                                     <div class="form-card">
                                                         <h2 class="fs-title">Metas trimestrales</h2>
                                                         <div class="row">
+                                                            <div class="col-xl-12 col-lg-12">
+                                                                <div class="input-field">
+                                                                    <label for="TipoActividad" id="labelTipoActividad">Seleccione el tipo de costo de la actividad:</label>
+                                                                    <select name="TipoActividad" id="TipoActividad" class="browser-default custom-select mb-4">
+                                                                    </select>
+                                                                    <span id="errorsTipoActividad" class="text-danger text-small d-none"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad" class="font-weight-bolder text-dark">
+                                                                    Digite el presupuesto para esta actividad:
+                                                                </label>
+                                                            </div>
+                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                                <input type="number" id="PresupuestoActividad" class="form-control">
+                                                                <span id="errorsPresupuestoActividad" class="text-danger text-small d-none">
+                                                                </span>
+                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad">
+                                                                    Lps.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center">
+                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                                <label class="font-weight-bolder text-dark">
+                                                                    Distribuya los porcentajes por trimestre
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                                <div class="form-group d-flex">
+                                                                    <label class="font-weight-bolder text-dark  my-auto form-control">
+                                                                        Porcentaje total:
+                                                                    </label>
+                                                                    <input style="width:50%" type="number" id="SumaPorcentajes" class="form-control" readonly disabled>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center">
                                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                    <div class="container">
-                                                                        <label for="PTrimestre">Primer Trimestre:</label>
-                                                                        <div id="PTrimestre" class="row">
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="PorcentPTrimestre" class="form-control">
-                                                                                <span id="errorsPorcentPTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="PorcentPTrimestre"
-                                                                                    id="labelPorcentPTrimestre"
-                                                                                >
-                                                                                %
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="MontoPTrimestre" class="form-control">
-                                                                                <span id="errorsMontoPTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="MontoPTrimestre"
-                                                                                    id="labelMontoPTrimestre"
-                                                                                >
-                                                                                Lps.
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="PTrimestre" class="form-control">Primer Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT1" class="form-control" readonly disabled>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                    <div class="container">
-                                                                        <label for="STrimestre">Segundo Trimestre:</label>
-                                                                        <div id="STrimestre" class="row">
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="PorcentSTrimestre" class="form-control">
-                                                                                <span id="errorsPorcentSTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="PorcentSTrimestre"
-                                                                                    id="labelPorcentSTrimestre"
-                                                                                >
+                                                                    <div id="PTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentPTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreUno(this)">
+                                                                            <span id="errorsPorcentPTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentPTrimestre" id="labelPorcentPTrimestre">
                                                                                 %
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="MontoSTrimestre" class="form-control">
-                                                                                <span id="errorsMontoSTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="MontoSTrimestre"
-                                                                                    id="labelMontoSTrimestre"
-                                                                                >
-                                                                                Lps.
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                    <div class="container">
-                                                                        <label for="TTrimestre">Tercer Trimestre:</label>
-                                                                        <div id="TTrimestre" class="row">
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="PorcentTTrimestre" class="form-control">
-                                                                                <span id="errorsPorcentTTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="PorcentTTrimestre"
-                                                                                    id="labelPorcentTTrimestre"
-                                                                                >
-                                                                                %
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="MontoTTrimestre" class="form-control">
-                                                                                <span id="errorsMontoTTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="MontoTTrimestre"
-                                                                                    id="labelMontoTTrimestre"
-                                                                                >
-                                                                                Lps.
-                                                                                </label>
-                                                                            </div>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                    <div class="container">
-                                                                        <label for="CTrimestre">Cuarto Trimestre:</label>
-                                                                        <div id="CTrimestre" class="row">
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="PorcentCTrimestre" class="form-control">
-                                                                                <span id="errorsPorcentCTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="PorcentCTrimestre"
-                                                                                    id="labelPorcentCTrimestre"
-                                                                                >
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label class="form-control" for="STrimestre">Segundo Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT2" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="STrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentSTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreDos(this)">
+                                                                            <span id="errorsPorcentSTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentSTrimestre" id="labelPorcentSTrimestre">
                                                                                 %
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                                <input type="number" id="MontoCTrimestre" class="form-control">
-                                                                                <span id="errorsMontoCTrimestre" class="text-danger text-small d-none">
-                                                                                </span>
-                                                                                <label 
-                                                                                    for="MontoCTrimestre"
-                                                                                    id="labelMontoCTrimestre"
-                                                                                >
-                                                                                Lps.
-                                                                                </label>
-                                                                            </div>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                    <div class="container input tabla" style="margin-top:1rem;border: 1px solid rgba(11, 3, 126, 0.13);">
-                                                                        <table id="TablaTotal" class="table" cellspacing="0" width="100%">
-                                                                            <thead>
-                                                                                <tr align="center">
-                                                                                    <th scope="col">Total(%)</th>
-                                                                                    <th scope="col">Monto total</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr align="center">
-                                                                                    <td>100</td>
-                                                                                    <td>400</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
+                                                            </div>
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label class="form-control" for="TTrimestre">Tercer Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT3" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="TTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentTTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreTres(this)">
+                                                                            <span id="errorsPorcentTTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentTTrimestre" id="labelPorcentTTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="CTrimestre" class="form-control">Cuarto Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT4" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="CTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentCTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreCuatro(this)">
+                                                                            <span id="errorsPorcentCTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentCTrimestre" id="labelPorcentCTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> 
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
-                                                    <input type="button" name="next" class="next action-button" value="Next Step" />
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
                                                 </fieldset>
                                                 <fieldset id="cuarto">
-                                                    <div class="form-card" >
-                                                        <h2 class="fs-title">Justificacion</h2> 
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Justificacion</h2>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label class="form-label" for="Justificacions"id="labelJustificacions">Justificacion:</label>    
-                                                                <textarea  type="text" id="Justificacions" class="md-textarea form-control"></textarea >
+                                                                <label class="form-label" for="Justificacions" id="labelJustificacions">Justificacion:</label>
+                                                                <textarea type="text" id="Justificacions" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
                                                                 <span id="errorsJustificacions" class="text-danger text-small d-none"></span>
                                                             </div>
-                                                        </div> 
+                                                        </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label class="form-label" for="Medio"id="labelMedio">Medio de verificacion:</label>    
-                                                                <textarea  type="text" id="Medio" class="md-textarea form-control"></textarea >
+                                                                <label class="form-label" for="Medio" id="labelMedio">Medio de verificacion:</label>
+                                                                <textarea type="text" id="Medio" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
                                                                 <span id="errorsMedio" class="text-danger text-small d-none"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label class="form-label" for="Poblacion"id="labelPoblacion">Poblacion Objetivo:</label>    
-                                                                <textarea  type="text" id="Poblacion" class="md-textarea form-control"></textarea >
+                                                                <label class="form-label" for="Poblacion" id="labelPoblacion">Poblacion Objetivo:</label>
+                                                                <textarea type="text" id="Poblacion" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
                                                                 <span id="errorsPoblacion" class="text-danger text-small d-none"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="md-form">
-                                                                <label class="form-label" for="Responsable"id="labelResponsable">Responsable:</label>    
-                                                                <textarea  type="text" id="Responsable" class="md-textarea form-control"></textarea >
+                                                                <label class="form-label" for="Responsable" id="labelResponsable">Responsable:</label>
+                                                                <textarea type="text" id="Responsable" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
                                                                 <span id="errorsResponsable" class="text-danger text-small d-none"></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
-                                                    <input type="button" name="next" class="next action-button" value="Next Step" />
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" id="save" class="action-button"
+                                                        onclick="insertaActividad()" value="Guardar" />
                                                 </fieldset>
+                                                <!-- </fieldset>
                                                 <fieldset id="quinto">
-                                                    <div class="form-card" >
-                                                        <h2 class="fs-title">Actividade Especiales</h2> 
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Desglosar Actividad</h2>
                                                         <div class="container row">
-                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                                                                <button 
-                                                                    type="button"
-                                                                    class="btn btn-indigo btn-block"  
-                                                                    id="bot">
-                                                                    Agregar
+                                                            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 text-center mx-auto">
+                                                                <button type="button" class="btn btn-indigo btn-block" id="bot">
+                                                                    Agregar a dimensiones administrativas
                                                                 </button>
                                                             </div>
-                                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="tabla table-responsive">
-                                                            <table id="Actividades" class="table" cellspacing="0" width="100%">
-                                                                <thead>
-                                                                    <tr align="center">
-                                                                        <th scope="col">Actividad</th>
-                                                                        <th scope="col">cantidad</th>
-                                                                        <th scope="col">costo</th>
-                                                                        <th scope="col">costo total</th>
-                                                                        <th scope="col">tipo de presupuesto</th>
-                                                                        <th scope="col">objeto de gasto</th>
-                                                                        <th scope="col">descripcion de la cuenta</th>
-                                                                        <th scope="col">dimension estrategica</th>
-                                                                        <th scope="col">mes requerido</th>
-                                                                        <th scope="col">ver mas</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr align="center">
-                                                                        <td>100</td>
-                                                                        <td>400</td>
-                                                                        <td>100</td>
-                                                                        <td>400</td>
-                                                                        <td>100</td>
-                                                                        <td>400</td>
-                                                                        <td>100</td>
-                                                                        <td>400</td>
-                                                                        <td>100</td>
-                                                                        <td>
-                                                                            <button type="button" class="btn btn-amber">
-                                                                                <img src="../img/menu/editar.svg" alt="modificar dimension"/>
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
                                                         </div>
                                                     </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
                                                     <input id="save" type="button" name="save" class="action-button" value="Aceptar" />
-                                                </fieldset>
+                                                </fieldset> -->
                                             </form>
                                         </div>
                                     </div>
@@ -1073,148 +712,75 @@
         </div>
     </div>
 
-<!--Agregar Actividad-->
-<div
-        class="modal fade" 
-        id="modalActividad" 
-        tabindex="-1" role="dialog" 
-        aria-labelledby="myModalLabel" 
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalCargaActividades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Registro actividad</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Listado Actividades por dimension</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container tabla">    
-                        <form class="text-center" style="color: #757575;" action="#!">
-                            <div class="form-row">
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="ActividadL" class="form-control">
-                                        <span id="errorsActividadL" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="ActividadL"
-                                            id="labelActividadL"
-                                        >
-                                        Actividad
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                        <input type="number" id="Cantidad" class="form-control">
-                                        <span id="errorsCantidad" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="Cantidad"
-                                            id="labelCantidad"
-                                        >
-                                        Cantidad
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                        <input type="number" id="Costo" class="form-control">
-                                        <span id="errorsCosto" class="text-danger text-small d-none">
-                                        </span>
-                                        <label 
-                                            for="Costo"
-                                            id="labelCosto"
-                                        >
-                                        Costo
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-6 row">
-                                    <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                        <input type="number" id="CostoT" class="form-control" readonly disabled>
-                                        <label 
-                                            for="CostoT"
-                                            id="labelCostoT"
-                                        >
-                                        Costo Total
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="table-responsive">
+                        <table class="table" id="listado-actividades">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Objetivo Institucional</th>
+                                    <th scope="col" class="text-center">Area Estrategica</th>
+                                    <th scope="col" class="text-center">Resultado Institucionale</th>
+                                    <th scope="col" class="text-center">Resultado Unidad</th>
+                                    <th scope="col" class="text-center">Indicadores Resultado</th>
+                                    <th scope="col" class="text-center">Correlativo Actividad</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Porcentaje Trimestre I</th>
+                                    <th scope="col" class="text-center">Costo Trimestre I</th>
+                                    <th scope="col" class="text-center">Porcentaje Trimestre II</th>
+                                    <th scope="col" class="text-center">Costo Trimestre II</th>
+                                    <th scope="col" class="text-center">Porcentaje Trimestre III</th>
+                                    <th scope="col" class="text-center">Costo Trimestre III</th>
+                                    <th scope="col" class="text-center">Porcentaje Trimestre IV</th>
+                                    <th scope="col" class="text-center">Costo Trimestre IV</th>
+                                    <th scope="col" class="text-center">Sumatoria Porcentajes Trimestres I,II,II,IV</th>
+                                    <th scope="col" class="text-center">Costo Total Actividad</th>
+                                    <th scope="col" class="text-center">Desglose Administrativo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="areas-estrategicas">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            <div class="row">
-                                <div class="input-field col-4" style="padding-left:0;margin-left:auto">
-                                    <label for="TipoPresupuesto" id="labelTipoPresupuesto">Tipo de presupuesto:</label>
-                                    <select name="TipoPresupuesto" id="TipoPresupuesto" class="browser-default custom-select mb-4">
-
-                                    </select>
-                                    <span id="errorsTipoPresupuesto" class="text-danger text-small d-none">
-                                    </span>
-                                </div>
-                                <div class="input-field col-4" style="padding-left:0;margin-right:auto">
-                                    <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label>
-                                    <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4">
-
-                                    </select>
-                                    <span id="errorsObjGasto" class="text-danger text-small d-none">
-                                    </span>
-                                </div>
+    <!--Agregar Actividad-->
+    <div class="modal fade" id="modalActividad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container tabla">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label for="DimensionAdministrativa" id="labelDimensionAdministrativa">Seleccione la dimension administrativa:</label>
+                                <select name="DimensionAdministrativa" id="DimensionAdministrativa" class="browser-default custom-select mb-4" onchange="generaTablasAcordeDimension(this)">
+                                </select>
+                                <span id="errorsDimensionAdministrativa" class="text-danger text-small d-none">
+                                </span>
                             </div>
-                            <div class="col-12">
-                                <div class="md-form">
-                                    <input type="text" id="DescripcionCuenta" class="form-control">
-                                    <span id="errorsDescripcionCuenta" class="text-danger text-small d-none">
-                                    </span>
-                                    <label 
-                                        for="DescripcionCuenta"
-                                        id="labelDescripcionCuenta"
-                                    >
-                                    Descripcion de la cuenta
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="md-form">
-                                    <input type="text" id="DimensionEstrategicaS" class="form-control">
-                                    <span id="errorsDimensionEstrategicaS" class="text-danger text-small d-none">
-                                    </span>
-                                    <label 
-                                        for="DimensionEstrategicaS"
-                                        id="labelDimensionEstrategicaS"
-                                    >
-                                    Dimension Estrategica
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="md-form">
-                                    <input type="date" id="Mes" class="form-control">
-                                    <span id="errorsMes" class="text-danger text-small d-none">
-                                    </span>
-                                    <label 
-                                        for="Mes"
-                                        id="labelMes"
-                                    >
-                                    Mes requerido
-                                    </label>
-                                </div>
-                            </div>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
                     <div class="row col-12">
-                        <div class="text-center" style="margin-left:auto">
-                            <button 
-                                type="button" 
-                                class="btn btn-light-green btn-rounded btn-sm"
-                                id="ingresarAct">
-                                Ingresar
-                            </button>
-                        </div>
                         <div class="text-center">
                             <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
                         </div>
@@ -1224,9 +790,577 @@
         </div>
     </div>
 
-    
+    <div class="modal fade" id="modalDimensionesAdmin1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-1">
+                            <thead>
+                                <tr id="dimension-1">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad Personas</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-2">
+                            <thead>
+                                <tr id="dimension-2">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Meses</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-3">
+                            <thead>
+                                <tr id="dimension-3">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDimensionesAdmin4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-4">
+                            <thead>
+                                <tr id="dimension-4">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Tipo de Equipo Tecnologico</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-5">
+                            <thead>
+                                <tr id="dimension-5">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-6">
+                            <thead>
+                                <tr id="dimension-6">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Area de la Beca</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-7">
+                            <thead>
+                                <tr id="dimension-7">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Proyecto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDimensionesAdmin8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-header">
+                    <div class="col-xl-12 mx-auto">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                                <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                Registrar datos administrativos de la actividad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dimension-administrativa-8">
+                            <thead>
+                                <tr id="dimension-8">
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Actividad</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Costo</th>
+                                    <th scope="col" class="text-center">Costo Total</th>
+                                    <th scope="col" class="text-center">Tipo Presupuesto</th>
+                                    <th scope="col" class="text-center">Objeto de Gasto</th>
+                                    <th scope="col" class="text-center">Descripcion Cuenta</th>
+                                    <th scope="col" class="text-center">Dimension Estrategica</th>
+                                    <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Descripcion</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-center">Precio</th>
+                                    <th scope="col" class="text-center">Ingreso</th>
+                                    <th scope="col" class="text-center">70%</th>
+                                    <th scope="col" class="text-center">30%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRegistroDimensionAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Registro dimension administrativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-center" style="color: #757575;" action="#!">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="number" id="Cantidad" class="form-control">
+                                    <span id="errorsCantidad" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="Cantidad" id="labelCantidad">
+                                        Cantidad
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 d-none" id="dimension-1-campo">
+                                <div class="md-form">
+                                    <input type="number" id="CantidadPersonas" class="form-control">
+                                    <span id="errorsCantidadPersonas" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="CantidadPersonas" id="labelCantidadPersonas">
+                                        Cant Personas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 d-none" id="dimension-2-campo">
+                                <div class="md-form">
+                                    <input type="number" id="Meses" class="form-control">
+                                    <span id="errorsMeses" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="Meses" id="labelMeses">
+                                        Meses
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="number" id="Costo" class="form-control">
+                                    <span id="errorsCosto" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="Costo" id="labelCosto">
+                                        Costo
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="number" id="CostoT" class="form-control" readonly disabled>
+                                    <label for="CostoT" id="labelCostoT">
+                                        Costo Total
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col-4" style="padding-left:0;margin-left:auto">
+                                <label for="TipoPresupuesto" id="labelTipoPresupuesto">Tipo de presupuesto:</label>
+                                <select name="TipoPresupuesto" id="TipoPresupuesto" class="browser-default custom-select mb-4">
+
+                                </select>
+                                <span id="errorsTipoPresupuesto" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                            <div class="input-field col-4" style="padding-left:0;margin-right:auto">
+                                <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label>
+                                <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4">
+
+                                </select>
+                                <span id="errorsObjGasto" class="text-danger text-small d-none">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                                <label for="MesRequerido" id="labelMesRequerido">Mes Requerido:</label>
+                                <select name="MesRequerido" id="MesRequerido" class="browser-default custom-select mb-4">
+                                    <option value="Enero">Enero</option>
+                                    <option value="Febrero">Febrero</option>
+                                    <option value="Marzo">Marzo</option>
+                                    <option value="Abril">Abril</option>
+                                    <option value="Mayo">Mayo</option>
+                                    <option value="Junio">Junio</option>
+                                    <option value="Julio">Julio</option>
+                                    <option value="Agosto">Agosto</option>
+                                    <option value="Septiembre">Septiembre</option>
+                                    <option value="Octubre">Octubre</option>
+                                    <option value="Noviembre">Noviembre</option>
+                                    <option value="Diciembre">Diciembre</option>
+                                </select>
+                                <span id="errorsMesRequerido" class="text-danger text-small d-none">
+                                </span>
+                        </div>
+                        <div class="col-12" id="dimension-4-campo">
+                            <div class="md-form">
+                                <input type="text" id="TipoEquipoTecnologico" class="form-control">
+                                <span id="errorsTipoEquipoTecnologico" class="text-danger text-small d-none">
+                                </span>
+                                <label for="TipoEquipoTecnologico" id="labelTipoEquipoTecnologico">
+                                    Escriba el equipo tecnologico
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12" id="dimension-6-campo">
+                            <div class="md-form">
+                                <input type="text" id="AreaBeca" class="form-control">
+                                <span id="errorsAreaBeca" class="text-danger text-small d-none">
+                                </span>
+                                <label for="AreaBeca" id="labelAreaBeca">
+                                    Escriba en area de la beca
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12" id="dimension-7-campo">
+                            <div class="md-form">
+                                <input type="text" id="AreaBeca" class="form-control">
+                                <span id="errorsAreaBeca" class="text-danger text-small d-none">
+                                </span>
+                                <label for="AreaBeca" id="labelAreaBeca">
+                                    Escriba el proyecto
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12 ml-auto">
+                        <div class="text-center">
+                            <button onclick="agregarAct()" 
+                            type="button" 
+                            class="btn btn-light-green btn-rounded btn-sm" 
+                            >Guardar cambios</button>
+                        </div>
+                        <div class="text-center">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--En esta zona podran poner javascripts propios de la vista-->
-    
+
     <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
 
@@ -1237,12 +1371,12 @@
     <script src="../js/data-tables/pdfmake/pdfmake.min.js"></script>
     <script src="../js/data-tables/pdfmake/vfs_fonts.js"></script>
     <script src="../js/data-tables/Buttons/js/buttons.html5.min.js"></script>
-    
+
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
     <script src="../js/Jefe-Coordinador/principal.js"></script>
     <script src="../js/Jefe-Coordinador/llenado.js"></script>
 
-<?php
+    <?php
     include('../partials/endDoctype.php');
-?>
+    ?>

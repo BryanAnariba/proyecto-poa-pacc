@@ -472,6 +472,109 @@ UPDATE DimensionAdmin
 SET dimensionAdministrativa = dimension 
 WHERE idDimension = idDimensionAdministrativa;
 
+
+CREATE PROCEDURE SP_INSERTA_ACTIVIDAD(
+	IN idUsuario INT, 
+    IN idDimensionEstrategica INT,
+    IN idObjetivo INT,
+    IN idResultado INT,
+    IN idArea INT,
+    IN idTipoCostoActividad INT,
+    IN resultados VARCHAR(200),
+    IN indicadores VARCHAR(200),
+    IN nombreActividad VARCHAR(200),
+    IN correlativo VARCHAR(25),
+    IN justificacion VARCHAR(255),
+    IN medio VARCHAR(255),
+    IN poblacion VARCHAR(255),
+    IN responsable VARCHAR(255),
+    IN costo DECIMAL(13,2)
+)
+	INSERT INTO Actividad (
+		idPersonaUsuario, 
+        idDimension, 
+        idObjetivoInstitucional, 
+        idResultadoInstitucional, 
+        idAreaEstrategica, 
+        idTipoActividad, 
+        resultadosUnidad, 
+        indicadoresResultado, 
+        actividad, 
+        correlativoActividad, 
+        justificacionActividad, 
+        medioVerificacionActividad, 
+        poblacionObjetivoActividad, 
+        responsableActividad, 
+        fechaCreacionActividad, 
+        CostoTotal
+	) VALUES (
+		idUsuario,
+        idDimensionEstrategica,
+        idObjetivo,
+        idResultado,
+        idArea,
+        idTipoCostoActividad,
+        resultados,
+        indicadores,
+        nombreActividad,
+        correlativo,
+        justificacion,
+        medio,
+        poblacion,
+        responsable,
+        NOW(),
+        costo
+    );
+    SELECT last_insert_id() as ultimoIdInsertado;
+
+CREATE PROCEDURE SP_INSERTA_COSTO_ACT_TRIMESTRE(
+	IN idAct INT, 
+	IN pTrimestre1 DECIMAL(5,2), 
+    IN T1 DECIMAL(13,2), 
+    IN pTrimestre2 DECIMAL(5,2), 
+    IN T2 DECIMAL(13,2), 
+    IN pTrimestre3 DECIMAL(5,2), 
+    IN T3 DECIMAL(13,2), 
+    IN pTrimestre4 DECIMAL(5,2), 
+    IN T4 DECIMAL(13,2),
+    IN sumatoria DECIMAL(3,2)
+)
+	INSERT INTO CostoActividadPorTrimestre (
+		idActividad, 
+        porcentajeTrimestre1, 
+        Trimestre1, 
+        abrevTrimestre1, 
+        porcentajeTrimestre2, 
+        Trimestre2, 
+        abrevTrimestre2, 
+        porcentajeTrimestre3, 
+        Trimestre3, 
+        abrevTrimestre3, 
+        porcentajeTrimestre4, 
+        Trimestre4, 
+        abrevTrimestre4,
+        sumatoriaPorcentaje
+	) VALUES (
+		idAct,
+        pTrimestre1,
+        T1,
+        'I',
+        pTrimestre2,
+        T2,
+        'II',
+        pTrimestre3,
+        T3,
+        'III',
+        pTrimestre4,
+        T4,
+        'IV',
+        sumatoria
+    );
+
+
+-- --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTAS CONSULTAS SON QUERYS PARA LAS ACTIVIDADES NO TOCAR 
+
+-- Consulta para cargar actividades por dimension al anio
 WITH CTE_LISTADO_ACT_POR_DIM AS (
 	SELECT 
     COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension,
@@ -508,3 +611,116 @@ CTE_LISTADO_ACT_POR_DIM.idDimension BETWEEN (
     FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
     WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
 );
+
+-- consulta para generar el correlativo
+WITH CTE_LISTADO_ACT_POR_DIM AS (
+	SELECT 
+    (COUNT(Actividad.idActividad) + 1) AS cantidadActividadesPorDimension,
+    DATE_FORMAT(NOW(), '%Y') AS anioActividad,
+    DimensionEstrategica.idDimension,
+    DimensionEstrategica.dimensionEstrategica,
+    DimensionEstrategica.idEstadoDimension
+    FROM 
+    Actividad 
+    RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)
+    INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado)
+    GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica
+)
+SELECT * FROM CTE_LISTADO_ACT_POR_DIM 
+WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = 1 AND 
+(
+    SELECT 
+    ControlPresupuestoActividad.idEstadoPresupuestoAnual
+    FROM ControlPresupuestoActividad 
+    LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad)
+    RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
+    LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento)
+    INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado)
+    WHERE Departamento.idDepartamento = 1 AND Usuario.idPersonaUsuario = 2 AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')
+) AND CTE_LISTADO_ACT_POR_DIM.idDimension = 1;
+
+
+-- Query para generar el vs de presupuestos -> PresupuestoDeptoTotal vs PresupuestoConsumidoPorActividades
+SELECT 
+	SUM(Actividad.CostoTotal) AS costoActividadesDepto,
+    DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') AS anioSumaActividades,
+    Actividad.idPersonaUsuario,
+    Usuario.nombreUsuario,
+    Usuario.idDepartamento,
+    Departamento.nombreDepartamento,
+    (
+		SELECT PresupuestoDepartamento.montoPresupuesto FROM PresupuestoDepartamento WHERE PresupuestoDepartamento.idDepartamento = 1 AND
+        DATE_FORMAT(PresupuestoDepartamento.fechaAprobacionPresupuesto, '%Y') = DATE_FORMAT(NOW(), '%Y')
+    ) AS PresupuestoTotalDepartamento
+    FROM Actividad 
+	RIGHT JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+    INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) 
+    LEFT JOIN PresupuestoDepartamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
+    WHERE Usuario.idPersonaUsuario = 2  AND Departamento.idDepartamento = 1 AND (DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = DATE_FORMAT(NOW(), '%Y'));
+    
+    
+-- Query para cargar info en la parte de actividades especiales
+SELECT 
+	Actividad.idActividad, 
+    Actividad.actividad, 
+    Actividad.idDimension,
+    DimensionEstrategica.dimensionEstrategica,
+    Actividad.correlativoActividad, 
+    Actividad.fechaCreacionActividad, 
+    Actividad.CostoTotal
+    FROM Actividad INNER JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)
+    WHERE date_format(Actividad.fechaCreacionActividad, '%Y') = date_format(NOW(), '%Y') AND DimensionEstrategica.idDimension = 1;
+
+-- Query para cargar actividades de una dimension correspondiente
+WITH CTE_LISTA_ACTIVIDADES_DIMENSION AS (
+	SELECT 
+		Actividad.idActividad, 
+		Actividad.idPersonaUsuario,
+		Usuario.nombreUsuario,
+		Usuario.idDepartamento,
+		Departamento.nombreDepartamento,
+		Actividad.idDimension, 
+		DimensionEstrategica.dimensionEstrategica,
+		Actividad.idObjetivoInstitucional, 
+		ObjetivoInstitucional.objetivoInstitucional,
+		Actividad.idResultadoInstitucional, 
+		ResultadoInstitucional.resultadoInstitucional,
+		Actividad.idAreaEstrategica, 
+		AreaEstrategica.areaEstrategica,
+		Actividad.idTipoActividad, 
+		TipoActividad.tipoActividad,
+		Actividad.resultadosUnidad, 
+		Actividad.indicadoresResultado, 
+		Actividad.actividad, 
+		Actividad.correlativoActividad, 
+		Actividad.justificacionActividad, 
+		Actividad.medioVerificacionActividad, 
+		Actividad.poblacionObjetivoActividad, 
+		Actividad.responsableActividad, 
+		Actividad.fechaCreacionActividad, 
+		Actividad.CostoTotal,
+		CostoActividadPorTrimestre.idCostActPorTri, 
+		CostoActividadPorTrimestre.porcentajeTrimestre1, 
+		CostoActividadPorTrimestre.Trimestre1, 
+		CostoActividadPorTrimestre.abrevTrimestre1, 
+		CostoActividadPorTrimestre.porcentajeTrimestre2, 
+		CostoActividadPorTrimestre.Trimestre2, 
+		CostoActividadPorTrimestre.abrevTrimestre2, 
+		CostoActividadPorTrimestre.porcentajeTrimestre3, 
+		CostoActividadPorTrimestre.Trimestre3, 
+		CostoActividadPorTrimestre.abrevTrimestre3, 
+		CostoActividadPorTrimestre.porcentajeTrimestre4, 
+		CostoActividadPorTrimestre.Trimestre4, 
+		CostoActividadPorTrimestre.abrevTrimestre4, 
+		CostoActividadPorTrimestre.sumatoriaPorcentaje
+		FROM Actividad 
+		INNER JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)
+		INNER JOIN ObjetivoInstitucional ON (Actividad.idObjetivoInstitucional = ObjetivoInstitucional.idObjetivoInstitucional)
+		INNER JOIN AreaEstrategica ON (Actividad.idAreaEstrategica = AreaEstrategica.idAreaEstrategica) 
+		INNER JOIN ResultadoInstitucional ON (Actividad.idResultadoInstitucional = ResultadoInstitucional.idResultadoInstitucional) 
+		INNER JOIN TipoActividad ON (Actividad.idTipoActividad = TipoActividad.idTipoActividad) 
+		INNER JOIN CostoActividadPorTrimestre ON (CostoActividadPorTrimestre.idActividad = Actividad.idActividad)
+		INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) 
+		INNER JOIN DEPARTAMENTO ON (Usuario.idDepartamento = Departamento.idDepartamento)
+) SELECT * FROM CTE_LISTA_ACTIVIDADES_DIMENSION WHERE date_format(CTE_LISTA_ACTIVIDADES_DIMENSION.fechaCreacionActividad, '%Y') = date_format(NOW(), '%Y') 
+AND CTE_LISTA_ACTIVIDADES_DIMENSION.idDimension = 1

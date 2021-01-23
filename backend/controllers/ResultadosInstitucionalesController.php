@@ -18,8 +18,13 @@
             $_Respuesta->respuestaPeticion();
         }
 
-        public function listarResultadosActivos () {
-
+        public function listarResultadosActivos ($idAreaEstrategica) {
+            $this->resultadoInstitucionalModel->setIdAreaEstrategica($idAreaEstrategica);
+            $this->resultadoInstitucionalModel->setIdEstadoResultadoInstitucional(ESTADO_ACTIVO);
+            $this->data = $this->resultadoInstitucionalModel->getResultadosInstitucionalesActivos();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function registrarResultado ($idAreaEstrategica, $resultadoInstitucional) {
