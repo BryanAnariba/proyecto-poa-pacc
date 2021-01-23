@@ -811,6 +811,7 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`LlenadoActividadDimension` (
 ENGINE = InnoDB;
 
 ALTER TABLE CostoActividadPorTrimestre ADD COLUMN sumatoriaPorcentaje DECIMAL(3,2);
+ALTER TABLE DescripcionAdministrativa DROP COLUMN nombreACtividad;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
