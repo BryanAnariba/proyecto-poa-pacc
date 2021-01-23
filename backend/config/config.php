@@ -43,6 +43,7 @@
     define('TBL_ACTIVIDADES', 'Actividad');
     define('TBL_COSTO_ACTIVIDAD_POR_TRIMESTRE', 'CostoActividadPorTrimestre');
     define('TBL_TIPO_ACTIVIDAD', 'TipoActividad');
+    define('TBL_TIPO_PRESUPUESTO', 'tipoPresupuesto');
 
     define('MIN_TAMANIO_CLAVE', 12);
 

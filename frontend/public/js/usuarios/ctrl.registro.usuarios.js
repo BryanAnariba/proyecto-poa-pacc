@@ -206,7 +206,7 @@ const cargarModalRegistro = () => {
                     footer: '<b>Por favor verifique el formulario de registro</b>'
                 });
             });
-    }, 2000);
+    }, 1000);
 }
 
 //                                  Peticiones de verificacion, guardado, y actualizado

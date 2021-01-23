@@ -2,6 +2,8 @@ var estado = 1;
 let idDimensionSeleccionada = null;
 let idObjetivoSeleccionado = null;
 let idAreaEstrategicaSeleccionada = null;
+let idActividadSeleccionada = null;
+let costoTotalActividadSeleccionada = null;
 $(document).ready(function(){
     // Manejo del estado de la dimension.
     if(estado==0){
@@ -387,7 +389,7 @@ const verActividades = (idDimension) => {
                             ${ data[i].CostoTotal }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="agregarDesglose('${ data[i].idActividad }')">
+                            <button type="button" class="btn btn-amber" onclick="agregarDesglose('${ data[i].idActividad }', '${ data[i].CostoTotal }','${ data[i].idDimension }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -417,7 +419,11 @@ const verActividades = (idDimension) => {
     });
 }
 
-const agregarDesglose = () => {
+const agregarDesglose = (idActividad, costoTotal, idDimension) => {
+    idActividadSeleccionada = idActividad;
+    costoTotalActividadSeleccionada = costoTotal;
+    idDimensionSeleccionada = idDimension;
+    $('#CostoT').val(costoTotalActividadSeleccionada).trigger('change');
     $('#modalActividad').modal('show');
     $('#DimensionAdministrativa').html(`<option value="" selected>Seleccione una dimension administrativa</option>`);
     $.ajax(`${ API }/dimensiones-administrativas/listar-dimensiones-activas.php`,{
@@ -450,6 +456,10 @@ const agregarDesglose = () => {
     });
 }
 
+const abrirModalRegistroDimensionAdmin = () => {
+    $('##modalRegistroDimensionAdmin').modal('show');
+}
+
 const generaTablasAcordeDimension = (object) => {
     
     console.log(object.value)
@@ -458,17 +468,31 @@ const generaTablasAcordeDimension = (object) => {
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json',
+        }),
+        $.ajax(`${ API }/tipo-presupuestos/listar-tipo-presupuestos-actuales.php`,{
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
         }))
-        .done(function(objetosGasto) {
+        .done(function(objetosGasto, tipoPresupuestos) {
             $('#ObjGasto').html(`<option value="" selected>Seleccione Objeto Gasto</option>`)
-            let objetosGastos = objetosGasto.data;
-            console.log(objetosGastos)
+            $('#TipoPresupuesto').html(`<option value="" selected>Seleccione Tipo Presupuesto</option>`)
+            let objetosGastos = objetosGasto[0].data;
+            let presupuestos = tipoPresupuestos[0].data;
+            console.log(objetosGastos);
+            console.log(presupuestos);
             for (let i=0;i<objetosGastos.length;i++) {
                 $('#ObjGasto').append(`
                 <option value="${ objetosGastos[i].idObjetoGasto }">${ objetosGastos[i].abrev } - ${ objetosGastos[i].DescripcionCuenta }</option>
                 `);
             }
             $('#ObjGasto').select2();
+
+            for(let i=0;i<presupuestos.length;i++) {
+                $('#TipoPresupuesto').append(`
+                    <option value="${ presupuestos[i].idTipoPresupuesto }">${ presupuestos[i].tipoPresupuesto }</option>
+                `)
+            }
         })
         .fail(function(error) {
             console.log('Something went wrong', error);

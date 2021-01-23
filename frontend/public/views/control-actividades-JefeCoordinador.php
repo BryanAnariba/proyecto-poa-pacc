@@ -1167,7 +1167,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="abrirModalRegistroDimensionAdmin()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -1338,14 +1338,15 @@ include('verifica-session.php');
                             </div>
                         </div>
                         <div class="col-12" id="dimension-7-campo">
-                            <div class="md-form">
-                                <input type="text" id="AreaBeca" class="form-control">
-                                <span id="errorsAreaBeca" class="text-danger text-small d-none">
+                            <label for="Proyecto" id="labelProyecto">Proyecto:</label>
+                                <select name="Proyecto" id="Proyecto" class="browser-default custom-select mb-4">
+                                <option value="" selected>Seleccionar el proyecto</option>
+                                    <option value="Gestion Academica">Gestion Academica</option>
+                                    <option value="Proceso integral de la internacionalización de la Educación Superior">Proceso integral de la internacionalización de la Educación Superior</option>
+                                    <option value="Gobernabilidad y Procesos  de Gestión Descentralizada en Redes">Gobernabilidad y Procesos  de Gestión Descentralizada en Redes</option>
+                                </select>
+                                <span id="errorsProyecto" class="text-danger text-small d-none">
                                 </span>
-                                <label for="AreaBeca" id="labelAreaBeca">
-                                    Escriba el proyecto
-                                </label>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -1358,7 +1359,14 @@ include('verifica-session.php');
                             >Guardar cambios</button>
                         </div>
                         <div class="text-center">
-                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                            <button 
+                                id="closeAct" 
+                                type="button" 
+                                class="btn btn-danger btn-rounded btn-sm" 
+                                data-dismiss="modal" 
+                                onclick="vaciarAct()"
+                                aria-label="Close">
+                                Cancelar</button>
                         </div>
                     </div>
                 </div>

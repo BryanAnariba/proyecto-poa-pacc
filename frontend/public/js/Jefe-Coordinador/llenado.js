@@ -222,11 +222,35 @@ const vaciarAct = () => {
     document.querySelector('#ObjGasto').classList.remove('is-invalid')
     document.querySelector(`#errorsObjGasto`).classList.add('d-none');
     $("#ObjGasto").val("").trigger("change");
-    document.querySelector(`#labelMes`).classList.remove('text-danger')
-    document.querySelector('#Mes').classList.remove('text-danger');
-    document.querySelector('#Mes').classList.remove('is-invalid')
-    document.querySelector(`#errorsMes`).classList.add('d-none');
-    $("#Mes").val("").trigger("change");
+    document.querySelector(`#labelMesRequerido`).classList.remove('text-danger')
+    document.querySelector('#MesRequerido').classList.remove('text-danger');
+    document.querySelector('#MesRequerido').classList.remove('is-invalid')
+    document.querySelector(`#errorsMesRequerido`).classList.add('d-none');
+    $("#MesRequerido").val("").trigger("change");
+
+    document.querySelector(`#labelAreaBeca`).classList.remove('text-danger')
+    document.querySelector('#AreaBeca').classList.remove('text-danger');
+    document.querySelector('#AreaBeca').classList.remove('is-invalid')
+    document.querySelector(`#errorsAreaBeca`).classList.add('d-none');
+    $("#AreaBeca").val("").trigger("change");
+
+    document.querySelector(`#labelMeses`).classList.remove('text-danger')
+    document.querySelector('#Meses').classList.remove('text-danger');
+    document.querySelector('#Meses').classList.remove('is-invalid')
+    document.querySelector(`#errorsMeses`).classList.add('d-none');
+    $("#Meses").val("").trigger("change");
+
+    document.querySelector(`#labelProyecto`).classList.remove('text-danger')
+    document.querySelector('#Proyecto').classList.remove('text-danger');
+    document.querySelector('#Proyecto').classList.remove('is-invalid')
+    document.querySelector(`#errorsProyecto`).classList.add('d-none');
+    $("#Proyecto").val("").trigger("change");
+
+    document.querySelector(`#labelTipoEquipoTecnologico`).classList.remove('text-danger')
+    document.querySelector('#TipoEquipoTecnologico').classList.remove('text-danger');
+    document.querySelector('#TipoEquipoTecnologico').classList.remove('is-invalid')
+    document.querySelector(`#errorsTipoEquipoTecnologico`).classList.add('d-none');
+    $("#TipoEquipoTecnologico").val("").trigger("change");
 };
 
 const resetW = () => {
@@ -577,7 +601,11 @@ const validar = (posicion) =>{
     }
 }
 var valor;
-const agregarAct = (idActividad, costoTotalActividad)=> {
+const agregarAct = () => {
+    console.log(idActividadSeleccionada);
+    console.log(costoTotalActividadSeleccionada);
+
+    // Campos que tienen en comun
     let Cantidad = document.querySelector('#Cantidad');
     let Costo = document.querySelector('#Costo');
     let CostoT = document.querySelector('#CostoT');
@@ -585,15 +613,24 @@ const agregarAct = (idActividad, costoTotalActividad)=> {
     let ObjGasto = document.querySelector('#ObjGasto');
     let Mes = document.querySelector('#MesRequerido');
 
+    // Campos que no tienen en comun
+    let CantidadPersonas = document.querySelector('#CantidadPersonas');
+    let meses = document.querySelector('#Meses');
+    let tipoEquipoTecnologico = document.querySelector('#TipoEquipoTecnologico');
+    let areaBeca = document.querySelector('#AreaBeca');
+    let proyectos = document.querySelector('#Proyecto');
+    
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
     let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
     let Tp = { valorEtiqueta: TipoPresupuesto, id: 'TipoPresupuesto', name: 'TipoPresupuesto' ,type: 'select' };
     let oG = { valorEtiqueta: ObjGasto, id: 'ObjGasto', name: 'ObjGasto' ,type: 'select' };
     let M = { valorEtiqueta: Mes, id: 'MesRequerido', name: 'Mes Rquerido' ,type: 'select' };
-    let CantidadPersonas = document.querySelector('#CantidadPersonas');
     let CaP = { valorEtiqueta: CantidadPersonas, id: 'CantidadPersonas', name: 'Cantidad Personas', min: 1, max: 10, type: 'number' };
-    
+    let mes = { valorEtiqueta: meses, id: 'Meses', name: 'Meses', min: 1, max: 4, type: 'number' };
+    let tET = { valorEtiqueta: tipoEquipoTecnologico, id: 'TipoEquipoTecnologico', name: 'Tipo Equipo Tecnologico', min: 1, max: 200, type: 'number' };
+    let aB = { valorEtiqueta: areaBeca, id: 'AreaBeca', name: 'Area Beca', min: 1, max: 200, type: 'number' };
+    let project = { valorEtiqueta: proyectos, id: 'Proyecto', name: 'Proyecto' ,type: 'select' };
 
     let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
     let isValidCosto = verificarInputNumber(Co,numerosRegex);
@@ -615,7 +652,19 @@ const agregarAct = (idActividad, costoTotalActividad)=> {
                     (isValidMes === true) && 
                     (isValidCantidadPersonas === true) 
                 ) { 
-                    console.log('Dimension Administrativa uno Cmpletada')
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { cantidadPersonas: CantidadPersonas.value }
+                    }
+                    console.log(parametros);
+                    vaciarAct();
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
@@ -623,24 +672,204 @@ const agregarAct = (idActividad, costoTotalActividad)=> {
                         text: 'El registro de la carrera no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
-                    return false
                 }
             break;
             case  2:
+                let isValidMeses = verificarInputNumber(mes,numerosRegex);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) && 
+                    (isValidMeses === true) 
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { meses: meses.value }
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  3:
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: {}
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  4:
+                let isValidTipoEquipoTecnologico = verificarInputText(tET, letrasEspaciosCaracteresRegex);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) &&
+                    (isValidTipoEquipoTecnologico === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { tipoEquipoTecnologico: tipoEquipoTecnologico.value }
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  5:
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: {}
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  6:
-            break;
-            case  6:
+                let isValidaAreaBeca = verificarInputText(aB, letrasEspaciosCaracteresRegex);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) &&
+                    (isValidaAreaBeca === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { areaBeca: areaBeca.value }
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  7:
+                let isValidProyecto = verificarSelect(project);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) &&
+                    (isValidProyecto === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { proyecto: proyectos.value }
+                    }
+                    console.log(parametros);
+                    vaciarAct();
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             case  8:
+            //falta
             break;
             default:
             break;
