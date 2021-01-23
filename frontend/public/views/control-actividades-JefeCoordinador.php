@@ -15,9 +15,10 @@ include('verifica-session.php');
 <link rel="stylesheet" href="../css/Jefe-Coordinador/control-actividades.css">
 <link rel="stylesheet" href="../css/Jefe-Coordinador/llenado.css">
 <link rel="stylesheet" href="../css/sweet-alert-two/sweetalert2.min.css">
-
+<link rel="stylesheet" href="../css/libreria-bootstrap-mdb/select2.min.css">
 <link rel="stylesheet" href="../js/data-tables/datatables.min.css">
 <link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
 
@@ -259,15 +260,15 @@ include('verifica-session.php');
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" style="padding-left:0;margin-left:auto">
+                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12" style="padding-left:0;margin-left:auto">
                                         <label for="TipoPresupuestoM" id="labelTipoPresupuestoM">Tipo de presupuesto:</label>
-                                        <select name="TipoPresupuestoM" id="TipoPresupuestoM" class="browser-default custom-select mb-4">
+                                        <select name="TipoPresupuestoM" id="TipoPresupuestoM" class="browser-default custom-select mb-6">
 
                                         </select>
                                         <span id="errorsTipoPresupuestoM" class="text-danger text-small d-none">
                                         </span>
                                     </div>
-                                    <div class="input-field col-xl-4 col-lg-4 col-md-4 col-sm-12" style="padding-left:0;margin-right:auto">
+                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12" style="padding-left:0;margin-right:auto">
                                         <label for="ObjGastoM" id="labelObjGastoM">Objeto de Gasto:</label>
                                         <select name="ObjGastoM" id="ObjGastoM" class="browser-default custom-select mb-4">
 
@@ -1240,7 +1241,7 @@ include('verifica-session.php');
                                     <span id="errorsCantidadPersonas" class="text-danger text-small d-none">
                                     </span>
                                     <label for="CantidadPersonas" id="labelCantidadPersonas">
-                                        Cant Personas
+                                        Cantidad Personas
                                     </label>
                                 </div>
                             </div>
@@ -1267,6 +1268,9 @@ include('verifica-session.php');
                             <div class="col-12">
                                 <div class="md-form">
                                     <input type="number" id="CostoT" class="form-control" readonly disabled>
+                                    
+                                    <span id="errorsCostoT" class="text-danger text-small d-none">
+                                    </span>
                                     <label for="CostoT" id="labelCostoT">
                                         Costo Total
                                     </label>
@@ -1275,7 +1279,7 @@ include('verifica-session.php');
                         </div>
 
                         <div class="row">
-                            <div class="input-field col-4" style="padding-left:0;margin-left:auto">
+                            <div class="input-field col-12">
                                 <label for="TipoPresupuesto" id="labelTipoPresupuesto">Tipo de presupuesto:</label>
                                 <select name="TipoPresupuesto" id="TipoPresupuesto" class="browser-default custom-select mb-4">
 
@@ -1283,9 +1287,10 @@ include('verifica-session.php');
                                 <span id="errorsTipoPresupuesto" class="text-danger text-small d-none">
                                 </span>
                             </div>
-                            <div class="input-field col-4" style="padding-left:0;margin-right:auto">
-                                <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label>
-                                <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4">
+                            <div class="col-12">
+                            <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label></div>
+                            <div class="input-field col-12">
+                                <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4" style="width: 100%">
 
                                 </select>
                                 <span id="errorsObjGasto" class="text-danger text-small d-none">
@@ -1295,6 +1300,7 @@ include('verifica-session.php');
                         <div class="col-12">
                                 <label for="MesRequerido" id="labelMesRequerido">Mes Requerido:</label>
                                 <select name="MesRequerido" id="MesRequerido" class="browser-default custom-select mb-4">
+                                <option value="" selected>Seleccionar mes requerido</option>
                                     <option value="Enero">Enero</option>
                                     <option value="Febrero">Febrero</option>
                                     <option value="Marzo">Marzo</option>
@@ -1371,7 +1377,7 @@ include('verifica-session.php');
     <script src="../js/data-tables/pdfmake/pdfmake.min.js"></script>
     <script src="../js/data-tables/pdfmake/vfs_fonts.js"></script>
     <script src="../js/data-tables/Buttons/js/buttons.html5.min.js"></script>
-
+    <script src="../js/libreria-bootstrap-mdb/select2.min.js"></script>
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
     <script src="../js/Jefe-Coordinador/principal.js"></script>

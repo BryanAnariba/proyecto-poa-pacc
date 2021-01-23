@@ -451,7 +451,39 @@ const agregarDesglose = () => {
 }
 
 const generaTablasAcordeDimension = (object) => {
+    
     console.log(object.value)
+    $.when(
+        $.ajax(`${ API }/ObjetosGasto/listar-objetos-gasto-activos.php`,{
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+        }))
+        .done(function(objetosGasto) {
+            $('#ObjGasto').html(`<option value="" selected>Seleccione Objeto Gasto</option>`)
+            let objetosGastos = objetosGasto.data;
+            console.log(objetosGastos)
+            for (let i=0;i<objetosGastos.length;i++) {
+                $('#ObjGasto').append(`
+                <option value="${ objetosGastos[i].idObjetoGasto }">${ objetosGastos[i].abrev } - ${ objetosGastos[i].DescripcionCuenta }</option>
+                `);
+            }
+            $('#ObjGasto').select2();
+        })
+        .fail(function(error) {
+            console.log('Something went wrong', error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }); 
     switch (parseInt(object.value)) {
         case 1:
             $('#modalDimensionesAdmin1').modal('show');

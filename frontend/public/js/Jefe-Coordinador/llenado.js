@@ -197,11 +197,11 @@ $(document).ready(function(){
 //localStorage.removeItem("Dimension");
 
 const vaciarAct = () => {
-    document.querySelector(`#labelActividadL`).classList.remove('text-danger')
-    document.querySelector('#ActividadL').classList.remove('text-danger');
-    document.querySelector('#ActividadL').classList.remove('is-invalid')
-    document.querySelector(`#errorsActividadL`).classList.add('d-none');
-    $("#ActividadL").val("").trigger("change");
+    document.querySelector(`#labelCantidadPersonas`).classList.remove('text-danger')
+    document.querySelector('#CantidadPersonas').classList.remove('text-danger');
+    document.querySelector('#CantidadPersonas').classList.remove('is-invalid')
+    document.querySelector(`#errorsCantidadPersonas`).classList.add('d-none');
+    $("#CantidadPersonas").val("").trigger("change");
     document.querySelector(`#labelCantidad`).classList.remove('text-danger')
     document.querySelector('#Cantidad').classList.remove('text-danger');
     document.querySelector('#Cantidad').classList.remove('is-invalid')
@@ -222,16 +222,6 @@ const vaciarAct = () => {
     document.querySelector('#ObjGasto').classList.remove('is-invalid')
     document.querySelector(`#errorsObjGasto`).classList.add('d-none');
     $("#ObjGasto").val("").trigger("change");
-    document.querySelector(`#labelDescripcionCuenta`).classList.remove('text-danger')
-    document.querySelector('#DescripcionCuenta').classList.remove('text-danger');
-    document.querySelector('#DescripcionCuenta').classList.remove('is-invalid')
-    document.querySelector(`#errorsDescripcionCuenta`).classList.add('d-none');
-    $("#DescripcionCuenta").val("").trigger("change");
-    document.querySelector(`#labelDimensionEstrategicaS`).classList.remove('text-danger')
-    document.querySelector('#DimensionEstrategicaS').classList.remove('text-danger');
-    document.querySelector('#DimensionEstrategicaS').classList.remove('is-invalid')
-    document.querySelector(`#errorsDimensionEstrategicaS`).classList.add('d-none');
-    $("#DimensionEstrategicaS").val("").trigger("change");
     document.querySelector(`#labelMes`).classList.remove('text-danger')
     document.querySelector('#Mes').classList.remove('text-danger');
     document.querySelector('#Mes').classList.remove('is-invalid')
@@ -587,45 +577,53 @@ const validar = (posicion) =>{
     }
 }
 var valor;
-const agregarAct = ()=> {
+const agregarAct = (idActividad, costoTotalActividad)=> {
     let Cantidad = document.querySelector('#Cantidad');
     let Costo = document.querySelector('#Costo');
     let CostoT = document.querySelector('#CostoT');
     let TipoPresupuesto = document.querySelector('#TipoPresupuesto');
     let ObjGasto = document.querySelector('#ObjGasto');
-    let Mes = document.querySelector('#Mes');
+    let Mes = document.querySelector('#MesRequerido');
 
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
-    let CoT = { valorEtiqueta: CostoT, id: 'Costo', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
+    let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
     let Tp = { valorEtiqueta: TipoPresupuesto, id: 'TipoPresupuesto', name: 'TipoPresupuesto' ,type: 'select' };
     let oG = { valorEtiqueta: ObjGasto, id: 'ObjGasto', name: 'ObjGasto' ,type: 'select' };
-    let M = { valorEtiqueta: Mes, id: 'Mes', name: 'Mes' ,type: 'date' };
-
+    let M = { valorEtiqueta: Mes, id: 'MesRequerido', name: 'Mes Rquerido' ,type: 'select' };
+    let CantidadPersonas = document.querySelector('#CantidadPersonas');
+    let CaP = { valorEtiqueta: CantidadPersonas, id: 'CantidadPersonas', name: 'Cantidad Personas', min: 1, max: 10, type: 'number' };
+    
 
     let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
     let isValidCosto = verificarInputNumber(Co,numerosRegex);
     let isValidCostoT = verificarInputNumber(CoT,numerosRegex);
     let isValidTipoPresupuesto = verificarSelect(Tp);
     let isValidObjGasto = verificarSelect(oG);
-    let isValidMes = verificarFecha(M);
+    let isValidMes = verificarSelect(M);
 
-    if (
-        (isValidCantidad === true) &&
-        (isValidCosto === true) &&
-        (isValidCostoT === true) &&
-        (isValidTipoPresupuesto === true) &&
-        (isValidObjGasto === true) &&
-        (isValidMes === true) 
-    ) {
         let parametros;
         switch(parseInt($('#DimensionAdministrativa').val())) {
             case  1:
-                parametros = {
-                    actividad: ActividadL.value, 
-                    cantidad: Cantidad.value,
-                    cantidadPersonas: { cantidadPersonas: $('#CantidadPersonas').value },
-
+                let isValidCantidadPersonas = verificarInputNumber(CaP,numerosRegex);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) && 
+                    (isValidCantidadPersonas === true) 
+                ) { 
+                    console.log('Dimension Administrativa uno Cmpletada')
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro de la carrera no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                    return false
                 }
             break;
             case  2:
@@ -646,15 +644,7 @@ const agregarAct = ()=> {
             break;
             default:
             break;
-        }
-    } else { // caso contrario mostrar alerta y notificar al usuario 
-        Swal.fire({
-            icon: 'error',
-            title: 'Ops...',
-            text: 'El registro de la carrera no se pudo realizar',
-            footer: '<b>Por favor verifique el formulario de registro</b>'
-        })
-        return false
+        
     }
 }
 

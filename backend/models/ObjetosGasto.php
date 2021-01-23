@@ -91,6 +91,38 @@
             }
         }
 
+        public function getObjetosActivos() {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('SELECT * from 
+                                                  objetogasto as og
+                                                  inner join estadodcduoao as es
+                                                  on og.idEstadoObjetoGasto=es.idEstado
+                                                  where og.idEstadoObjetoGasto = :idEstado
+                                                  order by og.codigoObjetoGasto asc');
+                $stmt->bindValue(':idEstado', $this->idEstado);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los objetos de gasto')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
 
         public function getEstados () {
             try {
