@@ -665,7 +665,6 @@ const agregarAct = () => {
                         descripcion: { cantidadPersonas: CantidadPersonas.value }
                     }
                     console.log(parametros);
-                    vaciarAct();
                     $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
                         type: 'POST',
                         dataType: 'json',
@@ -679,6 +678,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                            vaciarAct();
                         },
                         error:function(error) {
                             console.log(error.responseText);
@@ -740,6 +742,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {
@@ -800,6 +805,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {
@@ -862,6 +870,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {
@@ -922,6 +933,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {
@@ -984,6 +998,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {
@@ -1046,6 +1063,9 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
                         },
                         error:function(error) {

@@ -1165,11 +1165,14 @@ const modificarAct = () => {
                     success:function(response) {
                         const { data } = response;
                         console.log(data); 
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1226,12 +1229,15 @@ const modificarAct = () => {
                     data: JSON.stringify(parametros),
                     success:function(response) {
                         const { data } = response;
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         console.log(data); 
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1286,12 +1292,15 @@ const modificarAct = () => {
                     data: JSON.stringify(parametros),
                     success:function(response) {
                         const { data } = response;
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         console.log(data); 
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1349,11 +1358,14 @@ const modificarAct = () => {
                     success:function(response) {
                         const { data } = response;
                         console.log(data); 
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1408,12 +1420,15 @@ const modificarAct = () => {
                     data: JSON.stringify(parametros),
                     success:function(response) {
                         const { data } = response;
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         console.log(data); 
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1471,11 +1486,14 @@ const modificarAct = () => {
                     success:function(response) {
                         const { data } = response;
                         console.log(data); 
+                        $('#modalRegistroDimensionAdmin').modal('hide');
                         Swal.fire({
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -1531,6 +1549,7 @@ const modificarAct = () => {
                     contentType: 'application/json',
                     data: JSON.stringify(parametros),
                     success:function(response) {
+                        
                         const { data } = response;
                         console.log(data); 
                         Swal.fire({
@@ -1538,6 +1557,9 @@ const modificarAct = () => {
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
+                        $('#modalRegistroDimensionAdmin').modal('hide');
+                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        vaciarAct();
                     },
                     error:function(error) {
                         console.log(error.responseText);
