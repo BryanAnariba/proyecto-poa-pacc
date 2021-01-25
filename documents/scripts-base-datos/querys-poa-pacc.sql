@@ -723,7 +723,7 @@ WITH CTE_LISTA_ACTIVIDADES_DIMENSION AS (
 		INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) 
 		INNER JOIN DEPARTAMENTO ON (Usuario.idDepartamento = Departamento.idDepartamento)
 ) SELECT * FROM CTE_LISTA_ACTIVIDADES_DIMENSION WHERE date_format(CTE_LISTA_ACTIVIDADES_DIMENSION.fechaCreacionActividad, '%Y') = date_format(NOW(), '%Y') 
-AND CTE_LISTA_ACTIVIDADES_DIMENSION.idDimension = 1
+AND CTE_LISTA_ACTIVIDADES_DIMENSION.idDimension = 1 and CTE_LISTA_ACTIVIDADES_DIMENSION.idPersonaUsuario = 1
 
 -- query para calcular que la insercion de la actividad y su desglose valla bien en cuanto al costo de la actividad
 SELECT 

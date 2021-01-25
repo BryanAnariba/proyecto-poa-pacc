@@ -803,7 +803,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -826,6 +826,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Descripcion Cuenta</th>
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Editar Item </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -855,7 +856,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -878,6 +879,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Descripcion Cuenta</th>
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -907,7 +909,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -929,6 +931,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Descripcion Cuenta</th>
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -959,7 +962,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -971,7 +974,7 @@ include('verifica-session.php');
                         <table class="table" id="dimension-administrativa-4">
                             <thead>
                                 <tr id="dimension-4">
-                                    <th scope="col" class="text-center">#</th>
+                                <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Actividad</th>
                                     <th scope="col" class="text-center">Cantidad</th>
                                     <th scope="col" class="text-center">Costo</th>
@@ -982,6 +985,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
                                     <th scope="col" class="text-center">Tipo de Equipo Tecnologico</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
 
                             </thead>
@@ -1012,7 +1016,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -1034,6 +1038,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Descripcion Cuenta</th>
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1063,7 +1068,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -1086,6 +1091,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
                                     <th scope="col" class="text-center">Area de la Beca</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1115,7 +1121,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimensionAdmin">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -1138,6 +1144,7 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Dimension Estrategica</th>
                                     <th scope="col" class="text-center">Mes Requerido</th>
                                     <th scope="col" class="text-center">Proyecto</th>
+                                    <th scope="col" class="text-center">Editar Item</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1167,7 +1174,7 @@ include('verifica-session.php');
                 <div class="modal-header">
                     <div class="col-xl-12 mx-auto">
                         <div class="text-center mt-4">
-                            <button type="button" class="btn btn-light-green btn-rounded" onclick="abrirModalRegistroDimensionAdmin()">
+                            <button type="button" class="btn btn-light-green btn-rounded" onclick="registraItemAdministrativo()">
                                 <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                 Registrar datos administrativos de la actividad
                             </button>
@@ -1348,15 +1355,32 @@ include('verifica-session.php');
                                 <span id="errorsProyecto" class="text-danger text-small d-none">
                                 </span>
                         </div>
+                        <div class="col-12" id="dimension-8-campo">
+                            <label for="Proyecto" id="labelProyectos">Proyecto:</label>
+                                <select name="Proyectos" id="Proyectos" class="browser-default custom-select mb-4">
+                                <option value="" selected>Seleccionar el proyecto</option>
+                                    <option value="Gestion Academica">Gestion Academica</option>
+                                    <option value="Proceso integral de la internacionalización de la Educación Superior">Proceso integral de la internacionalización de la Educación Superior</option>
+                                    <option value="Gobernabilidad y Procesos  de Gestión Descentralizada en Redes">Gobernabilidad y Procesos  de Gestión Descentralizada en Redes</option>
+                                </select>
+                                <span id="errorsProyecto" class="text-danger text-small d-none">
+                                </span>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
                     <div class="row col-12 ml-auto">
-                        <div class="text-center">
-                            <button onclick="agregarAct()" 
+                        <div class="text-center d-none" id="insertarItems">
+                            <button onclick="agregarAct()"
                             type="button" 
                             class="btn btn-light-green btn-rounded btn-sm" 
                             >Guardar cambios</button>
+                        </div>
+                        <div class="text-center d-none" id="modificarItems">
+                            <button onclick="modificarAct()" 
+                            type="button" 
+                            class="btn btn-light-green btn-rounded btn-sm" 
+                            >Modificar Item</button>
                         </div>
                         <div class="text-center">
                             <button 

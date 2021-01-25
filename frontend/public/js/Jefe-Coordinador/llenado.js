@@ -455,6 +455,7 @@ const validar = (posicion) =>{
                     success:function(response) {
                         const { data } = response;
                         console.log(data);
+                        
                         correlativoSeleccionado = data.correlativoActividad;
                         $('#CorrelativoGeneradoParaRegistrar').val(data.correlativoActividad);
                     },
@@ -656,7 +657,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -665,11 +666,40 @@ const agregarAct = () => {
                     }
                     console.log(parametros);
                     vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -689,7 +719,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -697,12 +727,41 @@ const agregarAct = () => {
                         descripcion: { meses: meses.value }
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -720,20 +779,49 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
-                        costo:  Costo.value,
+                        costo:  Number(Costo.value),
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
                         descripcion: {}
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -753,7 +841,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -761,12 +849,41 @@ const agregarAct = () => {
                         descripcion: { tipoEquipoTecnologico: tipoEquipoTecnologico.value }
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -784,7 +901,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -792,12 +909,41 @@ const agregarAct = () => {
                         descripcion: {}
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -817,7 +963,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -825,12 +971,41 @@ const agregarAct = () => {
                         descripcion: { areaBeca: areaBeca.value }
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -850,7 +1025,7 @@ const agregarAct = () => {
                         idActividad: parseInt(idActividadSeleccionada),
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                        idDimension: parseInt(idDimensionSeleccionada),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -858,12 +1033,41 @@ const agregarAct = () => {
                         descripcion: { proyecto: proyectos.value }
                     }
                     console.log(parametros);
-                    vaciarAct();
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }
@@ -923,39 +1127,39 @@ const insertaActividad = () => {
                 
                 
                 console.log(parametros);
-                //$.ajax(`${ API }/actividades/insertar-actividad.php`, {
-                //     type: 'POST',
-                //     dataType: 'json',
-                //     contentType: 'application/json',
-                //     data: JSON.stringify(parametros),
-                //     success:function(response) {
-                //         const { data } = response;
-                //         console.log(data);
-                //         $('#modalFormLlenadoDimension').modal('hide');
-                //         llenar('DimensionesTablaModificar');
-                //         llenar('DimensionesTabla');
-                //         $("#modalModificarDimension").modal('show');
-                //         Swal.fire({
-                //             icon: 'success',
-                //             title: 'Accion realizada Exitosamente',
-                //             text: `${ data.message }`,
-                //         });
-                //     },
-                //     error:function(error) {
-                //         console.log(error.responseText);
-                //         const { status, data } = error.responseJSON;
-                //         if (status === 401) {
-                //             window.location.href = '../views/401.php';
-                //         } else {
-                //             Swal.fire({
-                //                 icon: 'error',
-                //                 title: 'Ops...',
-                //                 text: `${ data.message }`,
-                //                 footer: '<b>Verifique los datos del formulario</b>'
-                //             });
-                //         }
-                //     }
-                // });
+                $.ajax(`${ API }/actividades/insertar-actividad.php`, {
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(parametros),
+                    success:function(response) {
+                        const { data } = response;
+                        console.log(data);
+                        $('#modalFormLlenadoDimension').modal('hide');
+                        llenar('DimensionesTablaModificar');
+                        llenar('DimensionesTabla');
+                        $("#modalModificarDimension").modal('show');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`,
+                        });
+                    },
+                    error:function(error) {
+                        console.log(error.responseText);
+                        const { status, data } = error.responseJSON;
+                        if (status === 401) {
+                            window.location.href = '../views/401.php';
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ops...',
+                                text: `${ data.message }`,
+                                footer: '<b>Verifique los datos del formulario</b>'
+                            });
+                        }
+                    }
+                });
                 $('#modalLlenadoActividades').modal('hide');
                 llenar('DimensionesTablaModificar');
                 $("#modalModificarDimension").modal('show');
