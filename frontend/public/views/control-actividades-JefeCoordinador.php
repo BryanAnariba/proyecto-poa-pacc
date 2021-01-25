@@ -1307,19 +1307,6 @@ include('verifica-session.php');
                         <div class="col-12">
                                 <label for="MesRequerido" id="labelMesRequerido">Mes Requerido:</label>
                                 <select name="MesRequerido" id="MesRequerido" class="browser-default custom-select mb-4">
-                                <option value="" selected>Seleccionar mes requerido</option>
-                                    <option value="Enero">Enero</option>
-                                    <option value="Febrero">Febrero</option>
-                                    <option value="Marzo">Marzo</option>
-                                    <option value="Abril">Abril</option>
-                                    <option value="Mayo">Mayo</option>
-                                    <option value="Junio">Junio</option>
-                                    <option value="Julio">Julio</option>
-                                    <option value="Agosto">Agosto</option>
-                                    <option value="Septiembre">Septiembre</option>
-                                    <option value="Octubre">Octubre</option>
-                                    <option value="Noviembre">Noviembre</option>
-                                    <option value="Diciembre">Diciembre</option>
                                 </select>
                                 <span id="errorsMesRequerido" class="text-danger text-small d-none">
                                 </span>

@@ -1,4 +1,18 @@
 var estado = 1;
+let mesesRequeridos = [
+    { id: 'Enero', mes: 'Enero' },
+    { id: 'Febrero', mes: 'Febrero' },
+    { id: 'Marzo', mes: 'Marzo' },
+    { id: 'Abril', mes: 'Abril' },
+    { id: 'Mayo', mes: 'Mayo' },
+    { id: 'Junio', mes: 'Junio' },
+    { id: 'Julio', mes: 'Julio' },
+    { id: 'Agosto', mes: 'Agosto' },
+    { id: 'Septiembre', mes: 'Septiembre' },
+    { id: 'Octubre', mes: 'Octubre' },
+    { id: 'Noviembre', mes: 'Noviembre' },
+    { id: 'Diciembre', mes: 'Diciembre' }
+];
 let idDimensionSeleccionada = null;
 let idDimensionAdminSeleccionada = null;
 let idObjetivoSeleccionado = null;
@@ -515,6 +529,13 @@ const generaTablasAcordeDimension = (object) => {
                     <option value="${ presupuestos[i].idTipoPresupuesto }">${ presupuestos[i].tipoPresupuesto }</option>
                 `)
             }
+
+            $('#MesRequerido').html(`<option value="" selected>Seleccionar mes requerido</option>`);
+            for(let i=0;i<mesesRequeridos.length;i++) {
+                $('#MesRequerido').append(`
+                    <option value="${ mesesRequeridos[i].id }">${ mesesRequeridos[i].mes }</option>
+                `)
+            }
             
             switch (parseInt(object.value)) {
                 case 1:
@@ -1005,6 +1026,17 @@ const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionA
                 <option value="${ presupuestos[i].idTipoPresupuesto }">${ presupuestos[i].tipoPresupuesto }</option>
             `)
         }
+
+            $('#MesRequerido').html(``);
+            for(let i=0;i<mesesRequeridos.length;i++) {
+                if (mesesRequeridos[i].id === mesRequerido) {
+                    $('#MesRequerido').append(`<option value="${ mesesRequeridos[i].id }" selected>${ mesesRequeridos[i].mes }</option>`);
+                } else {    
+                    $('#MesRequerido').append(`
+                        <option value="${ mesesRequeridos[i].id }">${ mesesRequeridos[i].mes }</option>
+                    `)
+                }
+            }
     })
     .fail(function(error) {
         console.log('Something went wrong', error);
@@ -1427,7 +1459,7 @@ const modificarAct = () => {
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
-                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                         vaciarAct();
                     },
                     error:function(error) {
@@ -1492,7 +1524,7 @@ const modificarAct = () => {
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`
                         });
-                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                         vaciarAct();
                     },
                     error:function(error) {
@@ -1521,6 +1553,19 @@ const modificarAct = () => {
         break;
         case  7:
             let isValidProyecto = verificarSelect(project);
+            parametros = {
+                idDescripcionAdministrativa: parseInt(idDescripcionItemSeleccionada),
+                idActividad: parseInt(idActividadSeleccionada),
+                idObjetoGasto: parseInt(ObjGasto.value),
+                idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                idDimension: parseInt(idDimensionAdminSeleccionada),
+                cantidad: Cantidad.value,
+                costo:  Costo.value,
+                costoTotal: CostoT.value,
+                mesRequerido: Mes.value,
+                descripcion: { proyecto: proyectos.value }
+            }
+            console.log(parametros);
             if (
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
@@ -1530,19 +1575,6 @@ const modificarAct = () => {
                 (isValidMes === true) &&
                 (isValidProyecto === true)
             ) { 
-                parametros = {
-                    idDescripcionAdministrativa: parseInt(idDescripcionItemSeleccionada),
-                    idActividad: parseInt(idActividadSeleccionada),
-                    idObjetoGasto: parseInt(ObjGasto.value),
-                    idTipoPresupuesto: parseInt(TipoPresupuesto.value),
-                    idDimension: parseInt(idDimensionAdminSeleccionada),
-                    cantidad: Cantidad.value,
-                    costo:  Costo.value,
-                    costoTotal: CostoT.value,
-                    mesRequerido: Mes.value,
-                    descripcion: { proyecto: proyectos.value }
-                }
-                console.log(parametros);
                 $.ajax(`${ API }/descripcion-administrativa/modifica-descripcion-administrativa.php`,{ 
                     type: 'POST',
                     dataType: 'json',
@@ -1558,7 +1590,7 @@ const modificarAct = () => {
                         text: `${ data.message }`
                         });
                         $('#modalRegistroDimensionAdmin').modal('hide');
-                        generaTablasAcordeDimension($('#DimensionAdministrativa'));
+                        generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                         vaciarAct();
                     },
                     error:function(error) {
