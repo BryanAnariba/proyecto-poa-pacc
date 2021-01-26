@@ -156,168 +156,10 @@ include('verifica-session.php');
                             </table>
                         </div>
                     </div>
-                    <div id="ventana2">
-                        <form class="text-center" style="color: #757575;" action="#!">
-                            <div class="tabla">
-                                <h4 align="center">Seleccione lista de actividades que desea editar:</h4>
-                                <div class="form-row">
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Dimension academica:</label>
-                                        <select id="dimAc" class="browser-default custom-select mb-4" onchange="">
-
-                                        </select>
-                                    </div>
-                                    <div id="ObjSelM" class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Objetivo institucional:</label>
-                                        <select id="ObIn" class="browser-default custom-select mb-4" onchange="">
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label>Area estrategica:</label>
-                                        <select id="ArEs" class="browser-default custom-select mb-4" onchange="">
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Utilizado (Lps.):</div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <input type="text" id="PresupuestoUtilizado2M" class="form-control" readonly disabled>
-                                            </div>
-                                        </div>
-                                        <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row" style="margin:auto">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">Presupuesto Total Depto (Lps.):</div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <input type="text" id="PresupuestoDisponible2M" class="form-control" readonly disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <div style="color: #757575;" class="tabla">
-                            <h4 align="center">Listado de actividades:</h4>
-                            <div class="table-responsive">
-                                <table id="DimensionesTablaModificar3" class="table" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr align="center">
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Dimension Academica</th>
-                                            <th scope="col">Llenar dimension</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ventana3">
-                        <div class="container tabla">
-                            <form class="text-center" style="color: #757575;" action="#!">
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="md-form">
-                                            <input type="text" id="ActividadsM" class="form-control">
-                                            <span id="errorsActividadsM" class="text-danger text-small d-none">
-                                            </span>
-                                            <label for="ActividadsM" id="labelActividadsM">
-                                                Actividad
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CantidadM" class="form-control">
-                                            <span id="errorsCantidadM" class="text-danger text-small d-none">
-                                            </span>
-                                            <label for="CantidadM" id="labelCantidadM">
-                                                Cantidad
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CostoM" class="form-control">
-                                            <span id="errorsCostoM" class="text-danger text-small d-none">
-                                            </span>
-                                            <label for="CostoM" id="labelCostoM">
-                                                Costo
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 row">
-                                        <div class="md-form" style="width:50%; margin-left:auto;margin-right:auto;">
-                                            <input type="number" id="CostoMT" class="form-control" readonly disabled>
-                                            <label for="CostoMT" id="labelCostoMT">
-                                                Costo Total
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12" style="padding-left:0;margin-left:auto">
-                                        <label for="TipoPresupuestoM" id="labelTipoPresupuestoM">Tipo de presupuesto:</label>
-                                        <select name="TipoPresupuestoM" id="TipoPresupuestoM" class="browser-default custom-select mb-6">
-
-                                        </select>
-                                        <span id="errorsTipoPresupuestoM" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                    <div class="input-field col-xl-6 col-lg-6 col-md-6 col-sm-12" style="padding-left:0;margin-right:auto">
-                                        <label for="ObjGastoM" id="labelObjGastoM">Objeto de Gasto:</label>
-                                        <select name="ObjGastoM" id="ObjGastoM" class="browser-default custom-select mb-4">
-
-                                        </select>
-                                        <span id="errorsObjGastoM" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="DescripcionCuentaM" class="form-control">
-                                        <span id="errorsDescripcionCuentaM" class="text-danger text-small d-none">
-                                        </span>
-                                        <label for="DescripcionCuentaM" id="labelDescripcionCuentaM">
-                                            Descripcion de la cuenta
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="DimensionEstrategicaSM" class="form-control">
-                                        <span id="errorsDimensionEstrategicaSM" class="text-danger text-small d-none">
-                                        </span>
-                                        <label for="DimensionEstrategicaSM" id="labelDimensionEstrategicaSM">
-                                            Dimension Estrategica
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="md-form">
-                                        <input type="text" id="MesM" class="form-control">
-                                        <span id="errorsMesM" class="text-danger text-small d-none">
-                                        </span>
-                                        <label for="MesM" id="labelMesM">
-                                            Mes requerido
-                                        </label>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
-                    <div class="text-center foot-modif">
-                        <button id="botonModif" type="button" class="btn btn-light-green btn-rounded btn-sm" onclick="" disabled>Guardar Cambios</button>
-                    </div>
-                    <div class="text-center foot-modif">
-                        <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <div class="text-center" id="foote-modal">
+                        <button id="close" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -678,8 +520,7 @@ include('verifica-session.php');
                                                         </div>
                                                     </div>
                                                     <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
-                                                    <input type="button" id="save" class="action-button"
-                                                        onclick="insertaActividad()" value="Guardar" />
+                                                    <input type="button" id="save" class="action-button" onclick="insertaActividad()" value="Guardar" />
                                                 </fieldset>
                                                 <!-- </fieldset>
                                                 <fieldset id="quinto">
@@ -753,12 +594,17 @@ include('verifica-session.php');
                         </table>
                     </div>
                 </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="text-center" id="foote-modal">
+                        <button id="close" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!--Agregar Actividad-->
-    <div class="modal fade" id="modalActividad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalesActividad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
@@ -974,7 +820,7 @@ include('verifica-session.php');
                         <table class="table" id="dimension-administrativa-4">
                             <thead>
                                 <tr id="dimension-4">
-                                <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Actividad</th>
                                     <th scope="col" class="text-center">Cantidad</th>
                                     <th scope="col" class="text-center">Costo</th>
@@ -1275,11 +1121,11 @@ include('verifica-session.php');
                             <div class="col-12">
                                 <div class="md-form">
                                     <input type="number" id="CostoT" class="form-control" readonly disabled>
-                                    
+
                                     <span id="errorsCostoT" class="text-danger text-small d-none">
                                     </span>
                                     <label for="CostoT" id="labelCostoT">
-                                        Costo Total
+                                        Costo Total De la Actividad
                                     </label>
                                 </div>
                             </div>
@@ -1295,7 +1141,8 @@ include('verifica-session.php');
                                 </span>
                             </div>
                             <div class="col-12">
-                            <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label></div>
+                                <label for="ObjGasto" id="labelObjGasto">Objeto de Gasto:</label>
+                            </div>
                             <div class="input-field col-12">
                                 <select name="ObjGasto" id="ObjGasto" class="browser-default custom-select mb-4" style="width: 100%">
 
@@ -1305,11 +1152,11 @@ include('verifica-session.php');
                             </div>
                         </div>
                         <div class="col-12">
-                                <label for="MesRequerido" id="labelMesRequerido">Mes Requerido:</label>
-                                <select name="MesRequerido" id="MesRequerido" class="browser-default custom-select mb-4">
-                                </select>
-                                <span id="errorsMesRequerido" class="text-danger text-small d-none">
-                                </span>
+                            <label for="MesRequerido" id="labelMesRequerido">Mes Requerido:</label>
+                            <select name="MesRequerido" id="MesRequerido" class="browser-default custom-select mb-4">
+                            </select>
+                            <span id="errorsMesRequerido" class="text-danger text-small d-none">
+                            </span>
                         </div>
                         <div class="col-12" id="dimension-4-campo">
                             <div class="md-form">
@@ -1333,50 +1180,74 @@ include('verifica-session.php');
                         </div>
                         <div class="col-12" id="dimension-7-campo">
                             <label for="Proyecto" id="labelProyecto">Proyecto:</label>
-                                <select name="Proyecto" id="Proyecto" class="browser-default custom-select mb-4">
+                            <select name="Proyecto" id="Proyecto" class="browser-default custom-select mb-4">
                                 <option value="" selected>Seleccionar el proyecto</option>
-                                    <option value="Gestion Academica">Gestion Academica</option>
-                                    <option value="Proceso integral de la internacionalización de la Educación Superior">Proceso integral de la internacionalización de la Educación Superior</option>
-                                    <option value="Gobernabilidad y Procesos  de Gestión Descentralizada en Redes">Gobernabilidad y Procesos  de Gestión Descentralizada en Redes</option>
-                                </select>
-                                <span id="errorsProyecto" class="text-danger text-small d-none">
-                                </span>
+                                <option value="Gestion Academica">Gestion Academica</option>
+                                <option value="Proceso integral de la internacionalización de la Educación Superior">Proceso integral de la internacionalización de la Educación Superior</option>
+                                <option value="Gobernabilidad y Procesos  de Gestión Descentralizada en Redes">Gobernabilidad y Procesos de Gestión Descentralizada en Redes</option>
+                            </select>
+                            <span id="errorsProyecto" class="text-danger text-small d-none">
+                            </span>
                         </div>
                         <div class="col-12" id="dimension-8-campo">
-                            <label for="Proyecto" id="labelProyectos">Proyecto:</label>
-                                <select name="Proyectos" id="Proyectos" class="browser-default custom-select mb-4">
-                                <option value="" selected>Seleccionar el proyecto</option>
-                                    <option value="Gestion Academica">Gestion Academica</option>
-                                    <option value="Proceso integral de la internacionalización de la Educación Superior">Proceso integral de la internacionalización de la Educación Superior</option>
-                                    <option value="Gobernabilidad y Procesos  de Gestión Descentralizada en Redes">Gobernabilidad y Procesos  de Gestión Descentralizada en Redes</option>
-                                </select>
-                                <span id="errorsProyecto" class="text-danger text-small d-none">
+                            <div class="md-form">
+                                <input type="text" id="DescripcionDimOcho" class="form-control">
+
+                                <span id="errorsDescripcionDimOcho" class="text-danger text-small d-none">
                                 </span>
+                                <label for="DescripcionDimOcho" id="labelDescripcionDimOcho">
+                                    Descripcion
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="number" id="CantidadDimOcho" class="form-control">
+                                
+                                <span id="errorsCantidadDimOcho" class="text-danger text-small d-none">
+                                </span>
+                                <label for="CantidadDimOcho" id="labelCantidadDimOcho">
+                                    Cantidad
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="number" id="PrecioDimOcho" class="form-control">
+                                
+                                <span id="errorsPrecioDimOcho" class="text-danger text-small d-none">
+                                </span>
+                                <label for="PrecioDimOcho" id="labelPrecio">
+                                    Precio
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="number" id="Setenta" class="form-control" minlength="1" maxlength="2">
+                                
+                                <span id="errorsSetenta" class="text-danger text-small d-none">
+                                </span>
+                                <label for="Setenta" id="labelSetenta">
+                                    70%
+                                </label>
+                            </div>
+                            <div class="md-form">
+                                <input type="number" id="Treinta" class="form-control" minlength="1" maxlength="2">
+                                
+                                <span id="errorsTreinta" class="text-danger text-small d-none">
+                                </span>
+                                <label for="Treinta" id="labelTreinta">
+                                    30%
+                                </label>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
                     <div class="row col-12 ml-auto">
                         <div class="text-center d-none" id="insertarItems">
-                            <button onclick="agregarAct()"
-                            type="button" 
-                            class="btn btn-light-green btn-rounded btn-sm" 
-                            >Guardar cambios</button>
+                            <button onclick="agregarAct()" type="button" class="btn btn-light-green btn-rounded btn-sm">Guardar cambios</button>
                         </div>
                         <div class="text-center d-none" id="modificarItems">
-                            <button onclick="modificarAct()" 
-                            type="button" 
-                            class="btn btn-light-green btn-rounded btn-sm" 
-                            >Modificar Item</button>
+                            <button onclick="modificarAct()" type="button" class="btn btn-light-green btn-rounded btn-sm">Modificar Item</button>
                         </div>
                         <div class="text-center">
-                            <button 
-                                id="closeAct" 
-                                type="button" 
-                                class="btn btn-danger btn-rounded btn-sm" 
-                                data-dismiss="modal" 
-                                onclick="vaciarAct()"
-                                aria-label="Close">
+                            <button id="closeAct" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" onclick="vaciarAct()" aria-label="Close">
                                 Cancelar</button>
                         </div>
                     </div>

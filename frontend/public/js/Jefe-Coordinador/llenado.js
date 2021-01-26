@@ -251,6 +251,36 @@ const vaciarAct = () => {
     document.querySelector('#TipoEquipoTecnologico').classList.remove('is-invalid')
     document.querySelector(`#errorsTipoEquipoTecnologico`).classList.add('d-none');
     $("#TipoEquipoTecnologico").val("").trigger("change");
+
+    document.querySelector(`#labelDescripcionDimOcho`).classList.remove('text-danger')
+    document.querySelector('#DescripcionDimOcho').classList.remove('text-danger');
+    document.querySelector('#DescripcionDimOcho').classList.remove('is-invalid')
+    document.querySelector(`#errorsDescripcionDimOcho`).classList.add('d-none');
+    $("#DescripcionDimOcho").val("").trigger("change");
+
+    document.querySelector(`#labelCantidadDimOcho`).classList.remove('text-danger')
+    document.querySelector('#CantidadDimOcho').classList.remove('text-danger');
+    document.querySelector('#CantidadDimOcho').classList.remove('is-invalid')
+    document.querySelector(`#errorsCantidadDimOcho`).classList.add('d-none');
+    $("#CantidadDimOcho").val("").trigger("change");
+
+    document.querySelector(`#labelPrecioDimOcho`).classList.remove('text-danger')
+    document.querySelector('#PrecioDimOcho').classList.remove('text-danger');
+    document.querySelector('#PrecioDimOcho').classList.remove('is-invalid')
+    document.querySelector(`#errorsPrecioDimOcho`).classList.add('d-none');
+    $("#PrecioDimOcho").val("").trigger("change");
+
+    document.querySelector(`#labelSetenta`).classList.remove('text-danger')
+    document.querySelector('#Setenta').classList.remove('text-danger');
+    document.querySelector('#Setenta').classList.remove('is-invalid')
+    document.querySelector(`#errorsSetenta`).classList.add('d-none');
+    $("#Setenta").val("").trigger("change");
+
+    document.querySelector(`#labelTreinta`).classList.remove('text-danger')
+    document.querySelector('#Treinta').classList.remove('text-danger');
+    document.querySelector('#Treinta').classList.remove('is-invalid')
+    document.querySelector(`#errorsTreinta`).classList.add('d-none');
+    $("#Treinta").val("").trigger("change");
 };
 
 const resetW = () => {
@@ -345,10 +375,6 @@ const modif = () =>{
 };
 
 const ag = () => {
-    // Capturando las etiquetas completas de los inputs para despues obtener el valor
-    // console.log($('#DimEstrategica').val());
-    // console.log($('#ObjInstitucional').val());
-    // console.log($('#AreaEstrategica').val());
 
      // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
     let oE = { valorEtiqueta: ObjInstitucional, id: 'ObjInstitucional', name: 'Objetivo Institucional', type: 'select' };
@@ -620,6 +646,11 @@ const agregarAct = () => {
     let tipoEquipoTecnologico = document.querySelector('#TipoEquipoTecnologico');
     let areaBeca = document.querySelector('#AreaBeca');
     let proyectos = document.querySelector('#Proyecto');
+    let descripcionDimOcho = document.querySelector('#DescripcionDimOcho');
+    let cantodadDimOcho = document.querySelector('#CantidadDimOcho');
+    let precioDimOcho = document.querySelector('#PrecioDimOcho');
+    let setenta = document.querySelector('#Setenta');
+    let treinta = document.querySelector('#Treinta');
     
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
@@ -629,9 +660,14 @@ const agregarAct = () => {
     let M = { valorEtiqueta: Mes, id: 'MesRequerido', name: 'Mes Rquerido' ,type: 'select' };
     let CaP = { valorEtiqueta: CantidadPersonas, id: 'CantidadPersonas', name: 'Cantidad Personas', min: 1, max: 10, type: 'number' };
     let mes = { valorEtiqueta: meses, id: 'Meses', name: 'Meses', min: 1, max: 4, type: 'number' };
-    let tET = { valorEtiqueta: tipoEquipoTecnologico, id: 'TipoEquipoTecnologico', name: 'Tipo Equipo Tecnologico', min: 1, max: 200, type: 'number' };
-    let aB = { valorEtiqueta: areaBeca, id: 'AreaBeca', name: 'Area Beca', min: 1, max: 200, type: 'number' };
+    let tET = { valorEtiqueta: tipoEquipoTecnologico, id: 'TipoEquipoTecnologico', name: 'Tipo Equipo Tecnologico', min: 1, max: 150, type: 'text' };
+    let aB = { valorEtiqueta: areaBeca, id: 'AreaBeca', name: 'Area Beca', min: 1, max: 150, type: 'text' };
     let project = { valorEtiqueta: proyectos, id: 'Proyecto', name: 'Proyecto' ,type: 'select' };
+    let descripcionDim8 = { valorEtiqueta: descripcionDimOcho, id: 'DescripcionDimOcho', name: 'Descripcion', min: 1, max: 150, type: 'text' };
+    let cantidadDimOcho = { valorEtiqueta: cantodadDimOcho, id: 'CantidadDimOcho', name: 'Cantidad', min: 1, max: 10, type: 'number' };
+    let precioDOcho = { valorEtiqueta: precioDimOcho, id: 'PrecioDimOcho', name: 'Precio', min: 1, max: 10, type: 'number' };
+    let valorSetenta = { valorEtiqueta: setenta, id: 'Setenta', name: 'Valor de 0 a 70', min: 1, max: 2, type: 'number' };
+    let valorTreinta = { valorEtiqueta: treinta, id: 'Treinta', name: 'Valor de 0 a 30', min: 1, max: 2, type: 'number' };
 
     let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
     let isValidCosto = verificarInputNumber(Co,numerosRegex);
@@ -1093,7 +1129,83 @@ const agregarAct = () => {
                 }
             break;
             case  8:
-            //falta
+                let isDescripcionDimOcho = verificarInputText(descripcionDim8,letrasEspaciosCaracteresRegex);
+                let isValidCantidadDimOcho = verificarInputNumber(cantidadDimOcho,numerosRegex);
+                let isValidPrecioDimOcho = verificarInputNumber(precioDOcho,numerosRegex);
+                let isValidSetenta = verificarInputNumber(valorSetenta,numerosRegex);
+                let isValidTreinta = verificarInputNumber(valorTreinta,numerosRegex);
+                if (
+                    (isValidCantidad === true) &&
+                    (isValidCosto === true) &&
+                    (isValidCostoT === true) &&
+                    (isValidTipoPresupuesto === true) &&
+                    (isValidObjGasto === true) &&
+                    (isValidMes === true) &&
+                    (isDescripcionDimOcho === true) &&
+                    (isValidCantidadDimOcho === true) &&
+                    (isValidPrecioDimOcho === true) &&
+                    (isValidSetenta === true) &&
+                    (isValidTreinta === true)
+                ) { 
+                    parametros = {
+                        idActividad: parseInt(idActividadSeleccionada),
+                        idObjetoGasto: parseInt(ObjGasto.value),
+                        idTipoPresupuesto: parseInt(TipoPresupuesto.value),
+                        idDimension: parseInt(idDimensionAdminSeleccionada),
+                        cantidad: Cantidad.value,
+                        costo:  Costo.value,
+                        costoTotal: CostoT.value,
+                        mesRequerido: Mes.value,
+                        descripcion: { 
+                            descripcionItem: descripcionDimOcho.value,
+                            cantidadItem: cantodadDimOcho.value,
+                            precioItem: precioDimOcho.value,
+                            valorUno: setenta.value,
+                            valorDos: treinta.value
+                        }
+                    }
+                    console.log(parametros);
+                    $.ajax(`${ API }/descripcion-administrativa/inserta-descripcion-administrativa.php`,{ 
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success:function(response) {
+                            const { data } = response;
+                            console.log(data); 
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Accion realizada Exitosamente',
+                            text: `${ data.message }`
+                            });
+                            
+                            $('#modalRegistroDimensionAdmin').modal('hide');
+                            generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
+                            vaciarAct();
+                        },
+                        error:function(error) {
+                            console.log(error.responseText);
+                            const { status, data } = error.responseJSON;
+                            if (status === 401) {
+                                window.location.href = '../views/401.php';
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops...',
+                                    text: `${ data.message }`,
+                                    footer: '<b>Verifique los datos del formulario de registro</b>'
+                                });
+                            }
+                        }
+                    });
+                } else { // caso contrario mostrar alerta y notificar al usuario 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'El registro del item en la actividad seleccionada no se pudo realizar',
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             break;
             default:
             break;

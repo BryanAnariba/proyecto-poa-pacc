@@ -223,18 +223,25 @@
             if (is_int($this->idDimension)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_LISTADO_ACT_POR_DIM AS (SELECT (COUNT(Actividad.idActividad) + 1) AS numeroActividad, DATE_FORMAT(NOW(), '%Y') AS anioActividad, DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica, DimensionEstrategica.idEstadoDimension FROM Actividad RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension) INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado) GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica) SELECT * FROM CTE_LISTADO_ACT_POR_DIM WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = :idEstado AND (SELECT ControlPresupuestoActividad.idEstadoPresupuestoAnual FROM ControlPresupuestoActividad LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento) LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento) INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado) WHERE Departamento.idDepartamento = :idDepartamento AND Usuario.idPersonaUsuario = :idUsuario AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')) AND CTE_LISTADO_ACT_POR_DIM.idDimension = :idDimension;");
-                $stmt->bindValue(':idEstado', ESTADO_ACTIVO);
-                $stmt->bindValue(':idDepartamento', $_SESSION['idDepartamento']);
-                $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_CORRELATIVO AS (SELECT (COUNT(Actividad.idPersonaUsuario) + 1) AS numeroActividad, Actividad.fechaCreacionActividad, date_format(Actividad.fechaCreacionActividad,'%Y') as anioActividad, Actividad.idDimension, Actividad.idPersonaUsuario, Usuario.idDepartamento, Departamento.abrev FROM DimensionEstrategica INNER JOIN Actividad ON (DimensionEstrategica.idDimension = Actividad.idDimension)INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) GROUP BY Usuario.idDepartamento, DimensionEstrategica.idDimension) SELECT * FROM CTE_GENERA_CORRELATIVO WHERE CTE_GENERA_CORRELATIVO.idDimension = :idDimension AND CTE_GENERA_CORRELATIVO.idPersonaUsuario = :idUsuario AND date_format(CTE_GENERA_CORRELATIVO.fechaCreacionActividad,'%Y') = date_format(NOW(), '%Y') AND CTE_GENERA_CORRELATIVO.idDepartamento = :idDepartamento;");
                 $stmt->bindValue(':idDimension', $this->idDimension);
+                $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
+                $stmt->bindValue(':idDepartamento', $_SESSION['idDepartamento']);
                 if ($stmt->execute()) {
                     $data = $stmt->fetchObject();
-                    $correlativoActividad = $_SESSION['abrev'] . '_' . $data->anioActividad . '_' . $this->idDimension . '.' . $data->numeroActividad;
-                    return array(
-                        'status' => SUCCESS_REQUEST,
-                        'data' => array('correlativoActividad' => $correlativoActividad)
-                    );
+                    if (empty($data->numeroActividad)) {
+                        $correlativoActividad = $_SESSION['abrev'] . '_' . date('Y') . '_' . $this->idDimension . '.' . 1;
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => array('correlativoActividad' => $correlativoActividad)
+                        );
+                    } else {
+                        $correlativoActividad = $_SESSION['abrev'] . '_' . $data->anioActividad . '_' . $this->idDimension . '.' . $data->numeroActividad;
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => array('correlativoActividad' => $correlativoActividad)
+                        );
+                    }
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,

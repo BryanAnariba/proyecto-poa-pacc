@@ -573,6 +573,7 @@ CREATE PROCEDURE SP_INSERTA_COSTO_ACT_TRIMESTRE(
 
 
 -- --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTAS CONSULTAS SON QUERYS PARA LAS ACTIVIDADES NO TOCAR 
+-- --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESTAS CONSULTAS QUEDAN COMO RESPANDO DEL LAS CTE EN LOS METODOS DE LA CLASES ACTIVIDADES Y PRESUPUESTO
 
 -- Consulta para cargar actividades por dimension al anio
 WITH CTE_LISTADO_ACT_POR_DIM AS (
@@ -613,31 +614,23 @@ CTE_LISTADO_ACT_POR_DIM.idDimension BETWEEN (
 );
 
 -- consulta para generar el correlativo
-WITH CTE_LISTADO_ACT_POR_DIM AS (
+WITH CTE_GENERA_CORRELATIVO AS (
 	SELECT 
-    (COUNT(Actividad.idActividad) + 1) AS cantidadActividadesPorDimension,
-    DATE_FORMAT(NOW(), '%Y') AS anioActividad,
-    DimensionEstrategica.idDimension,
-    DimensionEstrategica.dimensionEstrategica,
-    DimensionEstrategica.idEstadoDimension
-    FROM 
-    Actividad 
-    RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)
-    INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado)
-    GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica
-)
-SELECT * FROM CTE_LISTADO_ACT_POR_DIM 
-WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = 1 AND 
-(
-    SELECT 
-    ControlPresupuestoActividad.idEstadoPresupuestoAnual
-    FROM ControlPresupuestoActividad 
-    LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad)
-    RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
-    LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento)
-    INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado)
-    WHERE Departamento.idDepartamento = 1 AND Usuario.idPersonaUsuario = 2 AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y')
-) AND CTE_LISTADO_ACT_POR_DIM.idDimension = 1;
+		(COUNT(Actividad.idPersonaUsuario) + 1) AS numeroActividad,
+        Actividad.fechaCreacionActividad,
+		date_format(Actividad.fechaCreacionActividad,'%Y') as anioActividad,
+		Actividad.idDimension,
+		Actividad.idPersonaUsuario,
+		Usuario.idDepartamento,
+		Departamento.abrev
+		FROM DimensionEstrategica 
+		INNER JOIN Actividad ON (DimensionEstrategica.idDimension = Actividad.idDimension)
+		INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+		INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
+		GROUP BY Usuario.idDepartamento, DimensionEstrategica.idDimension
+) SELECT * FROM CTE_GENERA_CORRELATIVO 
+WHERE CTE_GENERA_CORRELATIVO.idDimension = 1 AND CTE_GENERA_CORRELATIVO.idPersonaUsuario = 4 AND date_format(CTE_GENERA_CORRELATIVO.fechaCreacionActividad,'%Y') = date_format(NOW(), '%Y')
+AND CTE_GENERA_CORRELATIVO.idDepartamento = 4;
 
 
 -- Query para generar el vs de presupuestos -> PresupuestoDeptoTotal vs PresupuestoConsumidoPorActividades

@@ -226,7 +226,7 @@
                                 if ($enviado) {
                                     return array(
                                         'status'=> SUCCESS_REQUEST,
-                                        'data' => array('message' => 'Usuario ' . $this->correoInstitucional . ' insertado con exito, se envio una notificacion con credenciales via correo')
+                                        'data' => array('message' => 'Usuario ' . $this->correoInstitucional . ' insertado con exito, se envio una notificacion con credenciales via correo ' . $password ) 
                                     );
                                 } else {
                                     return array(
