@@ -41,6 +41,10 @@
     define('TBL_RESULTADOS_INSTITUCIONALES', 'ResultadoInstitucional');
     define('TBL_CONTROL_LLENADO_ACTIVIDADES', 'LlenadoActividadDimension');
     define('TBL_ACTIVIDADES', 'Actividad');
+    define('TBL_COSTO_ACTIVIDAD_POR_TRIMESTRE', 'CostoActividadPorTrimestre');
+    define('TBL_TIPO_ACTIVIDAD', 'TipoActividad');
+    define('TBL_TIPO_PRESUPUESTO', 'tipoPresupuesto');
+    define('TBL_DESCRIPCION_ADMINISTRATIVA', 'DescripcionAdministrativa');
 
     define('MIN_TAMANIO_CLAVE', 12);
 

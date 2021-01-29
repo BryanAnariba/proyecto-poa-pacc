@@ -43,6 +43,16 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function obtenerObjetosActivos() {
+            $Objetos = new Objeto();
+
+            $Objetos->setidEstado(ESTADO_ACTIVO);
+            $this->data = $Objetos->getObjetosActivos();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function ActualizarObjeto ($idObjetoGasto,$ObjetoDeGasto,$Abreviatura,$CodigoObjeto,$idEstado) {
             
             $Objetos = new Objeto();

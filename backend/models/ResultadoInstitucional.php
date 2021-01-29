@@ -89,7 +89,33 @@
         }
 
         public function getResultadosInstitucionalesActivos () {
+            $this->conexionBD = new Conexion();
+            $this->consulta = $this->conexionBD->connect();
 
+            try {
+                $stmt = $this->consulta->prepare('WITH CTE_LISTAR_RESULTADOS_INSTITUCIONALES AS (SELECT ResultadoInstitucional.idResultadoInstitucional, ResultadoInstitucional.idAreaEstrategica, ResultadoInstitucional.idEstadoResultadoInstitucional, ResultadoInstitucional.resultadoInstitucional FROM ResultadoInstitucional) SELECT * FROM CTE_LISTAR_RESULTADOS_INSTITUCIONALES WHERE CTE_LISTAR_RESULTADOS_INSTITUCIONALES.idAreaEstrategica = :idAreaEstrategica AND CTE_LISTAR_RESULTADOS_INSTITUCIONALES.idEstadoResultadoInstitucional = :idEstado ORDER BY CTE_LISTAR_RESULTADOS_INSTITUCIONALES.idResultadoInstitucional ASC;');
+                $stmt->bindValue(':idAreaEstrategica', $this->idAreaEstrategica);
+                $stmt->bindValue(':idEstado', $this->idEstadoResultadoInstitucional);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los resultados institucionales, por favor recargue la pagina nuevamente')
+                    );
+                }
+
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
         }
 
         public function registroResultadoInstitucional () {

@@ -17,6 +17,13 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function listarAreasActivasPorObjetivo($idObjetivo) {
+            $this->areaEstrategicaModel->setIdObjetivoInstitucional($idObjetivo);
+            $this->areaEstrategicaModel->setIdEstadoAreaEstrategica(ESTADO_ACTIVO);
+            $this->data = $this->areaEstrategicaModel->getAreasActivasPorObjetivo();
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
         public function insertarAreaPorObjetivo ($idObjetivo, $areaEstrategica) {
             $this->areaEstrategicaModel->setIdObjetivoInstitucional($idObjetivo);
             $this->areaEstrategicaModel->setAreaEstrategica($areaEstrategica);

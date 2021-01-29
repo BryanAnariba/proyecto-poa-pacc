@@ -17,7 +17,10 @@
         }
 
         public function listarDimensionesActivas () {
-
+            $this->data = $this->dimensionAdministrativaModel->getDimensionesActivas();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function insertaDimension ($dimensionAdministrativa) {
@@ -48,6 +51,14 @@
 
         public function peticionNoValida () {
             $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Tipo de peticion no valida'));
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function peticionNoAutorizada () {
+            $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
+                'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
