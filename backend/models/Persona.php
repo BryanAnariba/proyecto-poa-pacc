@@ -151,23 +151,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $usuario = $this->consulta->query("SELECT * from persona where idPersona=$this->idPersona")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                        'idPersonaUsuario', $this->idPersona ,
-                        'nombrePersona','$usuario[nombrePersona]',
-                        'apellidoPersona','$usuario[apellidoPersona]',
-                        'fechaNacimiento','$usuario[fechaNacimiento]'
-                    );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'idPersonaUsuario', $this->idPersona ,
-                        'nombrePersona','$this->nombrePersona',
-                        'apellidoPersona','$this->apellidoPersona',
-                        'fechaNacimiento','$this->fechaNacimiento'
-                    );
-                ")->execute();
 
                 $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_PERSONA(:nombre,:apellido,:fecha,:idUsuario)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);
@@ -198,21 +181,6 @@
 
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
-                    ")->execute();
-                    $usuario = $this->consulta->query("SELECT * from persona where idPersona=$this->idPersona")->fetch();
-                    $this->consulta->prepare("
-                        set @valorI = JSON_OBJECT(
-                            'idPersonaUsuario', $this->idPersona ,
-                            'idLugar','$usuario[idLugar]',
-                            'direccion','$usuario[direccion]'
-                        );
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'idPersonaUsuario', $this->idPersona ,
-                            'idLugar','$this->idLugar',
-                            'direccion','$this->direccion'
-                        );
                     ")->execute();
 
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIRECCION_PERSONA(:idUsuario, :lugar , :direccionLugar)');

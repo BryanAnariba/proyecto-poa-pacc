@@ -177,23 +177,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $resultadoinstitucional = $this->consulta->query("SELECT * from resultadoinstitucional where idResultadoInstitucional=$this->idResultadoInstitucional")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
-                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
-                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
-                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
-                    );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
-                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
-                        'idEstadoResultadoInstitucional',$this->idEstadoResultadoInstitucional,
-                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
-                    );
-                ")->execute();
     
                 try {
                     $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET idEstadoResultadoInstitucional = :idEstado WHERE idResultadoInstitucional = :idResultado');
@@ -234,23 +217,6 @@
 
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
-                ")->execute();
-                $resultadoinstitucional = $this->consulta->query("SELECT * from resultadoinstitucional where idResultadoInstitucional=$this->idResultadoInstitucional")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
-                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
-                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
-                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
-                    );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
-                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
-                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
-                        'resultadoInstitucional','$this->resultadoInstitucional'
-                    );
                 ")->execute();
     
                 try {

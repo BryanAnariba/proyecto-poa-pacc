@@ -250,23 +250,6 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $areaestrategica = $this->consulta->query("SELECT * from areaestrategica where idAreaEstrategica=$this->idAreaEstrategica")->fetch();
-                    $this->consulta->prepare("
-                        set @valorI = JSON_OBJECT(
-                            'idAreaEstrategica',$this->idAreaEstrategica ,
-                            'idEstadoAreaEstrategica','$areaestrategica[idEstadoAreaEstrategica]',
-                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
-                            'areaEstrategica','$areaestrategica[areaEstrategica]'
-                        );
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'idAreaEstrategica', $this->idAreaEstrategica ,
-                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
-                            'idEstadoAreaEstrategica','$areaestrategica[idEstadoAreaEstrategica]',
-                            'areaEstrategica','$this->areaEstrategica'
-                        );
-                    ")->execute();
 
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_AREA(:idArea, :area)');
                     $stmt->bindValue(':idArea', $this->idAreaEstrategica);

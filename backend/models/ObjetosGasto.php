@@ -220,25 +220,6 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $ObjetoGasto = $this->consulta->query("SELECT * from objetogasto where idObjetoGasto=$this->idObjetoGasto")->fetch();
-                    $this->consulta->prepare("
-                        set @valorI = JSON_OBJECT(
-                            'idObjetoGasto', $this->idObjetoGasto ,
-                            'DescripcionCuenta','$ObjetoGasto[DescripcionCuenta]',
-                            'abrev','$ObjetoGasto[abrev]', 
-                            'codigoObjetoGasto',$ObjetoGasto[codigoObjetoGasto], 
-                            'idEstadoObjetoGasto',$ObjetoGasto[idEstadoObjetoGasto]
-                        );
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'idObjetoGasto', $this->idObjetoGasto ,
-                            'DescripcionCuenta','$this->ObjetoDeGasto',
-                            'abrev','$this->Abreviatura', 
-                            'codigoObjetoGasto','$this->CodigoObjeto', 
-                            'idEstadoObjetoGasto',$this->idEstado
-                        );
-                    ")->execute();
 
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto ($this->idObjetoGasto, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'actualizarCarrera', @resp)");
                     if ($stmt->execute()) {

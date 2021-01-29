@@ -296,27 +296,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $departamento = $this->consulta->query("SELECT * from departamento where idDepartamento=$this->idDepartamento")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                                    'idDepartamento', $this->idDepartamento ,
-                                    'idEstadoDepartamento',$departamento[idEstadoDepartamento],
-                                    'nombreDepartamento','$departamento[nombreDepartamento]', 
-                                    'telefonoDepartamento','$departamento[telefonoDepartamento]', 
-                                    'abrev','$departamento[abrev]',
-                                    'correoDepartamento', '$departamento[correoDepartamento]'
-                                );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                                    'idDepartamento', $this->idDepartamento ,
-                                    'idEstadoDepartamento',$this->idEstadoDepartamento,
-                                    'nombreDepartamento','$this->nombreDepartamento', 
-                                    'telefonoDepartamento','$this->telefonoDepartamento', 
-                                    'abrev','$this->abreviaturaDepartamento',
-                                    'correoDepartamento', '$this->correoDepartamento'
-                                );
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICAR_DEPARTAMENTO(:idDepartamento,

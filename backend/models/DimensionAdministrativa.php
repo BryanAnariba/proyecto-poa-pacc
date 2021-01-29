@@ -202,21 +202,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $dimensionadmin = $this->consulta->query("SELECT * from dimensionadmin where idDimension=$this->idDimension")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                        'idDimension', $this->idDimension ,
-                        'idEstadoDimension',$dimensionadmin[idEstadoDimension],
-                        'dimensionAdministrativa','$dimensionadmin[dimensionAdministrativa]'
-                    );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'idDimension', $this->idDimension ,
-                        'idEstadoDimension',$this->idEstadoDimension,
-                        'dimensionAdministrativa','$dimensionadmin[dimensionAdministrativa]'
-                    );
-                ")->execute();
 
                 $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_DIMENSION_ADMIN(:idDimensionAdministrativa, :estadoDimension)');
                 $stmt->bindValue(':idDimensionAdministrativa', $this->idDimension);

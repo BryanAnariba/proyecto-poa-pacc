@@ -243,26 +243,6 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $controlpresupuestoactividad = $this->consulta->query(
-                            "
-                            SELECT * from controlpresupuestoactividad 
-                            where idControlPresupuestoActividad=$this->idControlPresupuestoActividad
-                            "
-                        )->fetch();
-                        $this->consulta->prepare("
-                            set @valorI = JSON_OBJECT(
-                                'idControlPresupuestoActividad',$this->idControlPresupuestoActividad,
-                                'presupuestoAnual','$controlpresupuestoactividad[presupuestoAnual]',
-                                'idEstadoPresupuestoAnual',$controlpresupuestoactividad[idEstadoPresupuestoAnual]
-                            );
-                        ")->execute();
-                        $this->consulta->prepare("
-                            set @valorf = JSON_OBJECT(
-                                'idControlPresupuestoActividad',$this->idControlPresupuestoActividad,
-                                'presupuestoAnual','$this->presupuestoAnual',
-                                'idEstadoPresupuestoAnual',$this->estadoPresupuestoAnual
-                            );
-                        ")->execute();
 
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET presupuestoAnual = :presupuesto, idEstadoPresupuestoAnual = :estado WHERE idControlPresupuestoActividad = :idPresupuestoAnual');
                         $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);

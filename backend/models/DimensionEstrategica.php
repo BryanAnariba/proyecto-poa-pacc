@@ -195,21 +195,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $dimensionestrategica = $this->consulta->query("SELECT * from dimensionestrategica where idDimension=$this->idDimension")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT(
-                        'idDimension', $this->idDimension ,
-                        'idEstadoDimension','$dimensionestrategica[idEstadoDimension]',
-                        'dimensionEstrategica','$dimensionestrategica[dimensionEstrategica]'
-                    );
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'idDimension', $this->idDimension ,
-                        'idEstadoDimension','$this->idEstadoDimension',
-                        'dimensionEstrategica','$this->dimensionEstrategica'
-                    );
-                ")->execute();
 
                 $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_DIMENSION(:idDimensionEstrategica, :estadoDimension)');
                 $stmt->bindValue(':idDimensionEstrategica', $this->idDimension);
@@ -243,21 +228,6 @@
 
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
-                    ")->execute();
-                    $dimensionestrategica = $this->consulta->query("SELECT * from dimensionestrategica where idDimension=$this->idDimension")->fetch();
-                    $this->consulta->prepare("
-                        set @valorI = JSON_OBJECT(
-                            'idDimension', $this->idDimension ,
-                            'idEstadoDimension','$dimensionestrategica[idEstadoDimension]',
-                            'dimensionEstrategica','$dimensionestrategica[dimensionEstrategica]'
-                        );
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'idDimension', $this->idDimension ,
-                            'idEstadoDimension','$this->idEstadoDimension',
-                            'dimensionEstrategica','$this->dimensionEstrategica'
-                        );
                     ")->execute();
 
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIMENSION(:idDimensionEstrategica, :dimensionEstrategica)');

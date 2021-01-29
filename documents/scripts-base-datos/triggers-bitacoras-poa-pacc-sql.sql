@@ -24,7 +24,7 @@ create trigger `insertarCarrera`
 	after insert on `carrera`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -37,9 +37,14 @@ create trigger `modificarCarrera`
 	after update on `carrera`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idCarrera', old.idCarrera ,'carrera',old.carrera,'abrev',old.abrev, 'idDepartamento', old.idDepartamento, 'idEstadoCarrera',old.idEstadoCarrera);
+    set nuevo = JSON_OBJECT('idCarrera', new.idCarrera ,'carrera',new.carrera,'abrev',new.abrev, 'idDepartamento', new.idDepartamento, 'idEstadoCarrera',new.idEstadoCarrera);
+
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
  
@@ -91,7 +96,7 @@ create trigger `insertarObjetoGasto`
 	after insert on `objetogasto`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -104,9 +109,13 @@ create trigger `modificarObjetoGasto`
 	after update on `objetogasto`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idObjetoGasto', old.idObjetoGasto ,'DescripcionCuenta',old.DescripcionCuenta,'abrev',old.abrev, 'codigoObjetoGasto',old.codigoObjetoGasto, 'idEstadoObjetoGasto',old.idEstadoObjetoGasto);
+    set nuevo = JSON_OBJECT('idObjetoGasto', new.idObjetoGasto ,'DescripcionCuenta',new.DescripcionCuenta,'abrev',new.abrev, 'codigoObjetoGasto',new.codigoObjetoGasto, 'idEstadoObjetoGasto',new.idEstadoObjetoGasto);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 
 //
@@ -158,7 +167,7 @@ create trigger `insertarDepartamento`
 	after insert on `departamento`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -171,9 +180,13 @@ create trigger `modificarDepartamento`
 	after update on `departamento`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idDepartamento', old.idDepartamento ,'idEstadoDepartamento',old.idEstadoDepartamento,'nombreDepartamento',old.nombreDepartamento, 'telefonoDepartamento',old.telefonoDepartamento, 'abrev',old.abrev,'correoDepartamento', old.correoDepartamento);
+    set nuevo = JSON_OBJECT('idDepartamento', new.idDepartamento ,'idEstadoDepartamento',new.idEstadoDepartamento,'nombreDepartamento',new.nombreDepartamento, 'telefonoDepartamento',new.telefonoDepartamento, 'abrev',new.abrev,'correoDepartamento', new.correoDepartamento);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -187,7 +200,7 @@ begin
     declare temp2 json;
     declare cont int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idDepartamento,JSON_OBJECT('idDepartamento', idDepartamento ,'idEstadoDepartamento',idEstadoDepartamento,'nombreDepartamento','nombreDepartamento', 'telefonoDepartamento','telefonoDepartamento', 'abrev','abrev','correoDepartamento', 'correoDepartamento'))) as json FROM departamento);
+    set temp = (SELECT (JSON_OBJECTAGG(idDepartamento,JSON_OBJECT('idDepartamento', idDepartamento ,'idEstadoDepartamento',idEstadoDepartamento,'nombreDepartamento',nombreDepartamento, 'telefonoDepartamento',telefonoDepartamento, 'abrev',abrev,'correoDepartamento', correoDepartamento))) as json FROM departamento);
     set cont = (SELECT count(*) FROM departamento);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total Objeto de Gasto',cont),temp);
     insert into
@@ -207,7 +220,7 @@ begin
     declare temp2 json;
     declare cont2 int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idDepartamento,JSON_OBJECT('idDepartamento', idDepartamento ,'idEstadoDepartamento',idEstadoDepartamento,'nombreDepartamento','nombreDepartamento', 'telefonoDepartamento','telefonoDepartamento', 'abrev','abrev','correoDepartamento', 'correoDepartamento'))) as json FROM departamento);
+    set temp = (SELECT (JSON_OBJECTAGG(idDepartamento,JSON_OBJECT('idDepartamento', idDepartamento ,'idEstadoDepartamento',idEstadoDepartamento,'nombreDepartamento',nombreDepartamento, 'telefonoDepartamento',telefonoDepartamento, 'abrev',abrev,'correoDepartamento', correoDepartamento))) as json FROM departamento);
     set cont2 = (SELECT count(*) FROM departamento);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total Objeto de Gasto',cont2),temp);
     set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
@@ -225,7 +238,7 @@ create trigger `insertarDimensionEstrategica`
 	after insert on `dimensionestrategica`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -238,9 +251,13 @@ create trigger `modificarDimensionEstrategica`
 	after update on `dimensionestrategica`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idDimension', old.idDimension ,'idEstadoDimension',old.idEstadoDimension,'dimensionEstrategica',old.dimensionEstrategica);
+    set nuevo = JSON_OBJECT('idDimension', new.idDimension ,'idEstadoDimension',new.idEstadoDimension,'dimensionEstrategica',new.dimensionEstrategica);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
  
@@ -291,7 +308,7 @@ create trigger `insertarObjetivoInstitucional`
 	after insert on `objetivoinstitucional`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -304,9 +321,13 @@ create trigger `modificarObjetivoInstitucional`
 	after update on `objetivoinstitucional`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idObjetivoInstitucional', old.idObjetivoInstitucional ,'idDimensionEstrategica',old.idDimensionEstrategica,'idEstadoObjetivoInstitucional',old.idEstadoObjetivoInstitucional,'objetivoInstitucional',old.objetivoInstitucional);
+    set nuevo = JSON_OBJECT('idObjetivoInstitucional', new.idObjetivoInstitucional ,'idDimensionEstrategica',new.idDimensionEstrategica,'idEstadoObjetivoInstitucional',new.idEstadoObjetivoInstitucional,'objetivoInstitucional',new.objetivoInstitucional);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -357,7 +378,7 @@ create trigger `insertarAreaEstrategica`
 	after insert on `areaestrategica`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -370,9 +391,13 @@ create trigger `modificarAreaEstrategica`
 	after update on `areaestrategica`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idAreaEstrategica',old.idAreaEstrategica ,'idEstadoAreaEstrategica',old.idEstadoAreaEstrategica,'idObjetivoInstitucional',old.idObjetivoInstitucional,'areaEstrategica',old.areaEstrategica);
+    set nuevo = JSON_OBJECT('idAreaEstrategica',new.idAreaEstrategica ,'idEstadoAreaEstrategica',new.idEstadoAreaEstrategica,'idObjetivoInstitucional',new.idObjetivoInstitucional,'areaEstrategica',new.areaEstrategica);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
  
@@ -424,7 +449,7 @@ create trigger `insertarResultadoInstitucional`
 	after insert on `resultadoinstitucional`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -437,9 +462,13 @@ create trigger `modificarResultadoInstitucional`
 	after update on `resultadoinstitucional`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idResultadoInstitucional',old.idResultadoInstitucional ,'idAreaEstrategica',old.idAreaEstrategica,'idEstadoResultadoInstitucional',old.idEstadoResultadoInstitucional,'resultadoInstitucional',old.resultadoInstitucional);
+    set nuevo = JSON_OBJECT('idResultadoInstitucional',new.idResultadoInstitucional ,'idAreaEstrategica',new.idAreaEstrategica,'idEstadoResultadoInstitucional',new.idEstadoResultadoInstitucional,'resultadoInstitucional',new.resultadoInstitucional);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -490,7 +519,7 @@ create trigger `insertarDimensionAdministrativa`
 	after insert on `dimensionadmin`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -503,9 +532,13 @@ create trigger `modificarDimensionAdministrativa`
 	after update on `dimensionadmin`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idDimension', old.idDimension ,'idEstadoDimension',old.idEstadoDimension,'dimensionAdministrativa',old.dimensionAdministrativa);
+    set nuevo = JSON_OBJECT('idDimension', new.idDimension ,'idEstadoDimension',new.idEstadoDimension,'dimensionAdministrativa',new.dimensionAdministrativa);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -556,7 +589,7 @@ create trigger `insertarPersona`
 	after insert on `persona`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -569,9 +602,13 @@ create trigger `modificarPersona`
 	after update on `persona`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idPersonaUsuario', old.idPersona ,'nombrePersona',old.nombrePersona,'apellidoPersona',old.apellidoPersona,'fechaNacimiento',old.fechaNacimiento,'direccion',old.direccion);
+    set nuevo = JSON_OBJECT('idPersonaUsuario', new.idPersona ,'nombrePersona',new.nombrePersona,'apellidoPersona',new.apellidoPersona,'fechaNacimiento',new.fechaNacimiento,'direccion',new.direccion);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -622,7 +659,7 @@ create trigger `insertarUsuario`
 	after insert on `usuario`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,@tipoBitacora,@valorI,@valorf,now());
     END IF;
@@ -635,9 +672,13 @@ create trigger `modificarUsuario`
 	before update on `usuario`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idPersonaUsuario',old.idPersonaUsuario,'nombreUsuario',old.nombreUsuario,'avatarUsuario',old.avatarUsuario,'correoInstitucional',old.correoInstitucional,'codigoEmpleado',old.codigoEmpleado,'tokenAcceso',old.tokenAcceso,'tokenExpiracion',old.tokenExpiracion);
+    set nuevo = JSON_OBJECT('idPersonaUsuario',new.idPersonaUsuario,'nombreUsuario',new.nombreUsuario,'avatarUsuario',new.avatarUsuario,'correoInstitucional',new.correoInstitucional,'codigoEmpleado',new.codigoEmpleado,'tokenAcceso',new.tokenAcceso,'tokenExpiracion',new.tokenExpiracion);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,@tipoBitacora,@valorI,@valorf,now());
+    values (@persona,@tipoBitacora,viejo,nuevo,now());
 end 
 //
 
@@ -688,7 +729,7 @@ create trigger `insertarPresupuestoDepartamento`
 	after insert on `presupuestodepartamento`
     for each row 
 begin
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf) THEN
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,@valorI,@valorf,now());
     END IF;
@@ -701,9 +742,13 @@ create trigger `modificarPresupuestoDepartamento`
 	before update on `presupuestodepartamento`
     for each row 
 begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idPresupuestoPorDepartamento',old.idPresupuestoPorDepartamento,'idDepartamento',old.idDepartamento,'montoPresupuesto',old.montoPresupuesto, 'idControlPresupuestoActividad',old.idControlPresupuestoActividad);
+    set nuevo = JSON_OBJECT('idPresupuestoPorDepartamento',new.idPresupuestoPorDepartamento,'idDepartamento',new.idDepartamento,'montoPresupuesto',new.montoPresupuesto, 'idControlPresupuestoActividad',new.idControlPresupuestoActividad);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
-    values (@persona,2,@valorI,@valorf,now());
+    values (@persona,2,viejo,nuevo,now());
 end 
 //
 
@@ -740,6 +785,77 @@ begin
     set temp = (SELECT (JSON_OBJECTAGG(idPresupuestoPorDepartamento,JSON_OBJECT('idPresupuestoPorDepartamento',idPresupuestoPorDepartamento,'idDepartamento',idDepartamento,'montoPresupuesto',montoPresupuesto, 'idControlPresupuestoActividad',idControlPresupuestoActividad))) as json FROM presupuestodepartamento);
     set cont2 = (SELECT count(*) FROM presupuestodepartamento);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total presupuestodepartamento',cont2),temp);
+    set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
+    
+    UPDATE `poa-pacc-bd`.`bitacora` 
+	SET nuevoEstadoInformacion = temp2 
+	WHERE idBitacora = cont;
+end 
+//
+
+-- -------------------------------------------Triggers tipoActividad-----------------------------------------------------------------------
+drop trigger if exists `insertarTipoActividad`;
+DELIMITER //
+create trigger `insertarTipoActividad` 
+	after insert on `tipoactividad`
+    for each row 
+begin
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = @valorf and fechaHoraBitacora=now()) THEN
+        insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+		values (@persona,1,@valorI,@valorf,now());
+    END IF;
+end 
+//
+
+drop trigger if exists `modificarTipoActividad`;
+DELIMITER //
+create trigger `modificarTipoActividad` 
+	before update on `tipoactividad`
+    for each row 
+begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idTipoActividad',old.idTipoActividad,'TipoActividad',old.TipoActividad);
+    set nuevo = JSON_OBJECT('idTipoActividad',new.idTipoActividad,'TipoActividad',new.TipoActividad);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,2,viejo,nuevo,now());
+end 
+//
+
+drop trigger if exists `eliminarTipoActividadBefore`;
+DELIMITER //
+create trigger `eliminarTipoActividadBefore` 
+	before delete on `tipoactividad`
+    for each row 
+begin
+	declare temp json;
+    declare temp2 json;
+    declare cont int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idTipoActividad,JSON_OBJECT('idTipoActividad',old.idTipoActividad,'TipoActividad',old.TipoActividad))) as json FROM tipoactividad);
+    set cont = (SELECT count(*) FROM tipoactividad);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total tipoactividad',cont),temp);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,3,temp2,'{}',now());
+end 
+//
+ 
+drop trigger if exists `eliminarTipoActividadAfter`;
+DELIMITER //
+create trigger `eliminarTipoActividadAfter` 
+	after delete on `tipoactividad`
+    for each row 
+begin
+	declare temp json;
+    declare cont int;
+    declare temp2 json;
+    declare cont2 int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idTipoActividad,JSON_OBJECT('idTipoActividad',old.idTipoActividad,'TipoActividad',old.TipoActividad))) as json FROM tipoactividad);
+    set cont2 = (SELECT count(*) FROM tipoactividad);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total tipoactividad',cont2),temp);
     set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
     
     UPDATE `poa-pacc-bd`.`bitacora` 

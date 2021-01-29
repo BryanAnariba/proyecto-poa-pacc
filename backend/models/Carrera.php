@@ -260,13 +260,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $Carrera = $this->consulta->query("SELECT * from carrera where idCarrera=$this->idCarrera")->fetch();
-                $this->consulta->prepare("
-                    set @valorI = JSON_OBJECT('idCarrera', $this->idCarrera ,'carrera','$Carrera[carrera]','abrev','$Carrera[abrev]', 'idDepartamento',$Carrera[idDepartamento], 'idEstadoCarrera',$Carrera[idEstadoCarrera]);
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT('idCarrera', $this->idCarrera ,'carrera','$this->Carrera','abrev','$this->Abreviatura', 'idDepartamento',$this->idDepartamento, 'idEstadoCarrera',$this->idEstado);
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
