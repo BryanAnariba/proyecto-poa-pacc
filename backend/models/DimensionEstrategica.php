@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -47,7 +50,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('WITH CTE_LISTAR_DIMENSIONES_ESTRATEGICAS AS (SELECT  DimensionEstrategica.idDimension, DimensionEstrategica.idEstadoDimension, DimensionEstrategica.dimensionEstrategica, EstadoDCDUOAO.estado FROM DimensionEstrategica LEFT JOIN EstadoDCDUOAO ON (DimensionEstrategica.idEstadoDimension = EstadoDCDUOAO.idEstado) ORDER BY DimensionEstrategica.idDimension ASC) SELECT * FROM CTE_LISTAR_DIMENSIONES_ESTRATEGICAS;');
+                $stmt = $this->consulta->prepare('WITH RECURSIVE CTE_LISTAR_DIMENSIONES_ESTRATEGICAS AS (SELECT  DimensionEstrategica.idDimension, DimensionEstrategica.idEstadoDimension, DimensionEstrategica.dimensionEstrategica, EstadoDCDUOAO.estado FROM DimensionEstrategica LEFT JOIN EstadoDCDUOAO ON (DimensionEstrategica.idEstadoDimension = EstadoDCDUOAO.idEstado) ORDER BY DimensionEstrategica.idDimension ASC) SELECT * FROM CTE_LISTAR_DIMENSIONES_ESTRATEGICAS;');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -100,6 +103,19 @@
             if (campoTexto($this->dimensionEstrategica,1,150) && is_int($this->idEstadoDimension)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = '{}';
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'dimensionEstrategica','$this->dimensionEstrategica',
+                        'idEstadoDimension','$this->idEstadoDimension'
+                    );
+                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_DIM_ESTRATEGICA(:idEstadoDimension, :dimensionEstrategica)');
@@ -175,6 +191,26 @@
                 $this->idEstadoDimension = $this->getEstadoDimension();
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $dimensionestrategica = $this->consulta->query("SELECT * from dimensionestrategica where idDimension=$this->idDimension")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idDimension', $this->idDimension ,
+                        'idEstadoDimension','$dimensionestrategica[idEstadoDimension]',
+                        'dimensionEstrategica','$dimensionestrategica[dimensionEstrategica]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idDimension', $this->idDimension ,
+                        'idEstadoDimension','$this->idEstadoDimension',
+                        'dimensionEstrategica','$this->dimensionEstrategica'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_DIMENSION(:idDimensionEstrategica, :estadoDimension)');
                 $stmt->bindValue(':idDimensionEstrategica', $this->idDimension);
                 $stmt->bindValue(':estadoDimension', $this->idEstadoDimension);
@@ -204,6 +240,26 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $dimensionestrategica = $this->consulta->query("SELECT * from dimensionestrategica where idDimension=$this->idDimension")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idDimension', $this->idDimension ,
+                            'idEstadoDimension','$dimensionestrategica[idEstadoDimension]',
+                            'dimensionEstrategica','$dimensionestrategica[dimensionEstrategica]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idDimension', $this->idDimension ,
+                            'idEstadoDimension','$this->idEstadoDimension',
+                            'dimensionEstrategica','$this->dimensionEstrategica'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIMENSION(:idDimensionEstrategica, :dimensionEstrategica)');
                     $stmt->bindValue(':idDimensionEstrategica', $this->idDimension);
                     $stmt->bindValue(':dimensionEstrategica', $this->dimensionEstrategica);

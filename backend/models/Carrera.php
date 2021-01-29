@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../validators/validators.php');
     
     class Carrera { 
@@ -201,6 +204,16 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = '{}';
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT('carrera','$this->Carrera','abrev','$this->Abreviatura', 'idDepartamento',$this->idDepartamento, 'idEstadoCarrera',$this->idEstado);
+                ")->execute();
+
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");
                     if ($stmt->execute()) {
@@ -209,7 +222,7 @@
                         if(json_encode($resp[0])==0){
                             return array(
                                 'status'=> INTERNAL_SERVER_ERROR,
-                                'data' => array('message' => array($ex->getMessage()))
+                                'data' => array('message' => 'Es posible que la carrera o la abreviatura ya esten registrados')
                             );
                         }else{
                             return array(
@@ -241,16 +254,28 @@
         }
         public function modificarCarrera () {
             if (campoTexto($this->Carrera,1,80) && campoTexto($this->Abreviatura,1,2) && is_numeric($this->idCarrera) && is_numeric($this->idDepartamento) && is_numeric($this->idEstado)) {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $Carrera = $this->consulta->query("SELECT * from carrera where idCarrera=$this->idCarrera")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT('idCarrera', $this->idCarrera ,'carrera','$Carrera[carrera]','abrev','$Carrera[abrev]', 'idDepartamento',$Carrera[idDepartamento], 'idEstadoCarrera',$Carrera[idEstadoCarrera]);
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT('idCarrera', $this->idCarrera ,'carrera','$this->Carrera','abrev','$this->Abreviatura', 'idDepartamento',$this->idDepartamento, 'idEstadoCarrera',$this->idEstado);
+                ")->execute();
+
                 try {
-                    $this->conexionBD = new Conexion();
-                    $this->consulta = $this->conexionBD->connect();
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
                     if ($stmt->execute()) {
                         $resp = $this->consulta->query('SELECT @resp')->fetch();
                         if(json_encode($resp[0])==0){
                             return array(
                                 'status'=> INTERNAL_SERVER_ERROR,
-                                'data' => array('message' => $ex->getMessage())
+                                'data' => array('message' => 'Es posible que la carrera o la abreviatura ya esten registrados')
                             );
                         }else{
                             return array(

@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../validators/validators.php');
     
     class Objeto { 
@@ -122,6 +125,21 @@
             if (campoTexto($this->ObjetoDeGasto,1,80) && campoAbrevCodigo($this->Abreviatura,1,15) && campoCodigo($this->CodigoObjeto,1,15) && is_numeric($this->idEstado)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                
+                $this->consulta->prepare("
+                set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = '{}';
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'DescripcionCuenta','$this->ObjetoDeGasto',
+                        'abrev','$this->Abreviatura', 
+                        'codigoObjetoGasto','$this->CodigoObjeto', 
+                        'idEstadoObjetoGasto',$this->idEstado
+                    );
+                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto (0, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'insert', @resp)");
@@ -131,7 +149,7 @@
                         if(json_encode($resp[0])==0){
                             return array(
                                 'status'=> INTERNAL_SERVER_ERROR,
-                                'data' => array('message' => array($ex->getMessage()))
+                                'data' => array('message' => 'Es posible que el objeto del gasto, el codigo o la abreviatura ya esten registrados')
                             );
                         }else{
                             return array(
@@ -166,13 +184,37 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $ObjetoGasto = $this->consulta->query("SELECT * from objetogasto where idObjetoGasto=$this->idObjetoGasto")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idObjetoGasto', $this->idObjetoGasto ,
+                            'DescripcionCuenta','$ObjetoGasto[DescripcionCuenta]',
+                            'abrev','$ObjetoGasto[abrev]', 
+                            'codigoObjetoGasto',$ObjetoGasto[codigoObjetoGasto], 
+                            'idEstadoObjetoGasto',$ObjetoGasto[idEstadoObjetoGasto]
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idObjetoGasto', $this->idObjetoGasto ,
+                            'DescripcionCuenta','$this->ObjetoDeGasto',
+                            'abrev','$this->Abreviatura', 
+                            'codigoObjetoGasto','$this->CodigoObjeto', 
+                            'idEstadoObjetoGasto',$this->idEstado
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto ($this->idObjetoGasto, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'actualizarCarrera', @resp)");
                     if ($stmt->execute()) {
                         $resp = $this->consulta->query('SELECT @resp')->fetch();
                         if(json_encode($resp[0])==0){
                             return array(
                                 'status'=> INTERNAL_SERVER_ERROR,
-                                'data' => array('message' => $ex->getMessage())
+                                'data' => array('message' => 'Es posible que el objeto del gasto, el codigo o la abreviatura ya esten registrados')
                             );
                         }else{
                             return array(

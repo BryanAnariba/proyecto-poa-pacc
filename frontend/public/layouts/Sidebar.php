@@ -77,12 +77,6 @@
                             <img src="../img/partial-sidebar/ObjetosGasto-icon.png" alt="Control de Objetos de Gasto">
                             <span class="nav__name">Control Objetos de Gasto</span>
                         </a>
-                        
-                        
-                        <a href="../views/control-llenado-actividades.php" class="nav__link">
-                            <img src="../img/rango-actividades/distribuir.svg" alt="Control de llenado de actividades">
-                            <span class="nav__name">Control Llenado Dimensiones</span>
-                        </a>
                     <?php 
                         break; 
                     ?>
@@ -104,7 +98,7 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/Calendario-actividades.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
@@ -129,7 +123,7 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/Calendario-actividades.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
@@ -159,7 +153,7 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/Calendario-actividades.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
@@ -191,7 +185,7 @@
 
                         <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
-                            <span class="nav__name">Permisos</span>
+                            <span class="nav__name">Control Permisos</span>
                         </a>
                     <?php 
                         break; 
@@ -216,7 +210,7 @@
 
                         <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
-                            <span class="nav__name">Permisos</span>
+                            <span class="nav__name">Control Permisos</span>
                         </a>
                     <?php 
                         break; 

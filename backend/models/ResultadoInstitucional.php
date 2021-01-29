@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../validators/validators.php');
     require_once('../../config/config.php');
 
@@ -94,6 +97,21 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorI = '{}';
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idEstadoResultadoInstitucional',$this->idEstadoResultadoInstitucional,
+                            'idAreaEstrategica',$this->idAreaEstrategica,
+                            'resultadoInstitucional','$this->resultadoInstitucional'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(idAreaEstrategica, idEstadoResultadoInstitucional, resultadoInstitucional) VALUES (:idAreaEstrategica, :idEstadoResultadoInstitucional, :resultadoInstitucional)');
                     $stmt->bindValue(':idAreaEstrategica', $this->idAreaEstrategica);
                     $stmt->bindValue(':idEstadoResultadoInstitucional', $this->idEstadoResultadoInstitucional);
@@ -129,6 +147,27 @@
             if (is_int($this->idEstadoResultadoInstitucional) && is_int($this->idResultadoInstitucional)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $resultadoinstitucional = $this->consulta->query("SELECT * from resultadoinstitucional where idResultadoInstitucional=$this->idResultadoInstitucional")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
+                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
+                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
+                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
+                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
+                        'idEstadoResultadoInstitucional',$this->idEstadoResultadoInstitucional,
+                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
+                    );
+                ")->execute();
     
                 try {
                     $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET idEstadoResultadoInstitucional = :idEstado WHERE idResultadoInstitucional = :idResultado');
@@ -166,6 +205,27 @@
             if (is_int($this->idResultadoInstitucional) && campoTexto($this->resultadoInstitucional, 1, 500)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $resultadoinstitucional = $this->consulta->query("SELECT * from resultadoinstitucional where idResultadoInstitucional=$this->idResultadoInstitucional")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
+                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
+                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
+                        'resultadoInstitucional','$resultadoinstitucional[resultadoInstitucional]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idResultadoInstitucional', $this->idResultadoInstitucional ,
+                        'idAreaEstrategica',$resultadoinstitucional[idAreaEstrategica],
+                        'idEstadoResultadoInstitucional',$resultadoinstitucional[idEstadoResultadoInstitucional],
+                        'resultadoInstitucional','$this->resultadoInstitucional'
+                    );
+                ")->execute();
     
                 try {
                     $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET resultadoInstitucional = :resultado WHERE idResultadoInstitucional = :idResultado');

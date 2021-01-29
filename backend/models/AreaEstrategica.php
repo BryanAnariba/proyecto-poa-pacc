@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -97,6 +100,21 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorI = '{}';
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'areaEstrategica','$this->areaEstrategica',
+                            'idObjetivoInstitucional','$this->idObjetivoInstitucional',
+                            'idEstadoAreaEstrategica','$this->idEstadoAreaEstrategica'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_AREA_ESTRATEGICA(:idObjetivo, :idEstado, :areaEstrategica)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':idEstado', $this->idEstadoAreaEstrategica);
@@ -138,6 +156,28 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $areaestrategica = $this->consulta->query("SELECT * from areaestrategica where idAreaEstrategica=$this->idAreaEstrategica")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idAreaEstrategica', $this->idAreaEstrategica ,
+                            'idEstadoAreaEstrategica','$areaestrategica[idEstadoAreaEstrategica]',
+                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
+                            'areaEstrategica','$areaestrategica[areaEstrategica]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idAreaEstrategica', $this->idAreaEstrategica ,
+                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
+                            'idEstadoAreaEstrategica','$this->idEstadoAreaEstrategica',
+                            'areaEstrategica','$areaestrategica[areaEstrategica]'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_AREA(:idArea, :idEstadoArea)');
                     $stmt->bindValue(':idArea', $this->idAreaEstrategica);
                     $stmt->bindValue(':idEstadoArea', $this->idEstadoAreaEstrategica);
@@ -173,6 +213,28 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $areaestrategica = $this->consulta->query("SELECT * from areaestrategica where idAreaEstrategica=$this->idAreaEstrategica")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idAreaEstrategica',$this->idAreaEstrategica ,
+                            'idEstadoAreaEstrategica','$areaestrategica[idEstadoAreaEstrategica]',
+                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
+                            'areaEstrategica','$areaestrategica[areaEstrategica]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idAreaEstrategica', $this->idAreaEstrategica ,
+                            'idObjetivoInstitucional','$areaestrategica[idObjetivoInstitucional]',
+                            'idEstadoAreaEstrategica','$areaestrategica[idEstadoAreaEstrategica]',
+                            'areaEstrategica','$this->areaEstrategica'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_AREA(:idArea, :area)');
                     $stmt->bindValue(':idArea', $this->idAreaEstrategica);
                     $stmt->bindValue(':area', $this->areaEstrategica);

@@ -40,8 +40,16 @@ const obtenerObjetos = () => {
             agregarATabla(response.data);
         },
         error:function(error) {
-            const { data } = error.responseJSON;
-            console.log(data);
+            console.error(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -64,7 +72,16 @@ const cambiarEstadoModificado = (idEstado) => {
             }
         },
         error:function(error) {
-            console.warn(error); 
+            console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -180,7 +197,7 @@ const actualizarObjeto = () => {
             dataType: 'json',
             data: (dataModifObjeto),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 document.querySelector(`#labelCodigoObjeto`).classList.remove('text-danger')
                 document.querySelector('#CodigoObjeto').classList.remove('text-danger');
                 document.querySelector('#CodigoObjeto').classList.remove('is-invalid')
@@ -212,28 +229,22 @@ const actualizarObjeto = () => {
                 $('#modalModificarObjeto').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 });
                 obtenerObjetos();
             },
             error:function(error) {
-                if (error.status === 401) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
                     window.location.href = '../views/401.php';
-                }else if(error.status === 200){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ops...',
-                        text: 'No se pudo modificar el objeto del gasto',
-                        footer: '<b align="center">Es posible que el objeto del gasto, el codigo o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
-                    })
                 }else{
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'No se pudo modificar el objeto del gasto',
+                        text: `${ data.message }`,
                         footer: '<b>Por favor verifique el formulario de registro</b>'
-                    }) 
+                    })
                 }
             }
         });
@@ -298,6 +309,15 @@ const cambiarEst = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -353,7 +373,7 @@ const registrarObjeto = () => {
             dataType: 'json',
             data: (dataNuevoObjeto),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 document.querySelector(`#labelObjetoDeGastoR`).classList.remove('text-danger')
                 document.querySelector('#ObjetoDeGastoR').classList.remove('text-danger');
                 document.querySelector('#ObjetoDeGastoR').classList.remove('is-invalid')
@@ -386,29 +406,23 @@ const registrarObjeto = () => {
                 $('#modalRegistrarObjeto').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
-                });
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                })
                 obtenerObjetos();
             },
             error:function(error) {
-                if (error.status === 401) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
                     window.location.href = '../views/401.php';
-                }else if(error.status === 200){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ops...',
-                        text: 'No se pudo modificar el objeto del gasto',
-                        footer: '<b align="center">Es posible que el objeto del gasto, el codigo o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
-                    })
                 }else{
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'No se pudo modificar el objeto del gasto',
+                        text: `${ data.message }`,
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
-                }
+                };
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 

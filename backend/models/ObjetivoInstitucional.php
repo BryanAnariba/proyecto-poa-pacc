@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -126,6 +129,21 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorI = '{}';
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'objetivoInstitucional','$this->objetivoInstitucional',
+                            'idDimensionEstrategica','$this->idDimensionEstrategica',
+                            'idEstadoObjetivoInstitucional','$this->idEstadoObjetivoInstitucional'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_OBJETIVO(:idDimension,:idEstado,:objetivoInstitucional)');
                     $stmt->bindValue(':idDimension', $this->idDimensionEstrategica);
                     $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
@@ -167,6 +185,28 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $objetivoinstitucional = $this->consulta->query("SELECT * from objetivoinstitucional where idObjetivoInstitucional=$this->idObjetivoInstitucional")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idObjetivoInstitucional', $this->idObjetivoInstitucional ,
+                            'idDimensionEstrategica','$objetivoinstitucional[idDimensionEstrategica]',
+                            'idEstadoObjetivoInstitucional','$objetivoinstitucional[idEstadoObjetivoInstitucional]',
+                            'objetivoInstitucional','$objetivoinstitucional[objetivoInstitucional]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idObjetivoInstitucional', $this->idObjetivoInstitucional ,
+                            'idDimensionEstrategica','$this->idDimensionEstrategica',
+                            'idEstadoObjetivoInstitucional','$this->idEstadoObjetivoInstitucional',
+                            'objetivoInstitucional','$this->objetivoInstitucional'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_OBJETIVO(:idObjetivo, :idEstado)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
@@ -202,6 +242,28 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $objetivoinstitucional = $this->consulta->query("SELECT * from objetivoinstitucional where idObjetivoInstitucional=$this->idObjetivoInstitucional")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idObjetivoInstitucional', $this->idObjetivoInstitucional ,
+                            'idDimensionEstrategica','$objetivoinstitucional[idDimensionEstrategica]',
+                            'idEstadoObjetivoInstitucional','$objetivoinstitucional[idEstadoObjetivoInstitucional]',
+                            'objetivoInstitucional','$objetivoinstitucional[objetivoInstitucional]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idObjetivoInstitucional', $this->idObjetivoInstitucional ,
+                            'idDimensionEstrategica','$objetivoinstitucional[idDimensionEstrategica]',
+                            'idEstadoObjetivoInstitucional','$objetivoinstitucional[idEstadoObjetivoInstitucional]',
+                            'objetivoInstitucional','$this->objetivoInstitucional'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_OBJETIVO(:idObjetivo, :objetivo)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':objetivo', $this->objetivoInstitucional);

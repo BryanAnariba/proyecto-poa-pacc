@@ -101,6 +101,24 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = '{}';
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'nombre', '$this->nombrePersona',
+                        'apellido', '$this->apellidoPersona',
+                        'lugar', '$this->idLugar',
+                        'idGenero', '',
+                        'direccionLugar', '$this->direccion',
+                        'fechaDeNacimiento', '$this->fechaNacimiento'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('INSERT INTO Persona (nombrePersona, apellidoPersona, idLugar, idGenero , direccion,  fechaNacimiento) VALUES (:nombre, :apellido, :lugar,:idGenero, :direccionLugar, :fechaDeNacimiento)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);
                 $stmt->bindValue(':apellido', $this->apellidoPersona);
@@ -129,6 +147,28 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $usuario = $this->consulta->query("SELECT * from persona where idPersona=$this->idPersona")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idPersonaUsuario', $this->idPersona ,
+                        'nombrePersona','$usuario[nombrePersona]',
+                        'apellidoPersona','$usuario[apellidoPersona]',
+                        'fechaNacimiento','$usuario[fechaNacimiento]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idPersonaUsuario', $this->idPersona ,
+                        'nombrePersona','$this->nombrePersona',
+                        'apellidoPersona','$this->apellidoPersona',
+                        'fechaNacimiento','$this->fechaNacimiento'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_PERSONA(:nombre,:apellido,:fecha,:idUsuario)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);
                 $stmt->bindValue(':apellido', $this->apellidoPersona);
@@ -155,6 +195,26 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $usuario = $this->consulta->query("SELECT * from persona where idPersona=$this->idPersona")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idPersonaUsuario', $this->idPersona ,
+                            'idLugar','$usuario[idLugar]',
+                            'direccion','$usuario[direccion]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idPersonaUsuario', $this->idPersona ,
+                            'idLugar','$this->idLugar',
+                            'direccion','$this->direccion'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIRECCION_PERSONA(:idUsuario, :lugar , :direccionLugar)');
                     $stmt->bindValue(':idUsuario', $this->idPersona);
                     $stmt->bindValue(':lugar', $this->idLugar);

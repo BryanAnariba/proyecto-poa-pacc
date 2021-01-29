@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -85,6 +88,19 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = '{}';
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'dimensionAdministrativa','$this->dimensionAdministrativa',
+                        'idEstadoDimension','$this->idEstadoDimension'
+                    );
+                ")->execute();
+
                 try {
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_DIM_ADMINISTRATIVA(:idEstadoDimension, :dimensionAdministrativa)');
                     $stmt->bindValue(':idEstadoDimension', $this->idEstadoDimension);
@@ -159,6 +175,26 @@
                 $this->idEstadoDimension = $this->getEstadoDimension();
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $dimensionadmin = $this->consulta->query("SELECT * from dimensionadmin where idDimension=$this->idDimension")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idDimension', $this->idDimension ,
+                        'idEstadoDimension',$dimensionadmin[idEstadoDimension],
+                        'dimensionAdministrativa','$dimensionadmin[dimensionAdministrativa]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idDimension', $this->idDimension ,
+                        'idEstadoDimension',$this->idEstadoDimension,
+                        'dimensionAdministrativa','$dimensionadmin[dimensionAdministrativa]'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_DIMENSION_ADMIN(:idDimensionAdministrativa, :estadoDimension)');
                 $stmt->bindValue(':idDimensionAdministrativa', $this->idDimension);
                 $stmt->bindValue(':estadoDimension', $this->idEstadoDimension);
@@ -188,6 +224,26 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $dimensionadmin = $this->consulta->query("SELECT * from dimensionadmin where idDimension=$this->idDimension")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idDimension', $this->idDimension ,
+                            'idEstadoDimension',$dimensionadmin[idEstadoDimension],
+                            'dimensionAdministrativa','$dimensionadmin[dimensionAdministrativa]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idDimension', $this->idDimension ,
+                            'idEstadoDimension',$dimensionadmin[idEstadoDimension],
+                            'dimensionAdministrativa','$this->dimensionAdministrativa,'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIMENSION_ADMIN(:idDimensionAdministrativa, :dimensionAdministrativa)');
                     $stmt->bindValue(':idDimensionAdministrativa', $this->idDimension);
                     $stmt->bindValue(':dimensionAdministrativa', $this->dimensionAdministrativa);

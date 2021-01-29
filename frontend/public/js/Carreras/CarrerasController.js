@@ -43,32 +43,26 @@ const limpiarR = () => {
             dataType: 'json',
             data: (dataNuevoCarrera),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 $("#Carrera").val('').trigger("change");
                 $("#Abreviatura").val('').trigger("change");
                 $("#Departamento").val('').trigger("change");
                 $("#Estado").val('').trigger("change");
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 })
             },
             error:function(error) {
-                if (error.status === 401) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
                     window.location.href = '../views/401.php';
-                }else if(error.status === 200){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
-                        footer: '<b align="center">Es posible que la carrera o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
-                    })
                 }else{
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'El registro de la carrera no se pudo realizar',
+                        text: `${ data.message }`,
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 };
@@ -98,7 +92,15 @@ const cambiarDepa = () => {
             }
         },
         error:function(error) {
-            console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -118,6 +120,15 @@ const cambiarEst = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -142,6 +153,15 @@ const cambiarDepa2 = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -170,6 +190,15 @@ const cambiarDepaModificado = (carrera) => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -194,6 +223,15 @@ const cambiarEstadoModificado = (carrera) => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -215,6 +253,15 @@ const cambiarCarreraModif = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -239,6 +286,15 @@ const cambiarDepaModif = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 
@@ -279,6 +335,15 @@ const obtenerCarreras = () => {
         },
         error:function(error) {
             console.error(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -323,7 +388,7 @@ const actualizarCarrera = () => {
             dataType: 'json',
             data: (dataNuevoCarrera),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 $("#botonModif").attr("disabled", true);
                 $("#Departamento2").val('');
                 $("#carreraDepa").val('');
@@ -335,25 +400,19 @@ const actualizarCarrera = () => {
                 $("#modifAbajo").css({'display':'none'});
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 })
             },
             error:function(error) {
-                if (error.status === 401) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
                     window.location.href = '../views/401.php';
-                }else if(error.status === 200){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ops...',
-                        text: 'No se pudo modificar la carrera',
-                        footer: '<b align="center">Es posible que la carrera o la abreviatura ya esten registrados, por favor verifique el formulario nuevamente.</b>'
-                    })
                 }else{
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
-                        text: 'No se pudo modificar la carrera',
+                        text: `${ data.message }`,
                         footer: '<b>Por favor verifique el formulario de registro</b>'
                     })
                 }

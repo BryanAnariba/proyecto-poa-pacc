@@ -111,6 +111,26 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = $idUsuario;
+                ")->execute();
+                $this->consulta->prepare("
+                    set @tipoBitacora = 4;
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idPersonaUsuario',$idUsuario,
+                        'token', ''
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idPersonaUsuario',$idUsuario,
+                        'token', '$token'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_GENERAR_TOKEN_ACCESO(:idUsuario, :token, :fecha)');
                 $stmt->bindValue(':idUsuario', $idUsuario);
                 $stmt->bindValue(':token', $token);
@@ -136,6 +156,28 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    
+                    $token = $_SESSION['access-token'];
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 4;
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idPersonaUsuario',$_SESSION[idUsuario],
+                            'token', '$token'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idPersonaUsuario',$_SESSION[idUsuario],
+                            'token', ''
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REMOVER_TOKEN(:idUsuario, :token)');
                     $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
                     $stmt->bindValue(':token', $_SESSION['access-token']);
@@ -202,6 +244,30 @@
                         $idUsuario = parent::registrarPersona();
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 2;
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @valorI = '{}';
+                        ")->execute();
+                        $ESTADO_ACTIVO=ESTADO_ACTIVO;
+                        $this->consulta->prepare("
+                            set @valorf = JSON_OBJECT(
+                                'idUsuario', $idUsuario,
+                                'idTUsuario', $this->idTipoUsuario,
+                                'idDepto', $this->idDepartamento,
+                                'idEstado', $ESTADO_ACTIVO,
+                                'usuario', '$this->nombreUsuario',
+                                'correo', '$this->correoInstitucional',
+                                'codigo', '$this->codigoEmpleado',
+                                'password', '$passwordEncriptada'
+                            );
+                        ")->execute();
+
                         if ($idUsuario != null) {
                             $stmt = $this->consulta->prepare('CALL SP_INSERTA_USUARIO(:idUsuario, :idTUsuario, :idDepto, :idEstado, :usuario, :correo, :codigo, :password)');
                             $stmt->bindValue(':idUsuario', $idUsuario);
@@ -306,6 +372,27 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 2;
+                    ")->execute();
+                    $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$this->idPersona")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idPersonaUsuario', $this->idPersona ,
+                            'idEstadoUsuario',$usuario[idEstadoUsuario]
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idPersonaUsuario', $this->idPersona ,
+                            'idEstadoUsuario',$this->idEstadoUsuario
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_USUARIO(:idPersonaUsuario,:idEstadoUsuario)');
                     $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
                     $stmt->bindValue(':idEstadoUsuario', $this->idEstadoUsuario);
@@ -343,6 +430,31 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 2;
+                        ")->execute();
+                        $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$this->idPersona")->fetch();
+                        $this->consulta->prepare("
+                            set @valorI = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'idDepartamento',$usuario[idDepartamento],
+                                'idTipoUsuario',$usuario[idTipoUsuario],
+                                'codigoEmpleado',$usuario[codigoEmpleado]
+                            );
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @valorf = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'idDepartamento',$this->idDepartamento,
+                                'idTipoUsuario',$this->idTipoUsuario,
+                                'codigoEmpleado',$this->codigoEmpleado
+                            );
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_USUARIO(:idUsuario, :idDepto, :idRole, :codigo)');
                         $stmt->bindValue(':idUsuario', $this->idPersona);
                         $stmt->bindValue(':idDepto', $this->idDepartamento);
@@ -393,6 +505,35 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        if(!isset($_SESSION)){
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
+                        }else{
+                            $this->consulta->prepare("
+                                set @persona = {$this->getIdPersona()};
+                            ")->execute();
+                        }
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 5;
+                        ")->execute();
+                        $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$this->idPersona")->fetch();
+                        $this->consulta->prepare("
+                            set @valorI = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'nombreUsuario','$usuario[nombreUsuario]',
+                                'passwordUsuario','$usuario[passwordUsuario]'
+                            );
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @valorf = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'nombreUsuario','$usuario[nombreUsuario]',
+                                'passwordUsuario','$passwordEncriptada'
+                            );
+                        ")->execute();
+                        
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idPersonaUsuario');
                         $stmt->bindValue(':password', $passwordEncriptada);
                         $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
@@ -462,6 +603,29 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 4;
+                        ")->execute();
+                        $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$this->idPersona")->fetch();
+                        $this->consulta->prepare("
+                            set @valorI = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'nombreUsuario','$usuario[nombreUsuario]',
+                                'correoInstitucional','$usuario[correoInstitucional]'
+                            );
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @valorf = JSON_OBJECT(
+                                'idPersonaUsuario', $this->idPersona ,
+                                'nombreUsuario','$usuario[nombreUsuario]',
+                                'correoInstitucional','$this->correoInstitucional'
+                            );
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password, correoInstitucional = :correoInstitucional WHERE idPersonaUsuario = :idPersonaUsuario');
                         $stmt->bindValue(':password', $passwordEncriptada);
                         $stmt->bindValue(':correoInstitucional', $this->correoInstitucional);
@@ -598,7 +762,7 @@
             if (validaCampoEmail($this->correoInstitucional)) {
                 try {
                     $this->conexionBD = new Conexion();
-                    $this->consulta = $this->conexionBD->connect();
+                    $this->consulta = $this->conexionBD->connect();                    
                     $stmt = $this->consulta->prepare('SELECT Usuario.idPersonaUsuario, Persona.nombrePersona, Persona.apellidoPersona, Usuario.correoInstitucional, Usuario.nombreUsuario FROM Usuario INNER JOIN Persona ON (Usuario.idPersonaUsuario = Persona.idPersona) WHERE Usuario.correoInstitucional = :correo');
                     $stmt->bindValue(':correo', $this->correoInstitucional);
                     if ($stmt->execute() && $stmt->rowCount() >= 1) {
@@ -607,6 +771,7 @@
                         $this->setNombrePersona($data->nombrePersona);
                         $this->setApellidoPersona($data->apellidoPersona);
                         $this->nombreUsuario = $data->nombreUsuario;
+
                         $generaNuevaCredencialAcceso = $this->reenviarCredenciales();
                         return $generaNuevaCredencialAcceso;
                     } else {
@@ -637,6 +802,29 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 5;
+                    ")->execute();
+                    $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$_SESSION[idUsuario]")->fetch();
+                    $this->consulta->prepare("
+                        set @valorI = JSON_OBJECT(
+                            'idPersonaUsuario', $usuario[idPersonaUsuario] ,
+                            'nombreUsuario','$usuario[nombreUsuario]',
+                            'passwordUsuario','$usuario[passwordUsuario]'
+                        );
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'idPersonaUsuario', $usuario[idPersonaUsuario] ,
+                            'nombreUsuario','$usuario[nombreUsuario]',
+                            'passwordUsuario','$passwordEncriptada'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idUsuario');
                     $stmt->bindValue(':password', $passwordEncriptada);
                     $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
@@ -691,6 +879,29 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @tipoBitacora = 2;
+                ")->execute();
+                $usuario = $this->consulta->query("SELECT * from usuario where idPersonaUsuario=$_SESSION[idUsuario]")->fetch();
+                $this->consulta->prepare("
+                    set @valorI = JSON_OBJECT(
+                        'idPersonaUsuario', $usuario[idPersonaUsuario] ,
+                        'nombreUsuario','$usuario[nombreUsuario]',
+                        'avatarUsuario','$usuario[avatarUsuario]'
+                    );
+                ")->execute();
+                $this->consulta->prepare("
+                    set @valorf = JSON_OBJECT(
+                        'idPersonaUsuario', $usuario[idPersonaUsuario] ,
+                        'nombreUsuario','$usuario[nombreUsuario]',
+                        'avatarUsuario','$this->avatarUsuario'
+                    );
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET avatarUsuario = :avatar WHERE idPersonaUsuario = :idUsuario');
                 $stmt->bindValue(':avatar', $this->avatarUsuario);
                 $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
