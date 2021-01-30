@@ -250,16 +250,6 @@
                             $this->consulta->prepare("
                                 set @persona = {$_SESSION['idUsuario']};
                             ")->execute();
-                            $this->consulta->prepare("
-                                set @valorI = '{}';
-                            ")->execute();
-                            $this->consulta->prepare("
-                                set @valorf = JSON_OBJECT(
-                                    'idDepartamento','$this->idDepartamento',
-                                    'montoPresupuesto','$this->montoPresupuesto', 
-                                    'idControlPresupuestoActividad',$this->idControlPresupuestoActividad
-                                );
-                            ")->execute();
 
                             $stmt = $this->consulta->prepare('INSERT INTO ' . TBL_PRESUPUESTO_DEPTO . '(idDepartamento, idControlPresupuestoActividad, montoPresupuesto, fechaAprobacionPresupuesto) VALUES (:departamento, :idPresupuestoAnual, :montoPresupuesto,  NOW())');
                             $stmt->bindValue(':departamento', $this->idDepartamento);

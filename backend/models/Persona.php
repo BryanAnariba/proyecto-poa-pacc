@@ -105,19 +105,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $this->consulta->prepare("
-                    set @valorI = '{}';
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'nombre', '$this->nombrePersona',
-                        'apellido', '$this->apellidoPersona',
-                        'lugar', '$this->idLugar',
-                        'idGenero', '',
-                        'direccionLugar', '$this->direccion',
-                        'fechaDeNacimiento', '$this->fechaNacimiento'
-                    );
-                ")->execute();
 
                 $stmt = $this->consulta->prepare('INSERT INTO Persona (nombrePersona, apellidoPersona, idLugar, idGenero , direccion,  fechaNacimiento) VALUES (:nombre, :apellido, :lugar,:idGenero, :direccionLugar, :fechaDeNacimiento)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);

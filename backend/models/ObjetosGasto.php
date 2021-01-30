@@ -161,17 +161,6 @@
                 $this->consulta->prepare("
                 set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $this->consulta->prepare("
-                    set @valorI = '{}';
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'DescripcionCuenta','$this->ObjetoDeGasto',
-                        'abrev','$this->Abreviatura', 
-                        'codigoObjetoGasto','$this->CodigoObjeto', 
-                        'idEstadoObjetoGasto',$this->idEstado
-                    );
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Objeto (0, '$this->ObjetoDeGasto', '$this->Abreviatura', '$this->CodigoObjeto', $this->idEstado, 'insert', @resp)");

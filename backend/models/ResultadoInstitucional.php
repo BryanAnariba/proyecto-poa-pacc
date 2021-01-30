@@ -127,17 +127,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $this->consulta->prepare("
-                        set @valorI = '{}';
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'idEstadoResultadoInstitucional',$this->idEstadoResultadoInstitucional,
-                            'idAreaEstrategica',$this->idAreaEstrategica,
-                            'resultadoInstitucional','$this->resultadoInstitucional'
-                        );
-                    ")->execute();
-
+                    
                     $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(idAreaEstrategica, idEstadoResultadoInstitucional, resultadoInstitucional) VALUES (:idAreaEstrategica, :idEstadoResultadoInstitucional, :resultadoInstitucional)');
                     $stmt->bindValue(':idAreaEstrategica', $this->idAreaEstrategica);
                     $stmt->bindValue(':idEstadoResultadoInstitucional', $this->idEstadoResultadoInstitucional);

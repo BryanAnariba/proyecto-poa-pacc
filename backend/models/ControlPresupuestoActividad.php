@@ -85,15 +85,6 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $this->consulta->prepare("
-                            set @valorI = '{}';
-                        ")->execute();
-                        $this->consulta->prepare("
-                            set @valorf = JSON_OBJECT(
-                                'presupuestoAnual','$this->presupuestoAnual',
-                                'idEstadoPresupuestoAnual',$this->estadoPresupuestoAnual
-                            );
-                        ")->execute();
 
                         $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) VALUES (:presupuesto, NOW(), :estadoPresupuestoAnual)');
                         $stmt->bindValue(':presupuesto', $this->presupuestoAnual);

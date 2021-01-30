@@ -114,15 +114,6 @@
                 $this->consulta->prepare("
                 set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $this->consulta->prepare("
-                    set @valorI = '{}';
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                        'dimensionAdministrativa','$this->dimensionAdministrativa',
-                        'idEstadoDimension','$this->idEstadoDimension'
-                    );
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_DIM_ADMINISTRATIVA(:idEstadoDimension, :dimensionAdministrativa)');

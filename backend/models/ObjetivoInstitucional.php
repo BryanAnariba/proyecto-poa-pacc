@@ -133,16 +133,6 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $this->consulta->prepare("
-                        set @valorI = '{}';
-                    ")->execute();
-                    $this->consulta->prepare("
-                        set @valorf = JSON_OBJECT(
-                            'objetivoInstitucional','$this->objetivoInstitucional',
-                            'idDimensionEstrategica','$this->idDimensionEstrategica',
-                            'idEstadoObjetivoInstitucional','$this->idEstadoObjetivoInstitucional'
-                        );
-                    ")->execute();
 
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_OBJETIVO(:idDimension,:idEstado,:objetivoInstitucional)');
                     $stmt->bindValue(':idDimension', $this->idDimensionEstrategica);

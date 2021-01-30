@@ -169,19 +169,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $this->consulta->prepare("
-                    set @valorI = '{}';
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT(
-                                    'idDepartamento', $this->idDepartamento ,
-                                    'idEstadoDepartamento',$this->idEstadoDepartamento,
-                                    'nombreDepartamento','$this->nombreDepartamento', 
-                                    'telefonoDepartamento','$this->telefonoDepartamento', 
-                                    'abrev','$this->abreviaturaDepartamento',
-                                    'correoDepartamento', '$this->correoDepartamento'
-                                );
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRAR_DEPARTAMENTO(:idDepartamento,

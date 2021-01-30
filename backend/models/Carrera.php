@@ -207,12 +207,6 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $this->consulta->prepare("
-                    set @valorI = '{}';
-                ")->execute();
-                $this->consulta->prepare("
-                    set @valorf = JSON_OBJECT('carrera','$this->Carrera','abrev','$this->Abreviatura', 'idDepartamento',$this->idDepartamento, 'idEstadoCarrera',$this->idEstado);
-                ")->execute();
 
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");

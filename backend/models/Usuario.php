@@ -224,25 +224,6 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $this->consulta->prepare("
-                            set @tipoBitacora = 2;
-                        ")->execute();
-                        $this->consulta->prepare("
-                            set @valorI = '{}';
-                        ")->execute();
-                        $ESTADO_ACTIVO=ESTADO_ACTIVO;
-                        $this->consulta->prepare("
-                            set @valorf = JSON_OBJECT(
-                                'idUsuario', $idUsuario,
-                                'idTUsuario', $this->idTipoUsuario,
-                                'idDepto', $this->idDepartamento,
-                                'idEstado', $ESTADO_ACTIVO,
-                                'usuario', '$this->nombreUsuario',
-                                'correo', '$this->correoInstitucional',
-                                'codigo', '$this->codigoEmpleado',
-                                'password', '$passwordEncriptada'
-                            );
-                        ")->execute();
 
                         if ($idUsuario != null) {
                             $stmt = $this->consulta->prepare('CALL SP_INSERTA_USUARIO(:idUsuario, :idTUsuario, :idDepto, :idEstado, :usuario, :correo, :codigo, :password)');
@@ -539,7 +520,7 @@
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
                         $this->consulta->prepare("
-                            set @tipoBitacora = 4;
+                            set @tipoBitacora = 5;
                         ")->execute();
 
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password, correoInstitucional = :correoInstitucional WHERE idPersonaUsuario = :idPersonaUsuario');
