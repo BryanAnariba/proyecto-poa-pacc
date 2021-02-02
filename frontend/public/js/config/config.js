@@ -21,6 +21,7 @@ const regexCampoMonetario = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
 
 const codigoObjRegex = /^[0-9]{5}(-[0-9]{2})?$/;
 
+
 const i18nEspaniol = {
     "sProcessing":     "Procesando...",
     "sLengthMenu":     "Mostrar _MENU_ registros",

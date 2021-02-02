@@ -32,8 +32,8 @@ include('../partials/doctype.php');
                                         <div class="card-header amber accent-4">
                                             <div class="row">
                                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-8">
-                                                    <h6 class="text-white font-weight-bold">
-                                                        Visualizar Departamentos
+                                                    <h class="text-white font-weight-bold">
+                                                    Visualizar Departamentos
                                                     </h6>
                                                 </div>
                                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4">
