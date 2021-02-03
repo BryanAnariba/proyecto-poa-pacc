@@ -133,6 +133,12 @@
                                 <div class="row" id="Abreviatura">
                                     <div class="col-2">
                                         <div class="md-form">
+                                            <input type="text" id="num0" maxlength="1" class="form-control" onkeypress="return validaAC(event)" >
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
+                                    <div class="col-2">
+                                        <div class="md-form">
                                             <input type="text" id="num1" maxlength="2" class="form-control" onkeypress="return validaAC(event)" >
                                         </div>
                                     </div>
@@ -255,6 +261,12 @@
                                 Abreviatura Codigo
                                 </label>
                                 <div class="row" id="Abreviatura2">
+                                    <div class="col-2">
+                                        <div class="md-form">
+                                            <input type="text" id="num0M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
+                                        </div>
+                                    </div>
+                                    <h6 style="margin:auto">-</h6>
                                     <div class="col-2">
                                         <div class="md-form">
                                             <input type="text" id="num1M" maxlength="2" class="form-control" onkeypress="return validaAC(event)">
