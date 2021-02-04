@@ -499,6 +499,7 @@ const modificarCorreoUsuario = () => {
                 listarUsuarios();
             }, 
             error:function(error) {
+                console.log(error.responseText);
                 $('#btn-modificacion-correo-electronico').prop('disabled', false);
                 $('#modalContentReenvioCredenciales').removeClass('d-none');
                 $('#modalModificarCorreoInstitucional').modal('hide');
@@ -506,7 +507,6 @@ const modificarCorreoUsuario = () => {
                 if (status === 401) {
                     window.location.href = '../views/401.php';
                 }
-                console.error(error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',

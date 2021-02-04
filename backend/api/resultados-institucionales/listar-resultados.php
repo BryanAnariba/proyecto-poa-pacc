@@ -8,9 +8,9 @@
             $verificarTokenAcceso = new verificarTokenAcceso();
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
-                if (isset($_POST['idObjetivoInstitucional']) && !empty($_POST['idObjetivoInstitucional'])) {
+                if (isset($_POST['idAreaEstrategica']) && !empty($_POST['idAreaEstrategica'])) {
                     $resultadoInstitucional = new ResultadoInstitucionalController();
-                    $resultadoInstitucional->listarResultados($_POST['idObjetivoInstitucional']);
+                    $resultadoInstitucional->listarResultados($_POST['idAreaEstrategica']);
                 } else {
                     $resultadoInstitucional = new DepartamentosController();
                     $resultadoInstitucional->peticionNoValida();

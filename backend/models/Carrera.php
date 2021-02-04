@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../validators/validators.php');
     
     class Carrera { 
@@ -201,6 +204,10 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
                 try {
                     $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera (0, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'insert', @resp)");
                     if ($stmt->execute()) {
@@ -208,8 +215,8 @@
             
                         if(json_encode($resp[0])==0){
                             return array(
-                                'status'=> BAD_REQUEST,
-                                'data' => array('error' => 'Ha ocurrido un error al insertar la carrera')
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => 'Es posible que la carrera o la abreviatura ya esten registrados')
                             );
                         }else{
                             return array(
@@ -240,36 +247,43 @@
             }
         }
         public function modificarCarrera () {
-            try {
+            if (campoTexto($this->Carrera,1,80) && campoTexto($this->Abreviatura,1,2) && is_numeric($this->idCarrera) && is_numeric($this->idDepartamento) && is_numeric($this->idEstado)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
-                if ($stmt->execute()) {
-                    $resp = $this->consulta->query('SELECT @resp')->fetch();
-                    if(json_encode($resp[0])==0){
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
+                try {
+                    $stmt = $this->consulta->prepare("CALL SP_Registrar_Carrera ($this->idCarrera, '$this->Carrera', '$this->Abreviatura', $this->idDepartamento, $this->idEstado, 'actualizarCarrera', @resp)");
+                    if ($stmt->execute()) {
+                        $resp = $this->consulta->query('SELECT @resp')->fetch();
+                        if(json_encode($resp[0])==0){
+                            return array(
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => 'Es posible que la carrera o la abreviatura ya esten registrados')
+                            );
+                        }else{
+                            return array(
+                                'status' => SUCCESS_REQUEST,
+                                'data' => array('message'=>'Informacion de la carrera actualizado con exito')
+                            );
+                        }
+                    } else {
                         return array(
                             'status'=> BAD_REQUEST,
                             'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
                         );
-                    }else{
-                        return array(
-                            'status' => SUCCESS_REQUEST,
-                            'data' => array('message'=>'Informacion de la carrera actualizado con exito')
-                        );
                     }
-                } else {
+                } catch (PDOException $ex) {
                     return array(
-                        'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'Ha ocurrido un error al actualizar la informacion de la carrera')
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
                     );
+                } finally {
+                    $this->conexionBD = null;
                 }
-            } catch (PDOException $ex) {
-                return array(
-                    'status'=> INTERNAL_SERVER_ERROR,
-                    'data' => array('message' => $ex->getMessage())
-                );
-            } finally {
-                $this->conexionBD = null;
             }
         }
     }

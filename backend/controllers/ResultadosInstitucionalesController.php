@@ -10,21 +10,26 @@
             $this->resultadoInstitucionalModel = new ResultadoInstitucional();
         }
 
-        public function listarResultados ($idObjetivoInstitucional) {
-            $this->resultadoInstitucionalModel->setIdObjetivoInstitucional($idObjetivoInstitucional);
+        public function listarResultados ($idAreaEstrategica) {
+            $this->resultadoInstitucionalModel->setIdAreaEstrategica($idAreaEstrategica);
             $this->data = $this->resultadoInstitucionalModel->getResultadosInstitucionales();
             
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
 
-        public function listarResultadosActivos () {
-
+        public function listarResultadosActivos ($idAreaEstrategica) {
+            $this->resultadoInstitucionalModel->setIdAreaEstrategica($idAreaEstrategica);
+            $this->resultadoInstitucionalModel->setIdEstadoResultadoInstitucional(ESTADO_ACTIVO);
+            $this->data = $this->resultadoInstitucionalModel->getResultadosInstitucionalesActivos();
+            
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
-        public function registrarResultado ($idObjetivoInstitucional, $resultadoInstitucional) {
+        public function registrarResultado ($idAreaEstrategica, $resultadoInstitucional) {
             $this->resultadoInstitucionalModel->setIdEstadoResultadoInstitucional(ESTADO_ACTIVO);
-            $this->resultadoInstitucionalModel->setIdObjetivoInstitucional($idObjetivoInstitucional);
+            $this->resultadoInstitucionalModel->setIdAreaEstrategica($idAreaEstrategica);
             $this->resultadoInstitucionalModel->setResultadoInstitucional($resultadoInstitucional);
             $this->data = $this->resultadoInstitucionalModel->registroResultadoInstitucional();
 

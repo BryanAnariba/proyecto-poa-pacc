@@ -2,10 +2,7 @@
     require_once('../../helpers/Respuesta.php');
     require_once('../../models/Usuario.php');
     class UsuariosController {
-
-
         private $usuariosModel;
-        private $personasModel;
         private $data;
 
         public function __construct() {

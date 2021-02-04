@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -86,7 +89,38 @@
         }
 
         public function getObjetivosActivosPorDimension () {
-
+            if (is_int($this->idDimensionEstrategica)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('WITH CTE_LISTA_OBJETIVOS_ACTIVOS AS (SELECT * FROM ObjetivoInstitucional) SELECT * FROM CTE_LISTA_OBJETIVOS_ACTIVOS WHERE CTE_LISTA_OBJETIVOS_ACTIVOS.idDimensionEstrategica = :idDimension AND CTE_LISTA_OBJETIVOS_ACTIVOS.idEstadoObjetivoInstitucional = :idEstado;');
+                    $stmt->bindValue(':idDimension', $this->idDimensionEstrategica);
+                    $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error al listar los objetivos institucionales')
+                        );
+                    }
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => $ex->getMessage())
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error al listar los objetivos institucionales')
+                );
+            }
         }
 
         public function registrarObjetivoPorDimension () {
@@ -95,6 +129,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_OBJETIVO(:idDimension,:idEstado,:objetivoInstitucional)');
                     $stmt->bindValue(':idDimension', $this->idDimensionEstrategica);
                     $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
@@ -136,6 +175,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_OBJETIVO(:idObjetivo, :idEstado)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':idEstado', $this->idEstadoObjetivoInstitucional);
@@ -171,6 +215,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_OBJETIVO(:idObjetivo, :objetivo)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':objetivo', $this->objetivoInstitucional);

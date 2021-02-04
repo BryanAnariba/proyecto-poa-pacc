@@ -101,6 +101,11 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('INSERT INTO Persona (nombrePersona, apellidoPersona, idLugar, idGenero , direccion,  fechaNacimiento) VALUES (:nombre, :apellido, :lugar,:idGenero, :direccionLugar, :fechaDeNacimiento)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);
                 $stmt->bindValue(':apellido', $this->apellidoPersona);
@@ -129,6 +134,11 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_PERSONA(:nombre,:apellido,:fecha,:idUsuario)');
                 $stmt->bindValue(':nombre', $this->nombrePersona);
                 $stmt->bindValue(':apellido', $this->apellidoPersona);
@@ -155,6 +165,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_DIRECCION_PERSONA(:idUsuario, :lugar , :direccionLugar)');
                     $stmt->bindValue(':idUsuario', $this->idPersona);
                     $stmt->bindValue(':lugar', $this->idLugar);

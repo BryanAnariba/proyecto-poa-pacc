@@ -449,6 +449,8 @@ const mPresupuestoDepartamento = () => {
             contentType: 'application/json',
             data: JSON.stringify(parametros),
             success:function(response) {
+                
+                $('#modalModificarPresupuestoDepto').modal('hide');
                 asignarPresupuestoDepto();
                 $('#btn-modif-presupuesto-dep').prop('disabled', false);
                 cancelarModificacionPresupuestoDepartamentos(); 

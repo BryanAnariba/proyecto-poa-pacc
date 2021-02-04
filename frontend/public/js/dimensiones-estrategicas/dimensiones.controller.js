@@ -288,12 +288,6 @@ const verObjetivosInstitucionales = (idDimension) => {
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info btn-rounded" onclick="visualizarResultadosInstitucionales('${data[i].idObjetivoInstitucional}')">
-                            <img src="../img/menu/ver-icon.svg"/>
-                            Ver
-                        </button>
-                    </td>
-                    <td>
                         <button type="button" class="btn btn-amber" onclick="obtenerObjetivoInstitucional('${data[i].idObjetivoInstitucional}','${data[i].ObjetivoInstitucional}')">
                             <img src="../img/menu/editar.svg" alt="modificar objetivos"/>
                         </button>
@@ -470,6 +464,7 @@ let nombreAreaModificar = document.querySelector('#M-areaEstrategica');
 let nAM = { valorEtiqueta: nombreAreaModificar, id: 'M-areaEstrategica', name: 'Area Estrategica', min: 1, max: 500, type: 'text' };
                         
 const visualizarAreasEstrategicas = (idObjetivo) => {
+    $('#listado-areas').dataTable().fnDestroy();
     idObjetivoSeleccionado = idObjetivo;
     let parametros = { idObjetivo: parseInt(idObjetivo) };
     $.ajax(`${ API }/areas-estrategicas/listar-areas-por-objetivo.php`, {
@@ -492,6 +487,12 @@ const visualizarAreasEstrategicas = (idObjetivo) => {
                         <button type="button" ${data[i].idEstadoAreaEstrategica === 1 ? `class="btn btn-success" ` : `class="btn btn-danger" `}
                         onclick=(modificarEstadoArea('${data[i].idAreaEstrategica}','${data[i].idEstadoAreaEstrategica}'))>
                             ${data[i].estado }
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-rounded" onclick="visualizarResultadosInstitucionales('${data[i].idAreaEstrategica}')">
+                            <img src="../img/menu/ver-icon.svg"/>
+                            Ver
                         </button>
                     </td>
                     <td>
@@ -672,9 +673,10 @@ const modificarAreaEstrategica = () => {
     }
 }
 
-const visualizarResultadosInstitucionales = (idObjetivoInstitucional) => {
-    idObjetivoSeleccionado = idObjetivoInstitucional;
-    let parametros = { idObjetivoInstitucional: idObjetivoInstitucional };
+const visualizarResultadosInstitucionales = (idAreaEstrategica) => {
+    idAreaEstrategicaSeleccionada = idAreaEstrategica;
+    $('#listado-resultados').dataTable().fnDestroy();
+    let parametros = { idAreaEstrategica: idAreaEstrategicaSeleccionada };
     $.ajax(`${ API }/resultados-institucionales/listar-resultados.php`, {
         type: 'POST',
         dataType: 'json',
@@ -738,7 +740,7 @@ const registrarResultado = () => {
     const isValidResultado = verificarInputText(rI, letrasEspaciosCaracteresRegex);
     if (isValidResultado) {
         let parametros = {
-            idObjetivoInstitucional: parseInt(idObjetivoSeleccionado),
+            idAreaEstrategica: parseInt(idAreaEstrategicaSeleccionada),
             resultadoInstitucional: resultadoInstitucional.value
         };
         console.log(parametros);
@@ -752,7 +754,7 @@ const registrarResultado = () => {
                 $('#modalRegistraResultadosInstitucionales').modal('hide');
                 const { data } = response;
                 console.log(data);
-                visualizarResultadosInstitucionales(idObjetivoSeleccionado);
+                visualizarResultadosInstitucionales(idAreaEstrategicaSeleccionada);
                 cancelarRegistroResultado();
                 $('#btn-registrar-resultado').prop('disabled', false);
                 Swal.fire({

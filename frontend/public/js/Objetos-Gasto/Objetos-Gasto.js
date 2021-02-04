@@ -40,8 +40,16 @@ const obtenerObjetos = () => {
             agregarATabla(response.data);
         },
         error:function(error) {
-            const { data } = error.responseJSON;
-            console.log(data);
+            console.error(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -64,7 +72,16 @@ const cambiarEstadoModificado = (idEstado) => {
             }
         },
         error:function(error) {
-            console.warn(error); 
+            console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -78,16 +95,25 @@ const restablecerCamposM = ()=>{
     document.querySelector('#ObjetoDeGasto').classList.remove('is-invalid')
     document.querySelector(`#errorsObjetoDeGasto`).classList.add('d-none');
     document.querySelector(`#labelAbreviatura2`).classList.remove('text-danger')
-    document.querySelector('#Abreviatura2').classList.remove('text-danger');
-    document.querySelector('#Abreviatura2').classList.remove('is-invalid')
+    document.querySelector('#num1M').classList.remove('text-danger');
+    document.querySelector('#num1M').classList.remove('is-invalid');
+    document.querySelector('#num2M').classList.remove('text-danger');
+    document.querySelector('#num2M').classList.remove('is-invalid');
+    document.querySelector('#num3M').classList.remove('text-danger');
+    document.querySelector('#num3M').classList.remove('is-invalid');
+    document.querySelector('#num4M').classList.remove('text-danger');
+    document.querySelector('#num4M').classList.remove('is-invalid');
     document.querySelector(`#errorsAbreviatura2`).classList.add('d-none');
     document.querySelector(`#labelEstadoModif`).classList.remove('text-danger')
     document.querySelector('#EstadoModif').classList.remove('text-danger');
     document.querySelector('#EstadoModif').classList.remove('is-invalid')
     document.querySelector(`#errorsEstadoModif`).classList.add('d-none');
-    $("#ObjetoDeGasto").val(ObjetosGasto).trigger("change");
-    $("#Abreviatura2").val(abrev).trigger("change");
-    $("#CodigoObjeto").val(codigo).trigger("change");
+    $("#ObjetoDeGasto").val("").trigger("change");
+    $("#num1M").val('').trigger("change");
+    $("#num2M").val('').trigger("change");
+    $("#num3M").val('').trigger("change");
+    $("#num4M").val('').trigger("change");
+    $("#CodigoObjeto").val("").trigger("change");
 };
 var id = 0;
 const obtenerObjeto = (id,codigo,ObjetosGasto,abrev,idEstado) => {
@@ -171,34 +197,62 @@ const actualizarObjeto = () => {
             dataType: 'json',
             data: (dataModifObjeto),
             success:function(response) {
-                console.log(response);
-                $("#ObjetoDeGasto").val('').trigger("change");
-                $("#Abreviatura2").val('').trigger("change");
-                $("#CodigoObjeto").val('').trigger("change");
-                $("#EstadoModif").val('').trigger("change");
+                const { data } = response;
+                document.querySelector(`#labelCodigoObjeto`).classList.remove('text-danger')
+                document.querySelector('#CodigoObjeto').classList.remove('text-danger');
+                document.querySelector('#CodigoObjeto').classList.remove('is-invalid')
+                document.querySelector(`#errorsCodigoObjeto`).classList.add('d-none');
+                document.querySelector(`#labelObjetoDeGasto`).classList.remove('text-danger')
+                document.querySelector('#ObjetoDeGasto').classList.remove('text-danger');
+                document.querySelector('#ObjetoDeGasto').classList.remove('is-invalid')
+                document.querySelector(`#errorsObjetoDeGasto`).classList.add('d-none');
+                document.querySelector(`#labelAbreviatura2`).classList.remove('text-danger')
+                document.querySelector('#num1M').classList.remove('text-danger');
+                document.querySelector('#num1M').classList.remove('is-invalid');
+                document.querySelector('#num2M').classList.remove('text-danger');
+                document.querySelector('#num2M').classList.remove('is-invalid');
+                document.querySelector('#num3M').classList.remove('text-danger');
+                document.querySelector('#num3M').classList.remove('is-invalid');
+                document.querySelector('#num4M').classList.remove('text-danger');
+                document.querySelector('#num4M').classList.remove('is-invalid');
+                document.querySelector(`#errorsAbreviatura2`).classList.add('d-none');
+                document.querySelector(`#labelEstadoModif`).classList.remove('text-danger')
+                document.querySelector('#EstadoModif').classList.remove('text-danger');
+                document.querySelector('#EstadoModif').classList.remove('is-invalid')
+                document.querySelector(`#errorsEstadoModif`).classList.add('d-none');
+                $("#ObjetoDeGasto").val("").trigger("change");
+                $("#num1M").val('').trigger("change");
+                $("#num2M").val('').trigger("change");
+                $("#num3M").val('').trigger("change");
+                $("#num4M").val('').trigger("change");
+                $("#CodigoObjeto").val("").trigger("change");
                 $('#modalModificarObjeto').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 });
                 obtenerObjetos();
             },
             error:function(error) {
-                console.log(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro del objeto del gasto no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                }) 
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
-            text: 'El registro del objeto del gasto no se pudo realizar',
+            text: 'No se pudo modificar el objeto del gasto',
             footer: '<b>Por favor verifique el formulario de registro</b>'
         })
     }
@@ -209,8 +263,14 @@ const restablecerCampos = ()=>{
     document.querySelector('#ObjetoDeGastoR').classList.remove('is-invalid')
     document.querySelector(`#errorsObjetoDeGastoR`).classList.add('d-none');
     document.querySelector(`#labelAbreviatura`).classList.remove('text-danger')
-    document.querySelector('#Abreviatura').classList.remove('text-danger');
-    document.querySelector('#Abreviatura').classList.remove('is-invalid')
+    document.querySelector('#num1').classList.remove('text-danger');
+    document.querySelector('#num1').classList.remove('is-invalid');
+    document.querySelector('#num2').classList.remove('text-danger');
+    document.querySelector('#num2').classList.remove('is-invalid');
+    document.querySelector('#num3').classList.remove('text-danger');
+    document.querySelector('#num3').classList.remove('is-invalid');
+    document.querySelector('#num4').classList.remove('text-danger');
+    document.querySelector('#num4').classList.remove('is-invalid');
     document.querySelector(`#errorsAbreviatura`).classList.add('d-none');
     document.querySelector(`#labelCodigoObjetoR`).classList.remove('text-danger')
     document.querySelector('#CodigoObjetoR').classList.remove('text-danger');
@@ -221,7 +281,10 @@ const restablecerCampos = ()=>{
     document.querySelector('#Estado').classList.remove('is-invalid')
     document.querySelector(`#errorsEstado`).classList.add('d-none');
     $("#ObjetoDeGastoR").val('').trigger("change");
-    $("#Abreviatura").val('').trigger("change");
+    $("#num1").val('').trigger("change");
+    $("#num2").val('').trigger("change");
+    $("#num3").val('').trigger("change");
+    $("#num4").val('').trigger("change");
     $("#CodigoObjetoR").val('').trigger("change");
     $("#Estado").val('').trigger("change");
 };
@@ -246,6 +309,15 @@ const cambiarEst = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -301,27 +373,56 @@ const registrarObjeto = () => {
             dataType: 'json',
             data: (dataNuevoObjeto),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
+                document.querySelector(`#labelObjetoDeGastoR`).classList.remove('text-danger')
+                document.querySelector('#ObjetoDeGastoR').classList.remove('text-danger');
+                document.querySelector('#ObjetoDeGastoR').classList.remove('is-invalid')
+                document.querySelector(`#errorsObjetoDeGastoR`).classList.add('d-none');
+                document.querySelector(`#labelAbreviatura`).classList.remove('text-danger')
+                document.querySelector('#num1').classList.remove('text-danger');
+                document.querySelector('#num1').classList.remove('is-invalid');
+                document.querySelector('#num2').classList.remove('text-danger');
+                document.querySelector('#num2').classList.remove('is-invalid');
+                document.querySelector('#num3').classList.remove('text-danger');
+                document.querySelector('#num3').classList.remove('is-invalid');
+                document.querySelector('#num4').classList.remove('text-danger');
+                document.querySelector('#num4').classList.remove('is-invalid');
+                document.querySelector(`#errorsAbreviatura`).classList.add('d-none');
+                document.querySelector(`#labelCodigoObjetoR`).classList.remove('text-danger')
+                document.querySelector('#CodigoObjetoR').classList.remove('text-danger');
+                document.querySelector('#CodigoObjetoR').classList.remove('is-invalid')
+                document.querySelector(`#errorsCodigoObjetoR`).classList.add('d-none');
+                document.querySelector(`#labelEstado`).classList.remove('text-danger')
+                document.querySelector('#Estado').classList.remove('text-danger');
+                document.querySelector('#Estado').classList.remove('is-invalid')
+                document.querySelector(`#errorsEstado`).classList.add('d-none');
                 $("#ObjetoDeGastoR").val('').trigger("change");
-                $("#Abreviatura").val('').trigger("change");
+                $("#num1").val('').trigger("change");
+                $("#num2").val('').trigger("change");
+                $("#num3").val('').trigger("change");
+                $("#num4").val('').trigger("change");
                 $("#CodigoObjetoR").val('').trigger("change");
                 $("#Estado").val('').trigger("change");
                 $('#modalRegistrarObjeto').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
-                });
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                })
                 obtenerObjetos();
             },
             error:function(error) {
-                console.log(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro del objeto del gasto no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                };
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 

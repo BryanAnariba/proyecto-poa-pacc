@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -87,8 +90,41 @@
             }
         }
 
-        public function getAreasEstrategicasActivas () {
+        public function getAreasActivasPorObjetivo() {
+            if (is_int($this->idObjetivoInstitucional)) {
+                try {
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $stmt = $this->consulta->prepare('WITH CTE_LISTA_AREAS_ACTIVAS AS (SELECT * FROM AreaEstrategica) SELECT * FROM CTE_LISTA_AREAS_ACTIVAS WHERE CTE_LISTA_AREAS_ACTIVAS.idObjetivoInstitucional = :idObjetivo AND CTE_LISTA_AREAS_ACTIVAS.idEstadoAreaEstrategica = :idEstado;
+                ');
+                    $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
+                    $stmt->bindValue(':idEstado', $this->idEstadoAreaEstrategica);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error al listar las areas estrategicas')
+                        );
+                    }
 
+                } catch (PDOException $ex) {
+                    return array(
+                        'status'=> INTERNAL_SERVER_ERROR,
+                        'data' => array('message' => array($ex->getMessage()))
+                    );
+                } finally {
+                    $this->conexionBD = null;
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, no se pueden mostrar las areas estrategicas')
+                );
+            }
         }
 
         public function insertaArea () {
@@ -97,6 +133,21 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorI = '{}';
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @valorf = JSON_OBJECT(
+                            'areaEstrategica','$this->areaEstrategica',
+                            'idObjetivoInstitucional','$this->idObjetivoInstitucional',
+                            'idEstadoAreaEstrategica','$this->idEstadoAreaEstrategica'
+                        );
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REGISTRA_AREA_ESTRATEGICA(:idObjetivo, :idEstado, :areaEstrategica)');
                     $stmt->bindValue(':idObjetivo', $this->idObjetivoInstitucional);
                     $stmt->bindValue(':idEstado', $this->idEstadoAreaEstrategica);
@@ -138,6 +189,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_AREA(:idArea, :idEstadoArea)');
                     $stmt->bindValue(':idArea', $this->idAreaEstrategica);
                     $stmt->bindValue(':idEstadoArea', $this->idEstadoAreaEstrategica);
@@ -173,6 +229,11 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_MODIFICA_AREA(:idArea, :area)');
                     $stmt->bindValue(':idArea', $this->idAreaEstrategica);
                     $stmt->bindValue(':area', $this->areaEstrategica);

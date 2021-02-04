@@ -1,17 +1,24 @@
 <?php
     require_once('../request-headers.php');
+    require_once('../../middlewares/VerificarToken.php');
     require_once('../../controllers/ObjetosGastoController.php');
     
     switch ($_SERVER['REQUEST_METHOD']) {
         case "POST": 
-            //$_POST = json_decode(file_get_contents('php://input'));
-            $Objetos = new ObjetosController();
-            
-            $resultado = $Objetos->obtenerEstados();
-            
+            $verificarTokenAcceso = new verificarTokenAcceso();
+            $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
+            if ($tokenEsValido) {
+                $Objeto = new ObjetosController();
+                
+                $resultado = $Objeto->obtenerEstados();
+            } else {
+                $objeto = new ObjetosController();
+                $objeto->peticionNoAutorizada();
+                require_once('../destruir-sesiones.php');
+            }
         break;
         default: 
-            $Objetoss = new ObjetosController();
-            $Objetoss->peticionNoValida();
+            $Objeto = new ObjetosController();
+            $Objeto->peticionNoValida();
         break;
     }

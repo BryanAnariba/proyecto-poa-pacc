@@ -17,7 +17,11 @@
         }
 
         public function listarDimensionesActivas () {
+            $this->dimensionEstrategicaModel->setIdEstadoDimension(ESTADO_ACTIVO);
+            $this->data = $this->dimensionEstrategicaModel->getDimensionesActivas();
 
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
         }
 
         public function insertaDimension ($dimensionEstrategica) {

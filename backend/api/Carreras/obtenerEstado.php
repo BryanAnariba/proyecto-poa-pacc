@@ -1,14 +1,21 @@
 <?php
     require_once('../request-headers.php');
+    require_once('../../middlewares/VerificarToken.php');
     require_once('../../controllers/CarrerasController.php');
     
     switch ($_SERVER['REQUEST_METHOD']) {
         case "POST": 
-            //$_POST = json_decode(file_get_contents('php://input'));
-            $carrera = new CarrerasController();
-            
-            $resultado = $carrera->obtenerEstados();
-            
+            $verificarTokenAcceso = new verificarTokenAcceso();
+            $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
+            if ($tokenEsValido) {
+                $carrera = new CarrerasController();
+                
+                $resultado = $carrera->obtenerEstados();
+            } else {
+                $carreras = new CarrerasController();
+                $carreras->peticionNoAutorizada();
+                require_once('../destruir-sesiones.php');
+            }
         break;
         default: 
             $carreras = new CarrerasController();

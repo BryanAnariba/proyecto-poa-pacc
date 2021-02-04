@@ -101,7 +101,7 @@
             $this->avatarUsuario = $avatarUsuario;
             return $this;
         }
-        //                                                 Metodos clase Usuario
+        //                                                 Metodos clase Usuario -> America/Tegucigalpa
 
         private function insertarToken ($idUsuario) {
             $banderaToken = true;
@@ -111,10 +111,18 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = $idUsuario;
+                ")->execute();
+                $this->consulta->prepare("
+                    set @tipoBitacora = 4;
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('CALL SP_GENERAR_TOKEN_ACCESO(:idUsuario, :token, :fecha)');
                 $stmt->bindValue(':idUsuario', $idUsuario);
                 $stmt->bindValue(':token', $token);
-                $stmt->bindValue(':fecha', $vigenciaToken->format('Y-m-d h:i:s'));
+                $stmt->bindValue(':fecha',$vigenciaToken->format('Y-m-d h:i:s'));
                 if ($stmt->execute()) {
                     $_SESSION['access-token'] = $token;
                     return true;
@@ -136,6 +144,16 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    
+                    $token = $_SESSION['access-token'];
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 4;
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_REMOVER_TOKEN(:idUsuario, :token)');
                     $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
                     $stmt->bindValue(':token', $_SESSION['access-token']);
@@ -202,6 +220,11 @@
                         $idUsuario = parent::registrarPersona();
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+
                         if ($idUsuario != null) {
                             $stmt = $this->consulta->prepare('CALL SP_INSERTA_USUARIO(:idUsuario, :idTUsuario, :idDepto, :idEstado, :usuario, :correo, :codigo, :password)');
                             $stmt->bindValue(':idUsuario', $idUsuario);
@@ -226,7 +249,7 @@
                                 if ($enviado) {
                                     return array(
                                         'status'=> SUCCESS_REQUEST,
-                                        'data' => array('message' => 'Usuario ' . $this->correoInstitucional . ' insertado con exito, se envio una notificacion con credenciales via correo')
+                                        'data' => array('message' => 'Usuario ' . $this->correoInstitucional . ' insertado con exito, se envio una notificacion con credenciales via correo ' . $password ) 
                                     );
                                 } else {
                                     return array(
@@ -306,6 +329,14 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 2;
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('CALL SP_CAMBIA_ESTADO_USUARIO(:idPersonaUsuario,:idEstadoUsuario)');
                     $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
                     $stmt->bindValue(':idEstadoUsuario', $this->idEstadoUsuario);
@@ -343,6 +374,14 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 2;
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('CALL SP_MODIF_DATOS_GEN_USUARIO(:idUsuario, :idDepto, :idRole, :codigo)');
                         $stmt->bindValue(':idUsuario', $this->idPersona);
                         $stmt->bindValue(':idDepto', $this->idDepartamento);
@@ -393,6 +432,20 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        if(!isset($_SESSION)){
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
+                        }else{
+                            $this->consulta->prepare("
+                                set @persona = {$this->getIdPersona()};
+                            ")->execute();
+                        }
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 5;
+                        ")->execute();
+                        
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idPersonaUsuario');
                         $stmt->bindValue(':password', $passwordEncriptada);
                         $stmt->bindValue(':idPersonaUsuario', $this->idPersona);
@@ -447,9 +500,13 @@
         }
 
         public function modificaCorreo () {
-            if (is_int($this->getIdPersona()) && validaCampoNombreApellido($this->getNombrePersona(), 1, 80) && validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) && validaCampoEmail($this->correoInstitucional)) {
+            if ((is_int($this->getIdPersona()) == true) && 
+                (validaCampoNombreApellido($this->getNombrePersona(), 1, 80) == true) && 
+                (validaCampoNombreApellido($this->getApellidoPersona(), 1, 80) == true)&& 
+                (validaCampoEmail($this->correoInstitucional) == true)
+            ) {
                 $noExisteEmail = $this->verificaEmailUsuario();
-                if ($noExisteEmail == false) {
+                if ($noExisteEmail) { // ->debe retornar true
                     // Clave sin hashear aun solo generada
                     $generadorClaves = new GeneradorClaves();
                     $password = $generadorClaves->generarClave();
@@ -458,6 +515,14 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+                        $this->consulta->prepare("
+                            set @tipoBitacora = 5;
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET passwordUsuario = :password, correoInstitucional = :correoInstitucional WHERE idPersonaUsuario = :idPersonaUsuario');
                         $stmt->bindValue(':password', $passwordEncriptada);
                         $stmt->bindValue(':correoInstitucional', $this->correoInstitucional);
@@ -480,7 +545,7 @@
                             } else {
                                 return array(
                                     'status'=> BAD_REQUEST,
-                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado')
+                                    'data' => array('message' => 'Ha ocurrido un error, el correo no fue enviado ')
                                 );
                             }
                         } else {
@@ -500,7 +565,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar')
+                        'data' => array('message' => array('message' => 'Ha ocurrido un error, la modificacion y  envio de credenciales no se pudo realizar' . validaCampoEmail($this->correoInstitucional))
                         )
                     );
                 }
@@ -530,6 +595,8 @@
                                 $tokenGenerado = $this->insertarToken($data->idPersonaUsuario);
                                 if ($tokenGenerado) {
                                     $_SESSION['idUsuario'] = $data->idPersonaUsuario;
+                                    $_SESSION['idDepartamento'] = $data->idDepartamento;
+                                    $_SESSION['idTipoUsuario'] = $data->idTipoUsuario;
                                     $_SESSION['tipoUsuario'] = $data->tipoUsuario;
                                     $_SESSION['nombrePersona'] = $data->nombrePersona;
                                     $_SESSION['apellidoPersona'] = $data->apellidoPersona;
@@ -592,7 +659,7 @@
             if (validaCampoEmail($this->correoInstitucional)) {
                 try {
                     $this->conexionBD = new Conexion();
-                    $this->consulta = $this->conexionBD->connect();
+                    $this->consulta = $this->conexionBD->connect();                    
                     $stmt = $this->consulta->prepare('SELECT Usuario.idPersonaUsuario, Persona.nombrePersona, Persona.apellidoPersona, Usuario.correoInstitucional, Usuario.nombreUsuario FROM Usuario INNER JOIN Persona ON (Usuario.idPersonaUsuario = Persona.idPersona) WHERE Usuario.correoInstitucional = :correo');
                     $stmt->bindValue(':correo', $this->correoInstitucional);
                     if ($stmt->execute() && $stmt->rowCount() >= 1) {
@@ -601,6 +668,7 @@
                         $this->setNombrePersona($data->nombrePersona);
                         $this->setApellidoPersona($data->apellidoPersona);
                         $this->nombreUsuario = $data->nombreUsuario;
+
                         $generaNuevaCredencialAcceso = $this->reenviarCredenciales();
                         return $generaNuevaCredencialAcceso;
                     } else {
@@ -631,6 +699,14 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
+                    $this->consulta->prepare("
+                        set @tipoBitacora = 5;
+                    ")->execute();
+
                     $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET passwordUsuario = :password WHERE idPersonaUsuario = :idUsuario');
                     $stmt->bindValue(':password', $passwordEncriptada);
                     $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
@@ -685,6 +761,14 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+                $this->consulta->prepare("
+                    set @tipoBitacora = 2;
+                ")->execute();
+
                 $stmt = $this->consulta->prepare('UPDATE ' . TBL_USUARIO . ' SET avatarUsuario = :avatar WHERE idPersonaUsuario = :idUsuario');
                 $stmt->bindValue(':avatar', $this->avatarUsuario);
                 $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);

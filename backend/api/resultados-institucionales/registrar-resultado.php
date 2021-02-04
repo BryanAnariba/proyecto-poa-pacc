@@ -9,12 +9,12 @@
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
                 if (
-                    isset($_POST['idObjetivoInstitucional']) && 
-                    !empty($_POST['idObjetivoInstitucional']) &&
+                    isset($_POST['idAreaEstrategica']) && 
+                    !empty($_POST['idAreaEstrategica']) &&
                     isset($_POST['resultadoInstitucional']) &&
                     !empty($_POST['resultadoInstitucional'])) {
                     $resultadoInstitucional = new ResultadoInstitucionalController();
-                    $resultadoInstitucional->registrarResultado($_POST['idObjetivoInstitucional'], $_POST['resultadoInstitucional']);
+                    $resultadoInstitucional->registrarResultado($_POST['idAreaEstrategica'], $_POST['resultadoInstitucional']);
                 } else {
                     $resultadoInstitucional = new DepartamentosController();
                     $resultadoInstitucional->peticionNoValida();

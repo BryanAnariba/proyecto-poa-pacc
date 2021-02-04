@@ -81,6 +81,11 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) VALUES (:presupuesto, NOW(), :estadoPresupuestoAnual)');
                         $stmt->bindValue(':presupuesto', $this->presupuestoAnual);
                         $stmt->bindValue(':estadoPresupuestoAnual', $this->estadoPresupuestoAnual);
@@ -225,6 +230,11 @@
                     try {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET presupuestoAnual = :presupuesto, idEstadoPresupuestoAnual = :estado WHERE idControlPresupuestoActividad = :idPresupuestoAnual');
                         $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);
                         $stmt->bindValue(':estado', $this->estadoPresupuestoAnual);

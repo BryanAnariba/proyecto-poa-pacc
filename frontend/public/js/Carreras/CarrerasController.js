@@ -1,3 +1,9 @@
+const limpiarR = () => {
+    $("#Carrera").val('').trigger("change");
+    $("#Abreviatura").val('').trigger("change");
+    $("#Departamento").val('').trigger("change");
+    $("#Estado").val('').trigger("change");
+ };
  const insertadoCarrera = () => {
 
      // Capturando las etiquetas completas de los inputs para despues obtener el valor
@@ -37,25 +43,29 @@
             dataType: 'json',
             data: (dataNuevoCarrera),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 $("#Carrera").val('').trigger("change");
                 $("#Abreviatura").val('').trigger("change");
                 $("#Departamento").val('').trigger("change");
                 $("#Estado").val('').trigger("change");
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 })
             },
             error:function(error) {
-                console.warn(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro de la carrera no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                };
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
@@ -82,7 +92,15 @@ const cambiarDepa = () => {
             }
         },
         error:function(error) {
-            console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -102,6 +120,15 @@ const cambiarEst = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -126,6 +153,15 @@ const cambiarDepa2 = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -154,6 +190,15 @@ const cambiarDepaModificado = (carrera) => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -178,6 +223,15 @@ const cambiarEstadoModificado = (carrera) => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -199,6 +253,15 @@ const cambiarCarreraModif = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -223,6 +286,15 @@ const cambiarDepaModif = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 
@@ -244,8 +316,8 @@ const agregarATabla = (dataSet) => {
     }
     $('#CarrerasTodas').DataTable({
         language: i18nEspaniol,
-        dom: 'Blfrtip',
-        buttons: botonesExportacion,
+        // dom: 'Blfrtip',
+        // buttons: botonesExportacion,
         retrieve: true
     });
 };
@@ -263,6 +335,15 @@ const obtenerCarreras = () => {
         },
         error:function(error) {
             console.error(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`
+            });
         }
     });
 };
@@ -307,7 +388,7 @@ const actualizarCarrera = () => {
             dataType: 'json',
             data: (dataNuevoCarrera),
             success:function(response) {
-                console.log(response);
+                const { data } = response;
                 $("#botonModif").attr("disabled", true);
                 $("#Departamento2").val('');
                 $("#carreraDepa").val('');
@@ -319,25 +400,29 @@ const actualizarCarrera = () => {
                 $("#modifAbajo").css({'display':'none'});
                 Swal.fire({
                     icon: 'success',
-                    title: 'Listo',
-                    text: 'Registro insertado con exito',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
                 })
             },
             error:function(error) {
-                console.log(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'El registro de la carrera no se pudo realizar',
-                    footer: '<b>Por favor verifique el formulario de registro</b>'
-                })
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                }
             }
         });
     } else { // caso contrario mostrar alerta y notificar al usuario 
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
-            text: 'El registro de la carrera no se pudo realizar',
+            text: 'No se pudo modificar la carrera',
             footer: '<b>Por favor verifique el formulario de registro</b>'
         })
     }

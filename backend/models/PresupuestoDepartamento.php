@@ -246,6 +246,11 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
+
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
+
                             $stmt = $this->consulta->prepare('INSERT INTO ' . TBL_PRESUPUESTO_DEPTO . '(idDepartamento, idControlPresupuestoActividad, montoPresupuesto, fechaAprobacionPresupuesto) VALUES (:departamento, :idPresupuestoAnual, :montoPresupuesto,  NOW())');
                             $stmt->bindValue(':departamento', $this->idDepartamento);
                             $stmt->bindValue(':montoPresupuesto', $this->montoPresupuesto);
@@ -301,6 +306,11 @@
                     if ($this->verificaMontoPresupuestoDeptoModificar()) {
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
+
                         $stmt = $this->consulta->prepare('UPDATE ' . TBL_PRESUPUESTO_DEPTO . ' SET montoPresupuesto = :montoPresupuesto WHERE idControlPresupuestoActividad = :idPresupuestoAnual AND idDepartamento = :departamento');
                                 $stmt->bindValue(':montoPresupuesto', $this->montoPresupuesto);
                                 $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);
