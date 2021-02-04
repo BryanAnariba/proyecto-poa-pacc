@@ -95,6 +95,8 @@ const restablecerCamposM = ()=>{
     document.querySelector('#ObjetoDeGasto').classList.remove('is-invalid')
     document.querySelector(`#errorsObjetoDeGasto`).classList.add('d-none');
     document.querySelector(`#labelAbreviatura2`).classList.remove('text-danger')
+    document.querySelector('#num0M').classList.remove('text-danger');
+    document.querySelector('#num0M').classList.remove('is-invalid');
     document.querySelector('#num1M').classList.remove('text-danger');
     document.querySelector('#num1M').classList.remove('is-invalid');
     document.querySelector('#num2M').classList.remove('text-danger');
@@ -109,6 +111,7 @@ const restablecerCamposM = ()=>{
     document.querySelector('#EstadoModif').classList.remove('is-invalid')
     document.querySelector(`#errorsEstadoModif`).classList.add('d-none');
     $("#ObjetoDeGasto").val("").trigger("change");
+    $("#num0M").val('').trigger("change");
     $("#num1M").val('').trigger("change");
     $("#num2M").val('').trigger("change");
     $("#num3M").val('').trigger("change");
@@ -136,10 +139,11 @@ const obtenerObjeto = (id,codigo,ObjetosGasto,abrev,idEstado) => {
     document.querySelector('#EstadoModif').classList.remove('is-invalid')
     document.querySelector(`#errorsEstadoModif`).classList.add('d-none');
     $("#ObjetoDeGasto").val(ObjetosGasto).trigger("change");
-    $("#num1M").val(abrev.charAt(0)+abrev.charAt(1)).trigger("change");
-    $("#num2M").val(abrev.charAt(3)+abrev.charAt(4)).trigger("change");
-    $("#num3M").val(abrev.charAt(6)+abrev.charAt(7)).trigger("change");
-    $("#num4M").val(abrev.charAt(9)+abrev.charAt(10)).trigger("change");
+    $("#num0M").val(abrev.charAt(0)).trigger("change");
+    $("#num1M").val(abrev.charAt(2)+abrev.charAt(3)).trigger("change");
+    $("#num2M").val(abrev.charAt(5)+abrev.charAt(6)).trigger("change");
+    $("#num3M").val(abrev.charAt(8)+abrev.charAt(9)).trigger("change");
+    $("#num4M").val(abrev.charAt(11)+abrev.charAt(12)).trigger("change");
     $("#CodigoObjeto").val(codigo).trigger("change");
     $("#botonModif").attr("disabled", false);
     cambiarEstadoModificado(idEstado);
@@ -148,6 +152,7 @@ const actualizarObjeto = () => {
 
     // Capturando las etiquetas completas de los inputs para despues obtener el valor
     let ObjetoDeGasto = document.querySelector('#ObjetoDeGasto');
+    let Num0M = document.querySelector('#num0M');
     let Num1M = document.querySelector('#num1M');
     let Num2M = document.querySelector('#num2M');
     let Num3M = document.querySelector('#num3M');
@@ -157,6 +162,7 @@ const actualizarObjeto = () => {
     
     // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
     let oG = { valorEtiqueta: ObjetoDeGasto, id: 'ObjetoDeGasto', name: 'Objeto de Gasto', min: 1, max: 80, type: 'text' };
+    let N0M = { valorEtiqueta: Num0M, id: 'Abreviatura', name: 'Num0', min: 1, max: 2, type: 'text' };
     let N1M = { valorEtiqueta: Num1M, id: 'Abreviatura', name: 'Num1', min: 1, max: 2, type: 'text' };
     let N2M = { valorEtiqueta: Num2M, id: 'Abreviatura', name: 'Num2', min: 1, max: 2, type: 'text' };
     let N3M = { valorEtiqueta: Num3M, id: 'Abreviatura', name: 'Num3', min: 1, max: 2, type: 'text' };
@@ -168,6 +174,7 @@ const actualizarObjeto = () => {
     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
     let isValidObjeto = verificarInputText(oG,letrasEspaciosCaracteresRegex);
     let isValidN1M = verificarInputNumber(N1M,numerosRegex);
+    let isValidN0M = verificarInputNumber(N0M,numerosRegex);
     let isValidN2M = verificarInputNumber(N2M,numerosRegex);
     let isValidN3M = verificarInputNumber(N3M,numerosRegex);
     let isValidN4M = verificarInputNumber(N4M,numerosRegex);
@@ -177,6 +184,7 @@ const actualizarObjeto = () => {
     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
     if (
         (isValidObjeto === true) &&
+        (isValidN0M === true) &&
         (isValidN1M === true) &&
         (isValidN2M === true) &&
         (isValidN3M === true) &&
@@ -187,7 +195,7 @@ const actualizarObjeto = () => {
         const dataModifObjeto = {
             idObjetoGasto: this.id,
             ObjetoDeGasto: ObjetoDeGasto.value,
-            Abreviatura: `${Num1M.value}-${Num2M.value}-${Num3M.value}-${Num4M.value}`,
+            Abreviatura: `${Num0M.value}-${Num1M.value}-${Num2M.value}-${Num3M.value}-${Num4M.value}`,
             CodigoObjeto: CodigoObjeto.value,
             Estado: Estado.value
         };
@@ -263,6 +271,8 @@ const restablecerCampos = ()=>{
     document.querySelector('#ObjetoDeGastoR').classList.remove('is-invalid')
     document.querySelector(`#errorsObjetoDeGastoR`).classList.add('d-none');
     document.querySelector(`#labelAbreviatura`).classList.remove('text-danger')
+    document.querySelector('#num0').classList.remove('text-danger');
+    document.querySelector('#num0').classList.remove('is-invalid');
     document.querySelector('#num1').classList.remove('text-danger');
     document.querySelector('#num1').classList.remove('is-invalid');
     document.querySelector('#num2').classList.remove('text-danger');
@@ -281,6 +291,7 @@ const restablecerCampos = ()=>{
     document.querySelector('#Estado').classList.remove('is-invalid')
     document.querySelector(`#errorsEstado`).classList.add('d-none');
     $("#ObjetoDeGastoR").val('').trigger("change");
+    $("#num0").val('').trigger("change");
     $("#num1").val('').trigger("change");
     $("#num2").val('').trigger("change");
     $("#num3").val('').trigger("change");
@@ -325,6 +336,7 @@ const registrarObjeto = () => {
 
     // Capturando las etiquetas completas de los inputs para despues obtener el valor
     let ObjetoDeGasto = document.querySelector('#ObjetoDeGastoR');
+    let Num0 = document.querySelector('#num0');
     let Num1 = document.querySelector('#num1');
     let Num2 = document.querySelector('#num2');
     let Num3 = document.querySelector('#num3');
@@ -334,6 +346,7 @@ const registrarObjeto = () => {
     
     // Tipando los atributos con los valores de la base de datos bueno algunos -> nP = nombrePersona
     let oG = { valorEtiqueta: ObjetoDeGasto, id: 'ObjetoDeGastoR', name: 'Objeto de Gasto', min: 1, max: 80, type: 'text' };
+    let N0 = { valorEtiqueta: Num0, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 1, type: 'text' };
     let N1 = { valorEtiqueta: Num1, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
     let N2 = { valorEtiqueta: Num2, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
     let N3 = { valorEtiqueta: Num3, id: 'Abreviatura', name: 'Abreviatura', min: 1, max: 2, type: 'text' };
@@ -343,6 +356,7 @@ const registrarObjeto = () => {
     
     // Llamando a las funciones para realizar la verificacion de los campos retorna true o false
     let isValidObjeto = verificarInputText(oG,letrasEspaciosCaracteresRegex);
+    let isValidN0 = verificarInputNumber(N0,numerosRegex);
     let isValidN1 = verificarInputNumber(N1,numerosRegex);
     let isValidN2 = verificarInputNumber(N2,numerosRegex);
     let isValidN3 = verificarInputNumber(N3,numerosRegex);
@@ -353,6 +367,7 @@ const registrarObjeto = () => {
     // Si todos los campos que llevan validaciones estan okey o true que realice el ajax o fetch o axios o lo que sea
     if (
         (isValidObjeto === true) &&
+        (isValidN0 === true) &&
         (isValidN1 === true) &&
         (isValidN2 === true) &&
         (isValidN3 === true) &&
@@ -363,7 +378,7 @@ const registrarObjeto = () => {
         const dataNuevoObjeto = {
             idObjetoGasto: this.id,
             ObjetoDeGasto: ObjetoDeGasto.value,
-            Abreviatura: `${Num1.value}-${Num2.value}-${Num3.value}-${Num4.value}`,
+            Abreviatura: `${Num0.value}-${Num1.value}-${Num2.value}-${Num3.value}-${Num4.value}`,
             CodigoObjeto: CodigoObjeto.value,
             Estado: Estado.value
         };
@@ -475,6 +490,11 @@ function validaAC(e){
     tecla_final = String.fromCharCode(tecla);
     return patron.test(tecla_final);
 }
+const inputCharacters0 = (event) =>{
+    if(document.querySelector('#num0').value.length==1 && event.which == 13){
+      document.getElementById('num1').focus();
+    }
+  }
 const inputCharacters = (event) =>{
   if(document.querySelector('#num1').value.length==2 && event.which == 13){
     document.getElementById('num2').focus();
@@ -490,10 +510,16 @@ const inputCharacters3 = (event) =>{
     document.getElementById('num4').focus();
   }
 }
+document.getElementById('num0').addEventListener('keydown', inputCharacters0);
 document.getElementById('num1').addEventListener('keydown', inputCharacters);
 document.getElementById('num2').addEventListener('keydown', inputCharacters2);
 document.getElementById('num3').addEventListener('keydown', inputCharacters3);
 
+const inputCharacters0M = (event) =>{
+    if(document.querySelector('#num0M').value.length==1 && event.which == 13){
+      document.getElementById('num1M').focus();
+    }
+  }
 const inputCharactersM = (event) =>{
     if(document.querySelector('#num1M').value.length==2 && event.which == 13){
       document.getElementById('num2M').focus();
@@ -509,6 +535,7 @@ const inputCharactersM = (event) =>{
       document.getElementById('num4M').focus();
     }
   }
+  document.getElementById('num0M').addEventListener('keydown', inputCharacters0M);
   document.getElementById('num1M').addEventListener('keydown', inputCharactersM);
   document.getElementById('num2M').addEventListener('keydown', inputCharacters2M);
   document.getElementById('num3M').addEventListener('keydown', inputCharacters3M);
