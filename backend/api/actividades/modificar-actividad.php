@@ -9,6 +9,10 @@
             if ($tokenEsValido) {
                 $_POST = json_decode(file_get_contents('php://input'), true);
                 if (
+                    isset($_POST['idActividad']) &&
+                    !empty($_POST['idActividad']) &&
+                    isset($_POST['idCostoActTrimestre']) &&
+                    !empty($_POST['idCostoActTrimestre']) &&
                     isset($_POST['actividad']) &&
                     !empty($_POST['actividad']) &&
                     isset($_POST['correlativoActividad']) &&
@@ -40,7 +44,8 @@
                     isset($_POST['porcentajeTrimestre4'])
                 ) {
                     $actividades = new ActividadesController();
-                    $actividades->insertarNuevaActividad(
+                    $actividades->modificarDataActividad(
+                        $_POST['idActividad'],
                         $_POST['actividad'], 
                         $_POST['correlativoActividad'], 
                         $_POST['idAreaEstrategica'],
@@ -57,7 +62,8 @@
                         $_POST['porcentajeTrimestre1'],
                         $_POST['porcentajeTrimestre2'],
                         $_POST['porcentajeTrimestre3'],
-                        $_POST['porcentajeTrimestre4']
+                        $_POST['porcentajeTrimestre4'],
+                        $_POST['idCostoActTrimestre']
                     );
                 } else {
                     $actividades = new ActividadesController();

@@ -10,15 +10,12 @@
             if ($tokenEsValido) {
                 $_POST = json_decode(file_get_contents('php://input'), true);
                 if (
-                    isset($_POST['presupuestoAnual']) && 
-                    !empty($_POST['presupuestoAnual']) &&
-                    isset($_POST['estadoPresupuestoAnual']) &&
-                    !empty($_POST['estadoPresupuestoAnual']) &&
-                    isset($_POST['fechaPresupuestoAnual']) &&
-                    !empty($_POST['fechaPresupuestoAnual']) 
+                    isset($_POST['idControlPresupuestoActividad']) && 
+                    !empty($_POST['idControlPresupuestoActividad']) &&
+                    isset($_POST['estadoLlenadoActividades']) 
                     ) {
                     $presupuesto = new PresupuestosController();
-                    $presupuesto->registrarPresupuestoAnual($_POST['presupuestoAnual'], $_POST['estadoPresupuestoAnual'], $_POST['fechaPresupuestoAnual']);
+                    $presupuesto->modificaEstadoLlenadoPresupuesto($_POST['idControlPresupuestoActividad'], $_POST['estadoLlenadoActividades']);
                 } else {
                     $presupuesto = new PresupuestosController();
                     $presupuesto->peticionNoValida();

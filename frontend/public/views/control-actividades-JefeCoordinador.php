@@ -4,7 +4,8 @@ if (!isset($_SESSION['correoInstitucional'])) {
     header('Location: 401.php');
 }
 $coordinadorCarrera = 'C_C';
-if ($_SESSION['abrevTipoUsuario'] != $coordinadorCarrera) {
+$jefeDepto = 'J_D';
+if (($_SESSION['abrevTipoUsuario'] != $coordinadorCarrera) && ($_SESSION['abrevTipoUsuario'] != $jefeDepto)) {
     header('Location: 401.php');
 }
 include('../partials/doctype.php');
@@ -118,6 +119,7 @@ include('verifica-session.php');
                         <thead>
                             <tr align="center">
                                 <th scope="col">Estado</th>
+                                <th scope="col">No Dimension</th>
                                 <th scope="col">Dimension Academica</th>
                                 <th scope="col">Llenar dimension</th>
                             </tr>
@@ -166,93 +168,6 @@ include('verifica-session.php');
         </div>
     </div>
 
-
-
-    <!--formulario llenado de dimension-->
-    <div class="modal fade" id="modalFormLlenadoDimension" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Dimensiones Academicas pendientes</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body table-responsive">
-                    <form id="formulario-registro-dimension" class="text-center" style="color: #757575;">
-                        <div class="form-row col-12" style="margin-left: auto;margin-right:auto">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="input-field col-12" style="padding-left:0" align="left">
-                                    <label for="DimEstrategica" id="labelDimEstrategica">Dimension Estrategica Seleccionada:</label>
-                                    <select name="DimEstrategica" id="DimEstrategica" class="browser-default custom-select mb-4">
-                                    </select>
-                                    <span id="errorsObjInstitucional" class="text-danger text-small d-none">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="input-field col-12" style="padding-left:0" align="left">
-                                    <label for="ObjInstitucional" id="labelObjInstitucional">Objetivo Institucional:</label>
-                                    <select name="ObjInstitucional" id="ObjInstitucional" class="browser-default custom-select mb-4" onchange="cargarAreasEstrategicasActivas()">
-
-                                    </select>
-                                    <span id="errorsObjInstitucional" class="text-danger text-small d-none">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-none" id="selecciona-registro-area">
-                                <div class="input-field col-12" style="padding-left:0" align="left">
-                                    <label for="AreaEstrategica" id="labelAreaEstrategica">Area Estrategica:</label>
-                                    <select name="AreaEstrategica" id="AreaEstrategica" class="browser-default custom-select mb-4">
-                                        <option value="" selected disabled></option>
-                                    </select>
-                                    <span id="errorsAreaEstrategica" class="text-danger text-small d-none">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row col-12" style="margin-left:auto;margin-right:auto">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12" style="margin-top:2px">
-                                    <button type="button" class="btn btn-indigo btn-block" onclick="ag()">
-                                        Agregar actividad
-                                    </button>
-                                </div>
-                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="margin-left:auto;margin-top:2px">
-                                    <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalActividadesPlanificadas">
-                                        Ver planificación
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="container">
-                        <div class="row">
-                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
-                                <label for=" PresupuestoUtilizado">Presupuesto Utilizado (Lps.):</label>
-                                <input style="width:50%" type="text" id="PresupuestoUtilizado" class="form-control" readonly disabled>
-                            </div>
-                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
-                                <label for=" PresupuestoDisponible">Presupuesto Disponible (Lps.):</label>
-                                <input style="width:50%" type="text" id="PresupuestoDisponible" class="form-control" readonly disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer card-footer amber accent-4">
-                    <div class="row col-12">
-                        <div class="text-center" style="margin-left:auto">
-                            <button type="button" class="btn btn-light-green btn-rounded btn-sm" disabled>
-                                Enviar
-                            </button>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!--Actividades planificadas-->
     <div class="modal fade" id="modalActividadesPlanificadas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -289,270 +204,6 @@ include('verifica-session.php');
     </div>
 
     <!--modales-->
-    <!--llenado de actividades-->
-    <div class="modal fade" id="modalLlenadoActividades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Dimensiones Academicas pendientes</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid" id="grad1">
-                        <div class="row justify-content-center mt-0">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center p-0 mt-3 mb-2">
-                                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                                    <h2><strong>Formulario para registro actividades</strong></h2>
-                                    <div class="row">
-                                        <div class="col-md-12 mx-0">
-                                            <form id="msform">
-                                                <!-- progressbar -->
-                                                <ul id="progressbar">
-                                                    <li class="active" id="Resultados"><strong>Resultados</strong></li>
-                                                    <li id="Actividad"><strong>Actividad</strong></li>
-                                                    <li id="MetasTrimestrales"><strong>Metas Trimestrales</strong></li>
-                                                    <li id="Justificacion"><strong>Justificacion</strong></li>
-                                                    <!-- <li id="ActividadeEspeciales"><strong>Desglosar Actividad</strong></li> -->
-                                                </ul> <!-- fieldsets -->
-                                                <fieldset id="primero">
-                                                    <div class="form-card">
-                                                        <h2 class="fs-title">Resultados</h2>
-                                                        <div class="col-12">
-                                                            <div class="input-field">
-                                                                <label for="ResultadosInstitucional" id="labelResultadosInstitucional">Resultados Institucionales:</label>
-                                                                <select name="ResultadosInstitucional" id="ResultadosInstitucional" class="browser-default custom-select mb-4">
-                                                                    <option value="" selected disabled></option>
-                                                                </select>
-                                                                <span id="errorsResultadosInstitucional" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label for="ResultadosDeUnidad" id="labelResultadosDeUnidad">Resultados de la unidad:</label>
-                                                                <textarea type="text" id="ResultadosDeUnidad" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
-                                                                <span id="errorsResultadosDeUnidad" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label for="Indicador" id="labelIndicador">Indicador:</label>
-                                                                <textarea type="text" id="Indicador" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
-                                                                <span id="errorsIndicador" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
-                                                </fieldset>
-                                                <fieldset id="segundo">
-                                                    <div class="form-card">
-                                                        <h2 class="fs-title">Actividad</h2>
-                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                            <div class="row" style="margin:auto">
-                                                                <label for="Correlativo">Correlativo</label>
-                                                                <div class="col-xl-4 col-lg-4 col-md-7 col-sm-8">
-                                                                    <input type="text" id="CorrelativoGeneradoParaRegistrar" class="form-control" readonly disabled>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <input type="text" id="Actividads" class="form-control" minlength="1" maxlength="200">
-                                                                <span id="errorsActividads" class="text-danger text-small d-none"></span>
-                                                                <label for="Actividads" id="labelActividads">Actividad</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
-                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
-                                                </fieldset>
-                                                <fieldset id="tercero">
-                                                    <div class="form-card">
-                                                        <h2 class="fs-title">Metas trimestrales</h2>
-                                                        <div class="row">
-                                                            <div class="col-xl-12 col-lg-12">
-                                                                <div class="input-field">
-                                                                    <label for="TipoActividad" id="labelTipoActividad">Seleccione el tipo de costo de la actividad:</label>
-                                                                    <select name="TipoActividad" id="TipoActividad" class="browser-default custom-select mb-4">
-                                                                    </select>
-                                                                    <span id="errorsTipoActividad" class="text-danger text-small d-none"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad" class="font-weight-bolder text-dark">
-                                                                    Digite el presupuesto para esta actividad:
-                                                                </label>
-                                                            </div>
-                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                                <input type="number" id="PresupuestoActividad" class="form-control">
-                                                                <span id="errorsPresupuestoActividad" class="text-danger text-small d-none">
-                                                                </span>
-                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad">
-                                                                    Lps.
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row text-center">
-                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                <label class="font-weight-bolder text-dark">
-                                                                    Distribuya los porcentajes por trimestre
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                                <div class="form-group d-flex">
-                                                                    <label class="font-weight-bolder text-dark  my-auto form-control">
-                                                                        Porcentaje total:
-                                                                    </label>
-                                                                    <input style="width:50%" type="number" id="SumaPorcentajes" class="form-control" readonly disabled>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row text-center">
-                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="container">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="PTrimestre" class="form-control">Primer Trimestre:</label>
-                                                                        <input style="width:50%" type="text" id="calculaValorPT1" class="form-control" readonly disabled>
-                                                                    </div>
-                                                                    <div id="PTrimestre" class="row">
-                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                            <input type="number" id="PorcentPTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreUno(this)">
-                                                                            <span id="errorsPorcentPTrimestre" class="text-danger text-small d-none">
-                                                                            </span>
-                                                                            <label for="PorcentPTrimestre" id="labelPorcentPTrimestre">
-                                                                                %
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="container">
-                                                                    <div class="form-group d-flex">
-                                                                        <label class="form-control" for="STrimestre">Segundo Trimestre:</label>
-                                                                        <input style="width:50%" type="text" id="calculaValorPT2" class="form-control" readonly disabled>
-                                                                    </div>
-                                                                    <div id="STrimestre" class="row">
-                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                            <input type="number" id="PorcentSTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreDos(this)">
-                                                                            <span id="errorsPorcentSTrimestre" class="text-danger text-small d-none">
-                                                                            </span>
-                                                                            <label for="PorcentSTrimestre" id="labelPorcentSTrimestre">
-                                                                                %
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="container">
-                                                                    <div class="form-group d-flex">
-                                                                        <label class="form-control" for="TTrimestre">Tercer Trimestre:</label>
-                                                                        <input style="width:50%" type="text" id="calculaValorPT3" class="form-control" readonly disabled>
-                                                                    </div>
-                                                                    <div id="TTrimestre" class="row">
-                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                            <input type="number" id="PorcentTTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreTres(this)">
-                                                                            <span id="errorsPorcentTTrimestre" class="text-danger text-small d-none">
-                                                                            </span>
-                                                                            <label for="PorcentTTrimestre" id="labelPorcentTTrimestre">
-                                                                                %
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                                <div class="container">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="CTrimestre" class="form-control">Cuarto Trimestre:</label>
-                                                                        <input style="width:50%" type="text" id="calculaValorPT4" class="form-control" readonly disabled>
-                                                                    </div>
-                                                                    <div id="CTrimestre" class="row">
-                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                            <input type="number" id="PorcentCTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreCuatro(this)">
-                                                                            <span id="errorsPorcentCTrimestre" class="text-danger text-small d-none">
-                                                                            </span>
-                                                                            <label for="PorcentCTrimestre" id="labelPorcentCTrimestre">
-                                                                                %
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
-                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
-                                                </fieldset>
-                                                <fieldset id="cuarto">
-                                                    <div class="form-card">
-                                                        <h2 class="fs-title">Justificacion</h2>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label class="form-label" for="Justificacions" id="labelJustificacions">Justificacion:</label>
-                                                                <textarea type="text" id="Justificacions" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
-                                                                <span id="errorsJustificacions" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label class="form-label" for="Medio" id="labelMedio">Medio de verificacion:</label>
-                                                                <textarea type="text" id="Medio" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
-                                                                <span id="errorsMedio" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label class="form-label" for="Poblacion" id="labelPoblacion">Poblacion Objetivo:</label>
-                                                                <textarea type="text" id="Poblacion" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
-                                                                <span id="errorsPoblacion" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="md-form">
-                                                                <label class="form-label" for="Responsable" id="labelResponsable">Responsable:</label>
-                                                                <textarea type="text" id="Responsable" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
-                                                                <span id="errorsResponsable" class="text-danger text-small d-none"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
-                                                    <input type="button" id="save" class="action-button" onclick="insertaActividad()" value="Guardar" />
-                                                </fieldset>
-                                                <!-- </fieldset>
-                                                <fieldset id="quinto">
-                                                    <div class="form-card">
-                                                        <h2 class="fs-title">Desglosar Actividad</h2>
-                                                        <div class="container row">
-                                                            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 text-center mx-auto">
-                                                                <button type="button" class="btn btn-indigo btn-block" id="bot">
-                                                                    Agregar a dimensiones administrativas
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
-                                                    <input id="save" type="button" name="save" class="action-button" value="Aceptar" />
-                                                </fieldset> -->
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer card-footer amber accent-4">
-                    <div class="text-center" id="foote-modal">
-                        <button id="close" type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="modalCargaActividades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
@@ -586,7 +237,12 @@ include('verifica-session.php');
                                     <th scope="col" class="text-center">Costo Trimestre IV</th>
                                     <th scope="col" class="text-center">Sumatoria Porcentajes Trimestres I,II,II,IV</th>
                                     <th scope="col" class="text-center">Costo Total Actividad</th>
+                                    <th scope="col" class="text-center">Justificacion</th>
+                                    <th scope="col" class="text-center">Medio</th>
+                                    <th scope="col" class="text-center">Poblacion</th>
+                                    <th scope="col" class="text-center">Responsable</th>
                                     <th scope="col" class="text-center">Desglose Administrativo</th>
+                                    <th scope="col" class="text-center">Editar Actividad</th>
                                 </tr>
                             </thead>
                             <tbody id="areas-estrategicas">
@@ -1080,6 +736,16 @@ include('verifica-session.php');
                         <div class="row">
                             <div class="col-12">
                                 <div class="md-form">
+                                <input type="text" id="NombreActividad" class="form-control">
+                                <span id="errorsNombreActividad" class="text-danger text-small d-none">
+                                </span>
+                                <label for="NombreActividad" id="labelNombreActividad">
+                                    Escriba la Actividad
+                                </label>
+                            </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="md-form">
                                     <input type="number" id="Cantidad" class="form-control">
                                     <span id="errorsCantidad" class="text-danger text-small d-none">
                                     </span>
@@ -1213,7 +879,7 @@ include('verifica-session.php');
                                 
                                 <span id="errorsPrecioDimOcho" class="text-danger text-small d-none">
                                 </span>
-                                <label for="PrecioDimOcho" id="labelPrecio">
+                                <label for="PrecioDimOcho" id="labelPrecioDimOcho">
                                     Precio
                                 </label>
                             </div>
@@ -1255,6 +921,371 @@ include('verifica-session.php');
             </div>
         </div>
     </div>
+
+    <!--llenado de actividades-->
+    <!--formulario llenado de dimension-->
+    <div class="modal fade" id="modalFormLlenadoDimension" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Dimensiones Academicas pendientes</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body table-responsive">
+                    <form id="formulario-registro-dimension" class="text-center" style="color: #757575;">
+                        <div class="form-row col-12" style="margin-left: auto;margin-right:auto">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="input-field col-12" style="padding-left:0" align="left">
+                                    <label for="DimEstrategica" id="labelDimEstrategica">Dimension Estrategica Seleccionada:</label>
+                                    <select name="DimEstrategica" id="DimEstrategica" class="browser-default custom-select mb-4">
+                                    </select>
+                                    <span id="errorsObjInstitucional" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="input-field col-12" style="padding-left:0" align="left">
+                                    <label for="ObjInstitucional" id="labelObjInstitucional">Objetivo Institucional:</label>
+                                    <select name="ObjInstitucional" id="ObjInstitucional" class="browser-default custom-select mb-4" onchange="cargarAreasEstrategicasActivas()">
+
+                                    </select>
+                                    <span id="errorsObjInstitucional" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-none" id="selecciona-registro-area">
+                                <div class="input-field col-12" style="padding-left:0" align="left">
+                                    <label for="AreaEstrategica" id="labelAreaEstrategica">Area Estrategica:</label>
+                                    <select name="AreaEstrategica" id="AreaEstrategica" class="browser-default custom-select mb-4">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="errorsAreaEstrategica" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row col-12" style="margin-left:auto;margin-right:auto">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12" style="margin-top:2px">
+                                    <button type="button" class="btn btn-indigo btn-block" onclick="ag()">
+                                        Agregar actividad
+                                    </button>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="margin-left:auto;margin-top:2px">
+                                    <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalActividadesPlanificadas">
+                                        Ver planificación
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
+                                <label for=" PresupuestoUtilizado">Presupuesto Utilizado (Lps.):</label>
+                                <input style="width:50%" type="text" id="PresupuestoUtilizado" class="form-control" readonly disabled>
+                            </div>
+                            <div class="input col-xl-5 col-lg-5 col-md-5 col-sm-5 row>
+                                <label for=" PresupuestoDisponible">Presupuesto Disponible (Lps.):</label>
+                                <input style="width:50%" type="text" id="PresupuestoDisponible" class="form-control" readonly disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center" style="margin-left:auto">
+                            <button type="button" class="btn btn-light-green btn-rounded btn-sm" disabled>
+                                Enviar
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalLlenadoActividades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Dimensiones Academicas pendientes</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" id="grad1">
+                        <div class="row justify-content-center mt-0">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center p-0 mt-3 mb-2">
+                                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                                    <h2><strong>Formulario para registro actividades</strong></h2>
+                                    <div class="row">
+                                        <div class="col-md-12 mx-0">
+                                            <form id="msform">
+                                                <!-- progressbar -->
+                                                <ul id="progressbar">
+                                                    <li class="active" id="Resultados"><strong>Resultados</strong></li>
+                                                    <li id="Actividad"><strong>Actividad</strong></li>
+                                                    <li id="MetasTrimestrales"><strong>Metas Trimestrales</strong></li>
+                                                    <li id="Justificacion"><strong>Justificacion</strong></li>
+                                                    <!-- <li id="ActividadeEspeciales"><strong>Desglosar Actividad</strong></li> -->
+                                                </ul> <!-- fieldsets -->
+                                                <fieldset id="primero">
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Resultados</h2>
+                                                        <div class="col-12">
+                                                            <div class="input-field">
+                                                                <label for="ResultadosInstitucional" id="labelResultadosInstitucional">Resultados Institucionales:</label>
+                                                                <select name="ResultadosInstitucional" id="ResultadosInstitucional" class="browser-default custom-select mb-4">
+                                                                    <option value="" selected disabled></option>
+                                                                </select>
+                                                                <span id="errorsResultadosInstitucional" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label for="ResultadosDeUnidad" id="labelResultadosDeUnidad">Resultados de la unidad:</label>
+                                                                <textarea type="text" id="ResultadosDeUnidad" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
+                                                                <span id="errorsResultadosDeUnidad" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label for="Indicador" id="labelIndicador">Indicador:</label>
+                                                                <textarea type="text" id="Indicador" class="md-textarea form-control" minlength="1" maxlength="200"></textarea>
+                                                                <span id="errorsIndicador" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
+                                                </fieldset>
+                                                <fieldset id="segundo">
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Actividad</h2>
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div class="row" style="margin:auto">
+                                                                <label for="Correlativo">Correlativo</label>
+                                                                <div class="col-xl-4 col-lg-4 col-md-7 col-sm-8">
+                                                                    <input type="text" id="CorrelativoGeneradoParaRegistrar" class="form-control" readonly disabled>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <input type="text" id="Actividads" class="form-control" minlength="1" maxlength="200">
+                                                                <span id="errorsActividads" class="text-danger text-small d-none"></span>
+                                                                <label for="Actividads" id="labelActividads">Actividad</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" />
+                                                </fieldset>
+                                                <fieldset id="tercero">
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Metas trimestrales</h2>
+                                                        <div class="row">
+                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad" class="font-weight-bolder text-dark">
+                                                                    Digite el Costo para esta actividad:
+                                                                </label>
+                                                            </div>
+                                                            <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                                <input type="number" id="PresupuestoActividad" class="form-control">
+                                                                <span id="errorsPresupuestoActividad" class="text-danger text-small d-none">
+                                                                </span>
+                                                                <label for="PresupuestoActividad" id="labelPresupuestoActividad">
+                                                                    Lps.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center">
+                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                                <label class="font-weight-bolder text-dark">
+                                                                    Distribuya los porcentajes por trimestre
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                                <div class="form-group d-flex">
+                                                                    <label class="font-weight-bolder text-dark  my-auto form-control">
+                                                                        Porcentaje total:
+                                                                    </label>
+                                                                    <input style="width:50%" type="number" id="SumaPorcentajes" class="form-control" readonly disabled>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center">
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="PTrimestre" class="form-control">Primer Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT1" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="PTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentPTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreUno(this)">
+                                                                            <span id="errorsPorcentPTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentPTrimestre" id="labelPorcentPTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label class="form-control" for="STrimestre">Segundo Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT2" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="STrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentSTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreDos(this)">
+                                                                            <span id="errorsPorcentSTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentSTrimestre" id="labelPorcentSTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label class="form-control" for="TTrimestre">Tercer Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT3" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="TTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentTTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreTres(this)">
+                                                                            <span id="errorsPorcentTTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentTTrimestre" id="labelPorcentTTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                                <div class="container">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="CTrimestre" class="form-control">Cuarto Trimestre:</label>
+                                                                        <input style="width:50%" type="text" id="calculaValorPT4" class="form-control" readonly disabled>
+                                                                    </div>
+                                                                    <div id="CTrimestre" class="row">
+                                                                        <div class="md-form col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                            <input type="number" id="PorcentCTrimestre" class="form-control" maxlength="3" minlength="1" onkeyup="procesaValorTrimestreCuatro(this)">
+                                                                            <span id="errorsPorcentCTrimestre" class="text-danger text-small d-none">
+                                                                            </span>
+                                                                            <label for="PorcentCTrimestre" id="labelPorcentCTrimestre">
+                                                                                %
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" name="next" class="next action-button" value="Siguiente" id="verificaValores"/>
+                                                </fieldset>
+                                                <fieldset id="cuarto">
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Justificacion</h2>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label class="form-label" for="Justificacions" id="labelJustificacions">Justificacion:</label>
+                                                                <textarea type="text" id="Justificacions" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
+                                                                <span id="errorsJustificacions" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label class="form-label" for="Medio" id="labelMedio">Medio de verificacion:</label>
+                                                                <textarea type="text" id="Medio" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
+                                                                <span id="errorsMedio" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label class="form-label" for="Poblacion" id="labelPoblacion">Poblacion Objetivo:</label>
+                                                                <textarea type="text" id="Poblacion" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
+                                                                <span id="errorsPoblacion" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="md-form">
+                                                                <label class="form-label" for="Responsable" id="labelResponsable">Responsable:</label>
+                                                                <textarea type="text" id="Responsable" class="md-textarea form-control" minlength="1" maxlength="255"></textarea>
+                                                                <span id="errorsResponsable" class="text-danger text-small d-none"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input type="button" id="save" class="action-button" onclick="insertaActividad()" value="Guardar" />
+                                                    <input type="button" id="edit" class="action-button" onclick="modificarDataActividad()" value="Modificar" />
+                                                </fieldset>
+                                                <!-- </fieldset>
+                                                <fieldset id="quinto">
+                                                    <div class="form-card">
+                                                        <h2 class="fs-title">Desglosar Actividad</h2>
+                                                        <div class="container row">
+                                                            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 text-center mx-auto">
+                                                                <button type="button" class="btn btn-indigo btn-block" id="bot">
+                                                                    Agregar a dimensiones administrativas
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous" value="Regresar" />
+                                                    <input id="save" type="button" name="save" class="action-button" value="Aceptar" />
+                                                </fieldset> -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="text-center" id="foote-modal">
+                        <button id="close" type="button" class="registrar-actividad-cancelar btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close" onclick="limpiaFormActividad()">Cancelar</button>
+                        <button id="close" type="button" class="modificar-actividad-cancelar btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal fade" id="modaModificacionActividad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Formulario para la Modificacion de una Actividad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="row col-12">
+                        <div class="text-center">
+                            <button ype="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
     <!--En esta zona podran poner javascripts propios de la vista-->
 
     <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>

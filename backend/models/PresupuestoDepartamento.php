@@ -66,7 +66,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, presupuestoDepartamento.idPresupuestoPorDepartamento, presupuestoDepartamento.montoPresupuesto, presupuestoDepartamento.fechaAprobacionPresupuesto, presupuestoDepartamento.idDepartamento, departamento.nombreDepartamento, departamento.abrev, departamento.idEstadoDepartamento as estadoDepartamento, estadodcduoao.estado FROM controlPresupuestoActividad LEFT JOIN presupuestoDepartamento ON (controlPresupuestoActividad.idControlPresupuestoActividad = presupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN departamento ON (presupuestoDepartamento.idDepartamento = departamento.idDepartamento) INNER JOIN estadodcduoao ON (departamento.idEstadoDepartamento = estadodcduoao.idEstado)) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO WHERE CTE_VER_PRESUPUESTOS_DEPTO.estadoDepartamento = " . ESTADO_ACTIVO . " AND CTE_VER_PRESUPUESTOS_DEPTO.fechaPresupuesto = date_format(NOW(), '%Y') ORDER BY CTE_VER_PRESUPUESTOS_DEPTO.idControlPresupuestoActividad DESC;");
+                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, presupuestoDepartamento.idPresupuestoPorDepartamento, presupuestoDepartamento.montoPresupuesto, presupuestoDepartamento.fechaAprobacionPresupuesto, presupuestoDepartamento.idDepartamento, departamento.nombreDepartamento, departamento.abrev, departamento.idEstadoDepartamento as estadoDepartamento, estadodcduoao.estado FROM controlPresupuestoActividad LEFT JOIN presupuestoDepartamento ON (controlPresupuestoActividad.idControlPresupuestoActividad = presupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN departamento ON (presupuestoDepartamento.idDepartamento = departamento.idDepartamento) INNER JOIN estadodcduoao ON (departamento.idEstadoDepartamento = estadodcduoao.idEstado)) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO WHERE CTE_VER_PRESUPUESTOS_DEPTO.estadoDepartamento = " . ESTADO_ACTIVO . " AND CTE_VER_PRESUPUESTOS_DEPTO.fechaPresupuesto = (SELECT date_format(fechaPresupuestoAnual, '%Y') FROM ControlPresupuestoActividad WHERE EstadoLlenadoActividades = 1);");
                 if ($stmt->execute()) {
                     return array(
                         'status'=> SUCCESS_REQUEST,
@@ -92,7 +92,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTO AS (SELECT ControlPresupuestoActividad.presupuestoAnual, SUM(PresupuestoDepartamento.montoPresupuesto) AS montoTotalPorDepartamentos, ControlPresupuestoActividad.idControlPresupuestoActividad FROM ControlPresupuestoActividad LEFT JOIN PresupuestoDepartamento ON (PresupuestoDepartamento.idControlPresupuestoActividad = ControlPresupuestoActividad.idControlPresupuestoActividad) LEFT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento) WHERE date_format(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = date_format(NOW(), '%Y') GROUP BY ControlPresupuestoActividad.presupuestoAnual) SELECT * FROM CTE_VER_PRESUPUESTO;");
+                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTO AS (SELECT ControlPresupuestoActividad.presupuestoAnual, SUM(PresupuestoDepartamento.montoPresupuesto) AS montoTotalPorDepartamentos, ControlPresupuestoActividad.idControlPresupuestoActividad FROM ControlPresupuestoActividad LEFT JOIN PresupuestoDepartamento ON (PresupuestoDepartamento.idControlPresupuestoActividad = ControlPresupuestoActividad.idControlPresupuestoActividad) LEFT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento) WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1 GROUP BY ControlPresupuestoActividad.presupuestoAnual) SELECT * FROM CTE_VER_PRESUPUESTO;");
                 if ($stmt->execute()) {
                     return array(
                         'status'=> SUCCESS_REQUEST,
@@ -234,6 +234,24 @@
             } 
         }
         
+        public function generaAnioPresupuestoAbierto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("(SELECT fechaPresupuestoAnual FROM ControlPresupuestoActividad WHERE EstadoLlenadoActividades = 1)");
+                if ($stmt->execute()) {
+                    $data = $stmt->fetchObject();
+                    return $data->fechaPresupuestoAnual;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            } 
+        }
         public function registrarPresupuestoDepartamento () {
             if (is_int($this->idDepartamento) && is_int($this->idControlPresupuestoActividad) &&  validaCampoMonetario($this->montoPresupuesto)) {
                 if ($this->compruebaInformacionPresupuesto() == false) {
@@ -243,6 +261,7 @@
                     );
                 } else {
                     if ($this->verificaMontoPresupuestoDeptoGuardar()) {
+                        $fechaPresupuestoAnualAbierto = $this->generaAnioPresupuestoAbierto();
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
@@ -250,11 +269,11 @@
                             $this->consulta->prepare("
                                 set @persona = {$_SESSION['idUsuario']};
                             ")->execute();
-
-                            $stmt = $this->consulta->prepare('INSERT INTO ' . TBL_PRESUPUESTO_DEPTO . '(idDepartamento, idControlPresupuestoActividad, montoPresupuesto, fechaAprobacionPresupuesto) VALUES (:departamento, :idPresupuestoAnual, :montoPresupuesto,  NOW())');
+                            $stmt = $this->consulta->prepare('INSERT INTO ' . TBL_PRESUPUESTO_DEPTO . '(idDepartamento, idControlPresupuestoActividad, montoPresupuesto, fechaAprobacionPresupuesto) VALUES (:departamento, :idPresupuestoAnual, :montoPresupuesto, :fecha)');
                             $stmt->bindValue(':departamento', $this->idDepartamento);
                             $stmt->bindValue(':montoPresupuesto', $this->montoPresupuesto);
                             $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);
+                            $stmt->bindValue(':fecha', $fechaPresupuestoAnualAbierto);
                             if ($stmt->execute()) {
                                 return array(
                                     'status'=> SUCCESS_REQUEST,

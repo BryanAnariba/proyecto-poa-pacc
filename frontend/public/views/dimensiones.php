@@ -193,7 +193,7 @@ include('verifica-session.php');
                         <div class="form-row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="md-form">
-                                    <textarea id="R-objetivoInstitucional" class="md-textarea form-control" rows="5" maxlength="500" minlength="1" required>
+                                    <textarea id="R-objetivoInstitucional" class="md-textarea form-control" rows="5" maxlength="800" minlength="1" required>
                                     </textarea>
                                     <span id="errorsR-objetivoInstitucional" class="text-danger text-small d-none">
                                     </span>
@@ -232,7 +232,7 @@ include('verifica-session.php');
                                     <label for="M-objetivoInstitucional" class="" id="labelM-objetivoInstitucional" name="labelM-objetivoInstitucional">
                                         Escriba el nombre del objetivo institucional
                                     </label>
-                                    <textarea id="M-objetivoInstitucional" class="md-textarea form-control" rows="5" maxlength="500" minlength="1" required>
+                                    <textarea id="M-objetivoInstitucional" class="md-textarea form-control" rows="5" maxlength="800" minlength="1" required>
                                     </textarea>
                                     <span id="errorsM-objetivoInstitucional" class="text-danger text-small d-none">
                                     </span>
@@ -421,7 +421,7 @@ include('verifica-session.php');
                                 <label for="R-resultadoInstitucional" class="" id="labelR-resultadoInstitucional" name="labelR-resultadoInstitucional">
                                     Escriba el nombre del resultado institucional
                                 </label>
-                                <textarea id="R-resultadoInstitucional" class="md-textarea form-control" rows="5" maxlength="500" minlength="1" required>
+                                <textarea id="R-resultadoInstitucional" class="md-textarea form-control" rows="5" maxlength="700" minlength="1" required>
                                 </textarea>
                                 <span id="errorsR-resultadoInstitucional" class="text-danger text-small d-none">
                                 </span>
@@ -457,7 +457,7 @@ include('verifica-session.php');
                                 <label for="M-resultadoInstitucional" class="" id="labelM-resultadoInstitucional" name="labelM-resultadoInstitucional">
                                     Escriba el nombre del resultado institucional
                                 </label>
-                                <textarea id="M-resultadoInstitucional" class="md-textarea form-control" rows="5" maxlength="500" minlength="1" required>
+                                <textarea id="M-resultadoInstitucional" class="md-textarea form-control" rows="5" maxlength="700" minlength="1" required>
                                 </textarea>
                                 <span id="errorsM-resultadoInstitucional" class="text-danger text-small d-none">
                                 </span>

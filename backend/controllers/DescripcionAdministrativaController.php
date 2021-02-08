@@ -18,11 +18,12 @@
             $_Respuesta->respuestaPeticion();
         }
 
-        public function insertaNuevaDescripcionAdministrativa ($idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
+        public function insertaNuevaDescripcionAdministrativa ($idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
             $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
             $this->descripcionAdministrativaModel->setIdTipoPresupuesto($idTipoPresupuesto);
             $this->descripcionAdministrativaModel->setIdActividad($idActividad);
             $this->descripcionAdministrativaModel->setIdDimensionAdministrativa($idDimension);
+            $this->descripcionAdministrativaModel->setNombreActividad($nombreActividad);
             $this->descripcionAdministrativaModel->setCantidad($cantidad);
             $this->descripcionAdministrativaModel->setCosto($costo);
             $this->descripcionAdministrativaModel->setCostoTotal($costoTotal);
@@ -34,12 +35,13 @@
             $_Respuesta->respuestaPeticion();
         }
 
-        public function modificaDescripcionAdministrativa ($idDescripcionAdministrativa, $idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
+        public function modificaDescripcionAdministrativa ($idDescripcionAdministrativa, $idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
             $this->descripcionAdministrativaModel->setIdDescripcionAdministrativa($idDescripcionAdministrativa);
             $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
             $this->descripcionAdministrativaModel->setIdTipoPresupuesto($idTipoPresupuesto);
             $this->descripcionAdministrativaModel->setIdActividad($idActividad);
             $this->descripcionAdministrativaModel->setIdDimensionAdministrativa($idDimension);
+            $this->descripcionAdministrativaModel->setNombreActividad($nombreActividad);
             $this->descripcionAdministrativaModel->setCantidad($cantidad);
             $this->descripcionAdministrativaModel->setCosto($costo);
             $this->descripcionAdministrativaModel->setCostoTotal($costoTotal);

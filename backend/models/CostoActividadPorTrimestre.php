@@ -195,5 +195,37 @@
                 $this->conexionBD = null;
             }
         }
+
+        public function modificaCostoActividadPorTrimestre ($idActividad, $costoActividad, $idCostActPorTri) {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $pt1 = ($this->porcentajeTrimestre1)*$costoActividad;
+                $pt2 = ($this->porcentajeTrimestre2)*$costoActividad;
+                $pt3 = ($this->porcentajeTrimestre3)*$costoActividad;
+                $pt4 = ($this->porcentajeTrimestre4)*$costoActividad;
+                $this->sumatoriaPorcentaje = $this->porcentajeTrimestre1 + $this->porcentajeTrimestre2 + $this->porcentajeTrimestre3 + $this->porcentajeTrimestre4;
+                $stmt = $this->consulta->prepare("UPDATE CostoActividadPorTrimestre SET porcentajeTrimestre1 = :pT1, Trimestre1 = :t1, porcentajeTrimestre2 = :pT2, Trimestre2 = :t2, porcentajeTrimestre3 = :pT3, Trimestre3 = :t3, porcentajeTrimestre4 = :pT4, Trimestre4 = :t4, sumatoriaPorcentaje = :sumatoria WHERE idCostActPorTri = :idCostoActPorTri");
+                $stmt->bindValue(':pT1', $this->porcentajeTrimestre1);
+                $stmt->bindValue(':t1', $pt1);
+                $stmt->bindValue(':pT2', $this->porcentajeTrimestre2);
+                $stmt->bindValue(':t2', $pt2);
+                $stmt->bindValue(':pT3', $this->porcentajeTrimestre3);
+                $stmt->bindValue(':t3', $pt3);
+                $stmt->bindValue(':pT4', $this->porcentajeTrimestre4);
+                $stmt->bindValue(':t4', $pt4);
+                $stmt->bindValue(':sumatoria', $this->sumatoriaPorcentaje);
+                $stmt->bindValue(':idCostoActPorTri', $idCostActPorTri);
+                if ($stmt->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
     }
 ?>

@@ -42,6 +42,15 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function verificaRangoPresupuestoParaModificar ($costoTotal, $idActividad) {
+            $this->actividadesModel->setCostoTotal($costoTotal);
+            $this->actividadesModel->setIdActividad($idActividad);
+
+            $this->data = $this->actividadesModel->verificaPresupuestoActividadModificar();
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function generarCorrelativo ($idDimension) {
             $this->actividadesModel->setIdDimension($idDimension);
             $this->data = $this->actividadesModel->generaCorrelativoActividad();
@@ -56,7 +65,6 @@
             $idDimension, 
             $idObjetivoInstitucional, 
             $idResultadoInstitucional,
-            $idTipoActividad,
             $indicadoresResultado,
             $justificacionActividad,
             $medioVerificacionActividad,
@@ -75,7 +83,12 @@
             $this->actividadesModel->setIdDimension($idDimension);
             $this->actividadesModel->setIdObjetivoInstitucional($idObjetivoInstitucional);
             $this->actividadesModel->setIdResultadoInstitucional($idResultadoInstitucional);
-            $this->actividadesModel->setIdTipoActividad($idTipoActividad);
+            if ($costoTotal > 0) {
+                $this->actividadesModel->setIdTipoActividad(1);
+            } else {
+                $this->actividadesModel->setIdTipoActividad(2);
+            }
+            $this->actividadesModel->setIdEstadoActividad(ESTADO_INACTIVO);
             $this->actividadesModel->setIndicadoresResultado($indicadoresResultado);
             $this->actividadesModel->setJustificacionActividad($justificacionActividad);
             $this->actividadesModel->setMedioVerificacionActividad($medioVerificacionActividad);
@@ -92,10 +105,83 @@
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
+        
+        public function modificarDataActividad(
+            $idActividad,
+            $actividad, 
+            $correlativoActividad, 
+            $idAreaEstrategica, 
+            $idDimension, 
+            $idObjetivoInstitucional, 
+            $idResultadoInstitucional,
+            $indicadoresResultado,
+            $justificacionActividad,
+            $medioVerificacionActividad,
+            $poblacionObjetivoActividad,
+            $resultadosUnidad,
+            $responsableActividad,
+            $costoTotal,
+            $porcentajeTrimestre1,
+            $porcentajeTrimestre2,
+            $porcentajeTrimestre3,
+            $porcentajeTrimestre4,
+            $idCostoActTrimestre
+        ) {
+            $this->actividadesModel->setIdActividad($idActividad);
+            $this->actividadesModel->setActividad($actividad);
+            $this->actividadesModel->setCorrelativoActividad($correlativoActividad);
+            $this->actividadesModel->setIdAreaEstrategica($idAreaEstrategica);
+            $this->actividadesModel->setIdDimension($idDimension);
+            $this->actividadesModel->setIdObjetivoInstitucional($idObjetivoInstitucional);
+            $this->actividadesModel->setIdResultadoInstitucional($idResultadoInstitucional);
+            if ($costoTotal > 0) {
+                $this->actividadesModel->setIdTipoActividad(1);
+            } else {
+                $this->actividadesModel->setIdTipoActividad(2);
+            }
+            
+            $this->actividadesModel->setIndicadoresResultado($indicadoresResultado);
+            $this->actividadesModel->setJustificacionActividad($justificacionActividad);
+            $this->actividadesModel->setMedioVerificacionActividad($medioVerificacionActividad);
+            $this->actividadesModel->setPoblacionOjetivoActividad($poblacionObjetivoActividad);
+            $this->actividadesModel->setResultadosUnidad($resultadosUnidad);
+            $this->actividadesModel->setResponsableActividad($responsableActividad);
+            $this->actividadesModel->setCostoTotal($costoTotal);
+            $this->actividadesModel->setPorcentajeTrimestre1($porcentajeTrimestre1);
+            $this->actividadesModel->setPorcentajeTrimestre2($porcentajeTrimestre2);
+            $this->actividadesModel->setPorcentajeTrimestre3($porcentajeTrimestre3);
+            $this->actividadesModel->setPorcentajeTrimestre4($porcentajeTrimestre4);
+            $this->actividadesModel->setIdCostActPorTri($idCostoActTrimestre);
+
+            $this->data = $this->actividadesModel->modificaRegistroActividad();
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
 
         public function listarActividadesPorDimensionEstrategica ($idDimension) {
             $this->actividadesModel->setIdDimension($idDimension);
             $this->data = $this->actividadesModel->getActividadesDimension();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function verificaEstadoPresupuesto() {
+            $this->data = $this->actividadesModel->getEstadoPresupuestoAnual();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function modifEstadoActividad ($idActividad, $isEstadoActividad) {
+            $this->actividadesModel->setIdActividad($idActividad);
+            if ($isEstadoActividad == ESTADO_ACTIVO) {
+                $this->actividadesModel->setIdEstadoActividad(ESTADO_INACTIVO);
+            } else {
+                $this->actividadesModel->setIdEstadoActividad(ESTADO_ACTIVO);
+            }
+
+            $this->data = $this->actividadesModel->cambiaEstadoActividad();
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();

@@ -129,8 +129,35 @@ Aplicacion para la facultad de ingenieria
 ## 3 - Despues de comentar esto ya podras registrar un usuario, una vez registrado descomentar el codigo para evitar los huecos de seguridad y hacer login como se debe
 ## 4 - Tip util -> deben comentaro todo lo relacionado con sesiones en php
 
+-> Visualizacion Actividades Agrupadas por departamento -> 
 
-my user -> bsancheza@unah.hn , QXQlKApeKn3o
-        -> mfsancheza@unah.hn , 5D1jzq@Ltymw
-        -> nicollesa@unah.hn , 2AjCpIvXHaI2
-        -> ianSanchez@unah.hn , c8iwlrSp9jSe 
+my user -> bsancheza@unah.hn , qj8pd@I9gM4s
+        -> mfsancheza@unah.hn , FJ7OD6@jTLL$
+
+        IS -> Coordinador
+        -> pamela@unah.hn , TQQXSAt5MdDB
+
+        IS -> Jefe Depto
+        -> ianSanchez@unah.hn , rfxcn2WTpH08 
+
+        IE -> Coordinador
+        -> celesFuentes@unah.hn, Ba8WRsDsq@QL
+
+        IE -> Jefe Depto
+        -> ericksonD@unah.hn, hjJzwm7673j7
+
+        II -> Coordinador   
+        -> zavalamartha@unah.hn, OC2FvBVFUyp7
+
+        II -> Jefe Depto
+        -> ccarlos@unah.hn, 2t0oV2J3pQU4
+
+        IQ -> Coordinador Carera
+        -> mendezAlejandro@unah.hn, g8Jxk4UQKYFU
+
+
+
+        PhpSpreadsheet
+
+
+        SELECT str_to_date(2022, '%Y%M%D %H:%i') FROM DUAL
