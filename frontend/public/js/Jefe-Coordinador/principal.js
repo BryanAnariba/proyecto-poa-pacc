@@ -20,6 +20,14 @@ let idAreaEstrategicaSeleccionada = null;
 let idActividadSeleccionada = null;
 let costoTotalActividadSeleccionada = null;
 let idDescripcionItemSeleccionada = null;
+let idActividadParaModificar = null;
+let idResultadoInstitucionalModificar = null;
+let resultadoInstitucionalModificar = null;
+let correlativoModificar = null;
+let esModificacion = false;
+let esInsercion = false;
+let idCostoActividadPorTrimestreSeleccionada = null;
+let dimnesionParaModales = null;
 $(document).ready(function(){
     // Manejo del estado de la dimension.
     if(estado==0){
@@ -72,6 +80,32 @@ const avanzarAgreg = ()=>{
     $(".foot-agr").css("display","block");
 };
 const llenar = (tabla) => {
+    idActividadParaModificar = null;
+    idResultadoInstitucionalModificar = null;
+    resultadoInstitucionalModificar = null;
+    correlativoModificar = null;
+    esModificacion = false;
+    esInsercion = true;
+    $('#save').removeClass('d-none');
+    $('#edit').addClass('d-none');
+    $('.registrar-actividad-cancelar').removeClass('d-none');
+    $('.modificar-actividad-cancelar').addClass('d-none');
+    //$('#modalLlenadoDimension').modal('show');
+    pos=1;
+    $('#modalLlenadoActividades').modal('hide');
+    for(let i=1;i<5;i++){
+        $("#progressbar li").eq(i).removeClass("active");
+    };
+    $("#segundo").css({'display': 'none','position': 'relative'});
+    $("#tercero").css({'display': 'none','position': 'relative'});
+    $("#cuarto").css({'display': 'none','position': 'relative'});
+    $("#quinto").css({'display': 'none','position': 'relative'});
+    $("#primero").css({'opacity': 1});
+    $("#primero").show();
+    $("#msform")[0].reset();
+    $("#foote-modal").css({'display': 'block','position': ''});
+    $("#foote-modal").show();
+    resetW();
     $('#'+tabla).dataTable().fnDestroy();
     $('#'+tabla+' tbody').html(``);
     switch(tabla) {
@@ -91,8 +125,9 @@ const llenar = (tabla) => {
                                     <td>
                                         <div class="rojo" row>
                                             <i class="fas fa-exclamation"></i><div style="display:none"></div>
-                                        </div>
+                                        </div>    
                                     </td>
+                                    <td>${ data[i].idDimension }</td>
                                     <td>${ data[i].dimensionEstrategica }</td>
                                     <td>
                                         <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','${ data[i].dimensionEstrategica }')">
@@ -109,6 +144,7 @@ const llenar = (tabla) => {
                                             <i class="fas fa-exclamation"></i><div style="display:none"></div>
                                         </div>
                                     </td>
+                                    <td>${ data[i].idDimension }</td>
                                     <td>${ data[i].dimensionEstrategica }</td>
                                     <td>
                                         <button type="button" class="btn btn-amber cambioModal" onclick="avanzar('${ data[i].idDimension }','${ data[i].dimensionEstrategica }')">
@@ -254,7 +290,6 @@ const avanzar = (idDimension,dimensionEstrategica) =>{
     let parametros = { 
         idDimension: parseInt(idDimension)
     };
-
     $.when(
         $.ajax(`${ API }/objetivos-institucionales/listar-objetivos-activos-por-dimension.php`, {
             type: 'POST',
@@ -277,6 +312,86 @@ const avanzar = (idDimension,dimensionEstrategica) =>{
                 `);
             }
             console.log(comparativaPresupuestoTotalUsuado)
+            $('#PresupuestoUtilizado').val(Number(comparativaPresupuestoTotalUsuado.presupuestoConsumidoPorDepto))
+            $('#PresupuestoDisponible').val(Number(comparativaPresupuestoTotalUsuado.presupuestoTotalDepartamento))
+            $('#modalLlenadoDimension').modal('hide');
+            $('#modalFormLlenadoDimension').modal('show');
+        })
+        .fail(function(error) {
+            console.log('Something went wrong', error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Recargue la pagina nuevamente</b>'
+            })
+        });
+};
+
+const avanzarModificacion = (idDimension,dimensionEstrategica, idObjetivo, objetivo, idArea, area) =>{ 
+    
+    $('#AreaEstrategica').html(``);
+    $('#ObjInstitucional').html(``);
+    $('#selecciona-registro-area').removeClass('d-none');
+    
+    $('#DimEstrategica').html(`<option value="${ idDimension }">${ dimensionEstrategica }</option>`);
+    let parametros = { 
+        idDimension: parseInt(idDimension)
+    };
+    let parametro = { 
+        idObjetivo: parseInt(idObjetivo)
+    };
+    $.when(
+        $.ajax(`${ API }/objetivos-institucionales/listar-objetivos-activos-por-dimension.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros)
+        }),
+        $.ajax(`${ API }/actividades/genera-comparativo-presupuestos.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json'
+        }),
+        $.ajax(`${ API }/areas-estrategicas/listar-areas-por-objetivo-activas.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametro)
+        })) 
+        .done(function(objetivoResponse, comparativaPresupuestosResponse, areasResponse) {
+            
+            let listadoObjetivos = objetivoResponse[0].data;
+            let comparativaPresupuestoTotalUsuado = comparativaPresupuestosResponse[0].data;
+            let listadoAreas = areasResponse[0].data;
+            console.log(listadoObjetivos);
+            console.log(idObjetivo);
+            for(let i=0; i<listadoObjetivos.length; i++) {
+                if (listadoObjetivos[i].idObjetivoInstitucional === parseInt(idObjetivo)) {
+                    console.log('entro aqui')
+                    $('#ObjInstitucional').append(`
+                        <option value="${ listadoObjetivos[i].idObjetivoInstitucional }" selected>${ listadoObjetivos[i].objetivoInstitucional }</option>`);
+                } else {
+                    $('#ObjInstitucional').append(`
+                        <option value="${ listadoObjetivos[i].idObjetivoInstitucional }">${ listadoObjetivos[i].objetivoInstitucional }</option>
+                    `);
+                }
+            }
+            for(let i=0; i<listadoAreas.length; i++) {
+                if (listadoAreas[i].idAreaEstrategica === parseInt(idArea)) {
+                    $('#AreaEstrategica').append(`
+                        <option value="${ listadoAreas[i].idAreaEstrategica }" selected>${ listadoAreas[i].areaEstrategica }</option>
+                    `);
+                } else {
+                    $('#AreaEstrategica').append(`
+                        <option value="${ listadoAreas[i].idAreaEstrategica }">${ listadoAreas[i].areaEstrategica }</option>
+                    `);
+                }
+            }
             $('#PresupuestoUtilizado').val(Number(comparativaPresupuestoTotalUsuado.presupuestoConsumidoPorDepto))
             $('#PresupuestoDisponible').val(Number(comparativaPresupuestoTotalUsuado.presupuestoTotalDepartamento))
             $('#modalLlenadoDimension').modal('hide');
@@ -335,7 +450,8 @@ const cargarAreasEstrategicasActivas = () => {
     });
 }
 
-const verActividades = (idDimension) => {
+const verActividades = (idDimension, dimension) => {
+    dimnesionParaModales = dimension;
     let parametros = { idDimension: parseInt(idDimension) };
     
     $.ajax(`${ API }/actividades/listar-actividades-dimension.php`, {
@@ -406,8 +522,25 @@ const verActividades = (idDimension) => {
                             ${ data[i].CostoTotal }
                         </td>
                         <td>
+                            ${ data[i].justificacionActividad }
+                        </td>
+                        <td>
+                            ${ data[i].medioVerificacionActividad }
+                        </td>
+                        <td>
+                            ${ data[i].poblacionObjetivoActividad }
+                        </td>
+                        <td>
+                            ${ data[i].responsableActividad }
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-amber" onclick="agregarDesglose('${ data[i].idActividad }', '${ data[i].CostoTotal }','${ data[i].idDimension }')">
-                                <img src="../img/menu/editar.svg" alt="modificar dimension"/>
+                                <img src="../img/menu/agregar-archivo.svg" alt="desglose dimension"/>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-amber" onclick="modificarActividad('${ data[i].idActividad }', '${ data[i].idDimension }', '${ data[i].dimensionEstrategica }', '${ data[i].idObjetivoInstitucional }', '${ data[i].objetivoInstitucional }', '${ data[i].idAreaEstrategica }', '${ data[i].areaEstrategica }', '${ data[i].idResultadoInstitucional }', '${ data[i].resultadoInstitucional }', '${ data[i].resultadosUnidad }', '${ data[i].indicadoresResultado }', '${ data[i].correlativoActividad }', '${ data[i].actividad }','${ data[i].CostoTotal }', '${ data[i].porcentajeTrimestre1 }', '${ data[i].porcentajeTrimestre2 }', '${ data[i].porcentajeTrimestre3 }', '${ data[i].porcentajeTrimestre4 }','${ data[i].justificacionActividad }','${ data[i].medioVerificacionActividad }','${ data[i].poblacionObjetivoActividad }','${ data[i].responsableActividad }','${ data[i].idCostActPorTri }')">
+                                <img src="../img/menu/editar.svg" alt="modificar actividad"/>
                             </button>
                         </td>
                     </tr>
@@ -556,7 +689,7 @@ const generaTablasAcordeDimension = (object) => {
                                     ${ i + 1 }
                                 </td>
                                 <td>
-                                    ${ data[i].Actividad }
+                                    ${ data[i].nombreActividad }
                                 </td>
                                 <td>
                                     ${ descripcion.cantidadPersonas }
@@ -586,7 +719,7 @@ const generaTablasAcordeDimension = (object) => {
                                     ${ data[i].mesRequerido }
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.cantidadPersonas }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.cantidadPersonas }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                         <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                     </button>
                                 </td>
@@ -617,7 +750,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ i + 1 }
                             </td>
                             <td>
-                                ${ data[i].Actividad }
+                                ${ data[i].nombreActividad }
                             </td>
                             <td>
                                 ${ data[i].Cantidad }
@@ -647,7 +780,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.meses }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.meses }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -676,7 +809,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ i + 1 }
                             </td>
                             <td>
-                                ${ data[i].Actividad }
+                                ${ data[i].nombreActividad }
                             </td>
                             <td>
                                 ${ data[i].Cantidad }
@@ -703,7 +836,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', ${ data[i].abrev } , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', ${ data[i].abrev } , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -733,7 +866,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ i + 1 }
                         </td>
                         <td>
-                            ${ data[i].Actividad }
+                            ${ data[i].nombreActividad }    
                         </td>
                         <td>
                             ${ data[i].Cantidad }
@@ -763,7 +896,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.tipoEquipoTecnologico }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.tipoEquipoTecnologico }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.tipoEquipoTecnologico }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -792,7 +925,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ i + 1 }
                             </td>
                             <td>
-                                ${ data[i].Actividad }
+                                ${ data[i].nombreActividad }
                             </td>
                             <td>
                                 ${ data[i].Cantidad }
@@ -819,7 +952,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -849,7 +982,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ i + 1 }
                         </td>
                         <td>
-                            ${ data[i].Actividad }
+                            ${ data[i].nombreActividad }
                         </td>
                         <td>
                             ${ data[i].Cantidad }
@@ -879,7 +1012,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.areaBeca }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.areaBeca }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.areaBeca }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -909,7 +1042,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ i + 1 }
                         </td>
                         <td>
-                            ${ data[i].Actividad }
+                            ${ data[i].nombreActividad }
                         </td>
                         <td>
                             ${ data[i].Cantidad }
@@ -939,7 +1072,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.proyecto }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.proyecto }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.proyecto }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -967,7 +1100,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ i + 1 }
                         </td>
                         <td>
-                            ${ data[i].Actividad }
+                            ${ data[i].nombreActividad }
                         </td>
                         <td>
                             ${ data[i].Cantidad }
@@ -1009,7 +1142,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.valorDos }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','${ descripcion.descripcionItem }','${ descripcion.cantidadItem }','${ descripcion.precioItem }','${ descripcion.valorUno }','${ descripcion.valorDos }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','${ descripcion.descripcionItem }','${ descripcion.cantidadItem }','${ descripcion.precioItem }','${ descripcion.valorUno }','${ descripcion.valorDos }','${ data[i].nombreActividad }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1047,7 +1180,7 @@ const generaTablasAcordeDimension = (object) => {
     }); 
 } 
 
-const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionAdmin, idDimensionAdministrativa, mesRequerido, idObjetoGasto, abrev, descripcionCuenta, idTipoPresupuesto, tipoPresupuesto, descItem = null, cantItem = null, precioItem = null, val1 = null, val2 = null) => {
+const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionAdmin, idDimensionAdministrativa, mesRequerido, idObjetoGasto, abrev, descripcionCuenta, idTipoPresupuesto, tipoPresupuesto, descItem = null, cantItem = null, precioItem = null, val1 = null, val2 = null, nombreActividad) => {
     idActividadSeleccionada = idActividad;
     idDimensionAdminSeleccionada = idDimensionAdministrativa;
     idDescripcionItemSeleccionada = idDescripcionAdmin;
@@ -1056,6 +1189,7 @@ const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionA
     $('#modificarItems').removeClass('d-none');
     $('#insertarItems').addClass('d-none');
 
+    $('#NombreActividad').val(nombreActividad).trigger('change');
     $('#Cantidad').val(cantidad).trigger('change');
     $('#Costo').val(costo).trigger('change');
     $('#MesRequerido').append(`<option value="${ mesRequerido }" selected>${ mesRequerido }</option>`);
@@ -1213,6 +1347,7 @@ const modificarAct = () => {
     let Mes = document.querySelector('#MesRequerido');
 
     // Campos que no tienen en comun
+    let NombreActividad = document.querySelector('#NombreActividad');
     let CantidadPersonas = document.querySelector('#CantidadPersonas');
     let meses = document.querySelector('#Meses');
     let tipoEquipoTecnologico = document.querySelector('#TipoEquipoTecnologico');
@@ -1224,6 +1359,7 @@ const modificarAct = () => {
     let setenta = document.querySelector('#Setenta');
     let treinta = document.querySelector('#Treinta');
     
+    let NomACT = { valorEtiqueta: NombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 300, type: 'text' };
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
     let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
@@ -1242,6 +1378,7 @@ const modificarAct = () => {
     let valorSetenta = { valorEtiqueta: setenta, id: 'Setenta', name: 'Valor de 0 a 70', min: 1, max: 2, type: 'number' };
     let valorTreinta = { valorEtiqueta: treinta, id: 'Treinta', name: 'Valor de 0 a 30', min: 1, max: 2, type: 'number' };
 
+    let isValidNombreActividad = verificarInputText(NomACT, justificacionRegex);
     let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
     let isValidCosto = verificarInputNumber(Co,numerosRegex);
     let isValidCostoT = verificarInputNumber(CoT,numerosRegex);
@@ -1253,6 +1390,7 @@ const modificarAct = () => {
         case  1:
             let isValidCantidadPersonas = verificarInputNumber(CaP,numerosRegex);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1267,6 +1405,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1318,6 +1457,7 @@ const modificarAct = () => {
         case  2:
             let isValidMeses = verificarInputNumber(mes,numerosRegex);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1332,6 +1472,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1382,6 +1523,7 @@ const modificarAct = () => {
         break;
         case  3:
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1395,6 +1537,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Number(Costo.value),
                     costoTotal: CostoT.value,
@@ -1446,6 +1589,7 @@ const modificarAct = () => {
         case  4:
             let isValidTipoEquipoTecnologico = verificarInputText(tET, letrasEspaciosCaracteresRegex);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1460,6 +1604,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1510,6 +1655,7 @@ const modificarAct = () => {
         break;
         case  5:
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1523,6 +1669,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1574,6 +1721,7 @@ const modificarAct = () => {
         case  6:
             let isValidaAreaBeca = verificarInputText(aB, letrasEspaciosCaracteresRegex);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1588,6 +1736,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1644,6 +1793,7 @@ const modificarAct = () => {
                 idObjetoGasto: parseInt(ObjGasto.value),
                 idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                 idDimension: parseInt(idDimensionAdminSeleccionada),
+                nombreActividad: NombreActividad.value,
                 cantidad: Cantidad.value,
                 costo:  Costo.value,
                 costoTotal: CostoT.value,
@@ -1652,6 +1802,7 @@ const modificarAct = () => {
             }
             console.log(parametros);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1709,6 +1860,7 @@ const modificarAct = () => {
             let isValidSetenta = verificarInputNumber(valorSetenta,numerosRegex);
             let isValidTreinta = verificarInputNumber(valorTreinta,numerosRegex);
             if (
+                (isValidNombreActividad === true) &&
                 (isValidCantidad === true) &&
                 (isValidCosto === true) &&
                 (isValidCostoT === true) &&
@@ -1727,6 +1879,7 @@ const modificarAct = () => {
                     idObjetoGasto: parseInt(ObjGasto.value),
                     idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                     idDimension: parseInt(idDimensionAdminSeleccionada),
+                    nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
@@ -1785,5 +1938,187 @@ const modificarAct = () => {
         default:
         break;
     
+    }
 }
+
+const modificarActividad = (idActividad, idDimension, dimensionEstrategica, idObjetivo, objetivo, idArea, area, idResultadoInstitucional, resultadoInstitucional, resultadosUnidad, indicadorResultado, correlativoActividad, actividad, costoActividad, porcentajeT1, porcentajeT2, porcentajeT3, porcentajeT4, justificacion, medio, poblacion, responsable, idCostoActTrimestre) => {
+    idCostoActividadPorTrimestreSeleccionada = idCostoActTrimestre;
+    esModificacion = true;
+    esInsercion = false;
+    $('#save').addClass('d-none');
+    $('#edit').removeClass('d-none');
+    $.ajax(`${ API }/actividades/verifica-estado-presupuesto.php`,{ 
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success:function(response) {
+            const { data } = response;
+            console.log(data);
+            idActividadParaModificar = idActividad;
+            idResultadoInstitucionalModificar = idResultadoInstitucional;
+            resultadoInstitucionalModificar = resultadoInstitucional;
+            correlativoModificar = correlativoActividad;
+            $('#Indicador').val(indicadorResultado).trigger('change');
+            $('#Actividads').val(actividad).trigger('change');
+            $('#PresupuestoActividad').val(costoActividad).trigger('change');
+            $('#PorcentPTrimestre').val(porcentajeT1*100).trigger('change');
+            $('#PorcentSTrimestre').val(porcentajeT2*100).trigger('change');
+            $('#PorcentTTrimestre').val(porcentajeT3*100).trigger('change');
+            $('#PorcentCTrimestre').val(porcentajeT4*100).trigger('change');
+            $('#ResultadosDeUnidad').val(resultadosUnidad).trigger('change');
+            $('#Justificacions').val(justificacion).trigger('change');
+            $('#Medio').val(medio).trigger('change');
+            $('#Poblacion').val(poblacion).trigger('change');
+            $('#Responsable').val(responsable).trigger('change');
+            avanzarModificacion(idDimension, dimensionEstrategica, idObjetivo, objetivo, idArea, area);
+        },
+        error:function(error) {
+            console.log(error.responseText);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>No puedes modificar actividades</b>'
+                });
+            }
+        }
+    });
+}
+
+const modificarDataActividad = () => {
+    let Justificacion = document.querySelector('#Justificacions');
+    let Medio = document.querySelector('#Medio');
+    let Poblacion = document.querySelector('#Poblacion');
+    let Responsable = document.querySelector('#Responsable');
+
+    let jC = { valorEtiqueta: Justificacion, id: 'Justificacions', name: 'Justificacion', min: 1, max: 255, type: 'text' };
+    let mD = { valorEtiqueta: Medio, id: 'Medio', name: 'Medio', min: 1, max: 255, type: 'text' };
+    let Pb = { valorEtiqueta: Poblacion, id: 'Poblacion', name: 'Poblacion', min: 1, max: 255, type: 'text' };
+    let Rp = { valorEtiqueta: Responsable, id: 'Responsable', name: 'Responsable', min: 1, max: 255, type: 'text' };
+
+
+    let isValidJustificacion = verificarInputText(jC,justificacionRegex);
+    let isValidMedio = verificarInputText(mD,letrasEspaciosCaracteresRegex);
+    let isValidPoblacion = verificarInputText(Pb,letrasEspaciosCaracteresRegex);
+    let isValidResponsable = verificarInputText(Rp,letrasEspaciosCaracteresRegex);
+
+    if (
+        (isValidJustificacion === true) &&
+        (isValidMedio === true) &&
+        (isValidPoblacion === true) &&
+        (isValidResponsable === true)
+    ) {
+        let parametros = {
+            idActividad: parseInt(idActividadParaModificar),
+            idCostoActTrimestre: parseInt(idCostoActividadPorTrimestreSeleccionada),
+            idDimension: parseInt($('#DimEstrategica').val()), 
+            idObjetivoInstitucional: parseInt($('#ObjInstitucional').val()),
+            idResultadoInstitucional: parseInt($('#ResultadosInstitucional').val()),
+            idAreaEstrategica: parseInt($('#AreaEstrategica').val()),
+            resultadosUnidad: $('#ResultadosDeUnidad').val(),
+            indicadoresResultado: $('#Indicador').val(),
+            actividad: $('#Actividads').val(),
+            correlativoActividad: correlativoModificar,
+            porcentajeTrimestre1: Number($('#PorcentPTrimestre').val()/100),
+            porcentajeTrimestre2: Number($('#PorcentSTrimestre').val()/100),
+            porcentajeTrimestre3: Number($('#PorcentTTrimestre').val()/100),
+            porcentajeTrimestre4: Number($('#PorcentCTrimestre').val()/100),
+            justificacionActividad: $('#Justificacions').val(),
+            medioVerificacionActividad: $('#Medio').val(),
+            poblacionObjetivoActividad: $('#Poblacion').val(),
+            responsableActividad: $('#Responsable').val(),
+            costoTotal: $('#PresupuestoActividad').val(),
+        };
+        
+        
+        console.log(parametros);
+        $.ajax(`${ API }/actividades/modificar-actividad.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function(response) {
+                $('#modalCargaActividades').modal('show');
+                verActividades($('#DimEstrategica').val(), dimnesionParaModales);
+                $('#modalFormLlenadoDimension').modal('hide');
+                $('#modalLlenadoActividades').modal('hide');
+                llenar('DimensionesTablaModificar');
+                llenar('DimensionesTabla');
+                $("#modalModificarDimension").modal('show');
+                const { data } = response;
+                console.log(data);
+                pos=1;
+                current_fs = $(this).parent();
+                for(let i=1;i<5;i++){
+                    $("#progressbar li").eq(i).removeClass("active");
+                };
+                current_fs.animate({opacity: 0}, {
+                step: function(now) {
+                    opacity = 1 - now;
+                    
+                    current_fs.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                        $("#primero").css({'opacity': opacity});
+                    },
+                        duration: 600
+                });
+                $("#msform")[0].reset();
+                $("form").trigger("change");
+                resetW();
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error) {
+                console.log(error);
+                console.log(error.responseText);
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Verifique los datos del formulario</b>'
+                    });
+                }
+            }
+        });
+    } else { // caso contrario mostrar alerta y notificar al usuario 
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'No se puede avanzar',
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    }
+}
+
+const limpiaFormActividad = () => {
+    $('#modalLlenadoDimension').modal('show');
+    pos=1;
+    $('#modalLlenadoActividades').modal('hide');
+    for(let i=1;i<5;i++){
+        $("#progressbar li").eq(i).removeClass("active");
+    };
+    $("#segundo").css({'display': 'none','position': 'relative'});
+    $("#tercero").css({'display': 'none','position': 'relative'});
+    $("#cuarto").css({'display': 'none','position': 'relative'});
+    $("#quinto").css({'display': 'none','position': 'relative'});
+    $("#primero").css({'opacity': 1});
+    $("#primero").show();
+    $("#msform")[0].reset();
+    $("#foote-modal").css({'display': 'block','position': ''});
+    $("#foote-modal").show();
+    resetW();
 }

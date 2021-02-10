@@ -78,6 +78,51 @@ const verificarFecha = (date) => {
     return isValidFecha;
 }
 
+// Funcion para verificar fechas de solicitud de permisos, que no este vacia y que no sea una fecha menor a la fecha actual
+const verificarFechaSolicitud = (date) => {
+    const { valorEtiqueta, id, name } = date;
+    let isValidFecha = false;
+    const x = new Date().toISOString().split('T')[0];
+    const fecha = valorEtiqueta.value;
+
+    if (valorEtiqueta.value === '') {
+        document.querySelector(`#errors${ id }`).classList.remove('d-none');
+        document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } es obligatorio`;
+        isValidFecha = false;
+    } else if (fecha < x) {
+        document.querySelector(`#errors${ id }`).classList.remove('d-none');
+        document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } no puede ser menor a la fecha actual`;
+        isValidFecha = false;
+    } else {
+        document.querySelector(`#errors${ id }`).classList.add('d-none');
+        document.querySelector(`#errors${ id }`).innerHTML = ``;
+        isValidFecha = true;
+    }
+
+    return isValidFecha;
+}
+
+const verificarHoraSolicitud = (time) => {
+    const { valorEtiqueta, id, name } = time;
+    let isValidHora = false;
+    //const x = new Date().toISOString().split('T')[0];
+    //const fecha = valorEtiqueta.value;
+
+    if (valorEtiqueta.value === '') {
+        document.querySelector(`#errors${ id }`).classList.remove('d-none');
+        document.querySelector(`#errors${ id }`).innerHTML = `El campo ${ name } es obligatorio`;
+        isValidHora = false; 
+    } else {
+        document.querySelector(`#errors${ id }`).classList.add('d-none');
+        document.querySelector(`#errors${ id }`).innerHTML = ``;
+        isValidHora = true;
+    }
+
+    return isValidHora;
+}
+
+
+
 // Funcion para verificar textos y cadenas de string y su rspectivo tamanio
 const verificarInputText = (inputData, regex) => {
     let isValid = false;

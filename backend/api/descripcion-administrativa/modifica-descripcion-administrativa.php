@@ -19,6 +19,8 @@
                     !empty($_POST['idActividad']) &&
                     isset($_POST['idDimension']) && 
                     !empty($_POST['idDimension']) &&
+                    isset($_POST['nombreActividad']) &&
+                    !empty($_POST['nombreActividad']) &&
                     isset($_POST['cantidad']) && 
                     isset($_POST['costo']) && 
                     isset($_POST['costoTotal']) && 
@@ -26,7 +28,7 @@
                     isset($_POST['descripcion'])
                 ) {
                     $descripcion = new DescripcionAdministrativaController();
-                    $descripcion->modificaDescripcionAdministrativa($_POST['idDescripcionAdministrativa'], $_POST['idObjetoGasto'], $_POST['idTipoPresupuesto'], $_POST['idActividad'], $_POST['idDimension'], $_POST['cantidad'], $_POST['costo'], $_POST['costoTotal'], $_POST['mesRequerido'], $_POST['descripcion']);
+                    $descripcion->modificaDescripcionAdministrativa($_POST['idDescripcionAdministrativa'], $_POST['idObjetoGasto'], $_POST['idTipoPresupuesto'], $_POST['idActividad'], $_POST['idDimension'], $_POST['nombreActividad'], $_POST['cantidad'], $_POST['costo'], $_POST['costoTotal'], $_POST['mesRequerido'], $_POST['descripcion']);
                 } else {
                     $descripcion = new DescripcionAdministrativaController();
                     $descripcion->peticionNoValida();    

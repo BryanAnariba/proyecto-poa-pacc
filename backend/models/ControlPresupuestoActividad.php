@@ -7,6 +7,7 @@
         private $presupuestoAnual;
         private $fechaPresupuestoAnual;
         private $estadoPresupuestoAnual;
+        private $estadoLlenadoActividades;
 
         private $conexionBD;
         private $consulta;
@@ -50,12 +51,49 @@
             $this->estadoPresupuestoAnual = $estadoPresupuestoAnual;
             return $this;
         }
+        public function getEstadoLlenadoActividades()
+        {
+                return $this->estadoLlenadoActividades;
+        }
+        public function setEstadoLlenadoActividades($estadoLlenadoActividades)
+        {
+                $this->estadoLlenadoActividades = $estadoLlenadoActividades;
 
-        public function verificaExistenciaPresupuestoAnual () {
+                return $this;
+        }
+
+        public function verificaCantidadPresupuestosAbiertos() {
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_VERIF_EXIS_PRES_ANUAL AS ( select * from controlPresupuestoActividad WHERE date_format(fechaPresupuestoAnual, '%Y') = date_format(NOW(), '%Y')) SELECT * FROM CTE_VERIF_EXIS_PRES_ANUAL");
+                $stmt = $this->consulta->prepare("SELECT count(*) AS presupuestosAbiertos FROM ControlPresupuestoActividad WHERE estadoLlenadoActividades = 1;");
+                if ($stmt->execute()) {
+                    $data = $stmt->fetchObject();
+                    if ($data->presupuestosAbiertos == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            } 
+        }
+
+        public function verificaExistenciaPresupuestoAnual() {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_VERIF_EXIS_PRES_ANUAL AS (SELECT * FROM controlPresupuestoActividad) 
+                SELECT * FROM CTE_VERIF_EXIS_PRES_ANUAL WHERE date_format(CTE_VERIF_EXIS_PRES_ANUAL.fechaPresupuestoAnual, '%Y') = date_format(:fecha, '%Y')");
+                $stmt->bindValue(':fecha', $this->fechaPresupuestoAnual);
                 if ($stmt->execute()) {
                     if ($stmt->rowCount() == 0) {
                         return true;
@@ -77,8 +115,9 @@
         public function registrarPresupuesto () {
             if (validaCampoMonetario($this->presupuestoAnual) && is_int($this->estadoPresupuestoAnual)) {
                 $noExistePresupuestoParaAnio = $this->verificaExistenciaPresupuestoAnual();
-                if ($noExistePresupuestoParaAnio) {
+                if ($noExistePresupuestoParaAnio == true) {
                     try {
+                        $this->estadoLlenadoActividades = 0;
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
 
@@ -86,13 +125,15 @@
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
 
-                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) VALUES (:presupuesto, NOW(), :estadoPresupuestoAnual)');
+                        $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . '(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual, estadoLlenadoActividades) VALUES (:presupuesto, :fecha, :estadoPresupuestoAnual, :estadoLlenado)');
                         $stmt->bindValue(':presupuesto', $this->presupuestoAnual);
+                        $stmt->bindValue(':fecha', $this->fechaPresupuestoAnual);
                         $stmt->bindValue(':estadoPresupuestoAnual', $this->estadoPresupuestoAnual);
+                        $stmt->bindValue(':estadoLlenado', $this->estadoLlenadoActividades);
                         if ($stmt->execute()) {
                             return array(
                                 'status'=> SUCCESS_REQUEST,
-                                'data' => array('message' => 'El presupuesto para este año ingresado exitosamente')
+                                'data' => array('message' => 'El presupuesto fue ingresado exitosamente')
                             );
                         } else {
                             return array(
@@ -111,7 +152,7 @@
                 } else {
                     return array(
                         'status'=> BAD_REQUEST,
-                        'data' => array('message' => 'El presupuesto para este año ya fue asignado, no puede agregar otro presupuesto, solo puede modificarlo')
+                        'data' => array('message' => 'El presupuesto para el año ' . $this->fechaPresupuestoAnual . ' ya fue asignado, no puede agregar otro presupuesto, solo puede modificarlo')
                     );
                 }
             } else {
@@ -126,7 +167,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto FROM " . $this->tablaBaseDatos . ") SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO ORDER BY CTE_VER_PRESUPUESTOS_DEPTO.idControlPresupuestoActividad DESC;");
+                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, ControlPresupuestoActividad.idEstadoPresupuestoAnual, controlPresupuestoActividad.estadoLlenadoActividades FROM ControlPresupuestoActividad) SELECT * FROM CTE_VER_PRESUPUESTOS_DEPTO ORDER BY CTE_VER_PRESUPUESTOS_DEPTO.idControlPresupuestoActividad DESC;");
                 $stmt->bindValue(':estado', ESTADO_ACTIVO);
                 if ($stmt->execute()) {
                     return array(
@@ -154,7 +195,7 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
-                    $stmt = $this->consulta->prepare("WITH CTE_VERIF_PRESUPUESTO AS (SELECT * FROM  controlPresupuestoActividad) SELECT * FROM CTE_VERIF_PRESUPUESTO  WHERE DATE_FORMAT(CTE_VERIF_PRESUPUESTO.fechaPresupuestoAnual, '%Y') = DATE_FORMAT(NOW(), '%Y') AND CTE_VERIF_PRESUPUESTO.idControlPresupuestoActividad = :idPresupuestoAnual");
+                    $stmt = $this->consulta->prepare("WITH CTE_VERIF_PRESUPUESTO AS (SELECT * FROM  controlPresupuestoActividad) SELECT * FROM CTE_VERIF_PRESUPUESTO  WHERE CTE_VERIF_PRESUPUESTO.idControlPresupuestoActividad = :idPresupuestoAnual");
                     $stmt->bindValue(':idPresupuestoAnual', $this->idControlPresupuestoActividad);
                     if ($stmt->execute()) {
                         if ($stmt->rowCount() == 0) {
@@ -265,6 +306,73 @@
                     'status'=> BAD_REQUEST,
                     'data' => array('message' => 'ha ocurrido un error al actualizar el presupuesto, vuelva a ingresar la informacion')
                 );
+            }
+        }
+
+        public function cambiarEstadoPresupuesto () {
+            if (is_int($this->idControlPresupuestoActividad)) {
+                if ($this->estadoLlenadoActividades == 1) {
+                    $noHayPresupuestosAbiertos = $this->verificaCantidadPresupuestosAbiertos();
+                    if ($noHayPresupuestosAbiertos == true) {
+                        try {
+                            $this->conexionBD = new Conexion();
+                            $this->consulta = $this->conexionBD->connect();
+                            $stmt = $this->consulta->prepare('UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = :estadoLlenado WHERE idControlPresupuestoActividad = :idPresupuesto;');
+                            $stmt->bindValue(':estadoLlenado', $this->estadoLlenadoActividades);
+                            $stmt->bindValue(':idPresupuesto', $this->idControlPresupuestoActividad);
+                            if ($stmt->execute()) {
+                                return array(
+                                    'status'=> SUCCESS_REQUEST,
+                                    'data' => array('message' => 'El estado del presupuesto fue modificado exitosamente')
+                                );
+                            } else {
+                                return array(
+                                    'status'=> BAD_REQUEST,
+                                    'data' => array('message' => 'ha ocurrido un error al modificar el estado del presupuesto, vuelva a ingresar la informacion')
+                                );
+                            }
+                        } catch (PDOException $ex) {
+                            return array(
+                                'status'=> INTERNAL_SERVER_ERROR,
+                                'data' => array('message' => $ex->getMessage())
+                            );
+                        } finally {
+                            $this->conexionBD = null;
+                        } 
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'ha ocurrido un error, para modificar el estado de un presupuesto a abierto debe cerrar todos los demas presupuestos existentes.')
+                        );
+                    }
+                } else {
+                    try {
+                        $this->conexionBD = new Conexion();
+                        $this->consulta = $this->conexionBD->connect();
+                        $stmt = $this->consulta->prepare('UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = :estadoLlenado WHERE idControlPresupuestoActividad = :idPresupuesto;');
+                        $stmt->bindValue(':estadoLlenado', $this->estadoLlenadoActividades);
+                        $stmt->bindValue(':idPresupuesto', $this->idControlPresupuestoActividad);
+                        if ($stmt->execute()) {
+                            return array(
+                                'status'=> SUCCESS_REQUEST,
+                                'data' => array('message' => 'El estado del presupuesto fue modificado exitosamente')
+                            );
+                        } else {
+                            return array(
+                                'status'=> BAD_REQUEST,
+                                'data' => array('message' => 'ha ocurrido un error al modificar el estado del presupuesto, vuelva a ingresar la informacion')
+                            );
+                        }
+                    } catch (PDOException $ex) {
+                        return array(
+                            'status'=> INTERNAL_SERVER_ERROR,
+                            'data' => array('message' => $ex->getMessage())
+                        );
+                    } finally {
+                        $this->conexionBD = null;
+                    } 
+                }
+                
             }
         }
     }

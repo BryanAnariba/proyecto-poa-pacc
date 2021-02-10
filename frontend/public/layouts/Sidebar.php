@@ -7,7 +7,7 @@
     }
     include('../partials/doctype.php');
     include('verifica-session.php');
-    //Tipos de roles de usuarios en el sistema
+     // Tipos de roles de usuarios en el sistema
     define('ROL_SUPER_ADMIN', 'SU_AD');
     define('ROL_DECANO', 'D_F');
     define('ROL_SECRETARIA_ACADEMICA', 'S_AC');
@@ -28,7 +28,7 @@
                         switch($_SESSION['abrevTipoUsuario']): 
                             case $_SESSION['abrevTipoUsuario'] == ROL_SECRETARIA_ACADEMICA: // ROLE => Secretaria Academica
                     ?>
-                        <a href="../views/control-permisos.php" class="nav__link">
+                        <a href="../views/control-recibir-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Control Permisos</span>
                         </a>
@@ -98,9 +98,14 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="../views/Calendario-actividades.php" class="nav__link">
+                        <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
+                        </a>
+
+                        <a href="../views/control-recibir-permisos.php" class="nav__link">
+                            <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
+                            <span class="nav__name">Control Permisos</span>
                         </a>
                     <?php 
                         break; 
@@ -123,12 +128,12 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="../views/Calendario-actividades.php" class="nav__link">
+                        <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
@@ -153,12 +158,12 @@
                             <span class="nav__name">Reportes</span>
                         </a>
 
-                        <a href="../views/Calendario-actividades.php" class="nav__link">
+                        <a href="" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="../views/recibimiento-permisos.php" class="nav__link">
+                        <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
@@ -170,7 +175,7 @@
                     ?>
                         <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
-                            <span class="nav__name">Control de actividades</span>
+                            <span class="nav__name">Administrativo</span>
                         </a>
 
                         <a href="../views/Calendario-actividades.php" class="nav__link">
@@ -183,7 +188,7 @@
                             <span class="nav__name">Graficos y Reportes</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
@@ -195,7 +200,7 @@
                     ?>
                         <a href="../views/control-actividades-JefeCoordinador.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
-                            <span class="nav__name">Control de actividades</span>
+                            <span class="nav__name">Administrativo</span>
                         </a>
 
                         <a href="../views/Calendario-actividades.php" class="nav__link">
@@ -208,8 +213,8 @@
                             <span class="nav__name">Graficos y Reportes</span>
                         </a>
 
-                        <a href="" class="nav__link">
-                            <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
+                        <a href="../views/control-recibir-permisos.php" class="nav__link">
+                            <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Control Permisos</span>
                         </a>
                     <?php 

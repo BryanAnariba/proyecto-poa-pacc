@@ -21,8 +21,6 @@
                     !empty($_POST['idObjetivoInstitucional']) &&
                     isset($_POST['idResultadoInstitucional']) &&
                     !empty($_POST['idResultadoInstitucional']) &&
-                    isset($_POST['idTipoActividad']) &&
-                    !empty($_POST['idTipoActividad']) &&
                     isset($_POST['indicadoresResultado']) &&
                     !empty($_POST['indicadoresResultado']) &&
                     isset($_POST['justificacionActividad']) &&
@@ -49,7 +47,6 @@
                         $_POST['idDimension'],
                         $_POST['idObjetivoInstitucional'],
                         $_POST['idResultadoInstitucional'],
-                        $_POST['idTipoActividad'],
                         $_POST['indicadoresResultado'],
                         $_POST['justificacionActividad'],
                         $_POST['medioVerificacionActividad'],

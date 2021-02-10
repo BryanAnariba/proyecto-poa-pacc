@@ -13,10 +13,12 @@
                     isset($_POST['presupuestoAnual']) && 
                     !empty($_POST['presupuestoAnual']) &&
                     isset($_POST['estadoPresupuestoAnual']) &&
-                    !empty($_POST['estadoPresupuestoAnual'])
+                    !empty($_POST['estadoPresupuestoAnual']) &&
+                    isset($_POST['fechaPresupuestoAnual']) &&
+                    !empty($_POST['fechaPresupuestoAnual']) 
                     ) {
                     $presupuesto = new PresupuestosController();
-                    $presupuesto->registrarPresupuestoAnual($_POST['presupuestoAnual'], $_POST['estadoPresupuestoAnual']);
+                    $presupuesto->registrarPresupuestoAnual($_POST['presupuestoAnual'], $_POST['estadoPresupuestoAnual'], $_POST['fechaPresupuestoAnual']);
                 } else {
                     $presupuesto = new PresupuestosController();
                     $presupuesto->peticionNoValida();

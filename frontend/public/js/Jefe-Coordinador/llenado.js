@@ -133,28 +133,7 @@ $(document).ready(function(){
             });
             $("#save").click(function(){
                 //$('#modalLlenadoActividades').modal('hide');
-                pos=1;
-                current_fs = $(this).parent();
-                for(let i=1;i<5;i++){
-                    $("#progressbar li").eq(i).removeClass("active");
-                };
-                current_fs.animate({opacity: 0}, {
-                step: function(now) {
-                    // for making fielset appear animation
-                    opacity = 1 - now;
-                    
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                        $("#primero").css({'opacity': opacity});
-                    },
-                        duration: 600
-                });
-                $("#primero").show();
-                $("#msform")[0].reset();
-                $("form").trigger("change");
-                resetW();
+                
             });
             $("#close").click(function(){
                 pos=1;
@@ -197,6 +176,12 @@ $(document).ready(function(){
 //localStorage.removeItem("Dimension");
 
 const vaciarAct = () => {
+    document.querySelector(`#labelNombreActividad`).classList.remove('text-danger')
+    document.querySelector('#NombreActividad').classList.remove('text-danger');
+    document.querySelector('#NombreActividad').classList.remove('is-invalid')
+    document.querySelector(`#errorsNombreActividad`).classList.add('d-none');
+    $("#NombreActividad").val("").trigger("change");
+
     document.querySelector(`#labelCantidadPersonas`).classList.remove('text-danger')
     document.querySelector('#CantidadPersonas').classList.remove('text-danger');
     document.querySelector('#CantidadPersonas').classList.remove('is-invalid')
@@ -415,12 +400,18 @@ const ag = () => {
                     data: JSON.stringify(parametros),
                     success:function(response) {
                         const { data } = response;
-                        console.log(data);
-                        $('#ResultadosInstitucional').append(`<option value="" selected>Seleccione Un Resultado Institucional</option>`);
+                        console.log(data);      
+                        if (idResultadoInstitucionalModificar===null) {
+                            $('#ResultadosInstitucional').html(`<option value="" selected>Seleccione Un Resultado Institucional</option>`);
+                        }                   
                         for(let i=0; i<data.length; i++) {
-                            $('#ResultadosInstitucional').append(`
-                                <option value="${ data[i].idResultadoInstitucional }">${ data[i].resultadoInstitucional }</option>
-                            `);
+                            if (data[i].idResultadoInstitucional === idResultadoInstitucionalModificar){
+                                $('#ResultadosInstitucional').html(`<option value="${ idResultadoInstitucionalModificar }" selected>${ resultadoInstitucionalModificar }</option>`);
+                            } else {
+                                $('#ResultadosInstitucional').append(`
+                                    <option value="${ data[i].idResultadoInstitucional }">${ data[i].resultadoInstitucional }</option>
+                                `);
+                            }
                         }
                     },
                     error:function(error) {
@@ -463,8 +454,8 @@ const validar = (posicion) =>{
             let Ri = { valorEtiqueta: ResultadosInstitucional, id: 'ResultadosInstitucional', name: 'Resultados Institucionales' ,type: 'select' };
 
 
-            let isValidResultadosDeUnidad = verificarInputText(rU,letrasEspaciosCaracteresRegex);
-            let isValidIndicador = verificarInputText(Ir,letrasEspaciosCaracteresRegex);
+            let isValidResultadosDeUnidad = verificarInputText(rU,justificacionRegex);
+            let isValidIndicador = verificarInputText(Ir,justificacionRegex);
             let isValidResultadosInstitucional = verificarSelect(Ri);
 
             if (
@@ -483,7 +474,12 @@ const validar = (posicion) =>{
                         console.log(data);
                         
                         correlativoSeleccionado = data.correlativoActividad;
-                        $('#CorrelativoGeneradoParaRegistrar').val(data.correlativoActividad);
+                        if (correlativoModificar === null) {
+                            $('#CorrelativoGeneradoParaRegistrar').val(data.correlativoActividad);
+                        } else {
+                            $('#CorrelativoGeneradoParaRegistrar').val(correlativoModificar);
+                        }
+                        
                     },
                     error:function(error) {
                         console.log(error.responseText);
@@ -514,37 +510,37 @@ const validar = (posicion) =>{
         case 2:
             let Actividad = document.querySelector('#Actividads');
             let Ac = { valorEtiqueta: Actividad, id: 'Actividads', name: 'Actividad', min: 1, max: 200, type: 'text' };
-            let isValidActividad = verificarInputText(Ac,letrasEspaciosCaracteresRegex);
+            let isValidActividad = verificarInputText(Ac,justificacionRegex);
             if (
                 (isValidActividad === true)
             ) {
-                $.ajax(`${ API }/tipo-actividad/listar-tipo-costos-actividad.php`,{
-                    type: 'POST',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success:function(response) {
-                        const { data } = response;
-                        console.log(data);
-                        $('#TipoActividad').html(`<option value="" selected>Seleccione tipo costo actividad</option>`);
-                        for(let i=0;i<data.length;i++) {
-                            $('#TipoActividad').append(`<option value="${ data[i].idTipoActividad }">${ data[i].TipoActividad }</option>`);
-                        }
-                    },
-                    error:function(error) {
-                        console.log(error.responseText);
-                        const { status, data } = error.responseJSON;
-                        if (status === 401) {
-                            window.location.href = '../views/401.php';
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`,
-                                footer: '<b>Por favor recarge la pagina o comuniquese con el super administrador</b>'
-                            });
-                        }
-                    }
-                });
+                // $.ajax(`${ API }/tipo-actividad/listar-tipo-costos-actividad.php`,{
+                //     type: 'POST',
+                //     dataType: 'json',
+                //     contentType: 'application/json',
+                //     success:function(response) {
+                //         const { data } = response;
+                //         console.log(data);
+                //         $('#TipoActividad').html(`<option value="" selected>Seleccione tipo costo actividad</option>`);
+                //         for(let i=0;i<data.length;i++) {
+                //             $('#TipoActividad').append(`<option value="${ data[i].idTipoActividad }">${ data[i].TipoActividad }</option>`);
+                //         }
+                //     },
+                //     error:function(error) {
+                //         console.log(error.responseText);
+                //         const { status, data } = error.responseJSON;
+                //         if (status === 401) {
+                //             window.location.href = '../views/401.php';
+                //         } else {
+                //             Swal.fire({
+                //                 icon: 'error',
+                //                 title: 'Ops...',
+                //                 text: `${ data.message }`,
+                //                 footer: '<b>Por favor recarge la pagina o comuniquese con el super administrador</b>'
+                //             });
+                //         }
+                //     }
+                // });
                 return true
             } else { // caso contrario mostrar alerta y notificar al usuario 
                 Swal.fire({
@@ -557,61 +553,94 @@ const validar = (posicion) =>{
             }
         break;
         case 3:
-            $('#modalFormLlenadoDimension').modal('hide');
-            $('#PresupuestoActividad').trigger('reset');
-            let costoActividad = document.querySelector('#PresupuestoActividad');
-            let cA = { valorEtiqueta: costoActividad, id: 'PresupuestoActividad', name: 'Costo Actividad', min: 1, max: 10, type: 'text' };
-            let isValidCostoActividad = verificarInputText(cA, regexNumeroPositivoEnteroCalculo);
-            let sumatoriaPorcentajes = ($('#PorcentPTrimestre').val()/100) + ($('#PorcentSTrimestre').val()/100) + ($('#PorcentTTrimestre').val()/100) + ($('#PorcentCTrimestre').val()/100);
-            let presupuestoUtilizado = $('#PresupuestoUtilizado').val();
-            let presupuestoTotal = $('#PresupuestoDisponible').val();
-            let nuevoPresupuestoUtilizado = Number(presupuestoUtilizado) + Number(costoActividad.value);
-            let tipoAct = document.querySelector('#TipoActividad');
-            let tA = { valorEtiqueta: tipoAct, id: 'TipoActividad', name: 'Tipo Actividad', type: 'select' };
-            let isValidTipoActividad = verificarSelect(tA);
-            console.log(nuevoPresupuestoUtilizado);
-            if ((isValidCostoActividad===true) && (sumatoriaPorcentajes === 1) && (Number(nuevoPresupuestoUtilizado) < presupuestoTotal) && (isValidTipoActividad === true)) { 
-                let parametros = {
-                    costoTotalActividad: Number($('#PresupuestoActividad').val()),
-                    porcentajeTrimestre1: Number($('#PorcentPTrimestre').val()),
-                    porcentajeTrimestre2: Number($('#PorcentSTrimestre').val()),
-                    porcentajeTrimestre3: Number($('#PorcentTTrimestre').val()),
-                    porcentajeTrimestre4: Number($('#PorcentCTrimestre').val())
-                };
-                console.log(parametros);
-                $.ajax(`${ API }/actividades/verifica-costos-actividad.php`, {
-                    type: 'POST',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    data: JSON.stringify(parametros),
-                    success:function(response) {
-                        const { data } = response;
-                        console.log(data); 
-                    },
-                    error:function(error) {
-                        console.log(error.responseText);
-                        const { status, data } = error.responseJSON;
-                        if (status === 401) {
-                            window.location.href = '../views/401.php';
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`,
-                                footer: '<b>Verifique los datos del paso Metas Trimestrales Nuevamente</b>'
-                            });
-                        }
+                console.log('works')
+                $('#modalFormLlenadoDimension').modal('hide');
+                $('#PresupuestoActividad').trigger('reset');
+                let costoActividad = document.querySelector('#PresupuestoActividad');
+                let cA = { valorEtiqueta: costoActividad, id: 'PresupuestoActividad', name: 'Costo Actividad', min: 1, max: 10, type: 'text' };
+                let isValidCostoActividad = verificarInputText(cA, regexNumeroPositivoEnteroCalculo);
+                let sumatoriaPorcentajes = ($('#PorcentPTrimestre').val()/100) + ($('#PorcentSTrimestre').val()/100) + ($('#PorcentTTrimestre').val()/100) + ($('#PorcentCTrimestre').val()/100);
+                let presupuestoUtilizado = $('#PresupuestoUtilizado').val();
+                let presupuestoTotal = $('#PresupuestoDisponible').val();
+                let nuevoPresupuestoUtilizado = Number(presupuestoUtilizado) + Number(costoActividad.value);
+                console.log(nuevoPresupuestoUtilizado);
+                if ((isValidCostoActividad===true) && (sumatoriaPorcentajes === 1)) { 
+                    let parametros = {
+                        costoTotalActividad: Number($('#PresupuestoActividad').val()),
+                        porcentajeTrimestre1: Number($('#PorcentPTrimestre').val()),
+                        porcentajeTrimestre2: Number($('#PorcentSTrimestre').val()),
+                        porcentajeTrimestre3: Number($('#PorcentTTrimestre').val()),
+                        porcentajeTrimestre4: Number($('#PorcentCTrimestre').val())
+                    };
+                    console.log(parametros);
+                    if (esModificacion === true) {
+                        let parametro = {
+                            costoTotalActividad: Number($('#PresupuestoActividad').val()),
+                            idActividad: parseInt(idActividadParaModificar)
+                        };
+                        $.ajax(`${ API }/actividades/verificar-costo-actividad-modificar.php`, {
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            data: JSON.stringify(parametro),
+                            success:function(response) {
+                                const { data } = response;
+                                console.log(data);
+                            },
+                            error:function(error) {
+                                console.log(error.responseText);
+                                const { status, data } = error.responseJSON;
+                                if (status === 401) {
+                                    window.location.href = '../views/401.php';
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Ops...',
+                                        text: `${ data.message }`,
+                                        footer: '<b>Verifique los datos del paso Metas Trimestrales Nuevamente</b>'
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        $.ajax(`${ API }/actividades/verifica-costos-actividad.php`, {
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            data: JSON.stringify(parametros),
+                            success:function(response) {
+                                const { data } = response;
+                                console.log(data);
+                            },
+                            error:function(error) {
+                                console.log(error.responseText);
+                                const { status, data } = error.responseJSON;
+                                if (status === 401) {
+                                    window.location.href = '../views/401.php';
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Ops...',
+                                        text: `${ data.message }`,
+                                        footer: '<b>Verifique los datos del paso Metas Trimestrales Nuevamente</b>'
+                                    });
+                                }
+                            }
+                        });
                     }
-                });
-                return true;
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops...',
-                    text: 'No puedes seguir, verifica que el costo de la actividad este correctamente escrito, o que la sumatoria de los porcentajes digitados de 1 o que el costo de la actividad no exceda el costo disponible del departamento',
-                    footer: '<b>Por favor digite el presupuesto de la actividad</b>'
-                });
-            }
+                    
+                    
+                    return true;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'No puedes seguir, verifica que el costo de la actividad este correctamente escrito, o que la sumatoria de los porcentajes digitados de 1 o que el costo de la actividad no exceda el costo disponible del departamento',
+                        footer: '<b>Por favor digite el presupuesto de la actividad</b>'
+                    });
+                    
+                    return false;
+                }
         break;
         case 4:
             return true
@@ -624,8 +653,8 @@ const validar = (posicion) =>{
                 footer: '<b>Por favor verifique el formulario de registro</b>'
             });    
         break;
-        // code block
     }
+               // code block
 }
 var valor;
 const agregarAct = () => {
@@ -633,6 +662,7 @@ const agregarAct = () => {
     console.log(costoTotalActividadSeleccionada);
 
     // Campos que tienen en comun
+    let nombreActividad = document.querySelector('#NombreActividad');
     let Cantidad = document.querySelector('#Cantidad');
     let Costo = document.querySelector('#Costo');
     let CostoT = document.querySelector('#CostoT');
@@ -652,6 +682,7 @@ const agregarAct = () => {
     let setenta = document.querySelector('#Setenta');
     let treinta = document.querySelector('#Treinta');
     
+    let nAct = { valorEtiqueta: nombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 300, type: 'text' };
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
     let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
@@ -669,6 +700,7 @@ const agregarAct = () => {
     let valorSetenta = { valorEtiqueta: setenta, id: 'Setenta', name: 'Valor de 0 a 70', min: 1, max: 2, type: 'number' };
     let valorTreinta = { valorEtiqueta: treinta, id: 'Treinta', name: 'Valor de 0 a 30', min: 1, max: 2, type: 'number' };
 
+    let isValidNombreActividad = verificarInputText(nAct, justificacionRegex);
     let isValidCantidad = verificarInputNumber(Ca,numerosRegex);
     let isValidCosto = verificarInputNumber(Co,numerosRegex);
     let isValidCostoT = verificarInputNumber(CoT,numerosRegex);
@@ -681,6 +713,7 @@ const agregarAct = () => {
             case  1:
                 let isValidCantidadPersonas = verificarInputNumber(CaP,numerosRegex);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -694,6 +727,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -745,6 +779,7 @@ const agregarAct = () => {
             case  2:
                 let isValidMeses = verificarInputNumber(mes,numerosRegex);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -758,6 +793,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -809,6 +845,7 @@ const agregarAct = () => {
             break;
             case  3:
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -821,6 +858,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Number(Costo.value),
                         costoTotal: CostoT.value,
@@ -841,7 +879,6 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
-                            
                             $('#modalRegistroDimensionAdmin').modal('hide');
                             generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
@@ -862,6 +899,7 @@ const agregarAct = () => {
                         }
                     });
                 } else { // caso contrario mostrar alerta y notificar al usuario 
+                    
                     Swal.fire({
                         icon: 'error',
                         title: 'Ops...',
@@ -871,8 +909,9 @@ const agregarAct = () => {
                 }
             break;
             case  4:
-                let isValidTipoEquipoTecnologico = verificarInputText(tET, letrasEspaciosCaracteresRegex);
+                let isValidTipoEquipoTecnologico = verificarInputText(tET, justificacionRegex);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -886,6 +925,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -906,7 +946,6 @@ const agregarAct = () => {
                             title: 'Accion realizada Exitosamente',
                             text: `${ data.message }`
                             });
-                            
                             $('#modalRegistroDimensionAdmin').modal('hide');
                             generaTablasAcordeDimension(document.querySelector('#DimensionAdministrativa'));
                             vaciarAct();
@@ -937,6 +976,7 @@ const agregarAct = () => {
             break;
             case  5:
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -949,6 +989,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -999,8 +1040,9 @@ const agregarAct = () => {
                 }
             break;
             case  6:
-                let isValidaAreaBeca = verificarInputText(aB, letrasEspaciosCaracteresRegex);
+                let isValidaAreaBeca = verificarInputText(aB, justificacionRegex);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -1014,6 +1056,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -1066,6 +1109,7 @@ const agregarAct = () => {
             case  7:
                 let isValidProyecto = verificarSelect(project);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -1079,6 +1123,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -1129,12 +1174,13 @@ const agregarAct = () => {
                 }
             break;
             case  8:
-                let isDescripcionDimOcho = verificarInputText(descripcionDim8,letrasEspaciosCaracteresRegex);
+                let isDescripcionDimOcho = verificarInputText(descripcionDim8,justificacionRegex);
                 let isValidCantidadDimOcho = verificarInputNumber(cantidadDimOcho,numerosRegex);
                 let isValidPrecioDimOcho = verificarInputNumber(precioDOcho,numerosRegex);
                 let isValidSetenta = verificarInputNumber(valorSetenta,numerosRegex);
                 let isValidTreinta = verificarInputNumber(valorTreinta,numerosRegex);
                 if (
+                    (isValidNombreActividad === true) &&
                     (isValidCantidad === true) &&
                     (isValidCosto === true) &&
                     (isValidCostoT === true) &&
@@ -1152,6 +1198,7 @@ const agregarAct = () => {
                         idObjetoGasto: parseInt(ObjGasto.value),
                         idTipoPresupuesto: parseInt(TipoPresupuesto.value),
                         idDimension: parseInt(idDimensionAdminSeleccionada),
+                        nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
@@ -1214,7 +1261,7 @@ const agregarAct = () => {
 }
 
 const insertaActividad = () => {
-    let Justificacion = document.querySelector('#Justificacions');
+            let Justificacion = document.querySelector('#Justificacions');
             let Medio = document.querySelector('#Medio');
             let Poblacion = document.querySelector('#Poblacion');
             let Responsable = document.querySelector('#Responsable');
@@ -1225,10 +1272,10 @@ const insertaActividad = () => {
             let Rp = { valorEtiqueta: Responsable, id: 'Responsable', name: 'Responsable', min: 1, max: 255, type: 'text' };
 
 
-            let isValidJustificacion = verificarInputText(jC,letrasEspaciosCaracteresRegex);
-            let isValidMedio = verificarInputText(mD,letrasEspaciosCaracteresRegex);
-            let isValidPoblacion = verificarInputText(Pb,letrasEspaciosCaracteresRegex);
-            let isValidResponsable = verificarInputText(Rp,letrasEspaciosCaracteresRegex);
+            let isValidJustificacion = verificarInputText(jC,justificacionRegex);
+            let isValidMedio = verificarInputText(mD,justificacionRegex);
+            let isValidPoblacion = verificarInputText(Pb,justificacionRegex);
+            let isValidResponsable = verificarInputText(Rp,justificacionRegex);
 
             if (
                 (isValidJustificacion === true) &&
@@ -1244,7 +1291,6 @@ const insertaActividad = () => {
                     resultadosUnidad: $('#ResultadosDeUnidad').val(),
                     indicadoresResultado: $('#Indicador').val(),
                     actividad: $('#Actividads').val(),
-                    idTipoActividad: parseInt($('#TipoActividad').val()),
                     correlativoActividad: correlativoSeleccionado,
                     porcentajeTrimestre1: Number($('#PorcentPTrimestre').val()/100),
                     porcentajeTrimestre2: Number($('#PorcentSTrimestre').val()/100),
@@ -1265,12 +1311,37 @@ const insertaActividad = () => {
                     contentType: 'application/json',
                     data: JSON.stringify(parametros),
                     success:function(response) {
-                        const { data } = response;
-                        console.log(data);
                         $('#modalFormLlenadoDimension').modal('hide');
+                        $('#modalLlenadoActividades').modal('hide');
                         llenar('DimensionesTablaModificar');
                         llenar('DimensionesTabla');
-                        $("#modalModificarDimension").modal('show');
+                        //$("#modalModificarDimension").modal('show');
+                        const { data } = response;
+                        console.log(data);
+                        //verActividades(data.idDimension);
+                        agregarDesglose(data.idActividad, data.costoActividad, data.idDimension)
+                        pos=1;
+                        current_fs = $(this).parent();
+                        for(let i=1;i<5;i++){
+                            $("#progressbar li").eq(i).removeClass("active");
+                        };
+                        current_fs.animate({opacity: 0}, {
+                        step: function(now) {
+                            // for making fielset appear animation
+                            opacity = 1 - now;
+                            
+                            current_fs.css({
+                                'display': 'none',
+                                'position': 'relative'
+                            });
+                                $("#primero").css({'opacity': opacity});
+                            },
+                                duration: 600
+                        });
+                        $("#msform")[0].reset();
+                        $("form").trigger("change");
+                        resetW();
+                        
                         Swal.fire({
                             icon: 'success',
                             title: 'Accion realizada Exitosamente',
@@ -1292,9 +1363,9 @@ const insertaActividad = () => {
                         }
                     }
                 });
-                $('#modalLlenadoActividades').modal('hide');
-                llenar('DimensionesTablaModificar');
-                $("#modalModificarDimension").modal('show');
+                // $('#modalLlenadoActividades').modal('hide');
+                // llenar('DimensionesTablaModificar');
+                // $("#modalModificarDimension").modal('show');
             } else { // caso contrario mostrar alerta y notificar al usuario 
                 Swal.fire({
                     icon: 'error',

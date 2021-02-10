@@ -5,10 +5,11 @@
         private $controlPresupuestoActividadModel;
         private $data;
 
-        public function registrarPresupuestoAnual ($presupuestoAnual, $estadoPresupuesto) {
+        public function registrarPresupuestoAnual ($presupuestoAnual, $estadoPresupuesto, $fechaPresupuesto) {
             $this->controlPresupuestoActividadModel = new ControlPresupuestoActividad(); 
             $this->controlPresupuestoActividadModel->setPresupuestoAnual($presupuestoAnual);   
             $this->controlPresupuestoActividadModel->setEstadoPresupuestoAnual($estadoPresupuesto);
+            $this->controlPresupuestoActividadModel->setFechaPresupuestoAnual($fechaPresupuesto);
 
             $this->data = $this->controlPresupuestoActividadModel->registrarPresupuesto();
 
@@ -42,6 +43,20 @@
             $this->controlPresupuestoActividadModel->setEstadoPresupuestoAnual($estadoPresupuesto);
 
             $this->data = $this->controlPresupuestoActividadModel->modificaPresupuesto();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function modificaEstadoLlenadoPresupuesto ($idPresupuestoAnual, $estadoPresupuesto) {
+            $this->controlPresupuestoActividadModel = new ControlPresupuestoActividad();
+            if ($estadoPresupuesto == 1) {
+                $this->controlPresupuestoActividadModel->setEstadoLlenadoActividades(0);
+            } else {
+                $this->controlPresupuestoActividadModel->setEstadoLlenadoActividades(1);
+            } 
+            $this->controlPresupuestoActividadModel->setIdControlPresupuestoActividad($idPresupuestoAnual);
+            $this->data = $this->controlPresupuestoActividadModel->cambiarEstadoPresupuesto();
 
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();

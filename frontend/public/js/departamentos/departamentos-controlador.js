@@ -289,7 +289,7 @@ const modificarDepartamento = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Listo',
-                    text: 'Registro actulizado con exito',
+                    text: 'Registro actualizado con exito',
                 })
             },
             error:function(error) {

@@ -14,6 +14,7 @@ const letrasEspaciosCaracteresRegex = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]/;
 const avatarUsuarioRegex = /^.+\.(jpe?g|gif|png)$/i;
 const codigoEmpleadoRegex = /^\d{1,5}$/;
 const nombresApellidosRegex = /^([a-z ñáéíóú]{1,80})$/i;
+const justificacionRegex = /^[\w]/;
 //const nombresApellidosRegex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 const extraeCamposEmailRegex = /^([^]+)@(\w+).(\w+).?(\w+)$/;
 const claveUsuarioRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{8,16}$/;
@@ -22,6 +23,7 @@ const regexNumeroPositivoEntero = /^[0-9]{1,3}$/;
 const regexNumeroPositivoEnteroCalculo = /^[+]?[0-9]{1,9}(?:.[0-9]{1,2})?$/;
 
 const codigoObjRegex = /^[0-9]{5}(-[0-9]{2})?$/;
+
 
 const i18nEspaniol = {
     "sProcessing":     "Procesando...",

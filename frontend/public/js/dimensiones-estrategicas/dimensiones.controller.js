@@ -250,9 +250,9 @@ const modificarDimension = () => {
 
                         // Peticiones de los objetivos institucionales
 let nombreObjetivo = document.querySelector('#R-objetivoInstitucional');
-let nO = { valorEtiqueta: nombreObjetivo, id: 'R-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+let nO = { valorEtiqueta: nombreObjetivo, id: 'R-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 800, type: 'text' };
 let nombreObjetivoModificar = document.querySelector('#M-objetivoInstitucional');
-let nOM = { valorEtiqueta: nombreObjetivoModificar, id: 'M-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+let nOM = { valorEtiqueta: nombreObjetivoModificar, id: 'M-objetivoInstitucional', name: 'Objetivo Institucional', min: 1, max: 800, type: 'text' };
 
 const verObjetivosInstitucionales = (idDimension) => {
     idDimensionSeleccionada = idDimension;
@@ -736,7 +736,7 @@ const modalRegistraResultadoInstitucional = () => {
 
 const registrarResultado = () => {
     let resultadoInstitucional = document.querySelector('#R-resultadoInstitucional');
-    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 700, type: 'text' };
     const isValidResultado = verificarInputText(rI, letrasEspaciosCaracteresRegex);
     if (isValidResultado) {
         let parametros = {
@@ -790,7 +790,7 @@ const registrarResultado = () => {
 
 cancelarRegistroResultado = () => {
     let resultadoInstitucional = document.querySelector('#R-resultadoInstitucional');
-    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    let rI = { valorEtiqueta: resultadoInstitucional, id: 'R-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 600, type: 'text' };
     limpiarCamposFormulario(rI);
     $(`#R-resultadoInstitucional`).trigger('reset');
 }
@@ -841,7 +841,7 @@ const modalModificarResultadoSeleccionado = (idResultadoInstitucional, resultado
 
 const modificarResultado = () => {
     let resultadoInstitucionalModificado = document.querySelector('#M-resultadoInstitucional');
-    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 700, type: 'text' };
     const isValidResultado = verificarInputText(rIM, letrasEspaciosCaracteresRegex);
     if (isValidResultado) {
         let parametros = {
@@ -895,7 +895,7 @@ const modificarResultado = () => {
 
 cancelarModificacionResultado = () => {
     let resultadoInstitucionalModificado = document.querySelector('#M-resultadoInstitucional');
-    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 500, type: 'text' };
+    let rIM = { valorEtiqueta: resultadoInstitucionalModificado, id: 'M-resultadoInstitucional', name: 'Objetivo Institucional', min: 1, max: 700, type: 'text' };
     limpiarCamposFormulario(rIM);
     $(`#R-resultadoInstitucional`).trigger('reset');
 }

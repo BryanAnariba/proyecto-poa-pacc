@@ -119,7 +119,7 @@
         }
 
         public function registroResultadoInstitucional () {
-            if (is_int($this->idEstadoResultadoInstitucional) && is_int($this->idAreaEstrategica) && campoTexto($this->resultadoInstitucional, 1, 500)) {
+            if (is_int($this->idEstadoResultadoInstitucional) && is_int($this->idAreaEstrategica) && campoTexto($this->resultadoInstitucional, 1, 700)) {
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();

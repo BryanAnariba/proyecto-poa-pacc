@@ -34,14 +34,17 @@ const openModalRegistroPresupuesto = () => {
 const registrarPresupuesto = () => {
     let presupuestoAnual = document.querySelector('#R-presupuestoAnual');
     let pA = { valorEtiqueta: presupuestoAnual, id: 'R-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
-
+    let fechaPresupuesto = document.querySelector('#R-fechaPresupuestoAnual');
+    let fP = { valorEtiqueta: fechaPresupuesto, id: 'R-fechaPresupuestoAnual', name: 'Fecha del presupuesto', type: 'date' };
     let isValidPresupuestoAnual = verificarInputNumber(pA, regexCampoMonetario);
+    let isValidFecha = verificarInputText(fP,justificacionRegex);
 
-    if (isValidPresupuestoAnual === true) {
+    if ((isValidPresupuestoAnual === true) && (isValidFecha === true)) {
         $('#btn-registrar-presupuesto').prop('disabled', true);
         let parametros = {
             presupuestoAnual: Number(presupuestoAnual.value),
-            estadoPresupuestoAnual: parseInt($('#estadoPresupuestoAnual').val())
+            estadoPresupuestoAnual: parseInt($('#estadoPresupuestoAnual').val()),
+            fechaPresupuestoAnual: fechaPresupuesto.value
         };
         console.log(parametros);
         $.ajax(`${ API }/presupuestos/registrar-presupuesto-anual.php` , {
@@ -90,8 +93,12 @@ const registrarPresupuesto = () => {
 const cancelarRegistroPresupuesto = () => {
     let presupuestoAnual = document.querySelector('#R-presupuestoAnual');
     let pA = { valorEtiqueta: presupuestoAnual, id: 'R-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
+    let fechaPresupuesto = document.querySelector('#R-fechaPresupuestoAnual');
+    let fP = { valorEtiqueta: fechaPresupuesto, id: 'R-fechaPresupuestoAnual', name: 'Fecha del presupuesto', type: 'date' };
     limpiarCamposFormulario(pA);
     $('#R-presupuestoAnual').trigger('reset');
+    limpiarCamposFormulario(fP);
+    $('#R-fechaPresupuestoAnual').val('');
 }
 const cancelarModificacionPresupuesto = () => {
     let presupuestoAnual = document.querySelector('#M-presupuestoAnual');
@@ -130,12 +137,13 @@ const listarPresupuestos = () => {
                             <h5>${ data[i].fechaPresupuesto }</h5>
                         </td>
                         <td class="my-auto">
-                            <button type="button" class="btn btn-info btn-sm" onclick="">
-                                <img src="../img/menu/ver-icon.svg" alt="Ver Mas"/>
-                            </button>
+                        <button type="button" ${data[i].estadoLlenadoActividades === 1 ? `class="btn btn-success" ` : `class="btn btn-danger" `}
+                        onclick="modificarEstadoLlenado('${data[i].idControlPresupuestoActividad}','${data[i].estadoLlenadoActividades}')">
+                            ${data[i].estadoLlenadoActividades === 1 ? `Abierto` : `Cerrado `}
+                        </button>
                         </td>
                         <td class="my-auto">
-                            <button type="button" class="btn btn-info btn-sm" onclick="modificarPresupuesto(${ data[i].idControlPresupuestoActividad })">
+                            <button type="button" class="btn btn-info btn-sm" onclick="modificarPresupuesto('${ data[i].idControlPresupuestoActividad }','${ data[i].idEstadoPresupuestoAnual }')">
                                 <img src="../img/menu/visualizar-icon.svg" alt="Modificar Presupuesto"/>
                             </button>
                         </td>
@@ -169,7 +177,7 @@ const listarPresupuestos = () => {
 let presupuestoAnualModificar = document.querySelector('#M-presupuestoAnual');
 let pAM = { valorEtiqueta: presupuestoAnualModificar, id: 'M-presupuestoAnual', name: 'Presupuesto Anual', min: 1, max: 15, type: 'number' };
 let idPresupuestoSeleccionado = null;
-const modificarPresupuesto = (idControlPresupuestoActividad) => {
+const modificarPresupuesto = (idControlPresupuestoActividad, idEstadoActividad) => {
     
     $('#M-estadoPresupuestoAnual').html(``);
     idPresupuestoSeleccionado = idControlPresupuestoActividad;
@@ -186,12 +194,18 @@ const modificarPresupuesto = (idControlPresupuestoActividad) => {
             dataType: 'json',
             contentType: 'application/json'
     }))
-    .done(function(presupuestoResponse, estadosResponse) {
+    .done(function(presupuestoResponse,estadosResponse) {
         $('#M-presupuestoAnual').val(presupuestoResponse[0].data.presupuestoAnual).trigger('change');
         for(let i=0;i<estadosResponse[0].data.length; i++) {
-            $('#M-estadoPresupuestoAnual').append(`
-                <option value="${ estadosResponse[0].data[i].idEstado }">${ estadosResponse[0].data[i].estado }</option>
+            if(estadosResponse[0].data[i].idEstado === parseInt(idEstadoActividad)) {
+                $('#M-estadoPresupuestoAnual').append(`
+                <option value="${ estadosResponse[0].data[i].idEstado }" selected>${ estadosResponse[0].data[i].estado }</option>
             `);
+            } else {
+                $('#M-estadoPresupuestoAnual').append(`
+                <option value="${ estadosResponse[0].data[i].idEstado }">${ estadosResponse[0].data[i].estado }</option>
+                `);
+            }
         }
         $('#modalModificarPresupuestoAnual').modal('show');
     })
@@ -214,7 +228,7 @@ const modificaPresupuesto = () => {
     let isValidPresupuestoAnual = verificarInputNumber(pAM, regexCampoMonetario);
     if (isValidPresupuestoAnual === true) {
         let parametros = {
-            idControlPresupuestoActividad: idPresupuestoSeleccionado,
+            idControlPresupuestoActividad: parseInt(idPresupuestoSeleccionado),
             presupuestoAnual: Number(document.querySelector('#M-presupuestoAnual').value),
             estadoPresupuestoAnual: parseInt($('#M-estadoPresupuestoAnual').val())
         };
@@ -282,6 +296,7 @@ const asignarPresupuestoDepto = () => {
             data: JSON.stringify({ idEstadoDepartamento: 1 })
         }))
         .done(function(informacionPresupuestoResponse, presupuestoDepartamentosResponse, departamentosFacultadResponse) {
+            $('#listado-presupuestos-departamentos').dataTable().fnDestroy();
             let infoPresupuestos = informacionPresupuestoResponse[0].data;
             let listadoDepartamentos = departamentosFacultadResponse[0].data;
             let presupuestoTotal = (infoPresupuestos.presupuestoAnual === null ? 0 : infoPresupuestos.presupuestoAnual);
@@ -298,11 +313,7 @@ const asignarPresupuestoDepto = () => {
             }
 
             console.log(presupuestoDepartamentosResponse[0].data);
-            if (presupuestoDepartamentosResponse[0].data.length === 0) {
-                $('#notificacion-presupuesto-departamentos').html(`
-                    <span class="text-primary font-weigth-bolder text-center">No se ha asignado presupuesto, a los departamentos para este año<span>
-                `);
-            } else {
+
                 let presupuestoDepartamentos = presupuestoDepartamentosResponse[0].data;
                 $('#listado-presupuestos-departamentos tbody').html(``);
                 for (let i=0;i<presupuestoDepartamentos.length; i++) {
@@ -334,13 +345,12 @@ const asignarPresupuestoDepto = () => {
                     </tr>
                 `)
                 }
-                $('#listado-presupuestos').DataTable({
+                $('#listado-presupuestos-departamentos').DataTable({
                     language: i18nEspaniol,
                     //dom: 'Blfrtip',
                     //buttons: botonesExportacion,
                     retrieve: true
                 });
-            }
         })
         .fail(function(error) {
             console.log(error);
@@ -492,4 +502,41 @@ const cancelarModificacionPresupuestoDepartamentos = () => {
     let pD = { valorEtiqueta: presupuestoDepartamento, id: 'M-presupuestoDepto', name: 'Presupuesto Departamento', min: 1, max: 15, type: 'number' };
     limpiarCamposFormulario(pD);
     $('#M-presupuestoDepto').trigger('reset');
+}
+
+const modificarEstadoLlenado = (idPresupuesto, idEstadoLlenado) => {
+    let parametros = {
+        idControlPresupuestoActividad: parseInt(idPresupuesto),
+        estadoLlenadoActividades: parseInt(idEstadoLlenado)
+    };
+
+    $.ajax(`${ API }/presupuestos/modificar-estado-llenado-presupuesto.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(parametros),
+        success:function(response) {
+            const { data } = response;
+            listarPresupuestos();
+            Swal.fire({
+                icon: 'success',
+                title: 'Accion realizada Exitosamente',
+                text: `${ data.message }`,
+            });
+        },
+        error:function(error) {
+            console.log(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor recargue la pagina</b>'
+            });
+        }
+    });
+    console.log(parametros);
 }

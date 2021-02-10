@@ -176,7 +176,7 @@ include('verifica-session.php');
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="card-body">
+                    <div class="card-body" id="descripcion-presupuesto">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="md-form">
@@ -265,7 +265,7 @@ include('verifica-session.php');
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="md-form">
                                 <input type="number" id="R-presupuestoAnual" class="form-control" maxlength="1" minlength="15" required>
                                 <span id="errorsR-presupuestoAnual" class="text-danger text-small d-none">
@@ -275,11 +275,22 @@ include('verifica-session.php');
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="md-form">
                                 <select name="" id="estadoPresupuestoAnual" class="form-control">
 
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="md-form">
+                                <div class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                                    <input placeholder="Select date" type="date" class="form-control" id="R-fechaPresupuestoAnual">
+                                    <span id="errorsR-fechaPresupuestoAnual" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="R-fechaPresupuestoAnual" id="labelM-fechaNacimiento">Fecha recibimiento del presupuesto
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

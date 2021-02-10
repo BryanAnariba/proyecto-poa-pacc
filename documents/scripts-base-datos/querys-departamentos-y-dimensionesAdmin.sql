@@ -90,3 +90,4 @@ UPDATE DimensionAdmin
 SET dimensionAdministrativa = dimension 
 WHERE idDimension = idDimensionAdministrativa;
 
+

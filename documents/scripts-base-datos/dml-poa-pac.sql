@@ -442,3 +442,6 @@ INSERT INTO `poa-pacc-bd`.`tipopresupuesto`
 VALUES
 (2,
 'Programa/Proyecto');
+
+INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Pendiente');
+INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Hecha');

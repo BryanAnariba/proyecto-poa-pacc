@@ -8,6 +8,14 @@
             return false;
         }
     }
+
+    function campoParaTodo ($parametro, $min, $max) {
+        if ((preg_match("/^[\w]/", $parametro)==true) && (strlen($parametro) >= $min) && (strlen($parametro) <= $max)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     function campoCodigo ($parametro, $min, $max) {
         if ((preg_match("/^[0-9]{5}(-[0-9]{2})?$/", $parametro) == true) &&  (strlen($parametro) >= $min) && (strlen($parametro) <= $max)) {
             return true;

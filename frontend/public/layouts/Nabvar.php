@@ -18,12 +18,14 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="../img/menu/email.svg" width="40" class="rounded-circle z-depth-0 " alt="avatar image">
                 </a>
-                <div id="dropdown-acciones" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
+                <div id="dropdown-notificaciones" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
                     <a class="dropdown-item" href="#">Notificacion 1</a>
                     <a class="dropdown-item" href="#">Notificacion 2</a>
                     <a class="dropdown-item" href="#">Notificacion 3</a>
                 </div>
             </li>
+
+
             <li class="nav-item avatar dropdown dropdown-items">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="text-white"><?=$_SESSION['nombreUsuario']?></span>

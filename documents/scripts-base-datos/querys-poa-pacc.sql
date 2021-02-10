@@ -727,3 +727,109 @@ SELECT
     ) AS costoActividad
     FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) 
     WHERE Actividad.idActividad = 15
+
+-- Consulta para verificar el estado del presupuesto
+WITH CTE_VER_ESTADO_ANUAL_PRESUPUESTO AS (
+	SELECT ControlPresupuestoActividad.fechaPresupuestoAnual,
+	DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS anioPresupuesto,
+    ControlPresupuestoActividad.idEstadoPresupuestoAnual,
+    EstadoDCDUOAO.estado
+    FROM ControlPresupuestoActividad INNER JOIN EstadoDCDUOAO 
+    ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado)
+) SELECT * FROM  CTE_VER_ESTADO_ANUAL_PRESUPUESTO 
+WHERE DATE_FORMAT(CTE_VER_ESTADO_ANUAL_PRESUPUESTO.fechaPresupuestoAnual,'%Y') = DATE_FORMAT(NOW(), '%Y');
+
+
+-- ALTER TABLE CostoActividadPorTrimestre ADD COLUMN sumatoriaPorcentaje DECIMAL(3,2);
+-- ALTER TABLE DescripcionAdministrativa DROP COLUMN nombreACtividad;
+
+
+
+
+SELECT 
+	DimensionEstrategica.idDimension,
+    DimensionEstrategica.dimensionEstrategica,
+    DimensionEstrategica.idEstadoDimension,
+    Actividad.fechaCreacionActividad,
+    DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') AS anioActividades,
+    COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension,
+    Usuario.idDepartamento
+    FROM DimensionEstrategica 
+    RIGHT JOIN Actividad ON (DimensionEstrategica.idDimension = Actividad.idDimension) 
+    LEFT JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+    WHERE DimensionEstrategica.idEstadoDimension = 1 
+    AND DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = DATE_FORMAT(NOW(),'%Y') 
+    AND Usuario.idDepartamento = 1 AND DimensionEstrategica.idDimension BETWEEN (
+    SELECT
+	LlenadoActividadDimension.valorLlenadoDimensionInicial
+    FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+    WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+) AND (
+    SELECT 
+	LlenadoActividadDimension.valorLlenadoDimensionFinal
+    FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+    WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+)
+GROUP BY DimensionEstrategica.idDimension
+
+
+-- CONSULTAS PARA GENERAR EL EXCEL HABIENDO LLENADO LAS DIMENSIONES CORRESPONDIENTES
+SELECT 
+	DimensionEstrategica.idDimension,
+    DimensionEstrategica.dimensionEstrategica,
+    DimensionEstrategica.idEstadoDimension,
+    DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') AS anioActividades,
+    COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension,
+    Usuario.idDepartamento
+    FROM DimensionEstrategica 
+    RIGHT JOIN Actividad ON (DimensionEstrategica.idDimension = Actividad.idDimension) 
+    LEFT JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+    WHERE DimensionEstrategica.idEstadoDimension = 1 
+    AND DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = DATE_FORMAT(NOW(),'%Y') 
+    AND Usuario.idDepartamento = 4 
+    AND DimensionEstrategica.idDimension BETWEEN 
+        (
+            SELECT
+            LlenadoActividadDimension.valorLlenadoDimensionInicial
+            FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+            WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+        ) 
+        AND 
+        (
+        SELECT 
+        LlenadoActividadDimension.valorLlenadoDimensionFinal
+        FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+    )
+GROUP BY DimensionEstrategica.idDimension
+
+
+SELECT COUNT(*) cantidadDimensionesUsuario FROM dimensionestrategica WHERE idDimension BETWEEN 
+    (
+    SELECT
+        LlenadoActividadDimension.valorLlenadoDimensionInicial
+        FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+    ) 
+    AND 
+    (
+        SELECT 
+        LlenadoActividadDimension.valorLlenadoDimensionFinal
+        FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+    );
+
+
+
+-- Modificar en esto
+ALTER TABLE `poa-pacc-bd`.controlpresupuestoactividad ADD COLUMN estadoLlenadoActividades BOOLEAN;
+
+UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = FALSE WHERE idControlPresupuestoActividad = 1;
+UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = TRUE WHERE idControlPresupuestoActividad = 2;
+
+WITH 
+CTE_VERIF_EXIS_PRES_ANUAL AS (
+	SELECT * FROM controlPresupuestoActividad
+    WHERE estadoLlenadoActividades = TRUE
+) 
+SELECT * FROM CTE_VERIF_EXIS_PRES_ANUAL;
