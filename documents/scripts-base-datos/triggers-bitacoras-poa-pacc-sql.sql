@@ -2646,3 +2646,135 @@ begin
 	WHERE idBitacora = cont;
 end 
 //
+-- -------------------------------------------Triggers tipobitacora-----------------------------------------------------------------------
+drop trigger if exists `insertarTipoBitacora`;
+DELIMITER //
+create trigger `insertarTipoBitacora` 
+	after insert on `tipobitacora`
+    for each row 
+begin
+    declare valorI json;
+    declare valorf json;
+    set valorI = '{}';
+    set valorf = JSON_OBJECT('idTipoBitacora',new.idTipoBitacora,'tipoBitacora',new.tipoBitacora,'descripcion',new.descripcion);
+    
+	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+        insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+		values (@persona,1,valorI,valorf,now());
+    END IF;
+end 
+//
+
+drop trigger if exists `modificarTipoBitacora`;
+DELIMITER //
+create trigger `modificarTipoBitacora` 
+	after update on `tipobitacora`
+    for each row 
+begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idTipoBitacora',old.idTipoBitacora,'tipoBitacora',old.tipoBitacora,'descripcion',old.descripcion);
+    set nuevo = JSON_OBJECT('idTipoBitacora',new.idTipoBitacora,'tipoBitacora',new.tipoBitacora,'descripcion',new.descripcion);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,2,viejo,nuevo,now());
+end 
+//
+
+drop trigger if exists `eliminarTipoBitacoraBefore`;
+DELIMITER //
+create trigger `eliminarTipoBitacoraBefore` 
+	before delete on `tipobitacora`
+    for each row 
+begin
+	declare temp json;
+    declare temp2 json;
+    declare cont int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idTipoBitacora,JSON_OBJECT('idTipoBitacora',idTipoBitacora,'tipoBitacora',tipoBitacora,'descripcion',descripcion))) as json FROM tipobitacora);
+    set cont = (SELECT count(*) FROM tipobitacora);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total tipobitacora',cont),temp);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,3,temp2,'{}',now());
+end 
+//
+ 
+drop trigger if exists `eliminarTipoBitacoraAfter`;
+DELIMITER //
+create trigger `eliminarTipoBitacoraAfter` 
+	after delete on `tipobitacora`
+    for each row 
+begin
+	declare temp json;
+    declare cont int;
+    declare temp2 json;
+    declare cont2 int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idTipoBitacora,JSON_OBJECT('idTipoBitacora',idTipoBitacora,'tipoBitacora',tipoBitacora,'descripcion',descripcion))) as json FROM tipobitacora);
+    set cont2 = (SELECT count(*) FROM tipobitacora);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total tipobitacora',cont2),temp);
+    set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
+    
+    UPDATE `poa-pacc-bd`.`bitacora` 
+	SET nuevoEstadoInformacion = temp2 
+	WHERE idBitacora = cont;
+end 
+//
+-- -------------------------------------------Triggers bitacora-----------------------------------------------------------------------
+drop trigger if exists `modificarBitacora`;
+DELIMITER //
+create trigger `modificarBitacora` 
+	after update on `bitacora`
+    for each row 
+begin
+    declare viejo json;
+    declare nuevo json;
+    set viejo = JSON_OBJECT('idBitacora',old.idBitacora,'idPersonaUsuario',old.idPersonaUsuario,'idTipoBitacora',old.idTipoBitacora,'estadoInicialInformacion',old.estadoInicialInformacion,'nuevoEstadoInformacion',old.nuevoEstadoInformacion,'fechaHoraBitacora',old.fechaHoraBitacora);
+    set nuevo = JSON_OBJECT('idBitacora',new.idBitacora,'idPersonaUsuario',new.idPersonaUsuario,'idTipoBitacora',new.idTipoBitacora,'estadoInicialInformacion',new.estadoInicialInformacion,'nuevoEstadoInformacion',new.nuevoEstadoInformacion,'fechaHoraBitacora',new.fechaHoraBitacora);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,2,viejo,nuevo,now());
+end 
+//
+
+drop trigger if exists `eliminarBitacoraBefore`;
+DELIMITER //
+create trigger `eliminarBitacoraBefore` 
+	before delete on `bitacora`
+    for each row 
+begin
+	declare temp json;
+    declare temp2 json;
+    declare cont int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idBitacora,JSON_OBJECT('idBitacora',idBitacora,'idPersonaUsuario',idPersonaUsuario,'idTipoBitacora',idTipoBitacora,'estadoInicialInformacion',estadoInicialInformacion,'nuevoEstadoInformacion',nuevoEstadoInformacion,'fechaHoraBitacora',fechaHoraBitacora))) as json FROM bitacora);
+    set cont = (SELECT count(*) FROM bitacora);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total bitacora',cont),temp);
+    insert into
+    `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
+    values (@persona,3,temp2,'{}',now());
+end 
+//
+ 
+drop trigger if exists `eliminarBitacoraAfter`;
+DELIMITER //
+create trigger `eliminarBitacoraAfter` 
+	after delete on `bitacora`
+    for each row 
+begin
+	declare temp json;
+    declare cont int;
+    declare temp2 json;
+    declare cont2 int;
+    
+    set temp = (SELECT (JSON_OBJECTAGG(idBitacora,JSON_OBJECT('idBitacora',idBitacora,'idPersonaUsuario',idPersonaUsuario,'idTipoBitacora',idTipoBitacora,'estadoInicialInformacion',estadoInicialInformacion,'nuevoEstadoInformacion',nuevoEstadoInformacion,'fechaHoraBitacora',fechaHoraBitacora))) as json FROM bitacora);
+    set cont2 = (SELECT count(*) FROM bitacora);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total bitacora',cont2),temp);
+    set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
+    
+    UPDATE `poa-pacc-bd`.`bitacora` 
+	SET nuevoEstadoInformacion = temp2 
+	WHERE idBitacora = cont;
+end 
+//
