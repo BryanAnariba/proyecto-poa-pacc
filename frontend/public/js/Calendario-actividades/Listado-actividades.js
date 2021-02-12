@@ -6,11 +6,12 @@ var Mes=null;
 $(document).ready(function (){
     if(Usuario['abrevTipoUsuario']=='J_D'||Usuario['abrevTipoUsuario']=='C_C'){
         idDepartamento=Usuario['idDepartamento'];
+    }else if(Usuario['abrevTipoUsuario']=='D_F'||Usuario['abrevTipoUsuario']=='SE_AD'||Usuario['abrevTipoUsuario']=='U_E'){
+        cambiarDepa();
     }
 
     LlenarDimensionesEstrategicas();
     LlenarAnios();
-    cambiarDepa();
 
     var element = document.querySelector("#Departamento");
 
@@ -93,7 +94,6 @@ const LlenarDimensionesEstrategicas = () =>{
         contentType: 'application/json',
         success:function(response) {
             const { data } = response;
-            console.log(data);
             $('#DimensionesListado').dataTable().fnDestroy();
             $('#DimensionesListado tbody').html('');
             for (let i=0;i<data.length; i++) {
@@ -291,7 +291,6 @@ const MostrarPorDepa = (idDimension) => {
         case 'U_E':
             if(document.querySelector("#Departamento").value!=''){
                 idDepartamento=document.querySelector("#Departamento").value;
-                console.log(idDepartamento)
                 const peticion = {
                     Depa: document.querySelector("#Departamento").value,
                     idDimension:idDimension,
@@ -302,7 +301,6 @@ const MostrarPorDepa = (idDimension) => {
                     dataType: 'json',
                     data: (peticion),
                     success:function(response) {
-                        console.log(response)
                         const { status, data } = response;
                         arregloActividades=data;
                         TablaInicio();
@@ -337,7 +335,6 @@ const MostrarPorDepa = (idDimension) => {
                     dataType: 'json',
                     data: (peticion),
                     success:function(response) {
-                        console.log(response)
                         const { status, data } = response;
                         arregloActividades=data;
                         TablaInicio();
@@ -372,7 +369,6 @@ const MostrarPorDepa = (idDimension) => {
                     dataType: 'json',
                     data: (peticion),
                     success:function(response) {
-                        console.log(response)
                         const { status, data } = response;
                         arregloActividades=data;
                         TablaInicio();
@@ -395,7 +391,8 @@ const MostrarPorDepa = (idDimension) => {
             }
           break;
         default:
-          // code block
+            console.error("opcion no disponible");
+          break;
     }
     LlenarMeses();
 };
@@ -422,274 +419,6 @@ const cambiarDepa = () => {
             });
         }
     });
-};
-const VerPorMes = () => {
-    switch(Usuario['abrevTipoUsuario']) {
-        case 'C_C':
-            if(document.querySelector("#PorMes").value!=''){
-                const peticion = {
-                    Mes: document.querySelector("#PorMes").value,
-                    idDepartamento: Usuario['idDepartamento']
-                };
-                console.log(peticion);
-                $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMesDepa.php`, {
-                    type: 'POST',
-                    dataType: 'json',
-                    data: (peticion),
-                    success:function(response) {
-                        console.log(response)
-                        const { status, data } = response;
-                        arregloActividades=data;
-                        TablaInicio();
-            
-                    },
-                    error:function(error) {
-                        console.warn(error);
-                        const { status, data } = error.responseJSON;
-                        if (status === 401) {
-                            window.location.href = '../views/401.php';
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ops...',
-                            text: `${ data.message }`
-                        });
-                    }
-                });
-            }else{
-                AgregarArreglo();
-            }
-            break;
-        case 'J_D':
-            if(document.querySelector("#PorMes").value!=''){
-                const peticion = {
-                    Mes: document.querySelector("#PorMes").value,
-                    idDepartamento: Usuario['idDepartamento']
-                };
-                console.log(peticion);
-                $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMesDepa.php`, {
-                    type: 'POST',
-                    dataType: 'json',
-                    data: (peticion),
-                    success:function(response) {
-                        console.log(response)
-                        const { status, data } = response;
-                        arregloActividades=data;
-                        TablaInicio();
-            
-                    },
-                    error:function(error) {
-                        console.warn(error);
-                        const { status, data } = error.responseJSON;
-                        if (status === 401) {
-                            window.location.href = '../views/401.php';
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ops...',
-                            text: `${ data.message }`
-                        });
-                    }
-                });
-            }else{
-                AgregarArreglo();
-            }
-            break;
-        case 'U_E':
-            if(document.querySelector("#PorMes").value!=''){
-                if(idDepartamento!=null&&idDepartamento!=''){
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value,
-                        idDepartamento:idDepartamento
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMesDepa.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }else{
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMes.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }
-            }else{
-                AgregarArreglo();
-            }
-          break;
-        case 'D_F':
-            if(document.querySelector("#PorMes").value!=''){
-                if(idDepartamento!=null&&idDepartamento!=''){
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value,
-                        idDepartamento:idDepartamento
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMesDepa.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }else{
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMes.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }
-            }else{
-                AgregarArreglo();
-            }
-          break;
-        case 'SE_AD':
-            if(document.querySelector("#PorMes").value!=''){
-                if(idDepartamento!=null&&idDepartamento!=''){
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value,
-                        idDepartamento:idDepartamento
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMesDepa.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }else{
-                    const peticion = {
-                        Mes: document.querySelector("#PorMes").value
-                    };
-                    $.ajax(`${ API }/calendario-actividades/obtenerActividadesPorMes.php`, {
-                        type: 'POST',
-                        dataType: 'json',
-                        data: (peticion),
-                        success:function(response) {
-                            console.log(response)
-                            const { status, data } = response;
-                            arregloActividades=data;
-                            TablaInicio();
-                
-                        },
-                        error:function(error) {
-                            console.warn(error);
-                            const { status, data } = error.responseJSON;
-                            if (status === 401) {
-                                window.location.href = '../views/401.php';
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ops...',
-                                text: `${ data.message }`
-                            });
-                        }
-                    });
-                }
-            }else{
-                AgregarArreglo();
-            }
-          break;
-        default:
-          // code block
-      }
 };
 
 const AgregarArreglo = (idDimension) => {
@@ -774,7 +503,8 @@ const AgregarArreglo = (idDimension) => {
             });
           break;
         default:
-          // code block
+            console.error("opcion no disponible");
+            break;
       }
     idDepartamento=null;
     Mes=null;
@@ -925,7 +655,8 @@ const TablaInicio = () => {
             };
           break;
         default:
-          // code block
+            console.error("opcion no disponible");
+            break;
       }
       $('#ActividadesListado').DataTable({
         language: i18nEspaniol,
@@ -1308,6 +1039,7 @@ const llenar = (vista,idActividad,nombreActividad) =>{
                     break;
                     default:
                         console.error("opcion no disponible");
+                        break;
                 };
                 $('#RegistrosTodos').DataTable({
                     language: i18nEspaniol,
@@ -1335,7 +1067,6 @@ const VerMasAct = (idActividad) => {
     const peticion = {
         idActividad: parseInt(idActividad)
     };
-    console.log(peticion)
 
     $.ajax(`${ API }/calendario-actividades/ObtenerActividadDimensionAdmin.php`,{
         type: 'POST',
@@ -1343,7 +1074,6 @@ const VerMasAct = (idActividad) => {
         data: (peticion),
         success:function(response) {
             const { data } = response;
-            console.log(data);
             
             switch (data[0].idDimensionAdministrativa) {
                 case 1:

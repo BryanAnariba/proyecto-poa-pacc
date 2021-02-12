@@ -139,6 +139,51 @@
             }
         }
 
+        public function getActividadDescripcionAdminTodas () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("select year(actividad.fechaCreacionActividad) as anio,descripcionadministrativa.idDimensionAdministrativa,descripcionadministrativa.idDescripcionAdministrativa,
+                                                    descripcionadministrativa.nombreActividad,descripcionadministrativa.Descripcion,descripcionadministrativa.Cantidad,descripcionadministrativa.Costo,descripcionadministrativa.CostoTotal,
+                                                    tipopresupuesto.tipoPresupuesto,objetogasto.abrev as ObjetoGasto,objetogasto.DescripcionCuenta,dimensionestrategica.dimensionEstrategica,descripcionadministrativa.mesRequerido,
+                                                    departamento.idDepartamento
+                                            from descripcionadministrativa
+                                            inner join tipopresupuesto
+                                            on tipoPresupuesto.idTipoPresupuesto=descripcionadministrativa.idTipoPresupuesto
+                                            inner join objetogasto
+                                            on objetogasto.idObjetoGasto=descripcionadministrativa.idObjetoGasto
+                                            inner join actividad
+                                            on actividad.idActividad=descripcionadministrativa.idActividad
+                                            inner join dimensionestrategica
+                                            on dimensionEstrategica.idDimension=actividad.idDimension
+                                            inner join departamentopordimension
+                                            on departamentopordimension.idDimension=dimensionestrategica.idDimension
+                                            inner join departamento
+                                            on departamento.idDepartamento=departamentopordimension.idDepartamento
+                                            where departamento.idDepartamento=(select idDepartamento from usuario u where u.idPersonaUsuario = actividad.idPersonaUsuario)
+                                            and YEAR(actividad.fechaCreacionActividad) = YEAR(departamentopordimension.fecha);"
+                                                );
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar las actividades')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
         public function getAnioPresupuesto () {
             try {
                 $this->conexionBD = new Conexion();

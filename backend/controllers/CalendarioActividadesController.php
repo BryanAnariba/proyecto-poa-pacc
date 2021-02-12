@@ -39,6 +39,14 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function obtenerActividadDescripcionAdminTodas () {
+
+            $this->data = $this->CalendarioModel->getActividadDescripcionAdminTodas();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function obtenerDimensionEstrategicas () {
 
             $this->data = $this->CalendarioModel->getDimensionEstrategicas();

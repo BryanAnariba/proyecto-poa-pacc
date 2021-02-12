@@ -185,8 +185,8 @@
                             <thead>
                                 <tr align="center">
                                     <th scope="col">#</th>
-                                    <th scope="col">Dimension Estrategica</th>
                                     <th scope="col">Correlativo</th>
+                                    <th scope="col">Departamento</th>
                                     <th scope="col">Tema Actividad</th>
                                     <th scope="col">Tipo Actividad</th>
                                     <th scope="col"># Actividades definidas</th>
@@ -551,7 +551,7 @@
         var Usuario = <?= json_encode($_SESSION) ?>;
     </script>
 
-    <script src="../js/Calendario-actividades/Listado-actividades15.js"></script>
+    <script src="../js/Calendario-actividades/Listado-actividades.js"></script>
 
 <?php
     include('../partials/endDoctype.php');

@@ -1,7 +1,7 @@
 <?php
     require_once('../request-headers.php');
-    require_once('../../controllers/DimensionesAdministrativasController.php');
     require_once('../../middlewares/VerificarToken.php');
+    require_once('../../controllers/DimensionesAdministrativasController.php');
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST': 
             $verificarTokenAcceso = new verificarTokenAcceso();
