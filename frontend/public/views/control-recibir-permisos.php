@@ -30,7 +30,7 @@ include('verifica-session.php');
 
 </head>
 
-<body id="body-pd">
+<body id="body-pd" onload="notificaciones()">
     <?php include('../layouts/Nabvar.php'); ?>
     <?php include('../layouts/Sidebar.php'); ?>
 

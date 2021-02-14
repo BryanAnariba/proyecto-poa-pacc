@@ -6,5 +6,5 @@
         <script src="../js/menu/menu-principal.js"></script>
         <script src="../js/navbar/navbar.js"></script>
         <script src="../js/notificaciones/notificaciones-controlador.js"></script>
-    </body>
+    </body onload="notificaciones()">
 </html>

@@ -190,7 +190,7 @@
                 $stmt = $this->consulta->prepare("SELECT B.idSolicitud,
                                                         C.idTipoEstadoSolicitud,
                                                         A.tipoSolicitudSalida,
-                                                        B.fechaRegistroSolicitud,
+                                                        DATE_FORMAT(B.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud,
                                                         D.TipoEstadoSolicitudSalida
                                                 FROM tiposolicitudsalida A
                                                 INNER JOIN solicitudsalida B
@@ -232,12 +232,12 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT A.motivoSolicitud,
                                                         A.edificioAsistencia,
-                                                        A.fechaInicioPermiso,
-                                                        A.fechaFinPermiso,
+                                                        DATE_FORMAT(A.fechaInicioPermiso,'%d-%m-%Y') as fechaInicioPermiso,
+                                                        DATE_FORMAT(A.fechaFinPermiso,'%d-%m-%Y') as fechaFinPermiso,
                                                         A.horaInicioSolicitudSalida,
                                                         A.horaFinSolicitudSalida,
                                                         A.diasSolicitados,
-                                                        B.fechaRevisionSolicitud
+                                                        DATE_FORMAT(B.fechaRevisionSolicitud,'%d-%m-%Y') as fechaRevisionSolicitud
                                                 FROM solicitudsalida A
                                                 INNER JOIN estadosolicitudsalida B
                                                 ON (A.idSolicitud = B.idSolicitudSalida AND

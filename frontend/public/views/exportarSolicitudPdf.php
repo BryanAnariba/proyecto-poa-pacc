@@ -49,7 +49,8 @@
         $doc->cell(50,9,'Edificio donde tiene registrada su asistencia: '.utf8_decode($_POST['R-edificioAsistencia']),0,2,'L');
         $doc->SetFont('Arial','',11);
         $doc->cell(50,9,utf8_decode('Tiempo de duración del permiso:'),0,2,'L');
-        $doc->cell(50,9,'Fecha Inicio: '.utf8_decode($_POST['R-fechaInicio']).'              '.'Fecha Fin: '.utf8_decode($_POST['R-fechaFin']).'              '.'Hora Inicio: '.utf8_decode($_POST['R-horaInicio']).'              '.'Hora Fin: '.utf8_decode($_POST['R-horaFin']),0,2,'L');
+       // $fechaInicio =$_POST['R-fechaInicio'];
+        $doc->cell(50,9,'Fecha Inicio: '.date('d-m-Y', strtotime($_POST['R-fechaInicio'])).'              '.'Fecha Fin: '.date('d-m-Y', strtotime($_POST['R-fechaFin'])).'              '.'Hora Inicio: '.utf8_decode($_POST['R-horaInicio']).'              '.'Hora Fin: '.utf8_decode($_POST['R-horaFin']),0,2,'L');
         //$doc->cell(50,9,'Fecha Fin: '.utf8_decode($_POST['R-fechaFin']),0,2,'L');
         //$doc->cell(50,9,'Hora Inicio: '.utf8_decode($_POST['R-horaInicio']),0,2,'L');
         //$doc->cell(50,9,'Hora Fin: '.utf8_decode($_POST['R-horaFin']),0,2,'L');

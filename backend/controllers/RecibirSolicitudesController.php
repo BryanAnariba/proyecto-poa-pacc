@@ -111,6 +111,17 @@
             $_Respuesta->respuestaPeticion();
         }
 
+
+        public function obtenerEstadoSolicitud () {
+
+            $this->recibirSolicitudesPermisosModel = new RecibirSolicitudesPermisos(); 
+
+            $this->data = $this->recibirSolicitudesPermisosModel->getEstados();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         //actualizarSolicitud     
         public function actualizarSolicitud($idSolicitud, $idEstadoSolicitud, $idUsuario) {
             $this->recibirSolicitudesPermisosModel = new RecibirSolicitudesPermisos(); 

@@ -169,7 +169,7 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT A.tipoSolicitudSalida,
                                                         B.idSolicitud,
-                                                        B.fechaRegistroSolicitud,
+                                                        DATE_FORMAT(B.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud,
                                                         C.nombrePersona,
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
@@ -185,7 +185,7 @@
                                                 INNER JOIN usuario E
                                                 ON(E.idTipoUsuario = 6 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario)
-                                                ORDER BY B.idSolicitud ASC"); 
+                                                ORDER BY B.idSolicitud DESC"); 
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -250,7 +250,7 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT A.tipoSolicitudSalida,
                                                         B.idSolicitud,
-                                                        B.fechaRegistroSolicitud,
+                                                        DATE_FORMAT(B.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud,
                                                         C.nombrePersona,
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
@@ -267,7 +267,7 @@
                                                 ON(E.idTipoUsuario = 3 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario AND
                                                     E.idDepartamento = $this->idDepartamento)
-                                                ORDER BY B.idSolicitud ASC"); 
+                                                ORDER BY B.idSolicitud DESC"); 
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -300,7 +300,7 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT A.tipoSolicitudSalida,
                                                         B.idSolicitud,
-                                                        B.fechaRegistroSolicitud,
+                                                        DATE_FORMAT(B.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud,
                                                         C.nombrePersona,
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
@@ -316,7 +316,7 @@
                                                 INNER JOIN usuario E
                                                 ON(E.idTipoUsuario = 5 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario)
-                                                ORDER BY B.idSolicitud ASC"); 
+                                                ORDER BY B.idSolicitud DESC"); 
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -346,7 +346,7 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT B.idSolicitud,
                                                         C.idTipoEstadoSolicitud,
-                                                        C.fechaRevisionSolicitud,
+                                                        DATE_FORMAT(C.fechaRevisionSolicitud,'%d-%m-%Y') as fechaRevisionSolicitud,
                                                         E.nombrePersona,
                                                         E.apellidoPersona,
                                                         A.tipoSolicitudSalida,
@@ -396,12 +396,12 @@
                                                         C.nombreDepartamento,
                                                         D.motivoSolicitud,
                                                         D.edificioAsistencia,
-                                                        D.fechaInicioPermiso,
-                                                        D.fechaFinPermiso,
+                                                        DATE_FORMAT(D.fechaInicioPermiso,'%d-%m-%Y') as fechaInicioPermiso,
+                                                        DATE_FORMAT(D.fechaFinPermiso,'%d-%m-%Y') as fechaFinPermiso,
                                                         D.horaInicioSolicitudSalida,
                                                         D.horaFinSolicitudSalida,
                                                         D.diasSolicitados,
-                                                        D.fechaRegistroSolicitud
+                                                        DATE_FORMAT(D.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud
                                                 FROM persona A
                                                 INNER JOIN usuario B
                                                 ON (A.idPersona = B.idPersonaUsuario)
@@ -531,6 +531,32 @@
             }
         }
         
+
+        public function getEstados () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare('SELECT * FROM tipoestadosolicitudsalida');
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los estados de departamentos')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
 
         //actualizarSolicitud
         public function actualizarSolicitud () {

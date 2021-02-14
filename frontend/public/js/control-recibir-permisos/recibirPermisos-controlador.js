@@ -42,15 +42,15 @@ const verSolicitudesPendientesSecAcademica = () => {
 
                     <td>
                         <center>
-                            <select class="btn btn-warning select"  name="tipo" id="estado" >
-                                <option value="1" '; 
-                                if(${ data[i].idTipoEstadoSolicitud === 1 }){ echo "selected"; }  echo  '> Pendiente </option>  
-                                <option value="2"';
-                                if(${ data[i].idTipoEstadoSolicitud === 2 }){ echo "selected"; } echo  ' > Aceptado </option>    
-                                <option value="3"';
-                                if(${ data[i].idTipoEstadoSolicitud === 3 }){ echo "selected"; } echo  ' > Parcial </option>
-                                <option value="4"';
-                                if(${ data[i].idTipoEstadoSolicitud === 4 }){ echo "selected"; } echo  ' > Denegado </option>           
+                            <select class="btn btn-warning select"  name="estado" id="estado">
+                                <option value="1"
+                                if(${ data[i].idTipoEstadoSolicitud === 1 })selected> Pendiente </option>  
+                                <option value="2"
+                                if(${ data[i].idTipoEstadoSolicitud === 2 })selected> Aceptado </option>    
+                                <option value="3"
+                                if(${ data[i].idTipoEstadoSolicitud === 3 })selected> Parcial </option>
+                                <option value="4"
+                                if(${ data[i].idTipoEstadoSolicitud === 4 })selected> Denegado </option> 
                             </select>
                         </center>
                     </td>
@@ -58,7 +58,7 @@ const verSolicitudesPendientesSecAcademica = () => {
                         <center>
                             <button type="button" class="btn btn-primary"
                                 value="Actualizar"
-                                onclick="actualizarSolicitudSecAcademica(${data[i].idSolicitud})">
+                                onclick="actualizarSolicitudSecAcademica('${data[i].idSolicitud}')">
                             Actualizar
                             </button>
                         </center>
@@ -163,14 +163,14 @@ const verSolicitudesPendientesJefes = (idDepartamentoUsuarioVeedor) => {
                     <td>
                         <center>
                             <select class="btn btn-warning select" name="tipo" id="estadoJ">
-                                <option value="1" '; 
-                                if(${ data[i].idTipoEstadoSolicitud === 1 }){ echo "selected"; }  echo  '> Pendiente </option>  
-                                <option value="2"';
-                                if(${ data[i].idTipoEstadoSolicitud === 2 }){ echo "selected"; } echo  ' > Aceptado </option>    
-                                <option value="3"';
-                                if(${ data[i].idTipoEstadoSolicitud === 3 }){ echo "selected"; } echo  ' > Parcial </option>
-                                <option value="4"';
-                                if(${ data[i].idTipoEstadoSolicitud === 4 }){ echo "selected"; } echo  ' > Denegado </option>           
+                                <option value="1"
+                                if(${ data[i].idTipoEstadoSolicitud === 1 })selected> Pendiente </option>  
+                                <option value="2"
+                                if(${ data[i].idTipoEstadoSolicitud === 2 })selected> Aceptado </option>    
+                                <option value="3"
+                                if(${ data[i].idTipoEstadoSolicitud === 3 })selected> Parcial </option>
+                                <option value="4"
+                                if(${ data[i].idTipoEstadoSolicitud === 4 })selected> Denegado </option>          
                             </select>
                         </center>
                     </td>
@@ -178,7 +178,7 @@ const verSolicitudesPendientesJefes = (idDepartamentoUsuarioVeedor) => {
                         <center>
                             <button type="button" class="btn btn-primary" 
                                 value="Actualizar"
-                                onclick="actualizarSolicitudJefe('${data[i].idSolicitud}','${ data[i].idTipoEstadoSolicitud}')">
+                                onclick="actualizarSolicitudJefe('${data[i].idSolicitud}')">
                                 Actualizar
                             </button>
                         </center>
@@ -250,14 +250,14 @@ const verSolicitudesPendientesDecano = () => {
                     <td>
                         <center>
                             <select class="btn btn-warning select" name="tipo" id="estadoD">
-                                <option value="1" '; 
-                                if(${ data[i].idTipoEstadoSolicitud === 1 }){ echo "selected"; }  echo  '> Pendiente </option>  
-                                <option value="2"';
-                                if(${ data[i].idTipoEstadoSolicitud === 2 }){ echo "selected"; } echo  ' > Aceptado </option>    
-                                <option value="3"';
-                                if(${ data[i].idTipoEstadoSolicitud === 3 }){ echo "selected"; } echo  ' > Parcial </option>
-                                <option value="4"';
-                                if(${ data[i].idTipoEstadoSolicitud === 4 }){ echo "selected"; } echo  ' > Denegado </option>           
+                                <option value="1"
+                                if(${ data[i].idTipoEstadoSolicitud === 1 })selected> Pendiente </option>  
+                                <option value="2"
+                                if(${ data[i].idTipoEstadoSolicitud === 2 })selected> Aceptado </option>    
+                                <option value="3"
+                                if(${ data[i].idTipoEstadoSolicitud === 3 })selected> Parcial </option>
+                                <option value="4"
+                                if(${ data[i].idTipoEstadoSolicitud === 4 })selected> Denegado </option>          
                             </select>
                         </center>
                     </td>
@@ -265,7 +265,7 @@ const verSolicitudesPendientesDecano = () => {
                         <center>
                             <button type="button" class="btn btn-primary" 
                                 value="Actualizar"
-                                onclick="actualizarSolicitudDecano('${data[i].idSolicitud}','${ data[i].idTipoEstadoSolicitud}')">
+                                onclick="actualizarSolicitudDecano('${data[i].idSolicitud}')">
                                 Actualizar
                             </button>
                         </center>
@@ -315,7 +315,7 @@ const verHistorialSolicitudes = () => {
             <tr>
                 <td scope="row">${ i + 1 }</td>
                 <td>${ data[i].tipoSolicitudSalida }</td>
-                <td><center>${ data[i].fechaRevisionSolicitud }</center></td>
+                <td>${ data[i].fechaRevisionSolicitud }</td>
                 <td>${ data[i].nombrePersona +' '+ data[i].apellidoPersona }</td>
                 <td>
                     <center>
@@ -564,9 +564,33 @@ const hacerObservacion = () => {
 }
 
 
+/*
+const obtenerEstadoSolicitud = () => {
+    const peticion = {
+        vacio: ""
+    };
+    $.ajax(`${ API }/control-recibir-solicitudes/obtenerEstadoSolicitud.php`, {
+        type: 'POST',
+        dataType: 'json',
+        data: (peticion),
+        success:function(response) {
+            document.getElementById("estado").innerHTML = ``;
+            for(let i = 0; i <response.data.length;i++){
+                document.getElementById("estado").innerHTML+=`
+                <option value="${response.data[i].idTipoEstadosolicitud}">${response.data[i].TipoEstadoSolicitudSalida}</option>  
+            `;
+                //$('#estado').html(`<option value="${response.data[i].idTipoEstadosolicitudsalida}">${response.data[i].TipoEstadoSolicitudSalida}</option>`);
+
+            }
+        },
+        error:function(error) {
+            console.warn(error);
+        }
+    });
+};
+*/
 
 let idUsuarioVeedor = document.querySelector('#V-idUsuario');
-//let usuarioActivo = document.querySelector('#V-nombreEmpleado');
 
 const actualizarSolicitudSecAcademica = (idSolicitud) => {
     
@@ -607,6 +631,7 @@ const actualizarSolicitudSecAcademica = (idSolicitud) => {
     });
 
 }
+
 
 
 const actualizarSolicitudJefe = (idSolicitud) => {

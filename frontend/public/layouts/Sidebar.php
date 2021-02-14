@@ -83,7 +83,7 @@
                     <?php 
                         case $_SESSION['abrevTipoUsuario'] == ROL_DECANO // ROLE => Decano Facultad
                     ?>
-                        <a href="../views/control-informes-decano.php" class="nav__link">
+                        <a href="../views/control-recibir-informes.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Decano</span>
                         </a>
@@ -113,7 +113,7 @@
                     <?php 
                         case $_SESSION['abrevTipoUsuario'] == ROL_ESTRATEGA: // ROLE => Secretaria Estratega
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-recibir-informes.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Estratega</span>
                         </a>
@@ -143,7 +143,7 @@
                     ?>
                     <?php case $_SESSION['abrevTipoUsuario'] == ROL_SECRETARIA_ADMINISTRATIVA: // ROLE => usuario administrativo
                     ?>
-                        <a href="" class="nav__link">
+                        <a href="../views/control-envio-informes.php" class="nav__link">
                             <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Depto Administrativo</span>
                         </a>
