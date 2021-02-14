@@ -782,26 +782,37 @@ SELECT
     COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension,
     Usuario.idDepartamento
     FROM DimensionEstrategica 
-    RIGHT JOIN Actividad ON (DimensionEstrategica.idDimension = Actividad.idDimension) 
-    LEFT JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+    RIGHT JOIN Actividad 
+    ON (DimensionEstrategica.idDimension = Actividad.idDimension) 
+    LEFT JOIN Usuario 
+    ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
     WHERE DimensionEstrategica.idEstadoDimension = 1 
-    AND DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = DATE_FORMAT(NOW(),'%Y') 
-    AND Usuario.idDepartamento = 4 
+    AND DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = 
+    (
+		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+        FROM ControlPresupuestoActividad 
+        WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
+    ) 
+    AND Usuario.idDepartamento = 1 
     AND DimensionEstrategica.idDimension BETWEEN 
         (
             SELECT
             LlenadoActividadDimension.valorLlenadoDimensionInicial
             FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
-            WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+            WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
         ) 
         AND 
         (
         SELECT 
         LlenadoActividadDimension.valorLlenadoDimensionFinal
         FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
-        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 2
+        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
     )
-GROUP BY DimensionEstrategica.idDimension
+GROUP BY 
+DimensionEstrategica.idDimension, 
+DimensionEstrategica.dimensionEstrategica, 
+Usuario.idDepartamento,
+DimensionEstrategica.idEstadoDimension;
 
 
 SELECT COUNT(*) cantidadDimensionesUsuario FROM dimensionestrategica WHERE idDimension BETWEEN 
@@ -823,6 +834,9 @@ SELECT COUNT(*) cantidadDimensionesUsuario FROM dimensionestrategica WHERE idDim
 
 -- Modificar en esto
 ALTER TABLE `poa-pacc-bd`.controlpresupuestoactividad ADD COLUMN estadoLlenadoActividades BOOLEAN;
+ALTER TABLE DescripcionAdministrativa MODIFY COLUMN Cantidad DECIMAL(13,2); 
+
+
 
 UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = FALSE WHERE idControlPresupuestoActividad = 1;
 UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = TRUE WHERE idControlPresupuestoActividad = 2;
@@ -833,3 +847,25 @@ CTE_VERIF_EXIS_PRES_ANUAL AS (
     WHERE estadoLlenadoActividades = TRUE
 ) 
 SELECT * FROM CTE_VERIF_EXIS_PRES_ANUAL;
+
+
+WITH CTE_QUERY_PACC_INGENIERIA AS (
+	SELECT 
+		Actividad.CorrelativoActividad,
+        ObjetoGasto.codigoObjetoGasto,
+        ObjetoGasto.descripcionCuenta,
+        DescripcionAdministrativa.cantidad,
+        DescripcionAdministrativa.costo,
+        DescripcionAdministrativa.costoTotal
+    FROM DescripcionAdministrativa 
+    INNER JOIN  Actividad
+	ON (DescripcionAdministrativa.idActividad = Actividad.idActividad)
+    INNER JOIN ObjetoGasto 
+    ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)
+    WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (
+		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+		FROM ControlPresupuestoActividad 
+		WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
+	)
+)
+SELECT * FROM CTE_QUERY_PACC_INGENIERIA 
