@@ -106,7 +106,7 @@
                             <div class="form-row container">
                                 <div class="input-field col-12" align="left">
                                     <label>Seleccione un Departamento:</label>
-                                    <select id="Departamento" class="browser-default custom-select mb-4">
+                                    <select id="Departamento" name="Departamento" class="browser-default custom-select mb-4">
 
                                     </select>
                                 </div>
