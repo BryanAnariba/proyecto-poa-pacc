@@ -20,6 +20,7 @@ const iniciarSesion = () => {
             }
         },
         error:function(error) {
+            //console.log(error.responseText);
             const { data } = error.responseJSON;
             const { message } = data;
             console.log(message);
