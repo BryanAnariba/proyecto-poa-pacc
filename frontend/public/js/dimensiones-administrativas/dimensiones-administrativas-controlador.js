@@ -77,14 +77,19 @@ const dimensionesAdministrativas = () => {
         }
         $('#listado-dimensiones').DataTable({
             language: i18nEspaniol,
-            dom: 'Blfrtip',
-            buttons: botonesExportacion,
+            //dom: 'Blfrtip',
+            //buttons: botonesExportacion,
             retrieve: true
         });
     },
     error:function (error) {
         console.error(error);
+        const { status, data } = error.responseJSON;
+           if (status === 401) {
+              window.location.href = '../views/401.php';
+           }
     }});
+
 }
 
 
@@ -114,7 +119,6 @@ const registrarDimension = () => {
                 dimensionesAdministrativas();
             },
             error:function(error) {
-                const { data } = error.responseJSON;
                 console.log(data);
                 Swal.fire({
                     icon: 'error',
@@ -122,6 +126,10 @@ const registrarDimension = () => {
                     text: `${ data.message }`,
                     footer: '<b>Por favor verifique el formulario de registro</b>'
                 });
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
             }
         });
 
@@ -158,13 +166,17 @@ const modificaEstadoDimension = (idDimension) => {
         },
         error:function(error) {
             console.error(error);
-            const { data } = error;
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'Ops...',
                 text: `${ data.message }`,
                 footer: '<b>Por favor verifique el formulario de registro</b>'
             });
+            
         }
     });
 }
@@ -225,7 +237,11 @@ const modificarDimension = () => {
             title: 'Ops...',
             text: 'El registro de la dimension no se pudo realizar',
             footer: '<b>Por favor verifique el formulario de registro</b>'
-        })
+        });
+        const { status, data } = error.responseJSON;
+        if (status === 401) {
+            window.location.href = '../views/401.php';
+        }
     }
 }
 

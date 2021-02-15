@@ -1,4 +1,3 @@
-
 -- PROCEDIMIENTOS PARA CONTROL DE DEPARTAMENTOS
 -- Procedimiento para registrar nuevo departamento 
 -- CALL SP_REGISTRAR_DEPARTAMENTO

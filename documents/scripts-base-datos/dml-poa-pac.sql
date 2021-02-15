@@ -445,3 +445,22 @@ VALUES
 
 INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Pendiente');
 INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Hecha');
+
+
+
+-- insertando datos en la tabla TIPOSOLICITUDSALIDA
+INSERT INTO `tiposolicitudsalida` (`idTipoSolicitudSalida`, `tipoSolicitudSalida`) 
+VALUES ('1', 'Permisos Personales'), ('2', 'Vacaciones');
+
+-- insertando datos en la tabla TIPOESTADOSOLICITUD
+INSERT INTO `tipoestadosolicitudsalida` (`idTipoEstadoSolicitud`, 
+                                        `TipoEstadoSolicitudSalida`) 
+VALUES ('1', 'Pendiente'), 
+        ('2', 'Aceptado'), 
+        ('3', 'Parcial'), 
+        ('4', 'Denegado');
+
+
+-- insertando datos en la tabla EstadoInforme
+INSERT INTO `estadoinforme` (`idEstadoInforme`, `Estado`) 
+VALUES (NULL, 'Pendiente'), (NULL, 'Aprobado');

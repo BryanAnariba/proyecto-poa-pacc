@@ -66,6 +66,10 @@ const verDepartamentos = () => {
     },
     error:function (error) {
         console.error(error);
+        const { status, data } = error.responseJSON;
+           if (status === 401) {
+              window.location.href = '../views/401.php';
+           }
     }});
 }
 
@@ -103,6 +107,7 @@ const registrarDepartamento = () => {
             contentType: 'application/json',
             data: JSON.stringify(parametros),
             success:function (response) {
+                const { data } = response;
                 Swal.fire({
                     icon: 'success',
                     title: 'Accion realizada Exitosamente',
@@ -111,16 +116,16 @@ const registrarDepartamento = () => {
                 cancelarRegistroDepartamento();
             },
             error:function (error) {
-                const { status, data } = error.responseJSON;
-                if (status === 401) {
-                    window.location.href = '../views/401.php';
-                }
                 Swal.fire({
                     icon: 'error',
                     title: 'Ops...',
                     text: 'El registro del departamento no se pudo realizar',
                     footer: '<b>Por favor verifique el formulario de registro</b>'
                 });
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
             }
         });
     } else {
@@ -130,6 +135,7 @@ const registrarDepartamento = () => {
             text: 'El registro del departamento no se pudo realizar',
             footer: '<b>Por favor verifique el formulario de registro</b>'
         });
+        
     }
 }
 
@@ -151,6 +157,10 @@ const cambiarEstado = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
         }
     });
 };
@@ -177,6 +187,10 @@ const cambiarDepartamento = () => {
         },
         error:function(error) {
             console.warn(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
         }
     });
 };
@@ -204,7 +218,11 @@ const cambiarEstadoDepartamento = (departamento) => {
         },
         error:function(error) {
             console.warn(error);
-        }
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            }
     });
 };
 
@@ -230,6 +248,7 @@ const cambiarDepartamentoModificado = () => {
         },
         error:function(error) {
             console.warn(error);
+            
         }
     });
 };
@@ -308,7 +327,11 @@ const modificarDepartamento = () => {
             title: 'Ops...',
             text: 'La actualización del Departamento no se pudo realizar',
             footer: '<b>Por favor verifique el formulario de registro</b>'
-        })
+        });
+        const { status, data } = error.responseJSON;
+           if (status === 401) {
+              window.location.href = '../views/401.php';
+           }
     }
 };
 
