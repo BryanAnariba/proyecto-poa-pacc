@@ -754,6 +754,16 @@ include('verifica-session.php');
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="md-form">
+                                    <input type="text" id="UnidadMedida" class="form-control">
+                                    <span id="errorsUnidadMedida" class="text-danger text-small d-none">
+                                    </span>
+                                    <label for="UnidadMedida" id="labelUnidadMedida">
+                                        Unidad De Medida
+                                    </label>
+                                </div>
+                            </div>
                             <div class="col-12 d-none" id="dimension-1-campo">
                                 <div class="md-form">
                                     <input type="number" id="CantidadPersonas" class="form-control">

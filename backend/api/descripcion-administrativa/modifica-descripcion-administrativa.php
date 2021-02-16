@@ -28,7 +28,7 @@
                     isset($_POST['descripcion'])
                 ) {
                     $descripcion = new DescripcionAdministrativaController();
-                    $descripcion->modificaDescripcionAdministrativa($_POST['idDescripcionAdministrativa'], $_POST['idObjetoGasto'], $_POST['idTipoPresupuesto'], $_POST['idActividad'], $_POST['idDimension'], $_POST['nombreActividad'], $_POST['cantidad'], $_POST['costo'], $_POST['costoTotal'], $_POST['mesRequerido'], $_POST['descripcion']);
+                    $descripcion->modificaDescripcionAdministrativa($_POST['idDescripcionAdministrativa'], $_POST['idObjetoGasto'], $_POST['idTipoPresupuesto'], $_POST['idActividad'], $_POST['idDimension'], $_POST['nombreActividad'], $_POST['cantidad'], $_POST['costo'], $_POST['costoTotal'], $_POST['mesRequerido'], $_POST['descripcion'], $_POST['unidadDeMedida']);
                 } else {
                     $descripcion = new DescripcionAdministrativaController();
                     $descripcion->peticionNoValida();    

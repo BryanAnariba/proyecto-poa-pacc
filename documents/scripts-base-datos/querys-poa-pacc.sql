@@ -833,22 +833,14 @@ SELECT COUNT(*) cantidadDimensionesUsuario FROM dimensionestrategica WHERE idDim
 
 
 -- Modificar en esto
-ALTER TABLE `poa-pacc-bd`.controlpresupuestoactividad ADD COLUMN estadoLlenadoActividades BOOLEAN;
-ALTER TABLE DescripcionAdministrativa MODIFY COLUMN Cantidad DECIMAL(13,2); 
 
 
 
-UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = FALSE WHERE idControlPresupuestoActividad = 1;
-UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = TRUE WHERE idControlPresupuestoActividad = 2;
-
-WITH 
-CTE_VERIF_EXIS_PRES_ANUAL AS (
-	SELECT * FROM controlPresupuestoActividad
-    WHERE estadoLlenadoActividades = TRUE
-) 
-SELECT * FROM CTE_VERIF_EXIS_PRES_ANUAL;
 
 
+-- CONSULTAS PARA GENERAR EL PACC
+
+-- vineta 1
 WITH CTE_QUERY_PACC_INGENIERIA AS (
 	SELECT 
 		Actividad.CorrelativoActividad,
@@ -856,16 +848,58 @@ WITH CTE_QUERY_PACC_INGENIERIA AS (
         ObjetoGasto.descripcionCuenta,
         DescripcionAdministrativa.cantidad,
         DescripcionAdministrativa.costo,
-        DescripcionAdministrativa.costoTotal
+        DescripcionAdministrativa.costoTotal,
+        Departamento.nombreDepartamento
     FROM DescripcionAdministrativa 
     INNER JOIN  Actividad
 	ON (DescripcionAdministrativa.idActividad = Actividad.idActividad)
     INNER JOIN ObjetoGasto 
     ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)
+    INNER JOIN 
+		Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
+	INNER JOIN 
+		Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
     WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (
 		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
 		FROM ControlPresupuestoActividad 
 		WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
 	)
 )
-SELECT * FROM CTE_QUERY_PACC_INGENIERIA 
+SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA.codigoObjetoGasto ASC; 
+
+WITH CTE_GENERA_COSTO_TOTAL_POR_OG AS (
+	SELECT 
+    ObjetoGasto.idObjetoGasto,
+	ObjetoGasto.codigoObjetoGasto, 
+    SUM(Actividad.costoTotal) AS sumCostoActPorCodObjGast
+    FROM Actividad
+    INNER JOIN DescripcionAdministrativa
+    ON (Actividad.idActividad = DescripcionAdministrativa.idActividad)
+    INNER JOIN ObjetoGasto 
+    ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)
+    WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (
+		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+		FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.EstadoLlenadoActividades = 1
+	)
+    GROUP BY ObjetoGasto.idObjetoGasto
+) 
+SELECT * FROM CTE_GENERA_COSTO_TOTAL_POR_OG;
+
+-- sumatoria objetos de gastos
+WITH CTE_GENERA_COSTO_TOTAL_POR_OG AS (
+	SELECT 
+    DescripcionAdministrativa.idObjetoGasto,
+	ObjetoGasto.codigoObjetoGasto, 
+    SUM(DescripcionAdministrativa.costoTotal) AS sumCostoActPorCodObjGast
+    FROM DescripcionAdministrativa
+    INNER JOIN Actividad
+    ON (DescripcionAdministrativa.idActividad = Actividad.idActividad)
+    INNER JOIN ObjetoGasto 
+    ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)
+    WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (
+		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+		FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.EstadoLlenadoActividades = 1
+	)
+    GROUP BY ObjetoGasto.idObjetoGasto
+) 
+SELECT * FROM CTE_GENERA_COSTO_TOTAL_POR_OG;

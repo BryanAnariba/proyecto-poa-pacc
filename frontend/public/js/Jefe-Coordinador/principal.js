@@ -719,7 +719,7 @@ const generaTablasAcordeDimension = (object) => {
                                     ${ data[i].mesRequerido }
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.cantidadPersonas }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.cantidadPersonas }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                         <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                     </button>
                                 </td>
@@ -780,7 +780,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.meses }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.meses }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -836,7 +836,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', ${ data[i].abrev } , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', ${ data[i].abrev } , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -896,7 +896,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.tipoEquipoTecnologico }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.tipoEquipoTecnologico }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.tipoEquipoTecnologico }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -952,7 +952,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -1012,7 +1012,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.areaBeca }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.areaBeca }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.areaBeca }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1072,7 +1072,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.proyecto }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.proyecto }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.proyecto }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1142,7 +1142,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.valorDos }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','${ descripcion.descripcionItem }','${ descripcion.cantidadItem }','${ descripcion.precioItem }','${ descripcion.valorUno }','${ descripcion.valorDos }','${ data[i].nombreActividad }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','${ descripcion.descripcionItem }','${ descripcion.cantidadItem }','${ descripcion.precioItem }','${ descripcion.valorUno }','${ descripcion.valorDos }','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1180,12 +1180,11 @@ const generaTablasAcordeDimension = (object) => {
     }); 
 } 
 
-const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionAdmin, idDimensionAdministrativa, mesRequerido, idObjetoGasto, abrev, descripcionCuenta, idTipoPresupuesto, tipoPresupuesto, descItem = null, cantItem = null, precioItem = null, val1 = null, val2 = null, nombreActividad) => {
+const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionAdmin, idDimensionAdministrativa, mesRequerido, idObjetoGasto, abrev, descripcionCuenta, idTipoPresupuesto, tipoPresupuesto, descItem = null, cantItem = null, precioItem = null, val1 = null, val2 = null, nombreActividad, unidadMedida) => {
     idActividadSeleccionada = idActividad;
     idDimensionAdminSeleccionada = idDimensionAdministrativa;
     idDescripcionItemSeleccionada = idDescripcionAdmin;
-    console.log(abrev);
-    console.log(idObjetoGasto)
+    $('#UnidadMedida').val(unidadMedida).trigger('change');
     $('#modificarItems').removeClass('d-none');
     $('#insertarItems').addClass('d-none');
 
@@ -1407,6 +1406,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1474,6 +1474,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1539,6 +1540,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Number(Costo.value),
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1606,6 +1608,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1671,6 +1674,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1738,6 +1742,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,
@@ -1795,6 +1800,7 @@ const modificarAct = () => {
                 idDimension: parseInt(idDimensionAdminSeleccionada),
                 nombreActividad: NombreActividad.value,
                 cantidad: Cantidad.value,
+                unidadDeMedida: document.querySelector('#UnidadMedida').value,
                 costo:  Costo.value,
                 costoTotal: CostoT.value,
                 mesRequerido: Mes.value,
@@ -1881,6 +1887,7 @@ const modificarAct = () => {
                     idDimension: parseInt(idDimensionAdminSeleccionada),
                     nombreActividad: NombreActividad.value,
                     cantidad: Cantidad.value,
+                    unidadDeMedida: document.querySelector('#UnidadMedida').value,
                     costo:  Costo.value,
                     costoTotal: CostoT.value,
                     mesRequerido: Mes.value,

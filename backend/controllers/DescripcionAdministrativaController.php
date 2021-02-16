@@ -18,7 +18,7 @@
             $_Respuesta->respuestaPeticion();
         }
 
-        public function insertaNuevaDescripcionAdministrativa ($idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
+        public function insertaNuevaDescripcionAdministrativa ($idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion, $unidadMedida) {
             $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
             $this->descripcionAdministrativaModel->setIdTipoPresupuesto($idTipoPresupuesto);
             $this->descripcionAdministrativaModel->setIdActividad($idActividad);
@@ -29,13 +29,18 @@
             $this->descripcionAdministrativaModel->setCostoTotal($costoTotal);
             $this->descripcionAdministrativaModel->setMesRequerido($mesRequerido);
             $this->descripcionAdministrativaModel->setDescripcion($descripcion);
+            if (!empty($unidadMedida)) {
+                $this->descripcionAdministrativaModel->setUnidadDeMedida($unidadMedida);
+            } else {
+                $this->descripcionAdministrativaModel->setUnidadDeMedida('Unidad');
+            }
 
             $this->data = $this->descripcionAdministrativaModel->insertaDescripcionAdministrativa();
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
 
-        public function modificaDescripcionAdministrativa ($idDescripcionAdministrativa, $idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion) {
+        public function modificaDescripcionAdministrativa ($idDescripcionAdministrativa, $idObjetoGasto, $idTipoPresupuesto, $idActividad, $idDimension, $nombreActividad, $cantidad, $costo, $costoTotal, $mesRequerido, $descripcion, $unidadMedida) {
             $this->descripcionAdministrativaModel->setIdDescripcionAdministrativa($idDescripcionAdministrativa);
             $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
             $this->descripcionAdministrativaModel->setIdTipoPresupuesto($idTipoPresupuesto);
@@ -47,6 +52,12 @@
             $this->descripcionAdministrativaModel->setCostoTotal($costoTotal);
             $this->descripcionAdministrativaModel->setMesRequerido($mesRequerido);
             $this->descripcionAdministrativaModel->setDescripcion($descripcion);
+            if (!empty($unidadMedida)) {
+                $this->descripcionAdministrativaModel->setUnidadDeMedida($unidadMedida);
+            } else {
+                $this->descripcionAdministrativaModel->setUnidadDeMedida('Unidades');
+            }
+            
 
             $this->data = $this->descripcionAdministrativaModel->modifDescripcionAdministrativa();
             $_Respuesta = new Respuesta($this->data);
