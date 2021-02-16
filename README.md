@@ -133,7 +133,7 @@ Aplicacion para la facultad de ingenieria
 
 -> Visualizacion Actividades Agrupadas por departamento -> 
 
-my user -> bsancheza@unah.hn , qj8pd@I9gM4s
+my user -> bsancheza@unah.hn , SxAPwJhZRwtg
         -> mfsancheza@unah.hn , FJ7OD6@jTLL$
 
         IS -> Coordinador

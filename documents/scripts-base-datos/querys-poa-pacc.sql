@@ -833,8 +833,7 @@ SELECT COUNT(*) cantidadDimensionesUsuario FROM dimensionestrategica WHERE idDim
 
 
 -- Modificar en esto
-ALTER TABLE `poa-pacc-bd`.controlpresupuestoactividad ADD COLUMN estadoLlenadoActividades BOOLEAN;
-ALTER TABLE DescripcionAdministrativa MODIFY COLUMN Cantidad DECIMAL(13,2); 
+
 
 
 
