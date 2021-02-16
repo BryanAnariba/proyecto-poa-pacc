@@ -72,17 +72,7 @@
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
-
-        public function obtenerActividadesPorMesDepa ($Mes,$depa) {
-
-            $this->CalendarioModel->setMes($Mes);
-            $this->CalendarioModel->setDepa($depa);
-            $this->data = $this->CalendarioModel->getActividadesPorMesDepa();
-
-            $_Respuesta = new Respuesta($this->data);
-            $_Respuesta->respuestaPeticion();
-        }
-
+        
         public function obtenerActividadesPorDepa ($depa,$idDimension,$Anio) {
 
             $this->CalendarioModel->setDepa($depa);

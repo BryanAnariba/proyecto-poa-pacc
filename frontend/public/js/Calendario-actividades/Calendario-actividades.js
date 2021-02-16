@@ -5,6 +5,9 @@ $(document).ready(function(){
         idDepartamento=Usuario['idDepartamento'];
     }else if(Usuario['abrevTipoUsuario']=='D_F'||Usuario['abrevTipoUsuario']=='SE_AD'||Usuario['abrevTipoUsuario']=='U_E'){
         cambiarDepa();
+        $('#modalSeleccionDepart').on('shown.bs.modal', function () {
+            cambiarDepa();
+        })
     }
 });
 
@@ -17,9 +20,20 @@ const cambiarDepa = () => {
         dataType: 'json',
         data: (peticion),
         success:function(response) {
-            document.getElementById("Departamento").innerHTML="<option value='' disabled selected></option>";
-            for(let i = 0; i < response.data.length;i++){
-                document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+            if(idDepartamento!=null){
+                document.getElementById("Departamento").innerHTML="<option value='' disabled>Mostar todos</option>";
+                for(let i = 0; i < response.data.length;i++){
+                    if(idDepartamento==response.data[i].idDepartamento){
+                        document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}" selected>${response.data[i].nombreDepartamento}</option>`;
+                    }else{
+                        document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+                    }
+                }
+            }else{
+                document.getElementById("Departamento").innerHTML="<option value='' disabled selected>Mostar todos</option>";
+                for(let i = 0; i < response.data.length;i++){
+                    document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+                }
             }
         },
         error:function(error) {
@@ -253,7 +267,23 @@ const VerMasAct = (idActividad) =>{
             
             switch (data[0].idDimensionAdministrativa) {
                 case 1:
-                        $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                        $("#ActividadCalendario").html(`
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group d-flex row">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                 <h5 class="form-control">Actividad:</h5>
                             </div>
@@ -329,14 +359,14 @@ const VerMasAct = (idActividad) =>{
                         </div>
                         <div class="form-group d-flex row">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <h5 class="form-control">Tipo de presupuesto:</h5>
+                                <h5 class="form-control">Responsable Actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input
+                                <input 
                                     type="text" 
-                                    id="TipoDePresupuesto" 
+                                    id="responsableActividad" 
                                     class="form-control"  
-                                    value="${ data[0].tipoPresupuesto }"
+                                    value="${ data[0].responsableActividad }"
                                     align="justify"
                                     readonly
                                 >
@@ -344,14 +374,14 @@ const VerMasAct = (idActividad) =>{
                         </div>
                         <div class="form-group d-flex row">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <h5 class="form-control">Objeto del gasto:</h5>
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
                                 <input 
                                     type="text" 
-                                    id="AbreviaturaActividadVerMas" 
+                                    id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].ObjetoGasto }"
+                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
                                 >
@@ -359,42 +389,14 @@ const VerMasAct = (idActividad) =>{
                         </div>
                         <div class="form-group d-flex row">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <h5 class="form-control">Descripción de cuenta:</h5>
-                            </div>
-                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <textarea 
-                                    type="text" 
-                                    id="DescripciónDeCuenta" 
-                                    class="form-control"  
-                                    align="justify"
-                                    readonly
-                                >${ data[0].DescripcionCuenta }</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group d-flex row">
-                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <h5 class="form-control">Dimension Estrategica:</h5>
-                            </div>
-                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <textarea 
-                                    type="text" 
-                                    id="DimensionEstrategica" 
-                                    class="form-control"  
-                                    align="justify"
-                                    readonly
-                                >${ data[0].dimensionEstrategica }</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group d-flex row">
-                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <h5 class="form-control">Mes requerido:</h5>
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
                                 <input 
                                     type="text" 
-                                    id="MesRequerido" 
+                                    id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].mesRequerido }"
+                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
                                 >
@@ -403,7 +405,23 @@ const VerMasAct = (idActividad) =>{
                         $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
                 break;
                 case 2:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -478,83 +496,71 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>`);
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
 
                 break;
                 case 3:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -614,82 +620,70 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>`);
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
                 break;
                 case 4:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -749,78 +743,50 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
                     <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Tipo de equipo tecnologico:</h5>
@@ -838,7 +804,23 @@ const VerMasAct = (idActividad) =>{
                     </div>`);
                 break;
                 case 5:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -898,82 +880,70 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>`);
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
                 break;
                 case 6:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -1033,78 +1003,50 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
                     <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Area Beca:</h5>
@@ -1122,7 +1064,23 @@ const VerMasAct = (idActividad) =>{
                     </div>`);
                 break;
                 case 7:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -1182,78 +1140,50 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
                     <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Proyecto:</h5>
@@ -1271,7 +1201,23 @@ const VerMasAct = (idActividad) =>{
                     </div>`);
                 break;
                 case 8:
-                    $("#ActividadCalendario").html(`<div class="form-group d-flex row">
+                    $("#ActividadCalendario").html(`
+                    <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Departamento:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="nombreDepartamento" 
+                                    class="form-control"  
+                                    value="${ data[0].nombreDepartamento }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                    <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Actividad:</h5>
                         </div>
@@ -1331,78 +1277,50 @@ const VerMasAct = (idActividad) =>{
                         </div>
                     </div>
                     <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Tipo de presupuesto:</h5>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Responsable Actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="responsableActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].responsableActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input
-                                type="text" 
-                                id="TipoDePresupuesto" 
-                                class="form-control"  
-                                value="${ data[0].tipoPresupuesto }"
-                                align="justify"
-                                readonly
-                            >
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Justificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="justificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].justificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Objeto del gasto:</h5>
+                        <div class="form-group d-flex row">
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5 class="form-control">Medio de verificacion de la actividad:</h5>
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <input 
+                                    type="text" 
+                                    id="medioVerificacionActividad" 
+                                    class="form-control"  
+                                    value="${ data[0].medioVerificacionActividad }"
+                                    align="justify"
+                                    readonly
+                                >
+                            </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="AbreviaturaActividadVerMas" 
-                                class="form-control"  
-                                value="${ data[0].ObjetoGasto }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Descripción de cuenta:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DescripciónDeCuenta" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].DescripcionCuenta }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Dimension Estrategica:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <textarea 
-                                type="text" 
-                                id="DimensionEstrategica" 
-                                class="form-control"  
-                                align="justify"
-                                readonly
-                            >${ data[0].dimensionEstrategica }</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group d-flex row">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <h5 class="form-control">Mes requerido:</h5>
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <input 
-                                type="text" 
-                                id="MesRequerido" 
-                                class="form-control"  
-                                value="${ data[0].mesRequerido }"
-                                align="justify"
-                                readonly
-                            >
-                        </div>
-                    </div>
                     <div class="form-group d-flex row">
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <h5 class="form-control">Descripcion item:</h5>
