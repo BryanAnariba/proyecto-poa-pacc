@@ -518,7 +518,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`EstadoSolicitudSalida` (
   `idEstadoSolicitudSalida` INT NOT NULL AUTO_INCREMENT,
-  `idPersonaUsuarioVeedor` INT NOT NULL,
+  `idPersonaUsuarioVeedor` INT NULL,
   `idSolicitudSalida` INT NOT NULL,
   `idTipoEstadoSolicitud` INT NOT NULL,
   `observacionesSolicitud` VARCHAR(150) NULL,
@@ -763,8 +763,8 @@ ENGINE = InnoDB;
 -- Table `poa-pacc-bd`.`Informe`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Informe` (
-  `idInforme` INT NOT NULL,
-  `idPersonaUsuarioEnvia` INT NOT NULL AUTO_INCREMENT,
+  `idInforme` INT NOT NULL AUTO_INCREMENT,
+  `idPersonaUsuarioEnvia` INT NOT NULL,
   `idPersonaUsuarioAprueba` INT NULL,
   `idEstadoInforme` INT NOT NULL,
   `tituloInforme` VARCHAR(255) NOT NULL,

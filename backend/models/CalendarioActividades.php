@@ -144,24 +144,23 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("select year(actividad.fechaCreacionActividad) as anio,descripcionadministrativa.idDimensionAdministrativa,descripcionadministrativa.idDescripcionAdministrativa,
-                                                    descripcionadministrativa.nombreActividad,descripcionadministrativa.Descripcion,descripcionadministrativa.Cantidad,descripcionadministrativa.Costo,descripcionadministrativa.CostoTotal,
-                                                    tipopresupuesto.tipoPresupuesto,objetogasto.abrev as ObjetoGasto,objetogasto.DescripcionCuenta,dimensionestrategica.dimensionEstrategica,descripcionadministrativa.mesRequerido,
-                                                    departamento.idDepartamento
-                                            from descripcionadministrativa
-                                            inner join tipopresupuesto
-                                            on tipoPresupuesto.idTipoPresupuesto=descripcionadministrativa.idTipoPresupuesto
-                                            inner join objetogasto
-                                            on objetogasto.idObjetoGasto=descripcionadministrativa.idObjetoGasto
-                                            inner join actividad
-                                            on actividad.idActividad=descripcionadministrativa.idActividad
-                                            inner join dimensionestrategica
-                                            on dimensionEstrategica.idDimension=actividad.idDimension
-                                            inner join departamentopordimension
-                                            on departamentopordimension.idDimension=dimensionestrategica.idDimension
-                                            inner join departamento
-                                            on departamento.idDepartamento=departamentopordimension.idDepartamento
-                                            where departamento.idDepartamento=(select idDepartamento from usuario u where u.idPersonaUsuario = actividad.idPersonaUsuario)
-                                            and YEAR(actividad.fechaCreacionActividad) = YEAR(departamentopordimension.fecha);"
+                                                        descripcionadministrativa.nombreActividad,descripcionadministrativa.Descripcion,descripcionadministrativa.Cantidad,descripcionadministrativa.Costo,descripcionadministrativa.CostoTotal,
+                                                        tipopresupuesto.tipoPresupuesto,objetogasto.abrev as ObjetoGasto,objetogasto.DescripcionCuenta,dimensionestrategica.dimensionEstrategica,descripcionadministrativa.mesRequerido,
+                                                        departamento.idDepartamento
+                                                from descripcionadministrativa
+                                                inner join tipopresupuesto
+                                                on tipoPresupuesto.idTipoPresupuesto=descripcionadministrativa.idTipoPresupuesto
+                                                inner join objetogasto
+                                                on objetogasto.idObjetoGasto=descripcionadministrativa.idObjetoGasto
+                                                inner join actividad
+                                                on actividad.idActividad=descripcionadministrativa.idActividad
+                                                inner join dimensionestrategica
+                                                on dimensionEstrategica.idDimension=actividad.idDimension
+                                                inner join usuario
+                                                on usuario.idPersonaUsuario=actividad.idPersonaUsuario
+                                                inner join departamento
+                                                on departamento.idDepartamento=usuario.idDepartamento
+                                                where departamento.idDepartamento=(select idDepartamento from usuario u where u.idPersonaUsuario = actividad.idPersonaUsuario);"
                                                 );
                 if ($stmt->execute()) {
                     return array(
@@ -218,7 +217,7 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('WITH CTE_Actividad_Resultado AS 
                                                 (
-                                                    SELECT a.idActividad,a.actividad,a.correlativoActividad,a.fechaCreacionActividad,ta.TipoActividad,a.idPersonaUsuario
+                                                    SELECT a.idActividad,a.actividad,a.correlativoActividad,a.fechaCreacionActividad,ta.TipoActividad,a.idPersonaUsuario,a.idDimension
                                                     FROM actividad a
                                                     inner join resultadoinstitucional ri on a.idResultadoInstitucional=ri.idResultadoInstitucional
                                                     inner join tipoactividad ta on ta.idTipoActividad=a.idTipoActividad
@@ -232,31 +231,25 @@
                                                     SELECT a.idActividad
                                                     FROM actividad a
                                                     inner join objetivoinstitucional oi on a.idObjetivoInstitucional=oi.idObjetivoInstitucional
-                                                ), CTE_Actividad_DimensionEstrategica AS
-                                                (
-                                                    SELECT a.idActividad,d.idDepartamento,d.nombreDepartamento,dpd.fecha,dpd.estadoActividad,de.dimensionEstrategica,de.idDimension
-                                                    FROM actividad a
-                                                    inner join dimensionestrategica de on de.idDimension= a.idDimension
-                                                    inner join departamentopordimension dpd on dpd.idDimension=de.idDimension
-                                                    inner join departamento d on d.idDepartamento=dpd.idDepartamento
-                                                ) 
+                                                )
                                                 select 
                                                     r.idActividad,r.actividad,r.correlativoActividad,de.nombreDepartamento
                                                     ,(SELECT count(*) FROM descripcionadministrativa da where da.idActividad=r.idActividad) as NumeroDeActividadesDefinidas
-                                                    ,de.dimensionEstrategica,r.TipoActividad
+                                                    ,r.idDimension,r.TipoActividad
                                                 from CTE_Actividad_Resultado r
                                                 inner join CTE_Actividad_AREAESTRATEGICA a
                                                 on a.idActividad=r.idActividad
                                                 inner join CTE_Actividad_ObjetivoInstitucional o
                                                 on r.idActividad=o.idActividad
-                                                inner join CTE_Actividad_DimensionEstrategica de
-                                                on r.idActividad=de.idActividad
-                                                where YEAR(r.fechaCreacionActividad)=:Anio2 
-                                                and de.idDimension=:idDimension 
+                                                inner join usuario u
+                                                on u.idPersonaUsuario=r.idPersonaUsuario
+                                                inner join departamento de
+                                                on de.idDepartamento=u.idDepartamento
+                                                where YEAR(r.fechaCreacionActividad)=:Anio and r.idDimension=:idDimension
                                                 and de.idDepartamento = (select idDepartamento from usuario u where u.idPersonaUsuario = r.idPersonaUsuario);'
                                                 );
                 $stmt->bindValue(':idDimension', $this->idDimension);
-                $stmt->bindValue(':Anio2', $this->Anio);
+                $stmt->bindValue(':Anio', $this->Anio);
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -284,10 +277,11 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('WITH CTE_Actividad_Resultado AS 
                                                 (
-                                                    SELECT a.idActividad,a.actividad,a.correlativoActividad,ta.TipoActividad
+                                                    SELECT a.idActividad,a.actividad,a.correlativoActividad,a.fechaCreacionActividad,ta.TipoActividad,a.idPersonaUsuario,a.idDimension,dimensionEstrategica.dimensionEstrategica
                                                     FROM actividad a
                                                     inner join resultadoinstitucional ri on a.idResultadoInstitucional=ri.idResultadoInstitucional
                                                     inner join tipoactividad ta on ta.idTipoActividad=a.idTipoActividad
+                                                    inner join dimensionestrategica on dimensionestrategica.idDimension=a.idDimension
                                                 ), CTE_Actividad_AREAESTRATEGICA AS
                                                 (
                                                     SELECT a.idActividad,ae.areaEstrategica
@@ -298,28 +292,22 @@
                                                     SELECT a.idActividad,oi.objetivoInstitucional
                                                     FROM actividad a
                                                     inner join objetivoinstitucional oi on a.idObjetivoInstitucional=oi.idObjetivoInstitucional
-                                                ), CTE_Actividad_DimensionEstrategica AS
-                                                (
-                                                    SELECT a.idActividad,de.dimensionEstrategica,d.nombreDepartamento
-                                                    FROM actividad a
-                                                    inner join dimensionestrategica de on de.idDimension= a.idDimension
-                                                    inner join departamentopordimension dpd on dpd.idDimension=de.idDimension
-                                                    inner join departamento d on d.idDepartamento=dpd.idDepartamento
                                                 ), CTE_Conteo_Actividades AS
                                                 (
                                                     SELECT * FROM descripcionadministrativa
                                                 )
                                                 select distinct
-                                                    r.idActividad,r.actividad,r.correlativoActividad,de.nombreDepartamento,a.areaEstrategica,o.objetivoInstitucional,de.dimensionEstrategica
-                                                    ,(SELECT count(*) FROM descripcionadministrativa da where da.idActividad=r.idActividad) as NumeroDeActividadesDefinidas
-                                                    ,de.dimensionEstrategica,r.TipoActividad
+                                                    r.idActividad,r.actividad,r.correlativoActividad,de.nombreDepartamento,a.areaEstrategica,o.objetivoInstitucional,r.dimensionEstrategica
+                                                    ,(SELECT count(*) FROM descripcionadministrativa da where da.idActividad=r.idActividad) as NumeroDeActividadesDefinidas,r.TipoActividad
                                                 from CTE_Actividad_Resultado r
                                                 inner join CTE_Actividad_AREAESTRATEGICA a
                                                 on a.idActividad=r.idActividad
                                                 inner join CTE_Actividad_ObjetivoInstitucional o
                                                 on r.idActividad=o.idActividad
-                                                inner join CTE_Actividad_DimensionEstrategica de
-                                                on r.idActividad=de.idActividad
+                                                inner join usuario u
+                                                on u.idPersonaUsuario=r.idPersonaUsuario
+                                                inner join departamento de
+                                                on de.idDepartamento=u.idDepartamento
                                                 where a.idActividad=:idActividad;'
                                                 );
                 $stmt->bindValue(':idActividad', $this->idActividad);
@@ -350,10 +338,12 @@
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('WITH CTE_Actividad_Resultado AS 
                                                 (
-                                                    SELECT a.idActividad,a.CostoTotal,a.fechaCreacionActividad,ri.resultadoInstitucional,a.resultadosUnidad,a.indicadoresResultado
+                                                    SELECT a.actividad,a.idPersonaUsuario,a.idActividad,a.CostoTotal,a.fechaCreacionActividad,ri.resultadoInstitucional,a.resultadosUnidad,a.indicadoresResultado
                                                     ,a.justificacionActividad,a.medioVerificacionActividad,a.poblacionObjetivoActividad,a.responsableActividad
+                                                    ,a.idDimension,dimensionEstrategica.dimensionEstrategica
                                                     FROM actividad a
                                                     inner join resultadoinstitucional ri on a.idResultadoInstitucional=ri.idResultadoInstitucional
+                                                    inner join dimensionestrategica on dimensionestrategica.idDimension=a.idDimension
                                                 ), CTE_Actividad_AREAESTRATEGICA AS
                                                 (
                                                     SELECT a.idActividad
@@ -364,32 +354,26 @@
                                                     SELECT a.idActividad
                                                     FROM actividad a
                                                     inner join objetivoinstitucional oi on a.idObjetivoInstitucional=oi.idObjetivoInstitucional
-                                                ), CTE_Actividad_DimensionEstrategica AS
-                                                (
-                                                    SELECT a.idActividad,dpd.fecha,dpd.estadoActividad,de.dimensionEstrategica
-                                                    FROM actividad a
-                                                    inner join dimensionestrategica de on de.idDimension= a.idDimension
-                                                    inner join departamentopordimension dpd on dpd.idDimension=de.idDimension
-                                                    inner join departamento d on d.idDepartamento=dpd.idDepartamento
                                                 ), CTE_Conteo_Actividades AS
                                                 (
                                                     SELECT * FROM descripcionadministrativa
                                                 )
                                                 select 
-                                                    r.resultadoInstitucional,r.resultadosUnidad,r.indicadoresResultado,
+                                                    r.actividad,r.resultadoInstitucional,r.resultadosUnidad,r.indicadoresResultado,
                                                     r.justificacionActividad,r.medioVerificacionActividad,r.poblacionObjetivoActividad
-                                                    ,de.dimensionEstrategica,r.responsableActividad,r.CostoTotal,capt.Trimestre1,capt.Trimestre2,capt.Trimestre3,capt.Trimestre4
+                                                    ,r.dimensionEstrategica,r.responsableActividad,r.CostoTotal,capt.Trimestre1,capt.Trimestre2,capt.Trimestre3,capt.Trimestre4
                                                 from CTE_Actividad_Resultado r
                                                 inner join CTE_Actividad_AREAESTRATEGICA a
                                                 on a.idActividad=r.idActividad
                                                 inner join CTE_Actividad_ObjetivoInstitucional o
                                                 on r.idActividad=o.idActividad
-                                                inner join CTE_Actividad_DimensionEstrategica de
-                                                on r.idActividad=de.idActividad
+                                                inner join usuario u
+                                                on u.idPersonaUsuario=r.idPersonaUsuario
+                                                inner join departamento de
+                                                on de.idDepartamento=u.idDepartamento
                                                 inner join costoactividadportrimestre capt
                                                 on capt.idActividad=r.idActividad
-                                                where YEAR(r.fechaCreacionActividad) = YEAR(de.fecha) and de.estadoActividad="Activo"
-                                                and r.idActividad=:idActividad;'
+                                                where r.idActividad=:idActividad;'
                                                 );
                 $stmt->bindValue(':idActividad', $this->idActividad);
                 if ($stmt->execute()) {
@@ -481,9 +465,11 @@
                 $stmt = $this->consulta->prepare('WITH CTE_Actividad_Resultado AS 
                                                 (
                                                     SELECT a.idActividad,a.actividad,a.correlativoActividad,a.fechaCreacionActividad,ta.TipoActividad,a.idPersonaUsuario
+                                                    ,a.idDimension,dimensionEstrategica.dimensionEstrategica
                                                     FROM actividad a
                                                     inner join resultadoinstitucional ri on a.idResultadoInstitucional=ri.idResultadoInstitucional
                                                     inner join tipoactividad ta on ta.idTipoActividad=a.idTipoActividad
+                                                    inner join dimensionestrategica on dimensionestrategica.idDimension=a.idDimension
                                                 ), CTE_Actividad_AREAESTRATEGICA AS
                                                 (
                                                     SELECT a.idActividad
@@ -505,22 +491,21 @@
                                                 select 
                                                     r.idActividad,r.actividad,r.correlativoActividad,de.nombreDepartamento
                                                     ,(SELECT count(*) FROM descripcionadministrativa da where da.idActividad=r.idActividad) as NumeroDeActividadesDefinidas
-                                                    ,de.dimensionEstrategica,r.TipoActividad
+                                                    ,r.dimensionEstrategica,r.TipoActividad
                                                 from CTE_Actividad_Resultado r
                                                 inner join CTE_Actividad_AREAESTRATEGICA a
                                                 on a.idActividad=r.idActividad
                                                 inner join CTE_Actividad_ObjetivoInstitucional o
                                                 on r.idActividad=o.idActividad
-                                                inner join CTE_Actividad_DimensionEstrategica de
-                                                on r.idActividad=de.idActividad
-                                                where YEAR(r.fechaCreacionActividad) = YEAR(de.fecha) and YEAR(de.fecha)=:Anio
-                                                and YEAR(r.fechaCreacionActividad)=:Anio2 and de.estadoActividad="Activo"
-                                                and de.idDimension=:idDimension and de.idDepartamento=:Depa
+                                                inner join usuario u
+                                                on u.idPersonaUsuario=r.idPersonaUsuario
+                                                inner join departamento de
+                                                on de.idDepartamento=u.idDepartamento
+                                                where YEAR(r.fechaCreacionActividad)=:Anio and r.idDimension=:idDimension and de.idDepartamento=:Depa
                                                 and de.idDepartamento = (select idDepartamento from usuario u where u.idPersonaUsuario = r.idPersonaUsuario);'
                                                 );
                 $stmt->bindValue(':Depa', $this->Depa);
                 $stmt->bindValue(':Anio', $this->Anio);
-                $stmt->bindValue(':Anio2', $this->Anio);
                 $stmt->bindValue(':idDimension', $this->idDimension);
                 if ($stmt->execute()) {
                     return array(
