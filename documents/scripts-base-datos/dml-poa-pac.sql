@@ -416,18 +416,12 @@ INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) V
 INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES (3, 25, 'San Marcos de Colón');
 INSERT INTO `poa-pacc-bd`.`lugar` (`idTipoLugar`,`idLugarPadre`,`nombreLugar`) VALUES (3, 25, 'Santa Ana de Yusguare');
 
-
-
-
-
-INSERT INTO 
-`poa-pacc-bd`.`controlPresupuestoActividad`(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual) 
+INSERT INTO controlPresupuestoActividad(presupuestoAnual, fechaPresupuestoAnual, idEstadoPresupuestoAnual, estadoLlenadoActividades) 
 VALUES 
-(800000.00, '2020-12-31 13:55:30', 1);
+(800000.00, '2020-12-31 13:55:30', 1, 0);
 
 INSERT INTO `poa-pacc-bd`.`tipoactividad`(`TipoActividad`) VALUES ("Sin Costo");
 INSERT INTO `poa-pacc-bd`.`tipoactividad`(`TipoActividad`) VALUES ("Con Costo");
-
 
 INSERT INTO `poa-pacc-bd`.`tipopresupuesto`
 (`idTipoPresupuesto`,
