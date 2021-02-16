@@ -664,6 +664,7 @@ const agregarAct = () => {
     // Campos que tienen en comun
     let nombreActividad = document.querySelector('#NombreActividad');
     let Cantidad = document.querySelector('#Cantidad');
+    let unidadMed = document.querySelector('#UnidadMedida');
     let Costo = document.querySelector('#Costo');
     let CostoT = document.querySelector('#CostoT');
     let TipoPresupuesto = document.querySelector('#TipoPresupuesto');
@@ -729,6 +730,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -795,6 +797,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -860,6 +863,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Number(Costo.value),
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -927,6 +931,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -991,6 +996,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -1058,6 +1064,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -1125,6 +1132,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,
@@ -1200,6 +1208,7 @@ const agregarAct = () => {
                         idDimension: parseInt(idDimensionAdminSeleccionada),
                         nombreActividad: nombreActividad.value,
                         cantidad: Cantidad.value,
+                        unidadDeMedida: document.querySelector('#UnidadMedida').value,
                         costo:  Costo.value,
                         costoTotal: CostoT.value,
                         mesRequerido: Mes.value,

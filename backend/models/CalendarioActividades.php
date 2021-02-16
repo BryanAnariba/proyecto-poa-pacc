@@ -239,7 +239,7 @@
                                                     inner join dimensionestrategica de on de.idDimension= a.idDimension
                                                     inner join departamentopordimension dpd on dpd.idDimension=de.idDimension
                                                     inner join departamento d on d.idDepartamento=dpd.idDepartamento
-                                                )
+                                                ) 
                                                 select 
                                                     r.idActividad,r.actividad,r.correlativoActividad,de.nombreDepartamento
                                                     ,(SELECT count(*) FROM descripcionadministrativa da where da.idActividad=r.idActividad) as NumeroDeActividadesDefinidas
@@ -251,13 +251,11 @@
                                                 on r.idActividad=o.idActividad
                                                 inner join CTE_Actividad_DimensionEstrategica de
                                                 on r.idActividad=de.idActividad
-                                                where YEAR(r.fechaCreacionActividad) = YEAR(de.fecha) and YEAR(de.fecha)=:Anio
-                                                and YEAR(r.fechaCreacionActividad)=:Anio2 and de.estadoActividad="Activo"
+                                                where YEAR(r.fechaCreacionActividad)=:Anio2 
                                                 and de.idDimension=:idDimension 
                                                 and de.idDepartamento = (select idDepartamento from usuario u where u.idPersonaUsuario = r.idPersonaUsuario);'
                                                 );
                 $stmt->bindValue(':idDimension', $this->idDimension);
-                $stmt->bindValue(':Anio', $this->Anio);
                 $stmt->bindValue(':Anio2', $this->Anio);
                 if ($stmt->execute()) {
                     return array(

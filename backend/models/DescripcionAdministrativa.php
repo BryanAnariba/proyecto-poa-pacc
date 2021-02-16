@@ -14,6 +14,7 @@
         private $costoTotal;
         private $mesRequerido;
         private $descripcion;
+        private $unidadDeMedida;
 
         private $conexionBD;
         private $consulta;
@@ -118,6 +119,16 @@
             return $this;
         }
 
+        public function getUnidadDeMedida() {
+            return $this->unidadDeMedida;
+        }
+
+
+        public function setUnidadDeMedida($unidadDeMedida) {
+            $this->unidadDeMedida = $unidadDeMedida;
+            return $this;
+        }
+
         public function __construct () {
             $this->tablaBaseDatos = TBL_DESCRIPCION_ADMINISTRATIVA;
         }
@@ -203,7 +214,7 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
-                            $stmt = $this->consulta->prepare('INSERT INTO DescripcionAdministrativa (idObjetoGasto, idTipoPresupuesto, idActividad, idDimensionAdministrativa, nombreActividad, Cantidad, Costo, costoTotal, mesRequerido, Descripcion) VALUES (:idObjeto, :idTipoPresupuesto, :idActividad, :idDimension, :nombreAct, :cantidad, :costo, :costoTotal, :mesRequerido, :descripcion)');
+                            $stmt = $this->consulta->prepare('INSERT INTO DescripcionAdministrativa (idObjetoGasto, idTipoPresupuesto, idActividad, idDimensionAdministrativa, nombreActividad, Cantidad, Costo, costoTotal, mesRequerido, Descripcion, unidadDeMedida) VALUES (:idObjeto, :idTipoPresupuesto, :idActividad, :idDimension, :nombreAct, :cantidad, :costo, :costoTotal, :mesRequerido, :descripcion, :unidadMedida)');
                             $stmt->bindValue(':idObjeto', $this->idObjetoGasto);
                             $stmt->bindValue(':idTipoPresupuesto', $this->idTipoPresupuesto);
                             $stmt->bindValue(':idActividad', $this->idActividad);
@@ -214,6 +225,8 @@
                             $stmt->bindValue(':costoTotal', $this->costo * $this->cantidad);
                             $stmt->bindValue(':mesRequerido', $this->mesRequerido);
                             $stmt->bindValue(':descripcion', json_encode($this->descripcion));
+                            $stmt->bindValue(':unidadMedida', $this->unidadDeMedida);
+
                             if ($stmt->execute()) {
                                 return array(
                                     'status'=> SUCCESS_REQUEST,
@@ -252,7 +265,7 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
-                    $stmt = $this->consulta->prepare('WITH CTE_LISTA_DESGLOSE_ACTIVIDAD AS (SELECT DescripcionAdministrativa.idDescripcionAdministrativa, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.idObjetoGasto, ObjetoGasto.descripcionCuenta, ObjetoGasto.abrev ,DescripcionAdministrativa.idTipoPresupuesto, TipoPresupuesto.tipoPresupuesto, Actividad.idActividad, Actividad.Actividad, DescripcionAdministrativa.idDimensionAdministrativa, DimensionAdmin.dimensionAdministrativa, DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.Costo, DescripcionAdministrativa.costoTotal, DescripcionAdministrativa.mesRequerido, DescripcionAdministrativa.Descripcion, Actividad.idDimension, DimensionEstrategica.dimensionEstrategica FROM DescripcionAdministrativa INNER JOIN  ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN TipoPresupuesto ON (DescripcionAdministrativa.idTipoPresupuesto = TipoPresupuesto.idTipoPresupuesto) INNER JOIN DimensionAdmin ON (DescripcionAdministrativa.idDimensionAdministrativa = DimensionAdmin.idDimension) INNER JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)) SELECT * FROM CTE_LISTA_DESGLOSE_ACTIVIDAD WHERE CTE_LISTA_DESGLOSE_ACTIVIDAD.idActividad = :idActividad  AND CTE_LISTA_DESGLOSE_ACTIVIDAD.idDimensionAdministrativa = :idDimenAdmin ORDER BY CTE_LISTA_DESGLOSE_ACTIVIDAD.idDescripcionAdministrativa DESC');
+                    $stmt = $this->consulta->prepare('WITH CTE_LISTA_DESGLOSE_ACTIVIDAD AS (SELECT DescripcionAdministrativa.idDescripcionAdministrativa, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.idObjetoGasto, ObjetoGasto.descripcionCuenta, ObjetoGasto.abrev ,DescripcionAdministrativa.idTipoPresupuesto, TipoPresupuesto.tipoPresupuesto, Actividad.idActividad, Actividad.Actividad, DescripcionAdministrativa.idDimensionAdministrativa, DimensionAdmin.dimensionAdministrativa, DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.Costo, DescripcionAdministrativa.costoTotal, DescripcionAdministrativa.mesRequerido, DescripcionAdministrativa.Descripcion, DescripcionAdministrativa.unidadDeMedida, Actividad.idDimension, DimensionEstrategica.dimensionEstrategica FROM DescripcionAdministrativa INNER JOIN  ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN TipoPresupuesto ON (DescripcionAdministrativa.idTipoPresupuesto = TipoPresupuesto.idTipoPresupuesto) INNER JOIN DimensionAdmin ON (DescripcionAdministrativa.idDimensionAdministrativa = DimensionAdmin.idDimension) INNER JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension)) SELECT * FROM CTE_LISTA_DESGLOSE_ACTIVIDAD WHERE CTE_LISTA_DESGLOSE_ACTIVIDAD.idActividad = :idActividad  AND CTE_LISTA_DESGLOSE_ACTIVIDAD.idDimensionAdministrativa = :idDimenAdmin ORDER BY CTE_LISTA_DESGLOSE_ACTIVIDAD.idDescripcionAdministrativa DESC');
                     $stmt->bindValue(':idActividad', $this->idActividad);
                     $stmt->bindValue(':idDimenAdmin', $this->idDimensionAdministrativa);
                     if ($stmt->execute()) {
@@ -297,7 +310,7 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
-                            $stmt = $this->consulta->prepare('UPDATE DescripcionAdministrativa SET idObjetoGasto = :idObjeto, idTipoPresupuesto = :idTipoPresupuesto, idActividad = :idActividad, idDimensionAdministrativa = :idDimension, nombreActividad = :nombreAct, Cantidad = :cantidad, Costo = :costo, costoTotal = :costoTotal, mesRequerido = :mesRequerido, Descripcion = :descripcion WHERE idDescripcionAdministrativa = :idDescripcion ');
+                            $stmt = $this->consulta->prepare('UPDATE DescripcionAdministrativa SET idObjetoGasto = :idObjeto, idTipoPresupuesto = :idTipoPresupuesto, idActividad = :idActividad, idDimensionAdministrativa = :idDimension, nombreActividad = :nombreAct, Cantidad = :cantidad, Costo = :costo, costoTotal = :costoTotal, mesRequerido = :mesRequerido, Descripcion = :descripcion, unidadDeMedida = :unidadMedida WHERE idDescripcionAdministrativa = :idDescripcion ');
                             $stmt->bindValue(':idDescripcion', $this->idDescripcionAdministrativa);
                             $stmt->bindValue(':idObjeto', $this->idObjetoGasto);
                             $stmt->bindValue(':idTipoPresupuesto', $this->idTipoPresupuesto);
@@ -309,6 +322,7 @@
                             $stmt->bindValue(':costoTotal', $this->costo * $this->cantidad);
                             $stmt->bindValue(':mesRequerido', $this->mesRequerido);
                             $stmt->bindValue(':descripcion', json_encode($this->descripcion));
+                            $stmt->bindValue(':unidadMedida', $this->unidadDeMedida);
                             if ($stmt->execute()) {
                                 return array(
                                     'status'=> SUCCESS_REQUEST,
@@ -341,7 +355,5 @@
                     );
                 }
         }
-
-        
     }
 ?>

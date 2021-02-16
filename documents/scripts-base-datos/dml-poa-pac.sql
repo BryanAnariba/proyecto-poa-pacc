@@ -445,3 +445,6 @@ VALUES
 
 INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Pendiente');
 INSERT INTO EstadoActividad (EstadoActividad) VALUES ('Hecha');
+
+UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = FALSE WHERE idControlPresupuestoActividad = 1;
+UPDATE ControlPresupuestoActividad SET estadoLlenadoActividades = TRUE WHERE idControlPresupuestoActividad = 2;
