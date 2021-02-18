@@ -8,6 +8,9 @@ $(document).ready(function (){
         idDepartamento=Usuario['idDepartamento'];
     }else if(Usuario['abrevTipoUsuario']=='D_F'||Usuario['abrevTipoUsuario']=='SE_AD'||Usuario['abrevTipoUsuario']=='U_E'){
         cambiarDepa();
+        $('#modalSeleccionDepart').on('shown.bs.modal', function () {
+            cambiarDepa();
+        })
     }
 
     LlenarDimensionesEstrategicas();
@@ -402,9 +405,20 @@ const cambiarDepa = () => {
         type: 'POST',
         dataType: 'json',
         success:function(response) {
-            document.getElementById("Departamento").innerHTML="<option value='' disabled selected>Mostrar Todos</option>";
-            for(let i = 0; i < response.data.length;i++){
-                document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+            if(idDepartamento!=null){
+                document.getElementById("Departamento").innerHTML="<option value='' disabled>Mostar todos</option>";
+                for(let i = 0; i < response.data.length;i++){
+                    if(idDepartamento==response.data[i].idDepartamento){
+                        document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}" selected>${response.data[i].nombreDepartamento}</option>`;
+                    }else{
+                        document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+                    }
+                }
+            }else{
+                document.getElementById("Departamento").innerHTML="<option value='' disabled selected>Mostar todos</option>";
+                for(let i = 0; i < response.data.length;i++){
+                    document.getElementById("Departamento").innerHTML+=`<option value="${response.data[i].idDepartamento}">${response.data[i].nombreDepartamento}</option>`;
+                }
             }
         },
         error:function(error) {
