@@ -147,6 +147,7 @@ VALUES (NULL, '1', '26', 'Lograr que la UNAH lleve a cabo en forma sostenida y p
     (NULL, '1', '29', 'c. Consolidar el funcionamiento del Consejo Nacional de Educación, ejerciendo la Rectoría de la UNAH la Vice-Presidencia del mismo y la Dirección de Educación Superior, la Secretaría, así como la conducción de proyectos de integración de la Educación Nacional a través de la Comisión Bipartita. '), 
     (NULL, '1', '30', 'Promover  la  capacitación continua de los miembros de la comunidad universitaria para  el desarrollo de las competencias de las TIC.'),
     (NULL, '1', '30', 'Apoyar mediante el uso de los espacios y recursos web, las actividades propias de difusión y posicionamiento de la institución en todas las áreas del contexto nacional e internacional'), 
+    (NULL, '1', '30', 'Promover la aplicación de nuevas tecnologías en las diferentes áreas del conocimiento con base en las necesidades institucionales y tendencias mundiales.'), 
     (NULL, '1', '30', 'Promover el uso adecuado, ético y solidario de las TIC para el desarrollo de la academia, la ciencia y la cultura.'), 
     (NULL, '1', '30', 'Contar con un Sistema de Unidades de Recursos de Información certificado'), 
     (NULL, '1', '30', 'Intercambiar información con otras instituciones de manera rápida y eficiente. ');
@@ -161,6 +162,190 @@ VALUES (NULL, '1', '31', 'Promover las TICs en apoyo a la docencia no presencial
     (NULL, '1', '33', 'Disponer de informacion institucional en soporte electrónico o de manera digital, con el fin de mejorar todas las gestiones tanto administrativas como academicas.  (Repositorios - REFERENCIA)'), 
     (NULL, '1', '33', 'Modernizar los procesos institucionales incrementando su eficiencia y ejecución (Inteligencia de Negocios - REFERENCIA)'), 
     (NULL, '1', '33', 'Contar con un marco regulatorio que garantice un crecimiento estandarizado y un uso eficiente de los recursos de TI en la institución.');
+
+
+-- INSERTANDO RESULTADOS INSTITUCIONALES
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '1', '1', 'Implementados currículos innovadores a nivel de grado y postgrado (macro, meso y micro currículos), en todas las Facultades y Centros Regionales Universitarios. '), 
+    (NULL, '2', '1', 'Aplicada la política de bimodalidad con base en los diagnósticos regionales de necesidades y potencialidades auténticas.'), 
+    (NULL, '3', '1', 'Las facultades y los centros regionales  desarrollan proyectos de investigación enmarcados en los temas prioritarios de la UNAH y de la facultad o centro regional a la cual están adscritas.'), 
+    (NULL, '3', '1', 'Las facultades y los centros regionales  compiten por fondos concursables para investigación a nivel interno o externo.'), 
+    (NULL, '3', '1', 'Las facultades y los centros regionales  postulan candidatos para concursar por reconocimientos que premien: '), 
+    (NULL, '3', '1', 'Las facultades y los centros regionales promueven la asignación de investigación como carga académica en la UNAH, con el desarrollo de proyectos de investigación.'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales participan en los encuentros académicos organizados por la Dirección de Investigación Científica (congresos,  encuentros, foros y otros eventos de investigación científica).'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales crean y fortalecen sus revistas científicas siguiendo los estándares internacionales de calidad.'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales participan en los encuentros académicos organizados por la Dirección de Investigación Científica (congresos,  encuentros, foros y otros eventos de investigación científica).'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales participan en los encuentros académicos organizados por la Dirección de Investigación Científica (congresos,  encuentros, foros y otros eventos de investigación científica).'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales organizan encuentros (foros, conversatorios, simposios talleres etc.), para divulgar los resultados de las investigaciones realizadas.'), 
+    (NULL, '4', '1', 'Las facultades y los centros regionales impulsan la representación institucional con ponencias en eventos científicos internacionales con recursos internos y externos.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '5', '1', 'Las facultades y los centros regionales identifican los proyectos de investigación, cuyos resultados sean susceptibles de protección, uso y explotación de la propiedad '), 
+    (NULL, '6', '1', 'Las facultades y los centros regionales  participan en el programa de capacitación ofertado por la Dirección de Investigación Científica.'), 
+    (NULL, '7', '1', 'Las faculttades y centros regionales cuenta con una estructura de investigación creada y fortalecida: institutos de investigación, unidades de gestión de la investigación, grupos de investigación, observatorios académicos, círculos de creatividad, spin off universitarias e incubadoras.'), 
+    (NULL, '7', '1', 'Firmados convenios de cooperación con instituciones nacionales e internacionales.'), 
+    (NULL, '7', '1', 'Fortalecidos los vínculos de la UNAH con el gobierno, sectores productivos, sectores sociales y otras universidades, en torno a la investigación científica, para contribuir de forma integral al conocimiento y solución de los principales problemas del país.'), 
+    (NULL, '8', '1', 'Comités de vinculación creados y funcionando con calidad y pertinencia en las unidades académicas, ejecutando proyectos de vinculación relacionados con las áreas prioritarias.'), 
+    (NULL, '8', '1', 'Unidades académicas aplicando las políticas de vinculación en sus procesos de vinculación con la sociedad según sus contextos.'), 
+    (NULL, '8', '1', 'Propiciar las alianzas con otras entidades públicas y de la sociedad  del país, para el desarrollo de procesos de cooperación recíproca para el fortalecimiento de la Educación pública y gratuita y temáticas de formación de interés educativo de los actores de la sociedad'), 
+    (NULL, '8', '1', 'Convenios suscritos entre la UNAH e instancias de la sociedad civil, el Estado, los gobiernos locales, el sector productivo.'), 
+    (NULL, '9', '1', 'La Dirección de Vinculación organiza anualmente encuentros locales, regionales, nacionales e internacionales que contribuye al debate académico del quehacer de vinculación.'), 
+    (NULL, '9', '1', 'Creado un Sistema de información de procesos de vinculación con indicadores de resultados.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '10', '1', 'Los Comités de Vinculación (CV) en las Unidades Académicas de las Facultades y Centros Regionales, funcionan y cumplen con la planificación académica en vinculación y asignan recursos para su ejecución.'), 
+    (NULL, '10', '1', 'La carrera gestiona recursos internos y externos en coordinación con la Dirección de Vinculación UNAH-Sociedad y la Vicerrectoría de Relaciones Internacionales.'), 
+    (NULL, '11', '1', 'Ejecución del Sistema Integral de Atención Primaria en Salud Familiar-Comunitario en 30 municipios del país conjuntamente con la Secretaría de Salud, las municipalidades, la SEPLAN, la Secretaría de Educación y la AMOHN.'), 
+    (NULL, '11', '1', 'La Dirección de Vinculación promueve el intercambio de experiencias y buenas prácticas en el quehacer de vinculación entre las unidades académicas y Centros Regionales.'), 
+    (NULL, '11', '1', 'Formular y ejecutar en Ciudad Universitaria y en cada centro regional universitario, un PLAN UNIVERSITARIO ANUAL DE APOYO A LA GESTIÓN DE RIESGOS, bajo la coordinación de la Maestría en Gestión del Riesgo.'), 
+    (NULL, '12', '1', 'Integrar programas y planes para la implementación de los servicios de educación no formal a nivel de diplomados, cursos libres, talleres, seminarios, conferencias, con las unidades académicas y en alianza con otros actores de la sociedad.'), 
+    (NULL, '12', '1', 'Promover encuentros académicos de análisis y reflexión permanente sobre temas relevantes de la realidad nacional, y del sistema educativo nacional incluyendo la educación superior como bien público y gratuito'), 
+    (NULL, '12', '1', 'Generar una oferta básica de procesos de Educación no Formal (ENF) por facultades y centros regionales a través de sus distintas carreras (disciplinarias o interdisciplinarias), con aliados estratégicos identificados por los comités de vinculación, orientados a fortalecer el sistema nacional de educación pública y gratuita  del país.'), 
+    (NULL, '12', '1', 'Ejecutar un proyecto piloto de APOYO A LA EDUCACIÓN FORMAL. Y NO FORMAL en los municipios donde funciona el programa APS. En educación no formal se trabajará en construir capacidades locales diversas, orientadas al desarrollo local, la construcción de ciudadanía y cultura de paz, mediante ciclos de conferencias, cursos libres, seminarios, diplomados y otros procesos de educación no formal, disciplinares, e interdisciplinarios, dirigidos a  diferentes actores locales y municipales, en complemento y coordinación con los programas APS FC y DESARROLLO ECONOMICO LOCAL.'), 
+    (NULL, '13', '1', 'La Dirección de Vinculación cuenta con estructura y mecanismos de divulgación de los procesos de vinculación para el apoyo a la difusión del quehacer de vinculación a nivel nacional.'), 
+    (NULL, '13', '1', 'Las carreras realiza actividades para divulgar los proyectos de vinculación.'), 
+    (NULL, '13', '1', 'La DVUS Edita y publica documentos académicos de las diferentes temáticas abordadas en los distintos procesos académicos de vinculación con la sociedad.'), 
+    (NULL, '13', '1', 'Las unidades académicas sistematizan sus procesos de vinculación ejecutados, de acuerdo a los lineamientos propuestos por la DVUS.'), 
+    (NULL, '14', '1', 'Se cuenta con actores cooperantes identificados y estructurados en mesas temáticas para la ejecución y respaldo de los proyectos de desarrollo local de los municipios.'), 
+    (NULL, '14', '1', 'Se identifican las cadenas de valor de producción que inciden en el desarrollo economico local en los municipios seleccionados.'), 
+    (NULL, '14', '1', 'Diseñado un programa orientado al fortalecimiento institucional y el emprendedurismo y desarrollo de capacidades locales en donde funciona el Sistema APS, con la participación plena de las unidades académicas de las áreas sociales y económicas.'), 
+    (NULL, '14', '1', 'Se mejoran los niveles nutricionales locales y se estimula la generación de empleo e ingresos mediante la creación de microempresas familiares comunitarias en los municipios seleccionados.'), 
+    (NULL, '14', '1', 'Ejecutar un proyecto piloto de APOYO A LA GESTIÓN CULTURAL orientado a potenciar los factores culturales como elementos de desarrollo local y regional, en complemento y coordinación con los programas de salud, producción y educación, en dos municipios en los que funcionen dichos programas.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '15', '1', 'Creación de la bolsa de empleo de graduados.'), 
+    (NULL, '16', '1', 'Creación de un programa de actualización de conocimientos para los graduados y no graduados en todas las áreas.'), 
+    (NULL, '17', '1', 'Realización de estudios de graduados en las temáticas siguientes: Empleabilidad, pertinencia de la calidad educativa, percepción de los empleadores, satisfacción de los empleadores, satisfacción de la comunidad con el graduado de la UNAH, etnre otros.'), 
+    (NULL, '18', '1', 'Brindar acompañamiento a las asociaciones acuerpando su trabajo y a la vez realizando simultáneamente parte del mismo.'), 
+    (NULL, '19', '1', 'Creación y actualización permanente de la base de dato de nuestros graduados, a través de un acercamiento virtual, mediante el llenado de un formulario.'), 
+    (NULL, '20', '1', 'Crear una cartera de servicios que la universidad proporcione a sus graduados.'), 
+    (NULL, '21', '1', 'Fomentar espacios de discusión, análisis, debates e intercambios académicos entre graduados, estudiantes y profesores universitarios para el enriquecimiento de la ciencia, la tecnología y la innovación en los distintos campos del conocimiento.'), 
+    (NULL, '22', '1', 'Personal Docente implementando prácticas innovadoras, alineadas con el modelo educativo.'), 
+    (NULL, '23', '1', 'Estudiantes orientados profesionalmente a través del Centro de Orientación Vocacional Universitario (COVU).'), 
+    (NULL, '23', '1', 'Estudiantes en riesgo académico reciben asesoría y tutoría como formas de atención.'), 
+    (NULL, '23', '1', 'Implementar la Bolsa Universitaria de Trabajo en alianza con la Secretaría del Trabajo y Seguridad Social para identificar espacios laborales que favorezcan la empleabilidad de los egresados de la UNAH.'), 
+    (NULL, '24', '1', 'Implementado de forma gradual y progresiva la estrategia de Atención Primaria en Salud estudiantil (APS) bajo el modelo de Universidades con Estilos de Vida Saludables que marquen la pauta para la construcción de la Política de Salud Universitaria.'), 
+    (NULL, '24', '1', 'Instalados los servicios de salud en todos los Centros Regionales bajo el modelo de Universidades con Estilos de Vida Saludables que respondan a las necesidades de atención, promoción y formación de los estudiantes en los distintos contextos y zonas geográficas'), 
+    (NULL, '24', '1', 'Expandidos los servicios de laboratorio para su auto-sostenibilidad en coordinación con la Escuela de Microbiología, ofreciendo servicios de calidad y a bajo costo a la población en general'), 
+    (NULL, '25', '1', 'Realizado festivales y encuentros culturales con la participación de estudiantes de CU y CR.'), 
+    (NULL, '25', '1', 'Desarrollado el Festival Interuniversitario de Cultura y Arte (FICCUA) para consolidar procesos de integración cultural en la región Centroamericana.'), 
+    (NULL, '25', '1', 'Desarrollados programas socio-culturales para el fomento de una cultura y valores de paz, integración y cohesión estudiantil, familiar y social.'), 
+    (NULL, '25', '1', 'Realizados los primeros Juegos Universitarios Deportivos de la UNAH (JUDUNAH) para promover el intercambio estudiantil universitario y la identificación de atletas  para la conformación de delegaciones que representan a la UNAH en instancias deportivas nacionales y regionales.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '26', '1', 'Reformulada las políticas de estímulos educativos bajo criterios de equidad y calidad:'), 
+    (NULL, '26', '1', 'Becas Municipales'), 
+    (NULL, '26', '1', 'Becas de Inclusión Social (Pueblos Indígenas y Afrodescendientes)'), 
+    (NULL, '26', '1', 'Becas por Desempeño Estudiantil (museos, bibliotecas, librería, centros de arte, deportes y cultura)'), 
+    (NULL, '26', '1', 'Vigentes: excelencia, equidad, cultura y arte y deporte)'), 
+    (NULL, '26', '1', 'En estudio: exoneración de matrícula a estudiantes de excelencia.'), 
+    (NULL, '27', '1', 'Aplicación de Sistema de Seguimiento a graduados.  Base de Datos de Egresados, Actualizadas y Monitoreada.'), 
+    (NULL, '28', '1', 'Graduados universitarios y Personal Administrativo participan en programa de relevo docente.'), 
+    (NULL, '29', '1', 'Las unidades académicas participan en redes académicas a través de la movilidad y el uso de las TICS por campo del conocimiento para la generación y promoción de la gestión del conocimiento.'), 
+    (NULL, '30', '1', 'Resultados permanentes y sostenidos de contribución al Desarrollo Humano Sostenible regional, generados por las 8 Redes Educativas Regionales de la UNAH.'), 
+    (NULL, '31', '1', 'Gestión exitosa del Sistema de Difusión Científica y Cultural de la UNAH, con participación sostenida y permanente en redes asociativas nacionales e internacionales.'), 
+    (NULL, '32', '1', 'Transversalizado el EJE CURRICULAR DE ÉTICA en los planes de estudio de la UNAH, que propicie un sello de “Lo Esencial” en los graduados de la UNAH. (R. de Desarrollo Curricular Integral).');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '33', '1', 'Fortalecida la IDENTIDAD NACIONAL E INSTITUCIONAL, con un saber local revalorizado e internacionalizado.'), 
+    (NULL, '34', '1', 'Gestionados una serie de instrumentos culturales (en especial la POLÍTICA DE CULTURA, y oferta educativa, encaminada hacia la formación integral – profesional en la relación de cultura y desarrollo.'), 
+    (NULL, '35', '1', 'Impregnados los currículos de una preocupación por los derechos humanos, lo socio-cultural, la interculturalidad y la gestión de vida cultural, desde actividades curriculares, extracurriculares, y la vinculación universidad – sociedad.'), 
+    (NULL, '36', '1', 'Aplicación del modelo de innovación educativa que integre como ámbitos de innovación educativa: el currículo, las metodologías, las estrategias de enseñanza y aprendizaje, los materiales y recursos didácticos, el uso educativo de las TIC, la relación con el entorno, la profesionalización docente y directiva.'), 
+    (NULL, '37', '1', 'Consolidado en todas las Unidades Académicas de la UNAH, el Sistema de Gestión de la Calidad, con procesos permanentes y sostenidos de autoevaluación y acreditación institucional,  de programas y carreras; de certificación y recertificación profesional de los profesores universitarios.'), 
+    (NULL, '38', '1', 'Consolidado en todos los niveles de gestión académica, el Sub-sistema de Planificación, Monitoria y Evaluación de la Gestión Académica.'), 
+    (NULL, '38', '1', 'Mejora continua de indicadores (de calidad y pertinencia) institucionales, nacionales e internacionales, sobre la producción, difusión, gestión e innovación científica y técnica.'), 
+    (NULL, '39', '1', ' Comisiones mixtas de Seguridad e Higiene'), 
+    (NULL, '39', '1', 'Sistema en Gestión Ambiental (ISO 14001)'), 
+    (NULL, '39', '1', 'Adhesión al programa de Universidades Promotoras de la Salud (OPS)'), 
+    (NULL, '39', '1', 'Sistema de Gestión de Seguridad e Higiene Ocupacional (OSHAS 18001)'), 
+    (NULL, '39', '1', 'Oficina de Responsabilidad Social Universitaria en funcionamiento'), 
+    (NULL, '40', '1', 'La UNAH  promueve posgrados en base a la demanda del país y las necesidades en ciencia y tecnología.'), 
+    (NULL, '41', '1', 'Las facultades y centros regionales cuentan con posgrados integrados plenamente a los departamentos correspondientes.'), 
+    (NULL, '42', '1', 'Las facultades y centros regionales realizan procesos de utoevaluación, evaluación, rediseño y acreditación de sus posgrados.'), 
+    (NULL, '42', '1', 'Las facultades y los centros regionales promueven la creación o reconversión de algunos posgrados de la UNAH en posgrados regionales. ');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '43', '1', ' Las facultades y centros regionales definen y articulan los temas prioritarios de posgrado a los ya definidos por la UNAH.'), 
+    (NULL, '43', '1', 'Las facultades y centros regionales impulsan la integración de los estudiantes de posgrado a los grupos de investigación de la UNAH.'), 
+    (NULL, '43', '1', 'Las facultades y centros regionales impulsan la publicación de artículos de trabajos de graduación de los estudiantes de posgrado en las revistas de la UNAH.'), 
+    (NULL, '43', '1', 'Las facultades y centros regionales participan en el congreso de gestión de posgrados en la UNAH organizado por la Dirección del Sistema de Estudios de Posgrado.'), 
+    (NULL, '44', '1', ' Las facultades y los centros regionales fortalecen los vínculos de la UNAH con el Estado, sectores productivos, sectores sociales y cooperación internacional, a efecto de procurar financiamiento o apoyos a posgrados específicos de interés nacional y sectorial.'), 
+    (NULL, '44', '1', 'Las facultades y los centros regionales se vinculan con otras universidades, instituciones  u organizaciones, para asegurar la participación de profesores e investigadores internacionales, a través de conferencias, asesorías, investigaciones y otros.'), 
+    (NULL, '44', '1', 'Las facultades y los centros regionales definen espacios, áreas geográficas e institucionales y temáticas en las que pueden insertarse los estudiantes de posgrados profesionalizantes o académicos para realizar sus trabajos de graduación.'), 
+    (NULL, '43', '1', 'Las facultades y los centros regionales a través de sus posgrados dan seguimiento, sistematizan y divulgan la inserción laboral de los egresados de posgrado.'), 
+    (NULL, '44', '1', 'Las facultades y los centros regionales crean y fortalecen los vínculos de los posgrados de la UNAH con otras universidades e instituciones afines al área de estudio, para contribuir de forma integral al conocimiento y solución de los principales problemas del país.'), 
+    (NULL, '45', '1', 'Las facultades y los centros regionales diseñan y desarrollan una oferta educativa de posgrados en los centros universitarios regionales en base a las necesidades de la región y del centro universitario.'), 
+    (NULL, '45', '1', ' Las facultades y los centros regionales establecen vínculos de cooperación con universidades publicas de la región centroamericana (SICAR/CSUCA) para movilidad de docentes, investigadores y estudiantes en la participación de cursos, proyectos, pasantías y otros. '), 
+    (NULL, '45', '1', 'Las facultades y los centros regionales comparten capital humano y recursos institucionales a posgrados regionales para el desarrollo de los mismo.'), 
+    (NULL, '45', '1', 'Las facultades y los centros regionales desarrollan estrategias de internacionalización de cada posgrado para proyectar la UNAH a nivel internacional.'), 
+    (NULL, '45', '1', 'Las facultades y los centros regionales establecen vínculos de colaboración, comunicación e  información con posgrados de otros países a través de las tecnologías de información y comunicación. '), 
+    (NULL, '46', '1', 'Las facultades y centros regionales promueven que los posgrados participen en el programa de capacitación ofertado por la Dirección del Sistema de Estudios de Posgrado.'), 
+    (NULL, '46', '1', 'Las facultades y centros regionales impulsan los cursos de actualización a los egresados de posgrado de la UNAH,  de acuerdo a su temática.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '47', '1', 'Plataforma tecnológica eficiente, accesible en todos los predios de las sedes, modalidades y unidades académicas de la UNAH.'), 
+    (NULL, '48', '1', '\"Macro proyecto de Desarrollo Físico implementado, incluyendo Centros Regionales, CRAED, ITS.\r\n2) Infraestructura física de CRAED pilotos en proceso de construcción.\"'), 
+    (NULL, '49', '1', '\"Aulas equipadas con proyectores y equipos de ayuda multimedia, 2) Fortalecida la red de bibliotecas universitarias, librerías universitarias y la editorial, tanto virtuales como físicas.\"'), 
+    (NULL, '50', '1', 'Docentes regularizados y contratados de acuerdo a la meta propuesta.'), 
+    (NULL, '51', '1', 'Normativa aprobada y en ejecución.'), 
+    (NULL, '52', '1', 'Consolidado un sistema de desarrollo del talento humano con relevo de docentes y personal administrativo de excelencia y liderazgo.'), 
+    (NULL, '53', '1', 'Todas las unidades  académicas de la UNAH deberán estar articuladas e integradas a un sistema de gestión que integra la planificación, monitoria, evaluación y control; basado en  una estructura organizativa ágil y flexible y cumpliendo con las normas y estándares definidos.'), 
+    (NULL, '53', '1', 'Impulsar la conectividad, acceso a información digital, uso de herramientas informáticas, laboratorios, plataformas de interacción y de educación virtual y facilitar la generación e introducción de innovaciones tecnológicas para el mejoramiento de los aprendizajes, incorporando la ciencia y la tecnología a los procesos de enseñanza y a la creación de conocimiento.'), 
+    (NULL, '54', '1', 'Incremento de las movilidades internacionales realizadas'), 
+    (NULL, '54', '1', 'Proyectos y/o programas de cooperación e investigación gestionados por la unidad');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '55', '1', 'Relaciones internacionales con otras instituciones fortalecidas'), 
+    (NULL, '56', '1', 'Actividades en internacionalización registradas y monitoreadas'), 
+    (NULL, '57', '1', 'Instancias que conforman las autoridades de dirección superior, desarrollando su respectivo rol en forma coordinada.'), 
+    (NULL, '57', '1', 'Manejo oportuno y eficiente de los conflictos internos que se originen producto de discrepancias o problemas entre los distintos sectores de la UNAH.'), 
+    (NULL, '58', '1', 'Sistema de educación superior regularizado en términos de calidad y pertinencia.'), 
+    (NULL, '58', '1', 'Plan de Desarrollo de la Educación Superior implementado y consolidado.'), 
+    (NULL, '59', '1', 'La Dirección de Educación Superior es reconocida en su rol de conductor de la política educativa de nivel superior, bien organizada y con los recursos humanos y materiales que requiere para su eficaz y eficiente funcionamiento.'), 
+    (NULL, '59', '1', 'La Dirección de Educación Superior es fedataria pública de los actos del nivel superior, da seguimiento eficaz y asegura el  cumplimiento de las resoluciones de los órganos de gobierno de El nivel Superior y responde en tiempo y forma las solicitudes presentadas por los centros de educación superior y por peticionarios de validación de estudios.'), 
+    (NULL, '59', '1', 'Servicios ofrecidos con plena satisfacción de los usuarios'), 
+    (NULL, '59', '1', 'Plan Estratégico DES  y planes operativos anuales de la DES, y de los Departamentos cumplidos,  Informes de proyectos impulsados por la Dirección de Educación Superior, observatorio de la Educación Superior funcionando, Sistemas informativos y bases de dato funcionando, sitios web actualizados y activos, edición y distribución de publicaciones varias.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '60', '1', 'Sistema de Educación Superior vinculado con los sistemas educativos regionales y mundiales, convenios de cooperación suscritos y en ejecución, adaptación de las grandes tendencias internacionales a las políticas educativas del país. Vinculación amplia con expertos, asesoría, pasantías.'), 
+    (NULL, '60', '1', 'Sistema de Educación Superior integrado a redes socioeducativas nacionales e internacionales.'), 
+    (NULL, '60', '1', 'Documento de Plan Plan Estratégico de Desarrollo del Sistema validado y aprobado. Objetivos propuestos cumplidos.  Sistema de Educación Superior en camino a su desarrollo.'), 
+    (NULL, '60', '1', 'Proyectos de país desarrollados por los Centros de Educación Superior.  Financiamiento disponible.  '), 
+    (NULL, '60', '1', 'El sistema de educación superior integrado a redes académicas. Alianzas estratégicas formalizadas a través de convenios.'), 
+    (NULL, '60', '1', 'Plataformas tecnológicas desarrolladas y en funcionamiento.'), 
+    (NULL, '61', '1', 'Proyectos conducentes a la integración curricular desde los niveles pre-básica hasta el nivel superior.'), 
+    (NULL, '60', '1', 'Incidir para el desarrollo del modelo de la Educación Técnica en los Niveles de Educación Media y Superior y su instauración en el Sistema Educativo Nacional.'), 
+    (NULL, '60', '1', 'Promover procesos de formación docente para los niveles pre-básico, básico, medio y superior de la educación nacional.Promover procesos de formación docente para los niveles pre-básico, básico, medio y superior de la educación nacional.'), 
+    (NULL, '61', '1', 'Proyectos conducentes a la integración curricular desde los niveles pre-básica hasta el nivel superior.'), 
+    (NULL, '61', '1', 'Incidir para el desarrollo del modelo de la Educación Técnica en los Niveles de Educación Media y Superior y su instauración en el Sistema Educativo Nacional.'), 
+    (NULL, '61', '1', 'Promover procesos de formación docente para los niveles pre-básico, básico, medio y superior de la educación nacional.Promover procesos de formación docente para los niveles pre-básico, básico, medio y superior de la educación nacional.'), 
+    (NULL, '62', '1', 'Comunidad Universitaria con mayor conocimiento en el uso de las TIC en las Facultades y Centros Regionales'), 
+    (NULL, '63', '1', 'Portal Web activo y actualizado difundiendo información en el ámbito Universitario.');
+
+INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+VALUES (NULL, '64', '1', 'Comunidad Universitaria haciendo uso de nuevos recursos de aprendizaje de acuerdo a la tendencia del nuevo modelo educativo.'), 
+    (NULL, '65', '1', 'Unidades académicas, administrativas y de servicio aplicando las buenas prácticas para el uso adecuado, ético y solidario de las TICs'), 
+    (NULL, '66', '1', 'Servicios y procesos de la biblioteca estandarizados'), 
+    (NULL, '67', '1', 'Fortalecida la interoperabilidad y comunicación con diferentes instituciones  a nivel nacional e internacional con las que la UNAH mantiene relaciones.'), 
+    (NULL, '68', '1', 'Sistema de Educación a Distancia fortalecido a través de la oferta virtual ampliada en las diferentes carreras de la UNAH.'), 
+    (NULL, '69', '1', 'Dinamizado y enriquecido los procesos de enseñanza-aprendizaje en las Unidades académicas haciendo uso de las TICs.'), 
+    (NULL, '70', '1', 'Red de datos segura y confiable operando a nivel nacional y con servicio QoS'), 
+    (NULL, '71', '1', 'Sistemas de información y aplicaciones informáticas funcionando'), 
+    (NULL, '72', '1', 'Unidades académicas, administrativas y de servicio con equipo informático pertinente para las funciones académicas y administrativas respectivamente en buen funcionamiento y actualizado'), 
+    (NULL, '73', '1', 'Facilitado el acceso a servicios académicos y administrativos disponibles electrónicamente para los usuarios.'), 
+    (NULL, '74', '1', 'Información disponible en línea'), 
+    (NULL, '75', '1', 'Información oportuna y pertinente generada para la toma de decisiones a nivel gerencial.'), 
+    (NULL, '76', '1', 'Recursos TI normados y regulados');
+
+
+
+
+
+
+    
+
+
+
 
 
 
