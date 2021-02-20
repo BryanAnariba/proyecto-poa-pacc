@@ -3,8 +3,7 @@
 INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
 VALUES (NULL, '1', 'SERVICIOS PERSONALES', '10000-00', '1-00-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'PERSONAL PERMANENTE', '11000-00', '1-01-00-00-00'), 
+INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'PERSONAL PERMANENTE', '11000-00', '1-01-00-00-00'), 
     (NULL, '1', 'SUELDOS BASICOS','11100-00', '1-01-01-01-00'),
     (NULL, '1', 'SUELDOS Y SALARIOS PERMANENTES', '11100-01', '1-01-01-01-00'), 
     (NULL, '1', 'PAGOS A PERSONAL NO CLASIFICADO', '11100-02', '1-01-01-02-00'), 
