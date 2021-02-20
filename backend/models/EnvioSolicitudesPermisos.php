@@ -1,7 +1,13 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
+    //require_once('../../models/Persona.php');
+    require_once('../../helpers/notificacionesEmail.php');
 
     class EnvioSolicitudesPermisos {
         private $idUsuario; 
@@ -363,12 +369,92 @@
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
-                        $stmt2->execute();
+                        //$stmt2->execute();
 
-                        return array(
-                            'status' => SUCCESS_REQUEST,
-                            'data' => array('message' => 'Solicitud registrada con exito')
-                        );
+                        //return array(
+                            //'status' => SUCCESS_REQUEST,
+                           // 'data' => array('message' => 'Solicitud registrada con exito')
+//);
+                        if ($stmt2->execute()) {
+                            //primero verifica que tipo de usuario envio la solicitud para 
+                            //enviar notificacion al correo de la persona que le corresponda
+                            //revisar la solicitud.
+                            /*
+                            $correoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
+                                                                            FROM usuario
+                                                                            WHERE idTipoUsuario = 7");
+
+                            $idDepartamento = $this->consulta->prepare("SELECT idDepartamento
+                                                                        FROM usuario 
+                                                                        WHERE idPersonaUsuario = {$_SESSION['idUsuario']}");
+
+                            $correoJefe = $this->consulta->prepare("SELECT correoInstitucional
+                                                                    FROM usuario
+                                                                    WHERE idTipoUsuario = 2 AND 
+                                                                        idDepartamento = $idDepartamento");
+
+                            $correoDecano = $correoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
+                                                                                            FROM usuario
+                                                                                            WHERE idTipoUsuario = 4");
+                                   */                                     
+                            if($_SESSION['abrevTipoUsuario'] === 'SE_AD'){
+                                $email = new notificacionesEmail();
+                                $email->setEmailDestino('$correoSecAcademica');
+                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
+                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
+                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                                $enviado = $email->notificarViaCorreo();
+                                if ($enviado) {
+                                    return array(
+                                        'status'=> SUCCESS_REQUEST,
+                                        'data' => array('message' => 'Solicitud registrada con exito') 
+                                    );
+                                } else {
+                                    return array(
+                                        'status'=> BAD_REQUEST,
+                                        'data' => array('message' => 'Ha ocurrido un error')
+                                    );
+                                }
+                            }else if ($_SESSION['abrevTipoUsuario'] === 'C_C'){
+                                $email = new notificacionesEmail();
+                                $email->setEmailDestino('$correoJefe');
+                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
+                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
+                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                                $enviado = $email->notificarViaCorreo();
+                                if ($enviado) {
+                                    return array(
+                                        'status'=> SUCCESS_REQUEST,
+                                        'data' => array('message' => 'Solicitud registrada con exito') 
+                                    );
+                                } else {
+                                    return array(
+                                        'status'=> BAD_REQUEST,
+                                        'data' => array('message' => 'Ha ocurrido un error')
+                                    );
+                                }
+
+
+                            }else if ($_SESSION['abrevTipoUsuario'] === 'U_E') {
+                                $email = new notificacionesEmail();
+                                $email->setEmailDestino('$correoDecano');
+                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
+                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
+                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                                $enviado = $email->notificarViaCorreo();
+                                if ($enviado) {
+                                    return array(
+                                        'status'=> SUCCESS_REQUEST,
+                                        'data' => array('message' => 'Solicitud registrada con exito') 
+                                    );
+                                } else {
+                                    return array(
+                                        'status'=> BAD_REQUEST,
+                                        'data' => array('message' => 'Ha ocurrido un error')
+                                    );
+                                }
+                            }
+                        }
                     } else {
                         return array(
                             'status'=> BAD_REQUEST,

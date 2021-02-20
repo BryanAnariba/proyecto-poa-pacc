@@ -12,14 +12,7 @@
 <!--En esta zona podran poner estilos propios de la vista-->
 </head>
 
-<body id="body-pd" 
-<?php 
-    if ($_SESSION['abrevTipoUsuario'] === 'S_AC') {
-        echo 'onload="notificaciones()"';
-    }
-
-?>
->
+<body id="body-pd">
     <?php include('../layouts/Nabvar.php'); ?>
     <?php include('../layouts/Sidebar.php'); ?>
 

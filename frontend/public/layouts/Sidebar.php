@@ -88,7 +88,7 @@
                             <span class="nav__name">Decano</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>
@@ -118,7 +118,7 @@
                             <span class="nav__name">Estratega</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>

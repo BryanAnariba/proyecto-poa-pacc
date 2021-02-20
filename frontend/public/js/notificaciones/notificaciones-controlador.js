@@ -10,6 +10,7 @@ const notificaciones = () => {
             //console.log(data);
             let cantidadSolicitudes = response.data[0].cantidadSolicitudes;
             if (cantidadSolicitudes != 0){
+                //html(`<span id="contador" class="badge badge-danger badge-counter">${cantidadSolicitudes}</span>`);
                 $('#contador').html(`${cantidadSolicitudes}`);
                 //$('#dropdown-notificaciones').html(`<a class="dropdown-item" href="#">Tiene solicitudes de permisos pendientes</a>`);
                 $('#dropdown-notificaciones').html(`
@@ -17,6 +18,8 @@ const notificaciones = () => {
                     <img src="../img/control-notificaciones/icono-soli.svg" alt="solicitudes"> Tiene Permisos pendientes</a>
                 `);
             }else {
+                $('#contador').html(`${cantidadSolicitudes}`);
+               // $('#contador').css({'display':'none'});
                 $('#dropdown-notificaciones').html(`<a class="dropdown-item" href="#">No hay Notificaciones</a>`);
                 
             }

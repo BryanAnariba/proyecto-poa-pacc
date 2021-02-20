@@ -3,9 +3,14 @@ if (!isset($_SESSION)) {
     session_start();
 }
 $secretaria = 'SE_AD';
-if ($_SESSION['abrevTipoUsuario'] != $secretaria) {
+$decano = 'D_F';
+$estratega = 'U_E';
+if (($_SESSION['abrevTipoUsuario'] != $secretaria) &&
+    ($_SESSION['abrevTipoUsuario'] != $decano) && 
+    ($_SESSION['abrevTipoUsuario'] != $estratega)) {
     header('Location: 401.php');
 }
+
 if (!isset($_SESSION['correoInstitucional'])) {
     header('Location: 401.php');
 }

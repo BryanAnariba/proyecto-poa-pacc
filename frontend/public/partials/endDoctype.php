@@ -6,5 +6,16 @@
         <script src="../js/menu/menu-principal.js"></script>
         <script src="../js/navbar/navbar.js"></script>
         <script src="../js/notificaciones/notificaciones-controlador.js"></script>
-    </body onload="notificaciones()">
+        
+    <?php 
+        if ($_SESSION['abrevTipoUsuario'] === 'S_AC') {
+            echo '
+                <script type="text/javascript">
+                    setInterval(notificaciones,100);
+                </script>';
+            
+        }
+
+    ?>
+    </body>
 </html>

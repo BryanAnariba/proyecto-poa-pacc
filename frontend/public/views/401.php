@@ -26,5 +26,5 @@ include('../partials/doctype.php');
     
     <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
 <?php
-    include('../partials/endDoctype.php');
+    //include('../partials/endDoctype.php');
 ?>

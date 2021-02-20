@@ -6,7 +6,14 @@
 
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
+    
+    //require_once('../../models/Persona.php');
+    //require_once('../../helpers/Email.php');
+
     require_once('../../database/Conexion.php');
+
+
+    
 
     class Notificaciones {
         private $idUsuario; 
