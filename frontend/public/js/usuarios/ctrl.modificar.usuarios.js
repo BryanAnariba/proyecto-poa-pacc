@@ -109,6 +109,7 @@ const listarMunicipios = () => {
 
 
 const listarUsuarios = () => {
+    $('#listado-usuarios').dataTable().fnDestroy();
     $.ajax(`${ API }/usuarios/listado-usuarios.php`, {
         type: 'POST',
 		dataType: 'json',
@@ -158,7 +159,7 @@ const listarUsuarios = () => {
                     </tr>
                 `)
             }
-            $('#listado-dimensiones').DataTable({
+            $('#listado-usuarios').DataTable({
                 language: i18nEspaniol,
                 //dom: 'Blfrtip',
                 //buttons: botonesExportacion,

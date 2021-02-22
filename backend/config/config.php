@@ -1,9 +1,9 @@
 <?php
     // Database fields
-    define('HOST', 'localhost:3306');
+    define('HOST', 'localhost:3307');
     define('DB', 'poa-pacc-bd');
     define('USER', 'root');
-    define('PASSWORD', '');
+    define('PASSWORD', 'root');
     define('CHARSET', 'utf8');
     
     // Http status reques code
@@ -14,7 +14,7 @@
     define('INTERNAL_SERVER_ERROR', 500);
 
     // Secret key
-    define('TIEMPO_VIDA_TOKEN', 'PT50M');
+    define('TIEMPO_VIDA_TOKEN', 'PT2H');
 
     // Rutas direcctorios
     define('DIRECTORIO_UPLOADS', 'http://localhost/proyecto-poa-pacc/backend/uploads');
