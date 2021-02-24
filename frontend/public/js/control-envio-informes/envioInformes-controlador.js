@@ -62,6 +62,8 @@ const registrarInforme = () => {
 
 
 const subirInforme = () => {
+
+    $('#btn-registrar-informe').prop('disabled', true);
     
     const formData = new FormData($("#formulario-registro-informe")[0]);
     
@@ -78,6 +80,7 @@ const subirInforme = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-registrar-informe').prop('disabled', false);
                 cancelarRegistroInforme();
         }, 
         error:function(error) {

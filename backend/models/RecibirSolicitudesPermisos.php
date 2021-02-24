@@ -2,6 +2,7 @@
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
+
     class RecibirSolicitudesPermisos{
         private $idUsuario;
         private $idSolicitud; 

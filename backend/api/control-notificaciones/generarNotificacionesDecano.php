@@ -8,17 +8,17 @@
             $verificarTokenAcceso = new verificarTokenAcceso();
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
-                $permisos = new NotificacionesController();
-                $permisos->verNotificacionPorUsuario();
+                $notificaciones = new NotificacionesController();
+                $notificaciones->verNotificacionDecano();
             } else {
-                $permisos = new NotificacionesController();
-                $permisos->peticionNoAutorizada();
+                $notificaciones = new NotificacionesController();
+                $notificaciones->peticionNoAutorizada();
                 require_once('../destruir-sesiones.php');
             }
         break;
         default: 
-            $permisos = new NotificacionesController();
-            $permisos->peticionNoValida();
+            $notificaciones = new NotificacionesController();
+            $notificaciones->peticionNoValida();
         break;
     }
 ?>
