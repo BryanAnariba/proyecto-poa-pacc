@@ -903,3 +903,66 @@ WITH CTE_GENERA_COSTO_TOTAL_POR_OG AS (
     GROUP BY ObjetoGasto.idObjetoGasto
 ) 
 SELECT * FROM CTE_GENERA_COSTO_TOTAL_POR_OG;
+
+
+
+
+
+
+-- QUERY BUENA
+SELECT
+    DimensionEstrategica.idDimension AS id,
+    DimensionEstrategica.dimensionEstrategica AS nombre,
+    DimensionEstrategica.idEstadoDimension AS estado,
+    (
+		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+        FROM ControlPresupuestoActividad 
+        WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
+    ) AS anioActividad,
+    (
+        SELECT
+            COUNT(*)
+        FROM
+            Actividad
+        WHERE
+            Actividad.idDimension = DimensionEstrategica.idDimension
+            AND YEAR(Actividad.fechaCreacionActividad) = 
+            (
+				SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
+				FROM ControlPresupuestoActividad 
+				WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
+			) 
+            AND Actividad.idPersonaUsuario = 6
+    ) AS cantidadActividadPorDimension,
+    (
+        SELECT
+            Usuario.idDepartamento
+        FROM
+            Usuario
+        WHERE
+            Usuario.idPersonaUsuario = 6
+        
+    ) AS idDepartamento
+FROM
+    DimensionEstrategica
+WHERE
+    DimensionEstrategica.idDimension BETWEEN 
+        (
+            SELECT
+            LlenadoActividadDimension.valorLlenadoDimensionInicial
+            FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+            WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
+        ) 
+        AND 
+        (
+        SELECT 
+        LlenadoActividadDimension.valorLlenadoDimensionFinal
+        FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario)
+        WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = 3
+    );
+
+
+
+--  QUERY MALA
+WITH CTE_LISTADO_ACT_POR_DIM AS (SELECT COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension, DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica,
+                DimensionEstrategica.idEstadoDimension, Estadodcduoao.estado FROM Actividad RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension) INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado) GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica) SELECT * FROM CTE_LISTADO_ACT_POR_DIM WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = :idEstado AND (SELECT ControlPresupuestoActividad.idEstadoPresupuestoAnual FROM ControlPresupuestoActividad LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento) LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento) INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado) WHERE Departamento.idDepartamento = :idDepartamento AND Usuario.idPersonaUsuario = :idUsuario AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = (SELECT DATE_FORMAT(fechaPresupuestoAnual, '%Y') FROM ControlPresupuestoActividad WHERE EstadoLlenadoActividades = 1)) AND CTE_LISTADO_ACT_POR_DIM.idDimension BETWEEN (SELECT LlenadoActividadDimension.valorLlenadoDimensionInicial FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON(LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario) WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = :tipoUsuario) AND (SELECT LlenadoActividadDimension.valorLlenadoDimensionFinal FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario) WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = :tipoUsuario2);

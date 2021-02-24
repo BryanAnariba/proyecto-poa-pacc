@@ -219,6 +219,12 @@ const vaciarAct = () => {
     document.querySelector(`#errorsAreaBeca`).classList.add('d-none');
     $("#AreaBeca").val("").trigger("change");
 
+    document.querySelector(`#labelUnidadMedida`).classList.remove('text-danger')
+    document.querySelector('#UnidadMedida').classList.remove('text-danger');
+    document.querySelector('#UnidadMedida').classList.remove('is-invalid')
+    document.querySelector(`#errorsUnidadMedida`).classList.add('d-none');
+    $("#UnidadMedida").val("").trigger("change");
+
     document.querySelector(`#labelMeses`).classList.remove('text-danger')
     document.querySelector('#Meses').classList.remove('text-danger');
     document.querySelector('#Meses').classList.remove('is-invalid')

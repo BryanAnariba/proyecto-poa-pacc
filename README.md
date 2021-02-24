@@ -133,29 +133,38 @@ Aplicacion para la facultad de ingenieria
 
 -> Visualizacion Actividades Agrupadas por departamento -> 
 
-my user -> bsancheza@unah.hn , SxAPwJhZRwtg
-        -> mfsancheza@unah.hn , FJ7OD6@jTLL$
+my user -> bsancheza@unah.hn , YTsisOwvTcVx
+        -> mfsancheza@unah.hn , vgytLqOEUU4B
 
         IS -> Coordinador
-        -> pamela@unah.hn , TQQXSAt5MdDB
+        -> usernameOne@unah.hn, ygXAqc55uJ8B
 
         IS -> Jefe Depto
-        -> ianSanchez@unah.hn , rfxcn2WTpH08 
+        -> usernameTwo@unah.hn , yxsNQ$uxC1Dn 
 
         IE -> Coordinador
-        -> celesFuentes@unah.hn, Ba8WRsDsq@QL
+        -> usernameThree@unah.hn, vV6Z0R60ibrl
 
         IE -> Jefe Depto
-        -> ericksonD@unah.hn, hjJzwm7673j7
+        -> usernameFour@unah.hn, S1nZ$87$p@sO
 
         II -> Coordinador   
-        -> zavalamartha@unah.hn, OC2FvBVFUyp7
+        -> usernameFive@unah.hn, Ja9BfFqBMvp$
 
         II -> Jefe Depto
-        -> ccarlos@unah.hn, 2t0oV2J3pQU4
+        -> usernameSix@unah.hn, T3XfM48@Uhow
 
         IQ -> Coordinador Carera
-        -> mendezAlejandro@unah.hn, g8Jxk4UQKYFU
+        -> usernameSeven@unah.hn, u4@Waro4@9MT
+
+        IQ -> Jefe depto
+        -> usernameEight@unah.hn, ozDtBYfhhpvN 
+
+        IM -> Coordinador Carera
+        -> usernameNine@unah.hn, KIJaTel1QWfs
+
+        IM -> Jefe depto
+        -> usernameTen@unah.hn, 1JsmeEL@st3t
 
 
 

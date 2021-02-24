@@ -8,6 +8,8 @@
     include('../partials/doctype.php');
     include('verifica-session.php');    
 ?>
+
+
 <header class="header amber accent-4" id="header">
     <div class="header__toggle">
     <i class="fas fa-bars" id="header-toggle"></i>
@@ -22,7 +24,11 @@
                     <img src="../img/menu/email.svg" width="40" class="rounded-circle z-depth-0 " alt="avatar image">
                     <span id="contador" class="badge badge-danger badge-counter"></span>
                     
+                    
+                
+                    
                 </a>
+            
                 
                 <div id="dropdown-notificaciones" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
                     <!--a class="dropdown-item" href="#">Notificacion 1</a>

@@ -30,7 +30,7 @@ include('verifica-session.php');
 
 </head>
 
-<body id="body-pd" onload="notificaciones()">
+<body id="body-pd"  >
     <?php include('../layouts/Nabvar.php'); ?>
     <?php include('../layouts/Sidebar.php'); ?>
 
@@ -635,6 +635,7 @@ include('verifica-session.php');
     <script src="../js/config/config.js"></script>
     <script src="../js/validators/form-validator.js"></script>
     <script src="../js/control-recibir-permisos/recibirPermisos-controlador.js"></script>
+    <script setInterval(notificaciones,1000)></script>
     
     <?php
     include('../partials/endDoctype.php');

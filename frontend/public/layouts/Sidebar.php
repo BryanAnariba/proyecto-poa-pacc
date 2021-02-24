@@ -79,7 +79,7 @@
                         </a>
 
                         <a href="../views/control-llenado-actividades.php" class="nav__link">
-                            <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Objetos de Gasto">
+                            <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control llenado actividades</span>
                         </a>
                     <?php 
@@ -93,7 +93,7 @@
                             <span class="nav__name">Decano</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>
@@ -123,7 +123,7 @@
                             <span class="nav__name">Estratega</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <a href="../views/presupuestos.php" class="nav__link">
                             <img src="../img/partial-sidebar/presupuesto-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Presupuesto</span>
                         </a>
