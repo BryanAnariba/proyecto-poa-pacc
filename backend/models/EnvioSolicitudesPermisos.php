@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
@@ -303,10 +306,17 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -343,6 +353,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -360,6 +373,9 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
@@ -402,11 +418,17 @@
                 campoTexto($this->edificioAsistencia,1,80)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -443,6 +465,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -460,6 +485,9 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
@@ -502,10 +530,17 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -542,6 +577,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -559,6 +597,9 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
@@ -600,11 +641,17 @@
                 campoTexto($this->edificioAsistencia,1,80)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -641,6 +688,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -658,6 +708,9 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");

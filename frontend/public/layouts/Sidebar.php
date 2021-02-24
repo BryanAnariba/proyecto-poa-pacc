@@ -77,6 +77,11 @@
                             <img src="../img/partial-sidebar/ObjetosGasto-icon.png" alt="Control de Objetos de Gasto">
                             <span class="nav__name">Control Objetos de Gasto</span>
                         </a>
+
+                        <a href="../views/control-llenado-actividades.php" class="nav__link">
+                            <img src="../img/partial-sidebar/departamentos-icon.svg" alt="Control de Objetos de Gasto">
+                            <span class="nav__name">Control llenado actividades</span>
+                        </a>
                     <?php 
                         break; 
                     ?>
@@ -183,10 +188,10 @@
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <!-- <a href="" class="nav__link">
                         <img src="../img/partial-sidebar/informes-icon.svg" alt="Control de Departamentos">
                             <span class="nav__name">Graficos y Reportes</span>
-                        </a>
+                        </a> -->
 
                         <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
@@ -208,10 +213,10 @@
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <!-- <a href="" class="nav__link">
                         <img src="../img/partial-sidebar/informes-icon.svg" alt="Control de Departamentos">
                             <span class="nav__name">Graficos y Reportes</span>
-                        </a>
+                        </a> -->
 
                         <a href="../views/control-recibir-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">

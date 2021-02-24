@@ -62,11 +62,17 @@
                 campoTexto($this->descripcionInforme,1,255)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO informe
                                                         (idPersonaUsuarioEnvia, 
                                                             idPersonaUsuarioAprueba,

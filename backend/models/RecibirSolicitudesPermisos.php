@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
@@ -470,6 +473,9 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare('CALL SP_HACER_OBSERVACION(:idSolicitud, :observaciones)');
                     $stmt->bindValue(':idSolicitud', $this->idSolicitud);
                     $stmt->bindValue(':observaciones', $this->observaciones);
@@ -568,6 +574,9 @@
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare('CALL SP_ACTUALIZAR_SOLICITUD_PERMISO(:idSolicitud, :idEstado, :idUsuario, :fechaRevision)');
                     $stmt->bindValue(':idSolicitud', $this->idSolicitud);
                     $stmt->bindValue(':idEstado', $this->idEstadoSolicitud);

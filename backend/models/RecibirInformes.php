@@ -217,6 +217,9 @@
                 $fechaActual = date('Y-m-d');
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
                 $stmt = $this->consulta->prepare("UPDATE informe 
                                                 SET idEstadoInforme = 2,
                                                     idPersonaUsuarioAprueba = {$_SESSION['idUsuario']},

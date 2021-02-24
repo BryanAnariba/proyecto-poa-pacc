@@ -168,7 +168,7 @@ include('verifica-session.php');
         </div>
     </div>
 
-    <!--Actividades planificadas-->
+    <!-- Actividades planificadas
     <div class="modal fade" id="modalActividadesPlanificadas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -201,7 +201,7 @@ include('verifica-session.php');
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!--modales-->
 
@@ -981,11 +981,11 @@ include('verifica-session.php');
                                         Agregar actividad
                                     </button>
                                 </div>
-                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="margin-left:auto;margin-top:2px">
+                                <!-- <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="margin-left:auto;margin-top:2px">
                                     <button type="button" class="btn btn-indigo btn-block" data-toggle="modal" data-target="#modalActividadesPlanificadas">
                                         Ver planificación
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </form>
@@ -1004,12 +1004,12 @@ include('verifica-session.php');
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
                     <div class="row col-12">
-                        <div class="text-center" style="margin-left:auto">
+                        <!-- <div class="text-center" style="margin-left:auto">
                             <button type="button" class="btn btn-light-green btn-rounded btn-sm" disabled>
                                 Enviar
                             </button>
-                        </div>
-                        <div class="text-center">
+                        </div> -->
+                        <div class="text-center" style="margin-left:auto">
                             <button type="button" class="btn btn-danger btn-rounded btn-sm" data-dismiss="modal" aria-label="Close">Cancelar</button>
                         </div>
                     </div>
