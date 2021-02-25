@@ -187,6 +187,15 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function generaDataActividad ($idActividad) {
+            $this->actividadesModel->setIdActividad($idActividad);
+
+            $this->data = $this->actividadesModel->generaActividad();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function peticionNoAutorizada () {
             $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
                 'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));

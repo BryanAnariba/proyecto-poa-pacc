@@ -539,7 +539,7 @@ const verActividades = (idDimension, dimension) => {
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarActividad('${ data[i].idActividad }', '${ data[i].idDimension }', '${ data[i].dimensionEstrategica }', '${ data[i].idObjetivoInstitucional }', '${ data[i].objetivoInstitucional }', '${ data[i].idAreaEstrategica }', '${ data[i].areaEstrategica }', '${ data[i].idResultadoInstitucional }', '${ data[i].resultadoInstitucional }', '${ data[i].resultadosUnidad }', '${ data[i].indicadoresResultado }', '${ data[i].correlativoActividad }', '${ data[i].actividad }','${ data[i].CostoTotal }', '${ data[i].porcentajeTrimestre1 }', '${ data[i].porcentajeTrimestre2 }', '${ data[i].porcentajeTrimestre3 }', '${ data[i].porcentajeTrimestre4 }','${ data[i].justificacionActividad }','${ data[i].medioVerificacionActividad }','${ data[i].poblacionObjetivoActividad }','${ data[i].responsableActividad }','${ data[i].idCostActPorTri }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarActividad('${ data[i].idActividad }')">
                                 <img src="../img/menu/editar.svg" alt="modificar actividad"/>
                             </button>
                         </td>
@@ -719,7 +719,7 @@ const generaTablasAcordeDimension = (object) => {
                                     ${ data[i].mesRequerido }
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.cantidadPersonas }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                                    <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                         <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                     </button>
                                 </td>
@@ -780,7 +780,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.meses }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -836,7 +836,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', ${ data[i].abrev } , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i]. idDescripcionAdministrativa }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -896,7 +896,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.tipoEquipoTecnologico }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.tipoEquipoTecnologico }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -952,7 +952,7 @@ const generaTablasAcordeDimension = (object) => {
                                 ${ data[i].mesRequerido }
                             </td>
                             <td>
-                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ null }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                                <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                     <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                                 </button>
                             </td>
@@ -1012,7 +1012,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.areaBeca }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.areaBeca }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1072,7 +1072,7 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.proyecto }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion.proyecto }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','','','','','','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
@@ -1142,11 +1142,11 @@ const generaTablasAcordeDimension = (object) => {
                             ${ descripcion.valorDos }
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].Cantidad }','${ data[i].Costo }','${ data[i].idActividad }', '${ descripcion }','${ data[i].idDescripcionAdministrativa }','${ data[i].idDimensionAdministrativa }', '${ data[i].mesRequerido }', '${ data[i].idObjetoGasto }', '${ data[i].abrev }' , '${ data[i].descripcionCuenta }', '${ data[i].idTipoPresupuesto }','${ data[i].tipoPresupuesto }','${ descripcion.descripcionItem }','${ descripcion.cantidadItem }','${ descripcion.precioItem }','${ descripcion.valorUno }','${ descripcion.valorDos }','${ data[i].nombreActividad }','${ data[i].unidadDeMedida }')">
+                            <button type="button" class="btn btn-amber" onclick="modificarItem('${ data[i].idDescripcionAdministrativa }')">
                                 <img src="../img/menu/editar.svg" alt="modificar dimension"/>
                             </button>
                         </td>
-                    </tr>
+                        </tr>
                         `)
                     }
                     $('#dimension-administrativa-8').DataTable({
@@ -1180,20 +1180,8 @@ const generaTablasAcordeDimension = (object) => {
     }); 
 } 
 
-const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionAdmin, idDimensionAdministrativa, mesRequerido, idObjetoGasto, abrev, descripcionCuenta, idTipoPresupuesto, tipoPresupuesto, descItem = null, cantItem = null, precioItem = null, val1 = null, val2 = null, nombreActividad, unidadMedida) => {
-    idActividadSeleccionada = idActividad;
-    idDimensionAdminSeleccionada = idDimensionAdministrativa;
-    idDescripcionItemSeleccionada = idDescripcionAdmin;
-    $('#UnidadMedida').val(unidadMedida).trigger('change');
-    $('#modificarItems').removeClass('d-none');
-    $('#insertarItems').addClass('d-none');
-
-    $('#NombreActividad').val(nombreActividad).trigger('change');
-    $('#Cantidad').val(cantidad).trigger('change');
-    $('#Costo').val(costo).trigger('change');
-    $('#MesRequerido').append(`<option value="${ mesRequerido }" selected>${ mesRequerido }</option>`);
-    $('#ObjGasto').html(`<option value="${ idObjetoGasto }" selected>${ abrev } - ${ descripcionCuenta }</option>`)
-    $('#TipoPresupuesto').html(`<option value="${ idTipoPresupuesto }" selected>${ tipoPresupuesto }</option>`)
+const modificarItem = (idDescripcionAdministrativa) => {
+    let parametro = { idDescripcionAdministrativa: parseInt(idDescripcionAdministrativa) };
     $.when(
         $.ajax(`${ API }/ObjetosGasto/listar-objetos-gasto-activos.php`,{
             type: 'POST',
@@ -1204,12 +1192,131 @@ const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionA
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json',
+        }),
+        $.ajax(`${ API }/descripcion-administrativa/genera-datos-descripcion.php`,{
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametro)
     }))
-    .done(function(objetosGasto, tipoPresupuestos) {
+    .done(function(objetosGasto, tipoPresupuestos, descripcionAdministrativa) {
         let objetosGastos = objetosGasto[0].data;
         let presupuestos = tipoPresupuestos[0].data;
+        let descripcionAdmin = descripcionAdministrativa[0].data;
         console.log(objetosGastos);
         console.log(presupuestos);
+        console.log(descripcionAdmin);
+
+        // Rellenando los campos de la descripcion
+        // Inicio
+        idActividadSeleccionada = descripcionAdmin.idActividad;
+        idDimensionAdminSeleccionada = descripcionAdmin.idDimensionAdministrativa;
+        idDescripcionItemSeleccionada = descripcionAdmin.idDescripcionAdministrativa;
+        $('#UnidadMedida').val(descripcionAdmin.unidadDeMedida).trigger('change');
+        $('#modificarItems').removeClass('d-none');
+        $('#insertarItems').addClass('d-none');
+
+        $('#NombreActividad').val(descripcionAdmin.nombreActividad).trigger('change');
+        $('#Cantidad').val(descripcionAdmin.Cantidad).trigger('change');
+        $('#Costo').val(descripcionAdmin.Costo).trigger('change');
+        $('#MesRequerido').append(`<option value="${ descripcionAdmin.mesRequerido }" selected>${ descripcionAdmin.mesRequerido }</option>`);
+        $('#ObjGasto').html(`<option value="${ descripcionAdmin.idObjetoGasto }" selected>${ descripcionAdmin.abrev } - ${ descripcionAdmin.descripcionCuenta }</option>`)
+        $('#TipoPresupuesto').html(`<option value="${ descripcionAdmin.idTipoPresupuesto }" selected>${ descripcionAdmin.tipoPresupuesto }</option>`)
+        switch (parseInt(descripcionAdmin.idDimensionAdministrativa)) {
+            case 1:
+                $('#dimension-1-campo').removeClass('d-none');
+                let cantidad = JSON.parse(descripcionAdmin.descripcion);
+                $('#CantidadPersonas').val(cantidad.cantidadPersonas).trigger('change');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 2:
+                $('#dimension-2-campo').removeClass('d-none');
+                let mes = JSON.parse(descripcionAdmin.descripcion);
+                $('#Meses').val(mes.meses).trigger('change');
+                $('#dimension-1-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 3:
+                $('#dimension-1-campo').addClass('d-none');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 4:
+                $('#dimension-1-campo').addClass('d-none');
+                let equipoTecnologico = JSON.parse(descripcionAdmin.descripcion);
+                $('#TipoEquipoTecnologico').val(equipoTecnologico.tipoEquipoTecnologico).trigger('change');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').removeClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 5:
+                $('#dimension-1-campo').addClass('d-none');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 6:
+                $('#dimension-1-campo').addClass('d-none');
+                $('#AreaBeca').val(descripcionAdmin.descripcion.areaBeca).trigger('change');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').removeClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 7:
+                $('#dimension-1-campo').addClass('d-none');
+                let proyectos = JSON.parse(descripcionAdmin.descripcion);
+                $('#Proyecto').append(`<option value="${ proyectos.proyecto }" selected>${ proyectos.proyecto }</option>`)
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').removeClass('d-none');
+                $('#dimension-8-campo').addClass('d-none');
+            break;
+            case 8:
+                $('#dimension-1-campo').addClass('d-none');
+                $('#dimension-2-campo').addClass('d-none');
+                $('#dimension-4-campo').addClass('d-none');
+                $('#dimension-6-campo').addClass('d-none');
+                $('#dimension-7-campo').addClass('d-none');
+                $('#dimension-8-campo').removeClass('d-none');
+                let descripciones = JSON.parse(descripcionAdmin.descripcion);
+                $('#DescripcionDimOcho').val(descripciones.descripcionItem).trigger('change');
+                $('#CantidadDimOcho').val(descripciones.cantidadItem).trigger('change');
+                $('#PrecioDimOcho').val(descripciones.precioItem).trigger('change');
+                $('#Setenta').val(descripciones.valorUno).trigger('change');
+                $('#Treinta').val(descripciones.valorDos).trigger('change');
+            break;
+            default:
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'No se puede avanzar seleccione una dimension',
+                    footer: '<b>La opcion seleccionada no es valida</b>'
+                })
+            break;
+        }
+        $('#modalRegistroDimensionAdmin').modal('show');
+
+        // Fin
+
+
+
         for (let i=0;i<objetosGastos.length;i++) {
             $('#ObjGasto').append(`
             <option value="${ objetosGastos[i].idObjetoGasto }">${ objetosGastos[i].abrev } - ${ objetosGastos[i].DescripcionCuenta }</option>
@@ -1225,7 +1332,7 @@ const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionA
 
             $('#MesRequerido').html(``);
             for(let i=0;i<mesesRequeridos.length;i++) {
-                if (mesesRequeridos[i].id === mesRequerido) {
+                if (mesesRequeridos[i].id === descripcionAdmin.mesRequerido) {
                     $('#MesRequerido').append(`<option value="${ mesesRequeridos[i].id }" selected>${ mesesRequeridos[i].mes }</option>`);
                 } else {    
                     $('#MesRequerido').append(`
@@ -1248,92 +1355,6 @@ const modificarItem = (cantidad, costo, idActividad, descripcion, idDescripcionA
             footer: '<b>Por favor verifique el formulario de registro</b>'
         });
     });
-
-    switch (parseInt(idDimensionAdministrativa)) {
-        case 1:
-            $('#dimension-1-campo').removeClass('d-none');
-            $('#CantidadPersonas').val(descripcion).trigger('change');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 2:
-            $('#dimension-2-campo').removeClass('d-none');
-            $('#Meses').val(descripcion).trigger('change');
-            $('#dimension-1-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 3:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 4:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#TipoEquipoTecnologico').val(descripcion).trigger('change');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').removeClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 5:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 6:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#AreaBeca').val(descripcion).trigger('change');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').removeClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 7:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#Proyecto').append(`<option value="${ descripcion }" selected>${ descripcion }</option>`)
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').removeClass('d-none');
-            $('#dimension-8-campo').addClass('d-none');
-        break;
-        case 8:
-            $('#dimension-1-campo').addClass('d-none');
-            $('#dimension-2-campo').addClass('d-none');
-            $('#dimension-4-campo').addClass('d-none');
-            $('#dimension-6-campo').addClass('d-none');
-            $('#dimension-7-campo').addClass('d-none');
-            $('#dimension-8-campo').removeClass('d-none');
-            $('#DescripcionDimOcho').val(descItem).trigger('change');
-            $('#CantidadDimOcho').val(cantItem).trigger('change');
-            $('#PrecioDimOcho').val(precioItem).trigger('change');
-            $('#Setenta').val(val1).trigger('change');
-            $('#Treinta').val(val2).trigger('change');
-        break;
-        default:
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'No se puede avanzar seleccione una dimension',
-                footer: '<b>La opcion seleccionada no es valida</b>'
-            })
-        break;
-    }
-    $('#modalRegistroDimensionAdmin').modal('show');
 }
 
 const modificarAct = () => {
@@ -1358,7 +1379,7 @@ const modificarAct = () => {
     let setenta = document.querySelector('#Setenta');
     let treinta = document.querySelector('#Treinta');
     
-    let NomACT = { valorEtiqueta: NombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 300, type: 'text' };
+    let NomACT = { valorEtiqueta: NombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 900, type: 'text' };
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
     let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };
@@ -1948,8 +1969,8 @@ const modificarAct = () => {
     }
 }
 
-const modificarActividad = (idActividad, idDimension, dimensionEstrategica, idObjetivo, objetivo, idArea, area, idResultadoInstitucional, resultadoInstitucional, resultadosUnidad, indicadorResultado, correlativoActividad, actividad, costoActividad, porcentajeT1, porcentajeT2, porcentajeT3, porcentajeT4, justificacion, medio, poblacion, responsable, idCostoActTrimestre) => {
-    idCostoActividadPorTrimestreSeleccionada = idCostoActTrimestre;
+const modificarActividad = (idActividad) => {
+    let parametros = { idActividad: parseInt(idActividad) };
     esModificacion = true;
     esInsercion = false;
     $('#save').addClass('d-none');
@@ -1959,25 +1980,50 @@ const modificarActividad = (idActividad, idDimension, dimensionEstrategica, idOb
         dataType: 'json',
         contentType: 'application/json',
         success:function(response) {
+            $.ajax(`${ API }/actividades/genera-data-actividad.php`,{
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(parametros),
+                success:function(response) {
+                    const { data } = response;
+                    console.log(data);
+                    idCostoActividadPorTrimestreSeleccionada = data.idCostActPorTri;
+                    idActividadParaModificar = idActividad;
+                    idResultadoInstitucionalModificar = data.idResultadoInstitucional;
+                    resultadoInstitucionalModificar = data.resultadoInstitucional;
+                    correlativoModificar = data.correlativoActividad;
+                    $('#Indicador').val(data.indicadoresResultado).trigger('change');
+                    $('#Actividads').val(data.actividad).trigger('change');
+                    $('#PresupuestoActividad').val(data.CostoTotal).trigger('change');
+                    $('#PorcentPTrimestre').val(data.porcentajeTrimestre1*100).trigger('change');
+                    $('#PorcentSTrimestre').val(data.porcentajeTrimestre2*100).trigger('change');
+                    $('#PorcentTTrimestre').val(data.porcentajeTrimestre3*100).trigger('change');
+                    $('#PorcentCTrimestre').val(data.porcentajeTrimestre4*100).trigger('change');
+                    $('#ResultadosDeUnidad').val(data.resultadosUnidad).trigger('change');
+                    $('#Justificacions').val(data.justificacionActividad).trigger('change');
+                    $('#Medio').val(data.medioVerificacionActividad).trigger('change');
+                    $('#Poblacion').val(data.poblacionObjetivoActividad).trigger('change');
+                    $('#Responsable').val(data.responsableActividad).trigger('change');
+                    avanzarModificacion(data.idDimension, data.dimensionEstrategica, data.idObjetivoInstitucional, data.objetivoInstitucional, data.idAreaEstrategica, data.areaEstrategica);
+                },
+                error:function(error) {
+                    console.log(error.responseText);
+                    const { status, data } = error.responseJSON;
+                    if (status === 401) {
+                        window.location.href = '../views/401.php';
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ops...',
+                            text: `${ data.message }`,
+                            footer: '<b>No puedes modificar actividades</b>'
+                        });
+                    }
+                }
+            });
             const { data } = response;
             console.log(data);
-            idActividadParaModificar = idActividad;
-            idResultadoInstitucionalModificar = idResultadoInstitucional;
-            resultadoInstitucionalModificar = resultadoInstitucional;
-            correlativoModificar = correlativoActividad;
-            $('#Indicador').val(indicadorResultado).trigger('change');
-            $('#Actividads').val(actividad).trigger('change');
-            $('#PresupuestoActividad').val(costoActividad).trigger('change');
-            $('#PorcentPTrimestre').val(porcentajeT1*100).trigger('change');
-            $('#PorcentSTrimestre').val(porcentajeT2*100).trigger('change');
-            $('#PorcentTTrimestre').val(porcentajeT3*100).trigger('change');
-            $('#PorcentCTrimestre').val(porcentajeT4*100).trigger('change');
-            $('#ResultadosDeUnidad').val(resultadosUnidad).trigger('change');
-            $('#Justificacions').val(justificacion).trigger('change');
-            $('#Medio').val(medio).trigger('change');
-            $('#Poblacion').val(poblacion).trigger('change');
-            $('#Responsable').val(responsable).trigger('change');
-            avanzarModificacion(idDimension, dimensionEstrategica, idObjetivo, objetivo, idArea, area);
         },
         error:function(error) {
             console.log(error.responseText);

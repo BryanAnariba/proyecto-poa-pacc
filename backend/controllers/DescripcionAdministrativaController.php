@@ -64,6 +64,13 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function listaDescripcion ($idDescripcionAdministrativa) {
+            $this->descripcionAdministrativaModel->setIdDescripcionAdministrativa($idDescripcionAdministrativa);
+            $this->data = $this->descripcionAdministrativaModel->generaDescripcionAdmin();
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+        
         public function modificaDescripcion () {
 
         }
