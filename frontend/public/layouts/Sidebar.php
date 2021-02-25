@@ -193,6 +193,11 @@
                             <span class="nav__name">Graficos y Reportes</span>
                         </a> -->
 
+                        <a href="../views/control-estudiantes-docentes.php" class="nav__link">
+                        <img src="../img/control-estudiantes-docentes/control-estudiantes-docentes-icon.svg" alt="Control de Docentes y Estudiantes">
+                            <span class="nav__name">Control de Docentes y Estudiantes</span>
+                        </a>
+
                         <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
@@ -217,6 +222,11 @@
                         <img src="../img/partial-sidebar/informes-icon.svg" alt="Control de Departamentos">
                             <span class="nav__name">Graficos y Reportes</span>
                         </a> -->
+
+                        <a href="../views/control-estudiantes-docentes.php" class="nav__link">
+                        <img src="../img/control-estudiantes-docentes/control-estudiantes-docentes-icon.svg" alt="Control de Docentes y Estudiantes">
+                            <span class="nav__name">Control de Docentes y Estudiantes</span>
+                        </a>
 
                         <a href="../views/control-recibir-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
