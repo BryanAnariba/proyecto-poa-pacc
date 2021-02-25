@@ -364,5 +364,31 @@
                     );
                 }
         }
+
+
+        public function generaDescripcionAdmin () {
+            if (is_int($this->idDescripcionAdministrativa)) {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_DESCRIPCION_ADMIN AS (SELECT DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.Costo, DescripcionAdministrativa.idActividad, DescripcionAdministrativa.descripcion,DescripcionAdministrativa.idDescripcionAdministrativa, DescripcionAdministrativa.idDimensionAdministrativa,DescripcionAdministrativa.mesRequerido, DescripcionAdministrativa.idObjetoGasto, ObjetoGasto.abrev, ObjetoGasto.descripcionCuenta, DescripcionAdministrativa.idTipoPresupuesto, TipoPresupuesto.tipoPresupuesto, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.unidadDeMedida FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN TipoPresupuesto ON (DescripcionAdministrativa.idTipoPresupuesto = TipoPresupuesto.idTipoPresupuesto)) SELECT * FROM CTE_GENERA_DESCRIPCION_ADMIN WHERE CTE_GENERA_DESCRIPCION_ADMIN.idDescripcionAdministrativa = :idDescripcion;");
+                $stmt->bindValue(':idDescripcion', $this->idDescripcionAdministrativa);
+                if ($stmt->execute()) {
+                    return array(
+                        'status'=> SUCCESS_REQUEST,
+                        'data' => $stmt->fetchObject()
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'ha ocurrido un error al listar la descripcion administrativa')
+                    );
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'ha ocurrido un error al listar la descripcion administrativa')
+                );
+            }
+        }
     }
 ?>

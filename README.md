@@ -161,14 +161,14 @@ my user -> bsancheza@unah.hn , YTsisOwvTcVx
         -> usernameEight@unah.hn, ozDtBYfhhpvN 
 
         IM -> Coordinador Carera
-        -> usernameNine@unah.hn, KIJaTel1QWfs
-
+        -> usernameNine@unah.hn,bDJqEEQZWBAz
         IM -> Jefe depto
-        -> usernameTen@unah.hn, 1JsmeEL@st3t
+        -> usernameTen@unah.hn, Le03FcoUTCBh
 
 
 
         PhpSpreadsheet
 
-
-        SELECT str_to_date(2022, '%Y%M%D %H:%i') FROM DUAL
+Datos: 1.Informe de Viaje 2. Reuniones con la DAFT 3. Listas de Asistencia
+ 4. Informes trimestales 5. Reuniones de avance del proyecto.
+ 

@@ -540,7 +540,7 @@
                             if ($enviado) {
                                 return array(
                                     'status'=> SUCCESS_REQUEST,
-                                    'data' => array('message' => 'La modificacion y reenvio de credenciales se realizo con exito')
+                                    'data' => array('message' => 'La modificacion y reenvio de credenciales se realizo con exito ' . $password)
                                 );
                             } else {
                                 return array(

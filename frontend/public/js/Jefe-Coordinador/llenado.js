@@ -689,7 +689,7 @@ const agregarAct = () => {
     let setenta = document.querySelector('#Setenta');
     let treinta = document.querySelector('#Treinta');
     
-    let nAct = { valorEtiqueta: nombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 300, type: 'text' };
+    let nAct = { valorEtiqueta: nombreActividad, id: 'NombreActividad', name: 'Actividad', min: 1, max: 900, type: 'text' };
     let Ca = { valorEtiqueta: Cantidad, id: 'Cantidad', name: 'Cantidad', min: 1, max: 10, type: 'number' };
     let Co = { valorEtiqueta: Costo, id: 'Costo', name: 'Costo' ,min: 1, max: 13,type: 'number' };
     let CoT = { valorEtiqueta: CostoT, id: 'CostoT', name: 'Costo Total' ,min: 1, max: 13,type: 'number' };

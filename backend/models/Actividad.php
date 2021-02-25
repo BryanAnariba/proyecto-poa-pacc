@@ -633,6 +633,34 @@
             }
         }
 
+        public function generaActividad () {
+            if (is_int($this->idActividad)) {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_ACTIVIDAD AS (SELECT Actividad.idActividad, Actividad.idDimension, 
+                    DimensionEstrategica.dimensionEstrategica, Actividad.idObjetivoInstitucional, ObjetivoInstitucional.objetivoInstitucional, Actividad.idResultadoInstitucional, ResultadoInstitucional.resultadoInstitucional, Actividad.idAreaEstrategica, AreaEstrategica.areaEstrategica, Actividad.resultadosUnidad, Actividad.indicadoresResultado, Actividad.actividad, Actividad.correlativoActividad, Actividad.justificacionActividad, Actividad.medioVerificacionActividad, Actividad.poblacionObjetivoActividad, Actividad.responsableActividad, Actividad.fechaCreacionActividad, Actividad.CostoTotal, CostoActividadPorTrimestre.porcentajeTrimestre1,CostoActividadPorTrimestre.porcentajeTrimestre2, CostoActividadPorTrimestre.porcentajeTrimestre3, 
+                    CostoActividadPorTrimestre.porcentajeTrimestre4, CostoActividadPorTrimestre.idCostActPorTri FROM Actividad INNER JOIN DimensionEstrategica 
+                    ON (Actividad.idDimension = DimensionEstrategica.idDimension) INNER JOIN ObjetivoInstitucional ON (Actividad.idObjetivoInstitucional = ObjetivoInstitucional.idObjetivoInstitucional) INNER JOIN AreaEstrategica ON (Actividad.idAreaEstrategica = AreaEstrategica.idAreaEstrategica) INNER JOIN ResultadoInstitucional ON (Actividad.idResultadoInstitucional = ResultadoInstitucional.idResultadoInstitucional) INNER JOIN TipoActividad ON (Actividad.idTipoActividad = TipoActividad.idTipoActividad) INNER JOIN CostoActividadPorTrimestre ON (CostoActividadPorTrimestre.idActividad = Actividad.idActividad)) SELECT * FROM CTE_GENERA_ACTIVIDAD WHERE CTE_GENERA_ACTIVIDAD.idActividad = :idActividad");
+                $stmt->bindValue(':idActividad', $this->idActividad);
+                    if ($stmt->execute()) {
+                        return array(
+                            'status'=> SUCCESS_REQUEST,
+                            'data' => $stmt->fetchObject()
+                        );
+                    } else {
+                        return array(
+                            'status'=> BAD_REQUEST,
+                            'data' => array('message' => 'Ha ocurrido un error')
+                        );
+                    }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, la informacion de la actividade no se pudo visualizar')
+                );
+            }
+        }
+
         public function getActividadesDimension () {
             if (
                 is_int($this->idDimension)
