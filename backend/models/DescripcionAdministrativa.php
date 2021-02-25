@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../database/Conexion.php');
     require_once('../../validators/validators.php');
@@ -214,6 +217,9 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
                             $stmt = $this->consulta->prepare('INSERT INTO DescripcionAdministrativa (idObjetoGasto, idTipoPresupuesto, idActividad, idDimensionAdministrativa, nombreActividad, Cantidad, Costo, costoTotal, mesRequerido, Descripcion, unidadDeMedida) VALUES (:idObjeto, :idTipoPresupuesto, :idActividad, :idDimension, :nombreAct, :cantidad, :costo, :costoTotal, :mesRequerido, :descripcion, :unidadMedida)');
                             $stmt->bindValue(':idObjeto', $this->idObjetoGasto);
                             $stmt->bindValue(':idTipoPresupuesto', $this->idTipoPresupuesto);
@@ -310,6 +316,9 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
                             $stmt = $this->consulta->prepare('UPDATE DescripcionAdministrativa SET idObjetoGasto = :idObjeto, idTipoPresupuesto = :idTipoPresupuesto, idActividad = :idActividad, idDimensionAdministrativa = :idDimension, nombreActividad = :nombreAct, Cantidad = :cantidad, Costo = :costo, costoTotal = :costoTotal, mesRequerido = :mesRequerido, Descripcion = :descripcion, unidadDeMedida = :unidadMedida WHERE idDescripcionAdministrativa = :idDescripcion ');
                             $stmt->bindValue(':idDescripcion', $this->idDescripcionAdministrativa);
                             $stmt->bindValue(':idObjeto', $this->idObjetoGasto);

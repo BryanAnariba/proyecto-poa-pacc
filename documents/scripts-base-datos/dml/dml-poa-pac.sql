@@ -458,3 +458,7 @@ VALUES ('1', 'Pendiente'),
 -- insertando datos en la tabla EstadoInforme
 INSERT INTO `estadoinforme` (`idEstadoInforme`, `Estado`) 
 VALUES (NULL, 'Pendiente'), (NULL, 'Aprobado');
+
+-- insertado tabla trimestre
+INSERT INTO `Trimestre` (`nombreTrimeste`) 
+VALUES ('Trimestre 1'), ('Trimestre 2'), ('Trimestre 3'), ('Trimestre 4');

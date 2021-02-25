@@ -168,6 +168,9 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
                 $pt1 = ($this->porcentajeTrimestre1)*$costoActividad;
                 $pt2 = ($this->porcentajeTrimestre2)*$costoActividad;
                 $pt3 = ($this->porcentajeTrimestre3)*$costoActividad;
@@ -200,6 +203,9 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
                 $pt1 = ($this->porcentajeTrimestre1)*$costoActividad;
                 $pt2 = ($this->porcentajeTrimestre2)*$costoActividad;
                 $pt3 = ($this->porcentajeTrimestre3)*$costoActividad;

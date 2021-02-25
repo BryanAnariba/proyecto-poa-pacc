@@ -1,4 +1,7 @@
 <?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     require_once('../../config/config.php');
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
@@ -91,6 +94,10 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     
                     $stmt = $this->consulta->prepare('INSERT INTO ' . $this->tablaBaseDatos . ' (TipoUsuario_idTipoUsuario, valorLlenadoDimensionInicial, valorLlenadoDimensionFinal) VALUES (:tipoUsuario, :valorInicial, :valorFinal)');
                     $stmt->bindValue(':tipoUsuario', $this->TipoUsuario_idTipoUsuario);
@@ -134,6 +141,10 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     
                     $stmt = $this->consulta->prepare('UPDATE ' . $this->tablaBaseDatos . ' SET valorLlenadoDimensionInicial = :valorInicial, valorLlenadoDimensionFinal = :valorFinal WHERE idLlenadoDimension = :idLlenadoDimension');
                     $stmt->bindValue(':valorInicial', $this->valorLlenadoDimensionInicial);
@@ -173,6 +184,10 @@
                 try {
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     
                     $stmt = $this->consulta->prepare('DELETE FROM ' . $this->tablaBaseDatos . ' WHERE idLlenadoDimension = :idLlenadoDimension');
                     $stmt->bindValue(':idLlenadoDimension', $this->idLlenadoDimension);

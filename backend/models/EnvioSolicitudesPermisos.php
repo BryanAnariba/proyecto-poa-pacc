@@ -6,7 +6,6 @@
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
-    //require_once('../../models/Persona.php');
     require_once('../../helpers/notificacionesEmail.php');
 
     class EnvioSolicitudesPermisos {
@@ -309,10 +308,17 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -349,6 +355,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -366,95 +375,27 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
-                        //$stmt2->execute();
-
-                        //return array(
-                            //'status' => SUCCESS_REQUEST,
-                           // 'data' => array('message' => 'Solicitud registrada con exito')
-//);
-                        if ($stmt2->execute()) {
-                            //primero verifica que tipo de usuario envio la solicitud para 
-                            //enviar notificacion al correo de la persona que le corresponda
-                            //revisar la solicitud.
-                            /*
-                            $correoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
-                                                                            FROM usuario
-                                                                            WHERE idTipoUsuario = 7");
-
-                            $idDepartamento = $this->consulta->prepare("SELECT idDepartamento
-                                                                        FROM usuario 
-                                                                        WHERE idPersonaUsuario = {$_SESSION['idUsuario']}");
-
-                            $correoJefe = $this->consulta->prepare("SELECT correoInstitucional
-                                                                    FROM usuario
-                                                                    WHERE idTipoUsuario = 2 AND 
-                                                                        idDepartamento = $idDepartamento");
-
-                            $correoDecano = $correoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
-                                                                                            FROM usuario
-                                                                                            WHERE idTipoUsuario = 4");
-                                   */                                     
-                            if($_SESSION['abrevTipoUsuario'] === 'SE_AD'){
-                                $email = new notificacionesEmail();
-                                $email->setEmailDestino('$correoSecAcademica');
-                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
-                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
-                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
-                                $enviado = $email->notificarViaCorreo();
-                                if ($enviado) {
-                                    return array(
-                                        'status'=> SUCCESS_REQUEST,
-                                        'data' => array('message' => 'Solicitud registrada con exito') 
-                                    );
-                                } else {
-                                    return array(
-                                        'status'=> BAD_REQUEST,
-                                        'data' => array('message' => 'Ha ocurrido un error')
-                                    );
-                                }
-                            }else if ($_SESSION['abrevTipoUsuario'] === 'C_C'){
-                                $email = new notificacionesEmail();
-                                $email->setEmailDestino('$correoJefe');
-                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
-                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
-                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
-                                $enviado = $email->notificarViaCorreo();
-                                if ($enviado) {
-                                    return array(
-                                        'status'=> SUCCESS_REQUEST,
-                                        'data' => array('message' => 'Solicitud registrada con exito') 
-                                    );
-                                } else {
-                                    return array(
-                                        'status'=> BAD_REQUEST,
-                                        'data' => array('message' => 'Ha ocurrido un error')
-                                    );
-                                }
+                        $stmt2->execute();  
+                        
+                        // Hasta este punto las solicitudes ya  han sido registradas si todo es correcto
+                        //Luego se procede a notificar via correo de la existencia de nuevas solicitudes
+                        //Para ello se manda a llamar la función que envia correos segun cada tipo de usuario
+                        $this->envioSolicitudesPermisosModel = new EnvioSolicitudesPermisos(); 
+                        $this->data = $this->envioSolicitudesPermisosModel->notificarSolicitudes();
 
 
-                            }else if ($_SESSION['abrevTipoUsuario'] === 'U_E') {
-                                $email = new notificacionesEmail();
-                                $email->setEmailDestino('$correoDecano');
-                                $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
-                                $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisión');
-                                $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
-                                $enviado = $email->notificarViaCorreo();
-                                if ($enviado) {
-                                    return array(
-                                        'status'=> SUCCESS_REQUEST,
-                                        'data' => array('message' => 'Solicitud registrada con exito') 
-                                    );
-                                } else {
-                                    return array(
-                                        'status'=> BAD_REQUEST,
-                                        'data' => array('message' => 'Ha ocurrido un error')
-                                    );
-                                }
-                            }
-                        }
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => array('message' => 'Solicitud registrada con exito')
+                        ); 
+
+                        
                     } else {
                         return array(
                             'status'=> BAD_REQUEST,
@@ -488,11 +429,17 @@
                 campoTexto($this->edificioAsistencia,1,80)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -529,6 +476,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -546,10 +496,19 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
+
+                        //Hasta este punto las solicitudes ya  han sido registradas si todo es correcto
+                        //Luego se procede a notificar via correo de la existencia de nuevas solicitudes
+                        //Para ello se manda a llamar la función que envia correos segun cada tipo de usuario
+                        $this->envioSolicitudesPermisosModel = new EnvioSolicitudesPermisos(); 
+                        $this->data = $this->envioSolicitudesPermisosModel->notificarSolicitudes();
 
                         return array(
                             'status' => SUCCESS_REQUEST,
@@ -588,10 +547,17 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
 
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
+
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -628,6 +594,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -645,10 +614,19 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
+
+                        // Hasta este punto las solicitudes ya  han sido registradas si todo es correcto
+                        //Luego se procede a notificar via correo de la existencia de nuevas solicitudes
+                        //Para ello se manda a llamar la función que envia correos segun cada tipo de usuario
+                        $this->envioSolicitudesPermisosModel = new EnvioSolicitudesPermisos(); 
+                        $this->data = $this->envioSolicitudesPermisosModel->notificarSolicitudes();
 
                         return array(
                             'status' => SUCCESS_REQUEST,
@@ -686,11 +664,17 @@
                 campoTexto($this->edificioAsistencia,1,80)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
@@ -727,6 +711,9 @@
                         //insertando en la tabla estadosolicitudsalida
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
@@ -744,10 +731,19 @@
 
                         $this->conexionBD = new Conexion();
                         $this->consulta = $this->conexionBD->connect();
+                        $this->consulta->prepare("
+                            set @persona = {$_SESSION['idUsuario']};
+                        ")->execute();
                         $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
+
+                        // Hasta este punto las solicitudes ya  han sido registradas si todo es correcto
+                        //Luego se procede a notificar via correo de la existencia de nuevas solicitudes
+                        //Para ello se manda a llamar la función que envia correos segun cada tipo de usuario
+                        $this->envioSolicitudesPermisosModel = new EnvioSolicitudesPermisos(); 
+                        $this->data = $this->envioSolicitudesPermisosModel->notificarSolicitudes();
 
                         return array(
                             'status' => SUCCESS_REQUEST,
@@ -797,6 +793,109 @@
                         'data' => array('message' => 'Ha ocurrido un error al listar la imagen de respaldo')
                     );
                 }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+
+        //Función para notificar via correo sobre nuevas solicitudes de permisos
+        public function notificarSolicitudes() {
+            try {
+
+                //primero verifica que tipo de usuario envio la solicitud para 
+                //enviar notificacion al correo de la persona que le corresponda
+                //revisar la solicitud.
+                if($_SESSION['abrevTipoUsuario'] === 'SE_AD'){
+                    //el usuario que revisa las solicitudes de permisos de los usuarios administrativos
+                    //es el usuario de tipo secretaria academica, por lo tanto se le notifica en el sistema y 
+                    //mediante correo electronico que tiene solicitudes pendientes de revisar,
+                    //cada vez que se registra una nueva solicitud por parte de usuarios administrativos
+                    //para ello se comprueba el tipo de usuario que remite la solicitud y luego se obtiene
+                    //el correo del receptor 
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $obtenerCorreoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
+                                                                            FROM usuario
+                                                                            WHERE idTipoUsuario = 7 AND
+                                                                                idEstadoUsuario = 1");
+                    $obtenerCorreoSecAcademica->execute(); 
+                    $correoSecAcademica = $obtenerCorreoSecAcademica->fetch();
+                    if($correoSecAcademica != false){
+                        $correoSecAcademica = $correoSecAcademica[0];
+                        //echo $correoSecAcademica;
+
+                        $email = new notificacionesEmail();
+                        $email->setEmailDestino($correoSecAcademica);
+                        $email->setHeaderMensaje('Sistema POA PACC: Nuevas Notificaciones del Sistema');
+                        $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisar');
+                        $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                        $email->notificarViaCorreo(); 
+                    }             
+                    
+                }else if ($_SESSION['abrevTipoUsuario'] === 'C_C'){
+                    //el usuario que revisa las solicitudes de permisos de los usuarios de tipo coordinadores
+                    //es el usuario de tipo jefe departamento, cada jefe atiende las solicitudes del 
+                    //coordinador de su respectivo departamento, por lo tanto se le notifica en el sistema y 
+                    //mediante correo electronico que tiene solicitudes pendientes de revisar,
+                    //cada vez que se registra una nueva solicitud por parte de usuarios coordinadores
+                    //para ello se comprueba el tipo de usuario que remite la solicitud se verifica el
+                    //departamento al que este corresponde y poder obtener el correo del receptor que corresponda
+                    //con el mismo departamento del usuario que 
+                    
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $obtenerCorreoJefe = $this->consulta->prepare("SELECT correoInstitucional
+                                                                    FROM usuario
+                                                                    WHERE idTipoUsuario = 2 AND
+                                                                        idEstadoUsuario = 1 AND
+                                                                        idDepartamento = {$_SESSION['idDepartamento']}");
+                    $obtenerCorreoJefe->execute(); 
+                    $correoJefe = $obtenerCorreoJefe->fetch();
+                    if($correoJefe != false){
+                        $correoJefe = $correoJefe[0];
+                        $email = new notificacionesEmail();
+                        $email->setEmailDestino($correoJefe);
+                        $email->setHeaderMensaje('Sistema POA PACC: Nuevas Notificaciones del Sistema');
+                        $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisar');
+                        $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                        $email->notificarViaCorreo(); 
+                    }  
+                  
+                    
+                }else if ($_SESSION['abrevTipoUsuario'] === 'U_E') {
+                    //el usuario que revisa las solicitudes de permisos del usuario de tipo estratega
+                    //es el usuario de tipo decano se le notifica en el sistema y 
+                    //mediante correo electronico que tiene solicitudes pendientes de revisar,
+                    //cada vez que se registra una nueva solicitud por parte de usuario tipo estratega
+                    //para ello se comprueba el tipo de usuario que remite la solicitud se verifica el
+                    //poder obtener el correo del receptor que corresponda
+
+                    $this->conexionBD = new Conexion();
+                    $this->consulta = $this->conexionBD->connect();
+                    $obtenerCorreoDecano = $this->consulta->prepare("SELECT correoInstitucional
+                                                                    FROM usuario
+                                                                    WHERE idTipoUsuario = 4 AND
+                                                                        idEstadoUsuario = 1");
+                    $obtenerCorreoDecano->execute(); 
+                    $correoDecano = $obtenerCorreoDecano->fetch();    
+                    if($correoDecano != false){
+                        $correoDecano = $correoDecano[0];
+                        $email = new notificacionesEmail();
+                        $email->setEmailDestino($correoDecano);
+                        $email->setHeaderMensaje('Sistema POA PACC Nuevas Notificaciones del Sistema');
+                        $email->setTituloMensaje('Tiene una nueva Solicitud de Permiso pendiente de revisar');
+                        $email->setContenido('Acceda al sistema con sus credenciales para revisar nuevas solicitudes recibidas');
+                        $enviado = $email->notificarViaCorreo();
+                    }  
+                    
+                }
+
             } catch (PDOException $ex) {
                 return array(
                     'status'=> INTERNAL_SERVER_ERROR,

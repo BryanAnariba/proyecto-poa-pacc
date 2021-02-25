@@ -563,6 +563,9 @@
                         try {
                             $this->conexionBD = new Conexion();
                             $this->consulta = $this->conexionBD->connect();
+                            $this->consulta->prepare("
+                                set @persona = {$_SESSION['idUsuario']};
+                            ")->execute();
                             $stmt = $this->consulta->prepare("INSERT INTO Actividad (idPersonaUsuario, idDimension, idObjetivoInstitucional, idResultadoInstitucional, idAreaEstrategica, idTipoActividad, idEstadoActividad, resultadosUnidad, indicadoresResultado, actividad, correlativoActividad, justificacionActividad, medioVerificacionActividad, poblacionObjetivoActividad, responsableActividad, fechaCreacionActividad, CostoTotal) VALUES (:idUsuario, :idDimension, :idObjetivo, :idResultado, :idArea, :idTipoCosto, :idEstado , :resultado, :indicadores, :nombreActividad, :correlativo, :justificacion, :medio, :poblacion, :responsable, :fecha ,:costo)");
                             $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
                             $stmt->bindValue(':idDimension', $this->idDimension);
@@ -750,6 +753,9 @@
                             try {
                                 $this->conexionBD = new Conexion();
                                 $this->consulta = $this->conexionBD->connect();
+                                $this->consulta->prepare("
+                                    set @persona = {$_SESSION['idUsuario']};
+                                ")->execute();
                                 $stmt = $this->consulta->prepare("UPDATE Actividad SET idPersonaUsuario = :idUsuario, idDimension = :idDimension, idObjetivoInstitucional = :idObjetivo, idResultadoInstitucional = :idResultado, idAreaEstrategica = :idArea, idTipoActividad = :idTipoCosto , resultadosUnidad = :resultado, indicadoresResultado = :indicadores, actividad = :nombreActividad,  justificacionActividad = :justificacion, medioVerificacionActividad = :medio , poblacionObjetivoActividad = :poblacion, responsableActividad = :responsable, CostoTotal = :costo WHERE idActividad = :idActividad ");
                                 $stmt->bindValue(':idUsuario', $_SESSION['idUsuario']);
                                 $stmt->bindValue(':idDimension', $this->idDimension);

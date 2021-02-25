@@ -109,11 +109,8 @@
                 $mail->isHTML(true);                                  // Set email format to HTML
                 $mail->Subject = $this->headerMensaje;
                 $mail->Body = '
-                    <h2> ' . $this->tituloMensaje . ' : </h2> ' .
-                    
-                    //'Nombre Usuario: ' . $this->nombreUsuario . '<br/>' . 
-                    //'Correo: ' . $this->emailDestino . '<br/>' .
-                    $this->contenido . '<br/>';
+                    <h2> ' . $this->tituloMensaje . '</h2> <br/>' .
+                    '<h4>' . $this->contenido . '</h4> <br/>';
                 $mail->AltBody = 'Mantente siempre conectado para que puedas ver las siguientes notificaciones';
             
                 if ($mail->send()) {

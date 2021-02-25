@@ -285,6 +285,9 @@ const registrarSolicitud = () => {
 
 
 const registrarSolicitudSinImagenes = () => {
+    
+    $('#btn-registrar-solicitud').prop('disabled', true);
+
     let parametros = {
         idUsuario: parseInt(idUsuario.value),
         motivoPermiso: motivoPermiso.value,
@@ -307,6 +310,7 @@ const registrarSolicitudSinImagenes = () => {
                 title: 'Accion realizada Exitosamente',
                 footer: '<b>Por favor verifique el formulario de registro</b>',
             });
+            $('#btn-registrar-solicitud').prop('disabled', false);
             cancelarRegistroSolicitud();
         },
         error:function (error) {
@@ -328,6 +332,8 @@ const registrarSolicitudSinImagenes = () => {
 
 
 const registrarSolicitudConImagenes = () => {
+
+    $('#btn-registrar-solicitud').prop('disabled', true);
     
     const formData = new FormData($("#formulario-registro-solicitud")[0]);
     
@@ -344,6 +350,7 @@ const registrarSolicitudConImagenes = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-registrar-solicitud').prop('disabled', false);
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {
@@ -364,6 +371,8 @@ const registrarSolicitudConImagenes = () => {
 }
 
 const registrarSolicitudConFirma = () => {
+
+    $('#btn-registrar-solicitud').prop('disabled', true);
     
     const formData = new FormData($("#formulario-registro-solicitud")[0]);
     
@@ -380,6 +389,7 @@ const registrarSolicitudConFirma = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-registrar-solicitud').prop('disabled', false);
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {
@@ -402,6 +412,8 @@ const registrarSolicitudConFirma = () => {
 
 const registrarSolicitudConRespaldo = () => {
     
+    $('#btn-registrar-solicitud').prop('disabled', true);
+
     const formData = new FormData($("#formulario-registro-solicitud")[0]);
    
     $.ajax(`${ API }/control-envio-solicitudes/registrarSolicitudConRespaldo.php`, {
@@ -417,6 +429,7 @@ const registrarSolicitudConRespaldo = () => {
                     title: 'Accion realizada Exitosamente',
                     text: `${ data.message }`,
                 });
+                $('#btn-registrar-solicitud').prop('disabled', false);
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {

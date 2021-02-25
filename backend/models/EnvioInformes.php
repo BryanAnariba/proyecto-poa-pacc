@@ -6,6 +6,7 @@
     require_once('../../config/config.php');    
     require_once('../../validators/validators.php');
     require_once('../../database/Conexion.php');
+    require_once('../../helpers/notificacionesEmail.php');
 
     class EnvioInformes {
         private $idInforme;
@@ -62,11 +63,17 @@
                 campoTexto($this->descripcionInforme,1,255)) {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
+                $this->consulta->prepare("
+                    set @persona = {$_SESSION['idUsuario']};
+                ")->execute();
 
                 try {
                     $fechaActual = date('Y-m-d');
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
+                    $this->consulta->prepare("
+                        set @persona = {$_SESSION['idUsuario']};
+                    ")->execute();
                     $stmt = $this->consulta->prepare("INSERT INTO informe
                                                         (idPersonaUsuarioEnvia, 
                                                             idPersonaUsuarioAprueba,
@@ -88,6 +95,12 @@
                                                                 )"
                                                     );
                     if ($stmt->execute()) {
+                        // Hasta este punto los informes ya  han sido registrados si todo es correcto
+                        //Luego se procede a notificar via correo de la existencia de nuevas informes 
+                        //Para ello se manda a llamar la función que envia correos segun cada tipo de usuario
+                        $this->envioInformesModel = new EnvioInformes();    
+                        $this->data = $this->envioInformesModel->notificarEnvioInformes(); 
+
                         return array(
                             'status' => SUCCESS_REQUEST,
                             'data' => array('message' => 'Informe registrado con exito')
@@ -266,6 +279,41 @@
         }
 
 
+
+        //Función para notificar via correo sobre nuevos informes en el sistema
+        public function notificarEnvioInformes() {
+            try {
+
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $obtenerCorreoEstratega = $this->consulta->prepare("SELECT correoInstitucional
+                                                                        FROM usuario
+                                                                        WHERE idTipoUsuario = 5 AND
+                                                                            idEstadoUsuario = 1");
+                $obtenerCorreoEstratega->execute(); 
+                $correoEstratega = $obtenerCorreoEstratega->fetch();
+                if($correoEstratega != false){
+                    $correoEstratega = $correoEstratega[0];
+                    //echo $correoEstratega;
+
+                    $email = new notificacionesEmail();
+                    $email->setEmailDestino($correoEstratega);
+                    $email->setHeaderMensaje('Sistema POA PACC: Nuevas Notificaciones del Sistema');
+                    $email->setTituloMensaje('Tiene Informes pendientes de revisar');
+                    $email->setContenido('Acceda al sistema con sus credenciales para revisar los nuevos informes recibidos');
+                    $email->notificarViaCorreo(); 
+                }  
+            
+
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
 
 
 
