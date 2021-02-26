@@ -87,6 +87,40 @@ const generarReporteGeneralPACC = () => {
             footer: '<b>Por favor verifique el formulario de registro</b>'
         });
     } else {
-        console.log('Works');
+        let parametros = { fechaPresupuestoActividad: parseInt($('#FechaPresupuesto').val()) };
+        $.ajax(`${ API }/pacc/genera-pacc-general.php`,{
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function (response) {
+                const { data } = response;
+                var $a = $("<a>");
+                $a.attr("href",response.file);
+                $("body").append($a);
+                $a.attr("download","Reporte-PACC-Factultad.xlsx");
+                $a[0].click();
+                $a.remove();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accion realizada Exitosamente',
+                    text: `${ data.message }`,
+                });
+            },
+            error:function(error){
+                console.log(error.responseText)
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                console.log(data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                });
+            }
+        });
     }
 }
