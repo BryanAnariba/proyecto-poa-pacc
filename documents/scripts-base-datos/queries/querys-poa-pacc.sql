@@ -859,11 +859,7 @@ WITH CTE_QUERY_PACC_INGENIERIA AS (
 		Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario)
 	INNER JOIN 
 		Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)
-    WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (
-		SELECT DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') 
-		FROM ControlPresupuestoActividad 
-		WHERE ControlPresupuestoActividad.estadoLlenadoActividades = 1
-	)
+    WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = 2021
 )
 SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA.codigoObjetoGasto ASC; 
 
@@ -966,3 +962,22 @@ WHERE
 --  QUERY MALA
 WITH CTE_LISTADO_ACT_POR_DIM AS (SELECT COUNT(Actividad.idActividad) AS cantidadActividadesPorDimension, DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica,
                 DimensionEstrategica.idEstadoDimension, Estadodcduoao.estado FROM Actividad RIGHT JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension) INNER JOIN Estadodcduoao ON (DimensionEstrategica.idEstadoDimension = Estadodcduoao.idEstado) GROUP BY DimensionEstrategica.idDimension, DimensionEstrategica.dimensionEstrategica) SELECT * FROM CTE_LISTADO_ACT_POR_DIM WHERE CTE_LISTADO_ACT_POR_DIM.idEstadoDimension = :idEstado AND (SELECT ControlPresupuestoActividad.idEstadoPresupuestoAnual FROM ControlPresupuestoActividad LEFT JOIN PresupuestoDepartamento ON (ControlPresupuestoActividad.idControlPresupuestoActividad = PresupuestoDepartamento.idControlPresupuestoActividad) RIGHT JOIN Departamento ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento) LEFT JOIN Usuario ON (Departamento.idDepartamento = Usuario.idDepartamento) INNER JOIN EstadoDCDUOAO ON (ControlPresupuestoActividad.idEstadoPresupuestoAnual = EstadoDCDUOAO.idEstado) WHERE Departamento.idDepartamento = :idDepartamento AND Usuario.idPersonaUsuario = :idUsuario AND DATE_FORMAT(ControlPresupuestoActividad.fechaPresupuestoAnual, '%Y') = (SELECT DATE_FORMAT(fechaPresupuestoAnual, '%Y') FROM ControlPresupuestoActividad WHERE EstadoLlenadoActividades = 1)) AND CTE_LISTADO_ACT_POR_DIM.idDimension BETWEEN (SELECT LlenadoActividadDimension.valorLlenadoDimensionInicial FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON(LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario) WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = :tipoUsuario) AND (SELECT LlenadoActividadDimension.valorLlenadoDimensionFinal FROM LlenadoActividadDimension INNER JOIN TipoUsuario ON (LlenadoActividadDimension.TipoUsuario_idTipoUsuario = TipoUsuario.idTipoUsuario) WHERE LlenadoActividadDimension.TipoUsuario_idTipoUsuario = :tipoUsuario2);
+
+
+
+-- QUERY PARA GENERAR PRESUPUESTOS POR DEPARTAMENTO PARA GRAFICO
+WITH CTE_GENERA_PRESUPUESTOS_POR_DEPTO AS (
+	SELECT 
+	PresupuestoDepartamento.idDepartamento,
+    PresupuestoDepartamento.montoPresupuesto,
+    Departamento.nombreDepartamento,
+    ControlPresupuestoActividad.presupuestoAnual,
+    ControlPresupuestoActividad.estadoLlenadoActividades,
+    YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) AS fechaPresupuesto
+    FROM PresupuestoDepartamento 
+    INNER JOIN ControlPresupuestoActividad ON 
+    (PresupuestoDepartamento.idControlPresupuestoActividad = ControlPresupuestoActividad.idControlPresupuestoActividad)
+    INNER JOIN Departamento 
+    ON (PresupuestoDepartamento.idDepartamento = Departamento.idDepartamento)
+)
+SELECT * FROM CTE_GENERA_PRESUPUESTOS_POR_DEPTO WHERE CTE_GENERA_PRESUPUESTOS_POR_DEPTO.estadoLlenadoActividades = 1

@@ -42,6 +42,11 @@
                             <img src="../img/partial-sidebar/graduacion-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Tramites Graduacion</span>
                         </a>
+
+                        <a href="../views/pacc.php" class="nav__link">
+                            <img src="../img/pacc/pacc.svg" alt="Control PACC">
+                            <span class="nav__name">Control PACC</span>
+                        </a>
                     <?php 
                         break; 
                     ?>

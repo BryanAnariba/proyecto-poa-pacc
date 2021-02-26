@@ -161,9 +161,12 @@ my user -> bsancheza@unah.hn , YTsisOwvTcVx
         -> usernameEight@unah.hn, ozDtBYfhhpvN 
 
         IM -> Coordinador Carera
-        -> usernameNine@unah.hn,bDJqEEQZWBAz
+        -> usernameNine@unah.hn, bDJqEEQZWBAz
         IM -> Jefe depto
         -> usernameTen@unah.hn, Le03FcoUTCBh
+
+        Secretaria Academica
+        academiS@unah.hn, YIL3SNRykUP2
 
 
 
