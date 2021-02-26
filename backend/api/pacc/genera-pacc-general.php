@@ -68,7 +68,7 @@
                             foreach ($paccFacultad as $item) {
                                 $sheet->setCellValue('A' . $rowCount, $i++);
                                 $sheet->setCellValue('B' . $rowCount, $item['codigoObjetoGasto']);
-                                $sheet->setCellValue('C' . $rowCount, $item['descripcionCuenta']);
+                                $sheet->setCellValue('C' . $rowCount, $item['nombreActividad']);
                                 $sheet->setCellValue('D' . $rowCount, $item['CorrelativoActividad']);
                                 $sheet->setCellValue('E' . $rowCount, $item['unidadDeMedida']);
                                 $sheet->setCellValue('F' . $rowCount, $item['cantidad']);
