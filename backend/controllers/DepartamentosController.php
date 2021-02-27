@@ -10,7 +10,7 @@
             $this->departamentoModel = new Departamento();
         }
         public function listarDepartamentos ($idEstado) {
-            $this->departamentoModel->setIdEstadoDCDU($idEstado);
+            $this->departamentoModel->setIdEstadoDCDU(ESTADO_ACTIVO);
             $this->data = $this->departamentoModel->getDepartamentosActivos();
 
             $_Respuesta = new Respuesta($this->data);

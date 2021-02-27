@@ -646,10 +646,6 @@ const generaTablasAcordeDimension = (object) => {
             let objetosGastos = objetosGasto[0].data;
             let presupuestos = tipoPresupuestos[0].data;
             const { data } = descripcionesAdministrativas[0];
-
-            console.log(objetosGastos);
-            console.log(presupuestos);
-            console.log(data);
             for (let i=0;i<objetosGastos.length;i++) {
                 $('#ObjGasto').append(`
                 <option value="${ objetosGastos[i].idObjetoGasto }">${ objetosGastos[i].abrev } - ${ objetosGastos[i].DescripcionCuenta }</option>
