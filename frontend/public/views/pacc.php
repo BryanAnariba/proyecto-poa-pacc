@@ -58,7 +58,7 @@ include('../partials/doctype.php');
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
                                                 <div class="text-center mt-4">
-                                                    <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" data-target="#modalRegistroDimension">
+                                                    <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" onclick="abrirModalReporteDepartamento()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                                         Reporte Excel por departamento
                                                     </button>
@@ -124,7 +124,7 @@ include('../partials/doctype.php');
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formulario-registro-dimension" class="text-center" style="color: #757575;">
+                    <form id="" class="text-center" style="color: #757575;">
                         <div class="md-form">
                             <select class="browser-default custom-select" id="FechaPresupuesto" required>
                             </select>
@@ -136,6 +136,43 @@ include('../partials/doctype.php');
                 <div class="modal-footer">
                     <div class="text-center mt-4">
                         <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="generarReporteGeneralPACC()">Generar Reporte</button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalGeneraPaccDepartamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar reporte por departamento</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-registro-dimension" class="text-center" style="color: #757575;">
+                        <div class="md-form">
+                            <select class="browser-default custom-select" id="FechaPresupuestoDepartamento" required>
+                            </select>
+                        <span id="errorsFechaPresupuestoDepartamento" class="text-danger text-small d-none">
+                        </span>
+                        </div>
+                        <div class="md-form">
+                            <select class="browser-default custom-select" id="departamento" required>
+                            </select>
+                        <span id="errorsdepartamento" class="text-danger text-small d-none">
+                        </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="generarReporteDepartamentoPACC()">Generar Reporte</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>

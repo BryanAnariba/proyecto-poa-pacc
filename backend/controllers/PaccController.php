@@ -30,14 +30,6 @@
             $_Respuesta->respuestaPeticion();
         }
 
-        // public function generaReporteGeneral ($fechaPresupuestoAnual) {
-        //     $this->paccModel->setFechaPresupuestoAnual($fechaPresupuestoAnual);
-        //     $this->data = $this->paccModel->generaReportePacc();
-            
-        //     $_Respuesta = new Respuesta($this->data);
-        //     $_Respuesta->respuestaPeticion();
-        // }
-
         public function peticionNoAutorizada () {
             $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
                 'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));
