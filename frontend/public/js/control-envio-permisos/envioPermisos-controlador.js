@@ -314,6 +314,7 @@ const registrarSolicitudSinImagenes = () => {
             cancelarRegistroSolicitud();
         },
         error:function (error) {
+            $('#btn-registrar-solicitud').prop('disabled', false);
             const { status, data } = error.responseJSON;
             if (status === 401) {
                 window.location.href = '../views/401.php';
@@ -354,6 +355,7 @@ const registrarSolicitudConImagenes = () => {
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {
+            $('#btn-registrar-solicitud').prop('disabled', false);
             console.log(error.responseText);
             const { status, data } = error.responseJSON;
                 if (status === 401) {
@@ -393,6 +395,7 @@ const registrarSolicitudConFirma = () => {
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {
+            $('#btn-registrar-solicitud').prop('disabled', false);
             console.log(error.responseText);
             const { status, data } = error.responseJSON;
                 if (status === 401) {
@@ -433,6 +436,7 @@ const registrarSolicitudConRespaldo = () => {
                 cancelarRegistroSolicitud();
         }, 
         error:function(error) {
+            $('#btn-registrar-solicitud').prop('disabled', false);
             console.log(error.responseText);
             const { status, data } = error.responseJSON;
                 if (status === 401) {

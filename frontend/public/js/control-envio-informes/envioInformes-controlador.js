@@ -84,6 +84,7 @@ const subirInforme = () => {
                 cancelarRegistroInforme();
         }, 
         error:function(error) {
+            $('#btn-registrar-informe').prop('disabled', false);
             console.log(error.responseText);
             const { status, data } = error.responseJSON;
                 if (status === 401) {
