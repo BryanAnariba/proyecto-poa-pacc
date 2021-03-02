@@ -142,7 +142,7 @@
 
                                 echo json_encode(array(
                                     'status'=> http_response_code(200),
-                                    'data' => array('message' => 'Archivo Pacc del Departamento ' . $departamento->nombreDepartamento . 'Generado Con Exito'),
+                                    'data' => array('message' => 'Archivo Pacc del Departamento ' . $departamento->nombreDepartamento . ' Generado Con Exito'),
                                     'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData),
                                     'departamento' => $departamento->nombreDepartamento
                                 ));

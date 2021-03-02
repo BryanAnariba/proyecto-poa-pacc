@@ -30,6 +30,15 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function generaDataGastosPorDimension ($idPresupuestoAnual, $idDepatamento) {
+            $this->paccModel->setFechaPresupuestoAnual($idPresupuestoAnual);
+            $this->paccModel->setIdDepartamento($idDepatamento);
+            $this->data = $this->paccModel->getDataGastosPorDimnesionLlenada();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function peticionNoAutorizada () {
             $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
                 'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));
