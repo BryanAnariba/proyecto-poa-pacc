@@ -143,6 +143,11 @@
                             <span class="nav__name">Calendario Actividades</span>
                         </a>
 
+                        <a href="../views/control-estudiantes-docentes-estratega.php" class="nav__link">
+                            <img src="../img/control-envio-informes/solicitud.svg" alt="Control de Informes">
+                            <span class="nav__name">Control Estudiantes-Docentes</span>
+                        </a>
+
                         <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
@@ -207,6 +212,12 @@
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
+                        
+                        <a href="../views/control-envio-informes.php" class="nav__link">
+                            <img src="../img/control-envio-informes/solicitud.svg" alt="Control de Informes">
+                            <span class="nav__name">Control Informes</span>
+                        </a>
+                        
                     <?php 
                         break; 
                     ?>
@@ -236,6 +247,11 @@
                         <a href="../views/control-recibir-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/permisos-icon.svg" alt="Control de Usuarios">
                             <span class="nav__name">Control Permisos</span>
+                        </a>
+
+                        <a href="../views/control-envio-informes.php" class="nav__link">
+                            <img src="../img/control-envio-informes/solicitud.svg" alt="Control de Informes">
+                            <span class="nav__name">Control Informes</span>
                         </a>
                     <?php 
                         break; 

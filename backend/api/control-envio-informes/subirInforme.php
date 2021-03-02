@@ -14,7 +14,7 @@
                     $informe = uniqid()."-".$_FILES["informe"]["name"];
                    
                     $ruta1 = "../../uploads/documentosSubidos/envioInformes/".$informe;
-                    if(($_FILES['informe']['type']==="application/pdf")// || $_FILES['informe']['type']==="document/docx"  
+                    if(($_FILES['informe']['type']==="application/pdf") || ($_FILES['informe']['type']==="application/vnd.openxmlformats-officedocument.wordprocessingml.document")  
                        ){
                         if (move_uploaded_file($_FILES["informe"]["tmp_name"], $ruta1)){
                             $permisos = new EnvioInformesController();
@@ -31,7 +31,7 @@
                     }else{
                         echo json_encode(
                            array('status' => http_response_code(400), 'data' => 
-                           array('message' => 'Ha ocurrido un error, la extensión del documento adjunto como informe  no es valido, verifique que sea un formato valido como pdf')));
+                           array('message' => 'Ha ocurrido un error, la extensión del documento adjunto como informe  no es valido, verifique que sea un formato valido como pdf o word.docx')));
                     }
 
                     
