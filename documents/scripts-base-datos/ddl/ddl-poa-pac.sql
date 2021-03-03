@@ -950,23 +950,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Gestion` (
   `idGestion` INT NOT NULL AUTO_INCREMENT,
-  `idPersonaUsuario` INT NOT NULL,
   `idTipoGestion` INT NOT NULL,
   `idTrimestre` INT NOT NULL,
-  `idAccion` INT NOT NULL,
-  `numero` INT NOT NULL,
-  `fecha` DATE NOT NULL,
+  `cantidad` INT UNSIGNED NOT NULL,
   `documentoRespaldo` VARCHAR(255) NULL,
   PRIMARY KEY (`idGestion`),
-  INDEX `fk_Gestion_Usuario1_idx` (`idPersonaUsuario` ASC) VISIBLE,
   INDEX `fk_Gestion_TipoGestion1_idx` (`idTipoGestion` ASC) VISIBLE,
   INDEX `fk_Gestion_Trimestre1_idx` (`idTrimestre` ASC) VISIBLE,
-  INDEX `fk_Gestion_TipoAccion1_idx` (`idAccion` ASC) VISIBLE,
-  CONSTRAINT `fk_Gestion_Usuario1`
-    FOREIGN KEY (`idPersonaUsuario`)
-    REFERENCES `poa-pacc-bd`.`Usuario` (`idPersonaUsuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Gestion_TipoGestion1`
     FOREIGN KEY (`idTipoGestion`)
     REFERENCES `poa-pacc-bd`.`TipoGestion` (`idTipoGestion`)
@@ -975,11 +965,6 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Gestion` (
   CONSTRAINT `fk_Gestion_Trimestre1`
     FOREIGN KEY (`idTrimestre`)
     REFERENCES `poa-pacc-bd`.`Trimestre` (`idTrimestre`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Gestion_TipoAccion1`
-    FOREIGN KEY (`idAccion`)
-    REFERENCES `poa-pacc-bd`.`TipoAccion` (`idAccion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -1003,6 +988,33 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Trimestre` (
   UNIQUE INDEX `nombreTrimeste_UNIQUE` (`nombreTrimeste` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `poa-pacc-bd`.`TipoAccionGestion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`TipoAccionGestion` (
+  `idGestion` INT NOT NULL,
+  `idAccion` INT NOT NULL,
+  `idPersonaUsuario` INT NOT NULL,
+  `fecha` DATE NOT NULL,
+  INDEX `fk_Gestion_has_TipoAccion_TipoAccion1_idx` (`idAccion` ASC) VISIBLE,
+  INDEX `fk_Gestion_has_TipoAccion_Gestion1_idx` (`idGestion` ASC) VISIBLE,
+  INDEX `fk_TipoAccionGestion_Usuario1_idx` (`idPersonaUsuario` ASC) VISIBLE,
+  CONSTRAINT `fk_Gestion_has_TipoAccion_Gestion1`
+    FOREIGN KEY (`idGestion`)
+    REFERENCES `poa-pacc-bd`.`Gestion` (`idGestion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Gestion_has_TipoAccion_TipoAccion1`
+    FOREIGN KEY (`idAccion`)
+    REFERENCES `poa-pacc-bd`.`TipoAccion` (`idAccion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_TipoAccionGestion_Usuario1`
+    FOREIGN KEY (`idPersonaUsuario`)
+    REFERENCES `poa-pacc-bd`.`Usuario` (`idPersonaUsuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
