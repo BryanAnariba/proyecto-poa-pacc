@@ -248,4 +248,30 @@
                 );
             }
         }
+
+        public function getDataGastosPorDimnesionLlenada() {
+            if (is_int($this->fechaPresupuestoAnual) && is_int($this->idDepartamento)) {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT Actividad.idDimension, DimensionEstrategica.dimensionEstrategica, SUM(Actividad.CostoTotal) AS sumatoriaCostosPorDimension, Actividad.fechaCreacionActividad FROM Actividad INNER JOIN DimensionEstrategica ON (Actividad.idDimension = DimensionEstrategica.idDimension) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) WHERE Usuario.idDepartamento = :idDepartamento AND YEAR(Actividad.fechaCreacionActividad) = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto) GROUP BY Actividad.idDimension, DimensionEstrategica.dimensionEstrategica;");
+                $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                $stmt->bindValue(':idPresupuesto', $this->fechaPresupuestoAnual);
+                if ($stmt->execute()) {
+                    return array(
+                        'status'=> SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error, la informacion para generar la grafica de las dimensiones no se pudo ejecutar, intente nuevamente')
+                    );
+                }
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, la informacion digitada es erronea')
+                );
+            }
+        }
     }

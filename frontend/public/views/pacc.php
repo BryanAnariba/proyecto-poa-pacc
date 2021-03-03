@@ -50,7 +50,7 @@ include('../partials/doctype.php');
                                         <div class="card-body row">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
                                                 <div class="text-center mt-4">
-                                                    <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" onclick="abrirModalReporteGeneral()">
+                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReporteGeneral()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                                         Reporte Excel pacc General
                                                     </button>
@@ -58,7 +58,7 @@ include('../partials/doctype.php');
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
                                                 <div class="text-center mt-4">
-                                                    <button type="button" class="btn btn-light-green btn-rounded" data-toggle="modal" onclick="abrirModalReporteDepartamento()">
+                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReporteDepartamento()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                                         Reporte Excel por departamento
                                                     </button>
@@ -73,34 +73,57 @@ include('../partials/doctype.php');
                                     <div class="card bg-primary mb-3 border-primary" style="max-width: 100%">
                                         <div class="card-header text-center text-white">Grafica de distribucion de presupuesto por departamentos</div>
                                         <div class="card-body bg-white">
-                                            <canvas id="grafica-presupuestos-departamentos" width="400">
+                                            <div class="chart-container">
+                                                <canvas id="grafica-presupuestos-departamentos" width="400">
 
-                                            </canvas>
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer border-primary">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
+                                                <div class="text-center mt-4">
+                                                    <button type="button" class="btn amber accent-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalGraficos()">
+                                                        <img src="../img/menu/visualizar-icon.svg" alt="">
+                                                        Ver mas opciones de graficos
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row card-body bg-white">
-                                <div class="col-xl-3 col-lg-3 col-md-3 hidden-col-sm">
-                                </div>
-                                <div class="col-6">
-                                    <div class="md-form">
-                                        <input type="text" id="fechaPresupuesto" class="form-control" disabled />
-                                        <label class="form-label" for="fechaPresupuesto">Año Presupuesto Abierto</label>
+
+                            <div class="container card">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 hidden-col-sm">
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="md-form">
+                                            <input type="text" id="fechaPresupuesto" class="form-control" disabled />
+                                            <label class="form-label" for="fechaPresupuesto">Año Presupuesto Abierto</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-3 hidden-col-sm">
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-lg-3 col-md-3 hidden-col-sm">
-                                </div>
-                                <div class="col-6">
-                                    <div class="md-form">
-                                        <input type="text" id="presupuestoAnual" class="form-control" disabled />
-                                        <label class="form-label" for="presupuestoAnual">Presupuesto Anual Total</label>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                        <div class="md-form">
+                                            <input type="text" id="presupuestoAnual" class="form-control" disabled />
+                                            <label class="form-label" for="presupuestoAnual">Presupuesto Abierto Total</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="md-form">
-                                        <input type="text" id="presupuestoUtilizado" class="form-control" disabled />
-                                        <label class="form-label" for="presupuestoUtilizado">Presupuesto Anual Utilizado</label>
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                        <div class="md-form">
+                                            <input type="text" id="presupuestoUtilizado" class="form-control" disabled />
+                                            <label class="form-label" for="presupuestoUtilizado">Presupuesto Abierto Utilizado</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                        <div class="md-form">
+                                            <input type="text" id="presupuestoDisponible" class="form-control" disabled />
+                                            <label class="form-label" for="presupuestoDisponible">Presupuesto Abierto Disponible</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -128,8 +151,8 @@ include('../partials/doctype.php');
                         <div class="md-form">
                             <select class="browser-default custom-select" id="FechaPresupuesto" required>
                             </select>
-                        <span id="errorsFechaPresupuesto" class="text-danger text-small d-none">
-                        </span>
+                            <span id="errorsFechaPresupuesto" class="text-danger text-small d-none">
+                            </span>
                         </div>
                     </form>
                 </div>
@@ -159,20 +182,85 @@ include('../partials/doctype.php');
                         <div class="md-form">
                             <select class="browser-default custom-select" id="FechaPresupuestoDepartamento" required>
                             </select>
-                        <span id="errorsFechaPresupuestoDepartamento" class="text-danger text-small d-none">
-                        </span>
+                            <span id="errorsFechaPresupuestoDepartamento" class="text-danger text-small d-none">
+                            </span>
                         </div>
                         <div class="md-form">
                             <select class="browser-default custom-select" id="departamento" required>
                             </select>
-                        <span id="errorsdepartamento" class="text-danger text-small d-none">
-                        </span>
+                            <span id="errorsdepartamento" class="text-danger text-small d-none">
+                            </span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
                         <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="generarReporteDepartamentoPACC()">Generar Reporte</button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalGraficos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar grafico de gastos por dimnesion en los departamentos de la facultad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-registron" class="text-center container" style="color: #757575;">
+                        <div class="row">
+                            <div class="col-lx-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="md-form">
+                                    <select class="browser-default custom-select" id="FechaPresupuestoDepartamentoGrafica" required>
+                                    </select>
+                                    <span id="errorsFechaPresupuestoDepartamentoGrafica" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lx-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="md-form">
+                                    <select class="browser-default custom-select" id="departamentoGrafica" required>
+                                    </select>
+                                    <span id="errorsdepartamento" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lx-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="md-form">
+                                    <select class="browser-default custom-select" id="tipoGrafico" required>
+                                        <option value="bar">Grafico de Barra</option>
+                                        <option value="pie">Grafico de Pastel</option>
+                                        <option value="doughnut">Grafico de Dona</option>
+                                    </select>
+                                    <span id="" class="text-danger text-small d-none">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <canvas id="grafica-presupuestos-dimensiones" width="400">
+
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="generarGrafico()">Generar Grafica</button>
                     </div>
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
@@ -190,7 +278,7 @@ include('../partials/doctype.php');
     <script src="../js/validators/form-validator.js"></script>
     <script src="../js/pacc/controlador-pacc.js"></script>
 
-    
+
     <?php
     include('../partials/endDoctype.php');
     ?>

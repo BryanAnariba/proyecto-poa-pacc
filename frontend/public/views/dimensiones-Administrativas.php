@@ -61,7 +61,7 @@ include('../partials/doctype.php');
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Formulario para registrar una dimensión</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Formulario para registrar una dimensión administrativa</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

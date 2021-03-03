@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+    
     $.when(
         $.ajax(`${ API }/pacc/listado-presupuestos-departamento.php`, {
             type: 'POST',
@@ -15,6 +16,8 @@ $( document ).ready(function() {
             $('#presupuestoAnual').val(dataComparativaPresupuestos[0].data.presupuestoAnual).trigger('change');
             $('#presupuestoUtilizado').val(dataComparativaPresupuestos[0].data.montoUtilizado).trigger('change');
             $('#fechaPresupuesto').val(dataComparativaPresupuestos[0].data.fechaPresupuesto).trigger('change');
+            let presupuestoDisponible = Number(dataComparativaPresupuestos[0].data.presupuestoAnual) - Number(dataComparativaPresupuestos[0].data.montoUtilizado);
+            $('#presupuestoDisponible').val(Number.parseFloat(presupuestoDisponible).toFixed(2)).trigger('change');
             let departamentos = data.map(depto => depto.nombreDepartamento);
             let presupuestos = data.map(presupuesto => presupuesto.montoPresupuesto);
             var graficaDepartamentos = document.querySelector('#grafica-presupuestos-departamentos').getContext("2d");
@@ -27,6 +30,12 @@ $( document ).ready(function() {
                         data: presupuestos,
                         backgroundColor: ["#F93154","#1A237E","#4A148C","#00B74A","#FFA900","#1266F1"]
                     }],
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom'
+                    },
                 }
             });
         })
@@ -45,7 +54,7 @@ $( document ).ready(function() {
             });
         });
 });
-
+var grafico;
 const abrirModalReporteGeneral = () => {
     $('#FechaPresupuesto').html(``);
     $.ajax(`${ API }/pacc/genera-lista-anios-presupuestos.php`,{
@@ -207,6 +216,133 @@ const generarReporteDepartamentoPACC = () => {
                         icon: 'success',
                         title: 'Accion realizada Exitosamente',
                         text: `${ data.message }`,
+                    });
+                },
+                error:function(error){
+                    console.log(error.responseText)
+                    const { status, data } = error.responseJSON;
+                    if (status === 401) {
+                        window.location.href = '../views/401.php';
+                    }
+                    console.log(data);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    });
+                }
+            });
+        }
+    }
+}
+
+const abrirModalGraficos = () => {
+
+    let parametros  = { idEstadoDepartamento: parseInt(1) };
+    $.when(
+        $.ajax(`${ API }/pacc/genera-lista-anios-presupuestos.php`,{
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json'
+        }),
+        $.ajax(`${ API }/departamentos/listar-departamentos.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros)
+        })).done(function(dataAniosPresupuesto, dataDepartamentos) {
+            const departamentos = dataDepartamentos[0].data;
+            const aniosPresupuestos = dataAniosPresupuesto[0].data;
+
+            $('#FechaPresupuestoDepartamentoGrafica').html(`<option value="">Seleccione el año en que desea generar el PACC</option>`);
+            for(let i=0; i<aniosPresupuestos.length; i++) {
+                $('#FechaPresupuestoDepartamentoGrafica').append(`<option value="${ aniosPresupuestos[i].idControlPresupuestoActividad }">${ aniosPresupuestos[i].anio }</option>`);
+            }
+            $('#FechaPresupuestoDepartamentoGrafica').select2({ width: '100%' });
+
+            $('#departamentoGrafica').html(`<option value="">Seleccione el departamento en que desea generar el PACC</option>`);
+            for(let i=0; i<departamentos.length; i++) {
+                $('#departamentoGrafica').append(`<option value="${ departamentos[i].idDepartamento }">${ departamentos[i].nombreDepartamento }</option>`);
+            }
+            $('#departamentoGrafica').select2({ width: '100%' });
+            
+            $('#tipoGrafico').select2({ width: '100%' });
+            $('#modalGraficos').modal('show');
+        })
+        .fail(function(error) {
+            console.log('Something went wrong', error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+            });
+        });
+}
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+const generarGrafico = () => {
+    if ($('#FechaPresupuestoDepartamentoGrafica').val() === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: "Seleccione una fecha para generar la grafica de gastos por dimension correspondiente",
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    } else {
+        if ($('#departamentoGrafica').val() === "") { 
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: "Seleccione un departamento para generar la grafica de gastos por dimension correspondiente",
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+            });
+        } else {
+            let parametros = { fechaPresupuestoActividad: parseInt($('#FechaPresupuestoDepartamentoGrafica').val()), idDepartamento: parseInt($('#departamentoGrafica').val()) };
+            $.ajax(`${ API }/pacc/genera-data-dimensiones-estrategicas-departamentos.php`,{
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(parametros),
+                success:function (response) {
+                    const { data } = response;
+                    console.log(data);
+                    var grafica = document.querySelector('#grafica-presupuestos-dimensiones').getContext("2d");
+                    
+                    
+                    let dimensiones = data.map(data => data.dimensionEstrategica);
+                    let gastos = data.map(data => data.sumatoriaCostosPorDimension);
+                    grafico = new Chart(grafica, {
+                        type: $('#tipoGrafico').val(),
+                        data: {
+                            labels: dimensiones,
+                            datasets:[{
+                                label: gastos,
+                                data: gastos,
+                                backgroundColor: dimensiones.map( dimension => (getRandomColor()))
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            legend: {
+                                position: 'bottom'
+                            },
+                        }
                     });
                 },
                 error:function(error){
