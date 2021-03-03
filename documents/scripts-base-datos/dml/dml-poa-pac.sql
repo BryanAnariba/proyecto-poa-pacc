@@ -464,7 +464,7 @@ INSERT INTO `Trimestre` (`nombreTrimeste`)
 VALUES ('Trimestre 1'), ('Trimestre 2'), ('Trimestre 3'), ('Trimestre 4');
 
 INSERT INTO `TipoGestion` (`nombre`) 
-VALUES ('Matriculado'), ('Graduado'), ('Docente');
+VALUES ('Estudiantes Matriculados'), ('Egresados'), ('Docente con Maestria');
 
 INSERT INTO `TipoAccion` (`TipoAccion`) 
 VALUES ('Registro'), ('Modificacion');
