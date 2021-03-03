@@ -142,13 +142,14 @@
                                 <th scope="col"style="text-align:center">#</th>
                                 <th scope="col"style="text-align:center">Departamento</th>
                                 <th scope="col"style="text-align:center">Trimestre</th>
-                                <th scope="col"style="text-align:center">Año</th>
+                                <th scope="col"style="text-align:center">Fecha de Registro</th>
+                                <th scope="col"style="text-align:center">Fecha de Modificación</th>
                                 <th scope="col"style="text-align:center">Población</th>
                                 <th scope="col"style="text-align:center">Cantidad</th>
                                 <th scope="col"style="text-align:center">Usuario Registro</th>
                                 <th scope="col"style="text-align:center">Usuario Modificación</th>
-                                <th scope="col"style="text-align:center">Descargar Documento</th>
-                                <th scope="col"style="text-align:center">Resubir Documento</th>
+                                <th scope="col"style="text-align:center">Visualizar respaldo</th>
+                                <th scope="col"style="text-align:center">Resubir respaldo</th>
                                 <th scope="col"style="text-align:center">Editar</th>
                             </tr>
                         </thead>
@@ -159,6 +160,38 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!--Ver adjuntos-->
+    <div class="modal fade" id="modalRespaldoAdjunto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lm" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Body-->
+            <div class="modal-body text-center mb-1">
+                <div class="container"> 
+                    <h5 align="center" style="color:#191970" >Imagen adjuntada como respaldo:</h5>
+                    <div class="text-center mt-4" id="V-respaldoAdjunto">
+                        
+
+                    </div>  
+                    <hr>                
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer amber accent-4">
+                
+            </div>
+
+        </div>
+    </div>
     </div>
 
     <!--Registrar poblacion Docentes y Estudiantes-->
@@ -192,7 +225,7 @@
                         </form>
                         <div id="tabla" class="tabla" style="display:none">
                             <h4 style="color: #757575;border-bottom:solid 1px  rgba(0, 0, 0, 0.089)" align="center" id="tituloRegistro">Estudiantes matriculados:</h4>
-                            <form class="text-center" style="color: #757575;" action="#!">
+                            <form id="formulario-registro-poblacion" class="text-center form" style="color: #757575;" action="#!">
                                 <div class="form-row">
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
                                         <!-- Trimestre -->
@@ -211,7 +244,7 @@
                                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 m-auto">
                                             <label for="respaldo" id="labelrespaldo" style="display:none"></label>
                                             <!-- <input type="file" id="respaldo" name="respaldo"> -->
-                                            <input type="file" id="documentoSubido" name="documentoSubido" style="display:none" onchange="mostrarValorASubir()"> 
+                                            <input accept="image/png,image/jpeg,image/gif" type="file" id="documentoSubido" name="documentoSubido" style="display:none" onchange="mostrarValorASubir()"> 
                                             <button type="button" class="btn btn-light-blue m-auto"
                                                 onclick="$('#documentoSubido').trigger('click')"
                                             ><img src="../img/control-estudiantes-docentes/upload.svg" alt="Subir">Adjuntar documento de respaldo

@@ -28,50 +28,106 @@ $(document).ready(function(){
 // visualizacion en dataTable
 
 const obtenerDocentesEstudiantes = () =>{
-    $('#DocentesEstudiantes').dataTable().fnDestroy();
-    $('#DocentesEstudiantes tbody').html(``);
-    for (let i=0;i<poblacionRegistro.length; i++) {
-        $('#DocentesEstudiantes tbody').append(`
-            <tr>
-                <td scope="row">${ i + 1 }</td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Departamento }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Trimestre }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Año }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Población }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Cantidad }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Registro }</justify></td>
-                <td><justify class="m-auto">${ poblacionRegistro[i].Modifico }</justify></td>
-                <td class="text-center">
-                        <a  href="../pdfs/${poblacionRegistro[i].Documento}"
-                            download="${poblacionRegistro[i].Documento}" 
-                            id="docDownload"
-                            class="btn btn-info btn-sm"
-                        >
+    let idUsuario = { 'idUsuario': Usuario['idUsuario'] };
+    
+    $.when(
+        $.ajax(`${ API }/control-estudiantes-docentes/obtenerMatriculados.php`, {
+            type: 'POST',
+            dataType: 'json',
+            data: idUsuario
+        }),
+        $.ajax(`${ API }/control-estudiantes-docentes/obtenerEgresados.php`, {
+            type: 'POST',
+            dataType: 'json',
+            data: idUsuario
+        }),
+        $.ajax(`${ API }/control-estudiantes-docentes/obtenerDocentes.php`, {
+            type: 'POST',
+            dataType: 'json',
+            data: idUsuario
+        }))
+        .done(function(matriculadosResponse, egresadosResponse, docentesResponse) {
+            let matriculados = matriculadosResponse[0].data;
+            let egresados = egresadosResponse[0].data;
+            let docentes = docentesResponse[0].data;
+            let poblacionIngresada=[];
+
+            poblacionIngresada=matriculados.concat(egresados);
+            poblacionIngresada=poblacionIngresada.concat(docentes);
+
+            console.log(poblacionIngresada);
+
+            poblacionIngresada.sort(function(a,b){
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.fechaModificacion) - new Date(a.fechaModificacion);
+            });
+
+            poblacionIngresada.sort(function(a,b){
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.fechaRegistro) - new Date(a.fechaRegistro);
+            });
+
+            console.log(poblacionIngresada);
+
+            $('#DocentesEstudiantes').dataTable().fnDestroy();
+            $('#DocentesEstudiantes tbody').html(``);
+            for (let i=0;i<poblacionIngresada.length; i++) {
+                $('#DocentesEstudiantes tbody').append(`
+                    <tr>
+                        <td scope="row">${ i + 1 }</td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].nombreDepartamento }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].nombreTrimeste }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].fechaRegistro }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].fechaModificacion }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].poblacion }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].cantidad }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].registro }</justify></td>
+                        <td><justify class="m-auto">${ poblacionIngresada[i].modifico }</justify></td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-info btn-sm m-auto"
+                            onclick="visualizarAdjuntos('${poblacionIngresada[i].documentoRespaldo}')">
                             <img src="../img/control-recibir-permisos/adjuntos-icono.svg" alt="Ver Mas"/>
-                        </a>
-                </td>
-                <td class="text-center">
-                        <input type="file" id="docUpload" style="display:none" onchange="nuevo()"/> 
-                        <button type="button" class="btn btn-info btn-sm m-auto"
-                            onclick="$('#docUpload').trigger('click')"
-                        >
-                            <img src="../img/control-estudiantes-docentes/upload.svg" alt="Ver Mas"/>
-                        </button>
-                </td>
-                <td class="my-auto">
-                    <button type="button" class="btn btn-info btn-sm m-auto" 
-                        onclick="verModificar('${poblacionRegistro[i].id}','${poblacionRegistro[i].Cantidad}','${poblacionRegistro[i].Trimestre}','${poblacionRegistro[i].Población}')">
-                        <img src="../img/menu/visualizar-icon.svg" alt="verObservacion"/>
-                    </button>
-                </td>
-                
-            </tr>
-        `)
-    }
-    $('#DocentesEstudiantes').DataTable({
-        language: i18nEspaniol,
-        retrieve: true
-    });
+                            </button>
+                         </td>
+                        <td class="text-center">
+                                <input type="file" id="docUpload" style="display:none" onchange="nuevo()"/> 
+                                <button type="button" class="btn btn-info btn-sm m-auto"
+                                    onclick="actualizarRespaldo('${poblacionIngresada[i].id}','${poblacionIngresada[i].cantidad}','${poblacionIngresada[i].nombreTrimeste}','${poblacionIngresada[i].poblacion}')"
+                                >
+                                    <img src="../img/control-estudiantes-docentes/upload.svg" alt="Ver Mas"/>
+                                </button>
+                        </td>
+                        <td class="my-auto">
+                            <button type="button" class="btn btn-info btn-sm m-auto" 
+                                onclick="verModificar('${poblacionIngresada[i].id}','${poblacionIngresada[i].cantidad}','${poblacionIngresada[i].nombreTrimeste}','${poblacionIngresada[i].poblacion}')">
+                                <img src="../img/menu/visualizar-icon.svg" alt="verObservacion"/>
+                            </button>
+                        </td>
+                        
+                    </tr>
+                `)
+            }
+            $('#DocentesEstudiantes').DataTable({
+                language: i18nEspaniol,
+                retrieve: true
+            });
+        })
+        .fail(function(error) {
+            console.log('Something went wrong', error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor verifique el formulario de registro</b>'
+            });
+        });
 }
 
 // llenado de select de poblacion en modal registro
@@ -99,32 +155,64 @@ const verRegistro = () =>{
     });
 }
 
-// cambiar modal en registro cuando se seleccione que poblacion se registrara 
+// 1) Cambiar modal en registro cuando se seleccione que poblacion se registrara.
+// 2) Obtener trimestres y colocar en select.
 
 const cambiarFormulario = () =>{
     $("#tabla").css("display","block");
     $("#registrarNumero").prop("disabled",false);
 
-    var Trimestre = ["Trimestre 1","Trimestre 2","Trimestre 3","Trimestre 4"];
-    
-    document.getElementById("Trimestre").innerHTML=`<option value="" selected disabled>Seleccione un trimestre</option>`;
+    $("#respaldo").val('').trigger("change");
+    $("#documentoSubido").val('');
+    document.querySelector(`#labelrespaldo`).classList.remove('text-danger')
+    document.querySelector('#respaldo').classList.remove('text-danger');
+    document.querySelector('#respaldo').classList.remove('is-invalid')
+    document.querySelector(`#errorsrespaldo`).classList.add('d-none');
 
-    for(let i = 0; i < Trimestre.length;i++){
-        document.getElementById("Trimestre").innerHTML+=`<option value="${i}">${Trimestre[i]}</option>`;
-    }
+    document.querySelector('#Trimestre').classList.remove('text-danger');
+    document.querySelector('#Trimestre').classList.remove('is-invalid')
+    document.querySelector(`#errorsTrimestre`).classList.add('d-none');
 
-    var element = document.querySelector("#Trimestre");
+    $.ajax(`${ API }/control-estudiantes-docentes/obtenerTrimestres.php`, {
+        type: 'POST',
+        dataType: 'json',
+        success:function(response) {
+            const { data } = response;
+            document.getElementById("Trimestre").innerHTML=`<option value="" selected disabled>Seleccione un trimestre</option>`;
 
-    element.addEventListener('focus', function () {
-        this.size=4;
+            for(let i = 0; i < data.length;i++){
+                document.getElementById("Trimestre").innerHTML+=`<option value="${data[i].idTrimestre}">${data[i].nombreTrimeste}</option>`;
+            }
+
+            var element = document.querySelector("#Trimestre");
+
+            element.addEventListener('focus', function () {
+                this.size=4;
+            });
+            element.addEventListener('change', function () {
+                this.size=1;
+                this.blur();
+            });
+            element.addEventListener('blur', function () {
+                this.size=1;
+            });
+        },
+        error:function(error) {
+            console.log(error);
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor verifique el formulario de registro</b>'
+                })
+            };
+        }
     });
-    element.addEventListener('change', function () {
-        this.size=1;
-        this.blur();
-    });
-    element.addEventListener('blur', function () {
-        this.size=1;
-    });
+
     idPoblacion = $('select[id="Poblacion"] option:selected').text();
     switch(idPoblacion) {
         case 'Estudiantes Matriculados':
@@ -293,7 +381,7 @@ const enviar = () =>{
     let numeroPoblacion = null;
     let respaldo = document.querySelector('#respaldo');
 
-    var poblacion = null;
+    let poblacion = null;
 
     if(document.querySelector("#Poblacion").value==1){
         numeroPoblacion=document.querySelector('#NumEstudiantesMatriculados');
@@ -327,59 +415,57 @@ const enviar = () =>{
        (isValidnumeroPoblacion === true) &&
        (isValidRespaldo === true)
    ) {
-        $("#Trimestre").val('').trigger("change");
-        $("#respaldo").val('').trigger("change");
-        $("#documentoSubido").val('');
-        $(`#${poblacion}`).val('').trigger("change");
-        $("#tabla").css("display","none");
-        Swal.fire({
-            icon: 'success',
-            title: 'Listo!',
-            text: `El registro de numero de ${$('select[id="Poblacion"] option:selected').text()} se realizo con exito`,
-            footer: '<b></b>'
-        });
-        verRegistro();
-        document.querySelector(`#labelrespaldo`).classList.remove('text-danger')
-        document.querySelector('#respaldo').classList.remove('text-danger');
-        document.querySelector('#respaldo').classList.remove('is-invalid')
-        document.querySelector(`#errorsrespaldo`).classList.add('d-none');
-        $("#registrarNumero").prop("disabled",true);
-    //    const dataNuevoCarrera = {
-    //        Carrera: Carrera.value,
-    //        Abreviatura: Abreviatura.value,
-    //        Departamento: Departamento.value,
-    //        Estado: Estado.value
-    //    };
-    //    $.ajax(`${ API }/Carreras/registrarCarrera.php`, {
-    //        type: 'POST',
-    //        dataType: 'json',
-    //        data: (dataNuevoCarrera),
-    //        success:function(response) {
-    //            const { data } = response;
-    //            $("#Carrera").val('').trigger("change");
-    //            $("#Abreviatura").val('').trigger("change");
-    //            $("#Departamento").val('').trigger("change");
-    //            $("#Estado").val('').trigger("change");
-    //            Swal.fire({
-    //                icon: 'success',
-    //                title: 'Accion realizada Exitosamente',
-    //                text: `${ data.message }`,
-    //            })
-    //        },
-    //        error:function(error) {
-    //            const { status, data } = error.responseJSON;
-    //            if (status === 401) {
-    //                window.location.href = '../views/401.php';
-    //            }else{
-    //                Swal.fire({
-    //                    icon: 'error',
-    //                    title: 'Ops...',
-    //                    text: `${ data.message }`,
-    //                    footer: '<b>Por favor verifique el formulario de registro</b>'
-    //                })
-    //            };
-    //        }
-    //    });
+        const formData = new FormData($("#formulario-registro-poblacion")[0]);
+        formData.append('Trimestre', Trimestre.value);
+        formData.append('numeroPoblacion', JSON.parse(numeroPoblacion.value));
+        formData.append('respaldo', respaldo.value);
+        formData.append('poblacion', poblacion);
+        formData.append('idUsuario', Usuario['idUsuario']);
+       $.ajax(`${ API }/control-estudiantes-docentes/ingresarDocentesEstudiantes.php`, {
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+           success:function(response) {
+                const { data } = response;
+
+                $("#Trimestre").val('').trigger("change");
+                $("#respaldo").val('').trigger("change");
+                $("#documentoSubido").val('');
+                $(`#${poblacion}`).val('').trigger("change");
+                $("#tabla").css("display","none");
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Listo!',
+                    text: `El registro de numero de ${data.message} se realizo con exito`,
+                    footer: '<b></b>'
+                });
+
+                verRegistro();
+                
+                document.querySelector(`#labelrespaldo`).classList.remove('text-danger')
+                document.querySelector('#respaldo').classList.remove('text-danger');
+                document.querySelector('#respaldo').classList.remove('is-invalid')
+                document.querySelector(`#errorsrespaldo`).classList.add('d-none');
+                $("#registrarNumero").prop("disabled",true);
+           },
+           error:function(error) {
+               console.log(error);
+               const { status, data } = error.responseJSON;
+               if (status === 401) {
+                   window.location.href = '../views/401.php';
+               }else{
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Ops...',
+                       text: `${ data.message }`,
+                       footer: '<b>Por favor verifique el formulario de registro</b>'
+                   })
+               };
+           }
+       });
    } else { // caso contrario mostrar alerta y notificar al usuario 
        Swal.fire({
            icon: 'error',
@@ -407,7 +493,7 @@ const Modificar=(poblacion,id)=>{
         poblacionVar="NumDocentesM";
     }
     // Tipando los atributos con los valores de la base de datos bueno algunos
-    let tR = { valorEtiqueta: Trimestre, id: 'Trimestre', name: 'Trimestre', type: 'select' };
+    let tR = { valorEtiqueta: Trimestre, id: 'TrimestreM', name: 'TrimestreM', type: 'select' };
     let nP = { valorEtiqueta: numeroPoblacion, id: poblacionVar, name: poblacionVar, min: 1, max: 4, type: 'text' };
    
 
@@ -420,51 +506,42 @@ const Modificar=(poblacion,id)=>{
        (isValidTrimestre === true) &&
        (isValidnumeroPoblacion === true) 
    ) {
-        $("#TrimestreM").val('').trigger("change");
-        $(`#${poblacionVar}`).val('').trigger("change");
-        Swal.fire({
-            icon: 'success',
-            title: 'Listo!',
-            text: `El numero de ${poblacion} se modifico con exito`,
-            footer: '<b></b>'
+        const dataPoblacionRegistro = {
+           Trimestre: Trimestre.value,
+           numeroPoblacion: JSON.parse(numeroPoblacion.value),
+           poblacion:poblacion,
+           idUsuario: Usuario['idUsuario']
+        };
+        $.ajax(`${ API }/control-estudiantes-docentes/modificarDocentesEstudiantes.php`, {
+            type: 'POST',
+            dataType: 'json',
+            data: (dataPoblacionRegistro),
+            success:function(response) {
+                    const { data } = response;
+                    console.log(data)
+                    // $("#TrimestreM").val('').trigger("change");
+                    // $(`#${poblacionVar}`).val('').trigger("change");
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Listo!',
+                    //     text: `El numero de ${poblacion} se modifico con exito`,
+                    //     footer: '<b></b>'
+                    // });
+            },
+            error:function(error) {
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: `${ data.message }`,
+                        footer: '<b>Por favor verifique el formulario de registro</b>'
+                    })
+                };
+            }
         });
-        verModificar();
-    //    const dataNuevoCarrera = {
-    //        Carrera: Carrera.value,
-    //        Abreviatura: Abreviatura.value,
-    //        Departamento: Departamento.value,
-    //        Estado: Estado.value
-    //    };
-    //    $.ajax(`${ API }/Carreras/registrarCarrera.php`, {
-    //        type: 'POST',
-    //        dataType: 'json',
-    //        data: (dataNuevoCarrera),
-    //        success:function(response) {
-    //            const { data } = response;
-    //            $("#Carrera").val('').trigger("change");
-    //            $("#Abreviatura").val('').trigger("change");
-    //            $("#Departamento").val('').trigger("change");
-    //            $("#Estado").val('').trigger("change");
-    //            Swal.fire({
-    //                icon: 'success',
-    //                title: 'Accion realizada Exitosamente',
-    //                text: `${ data.message }`,
-    //            })
-    //        },
-    //        error:function(error) {
-    //            const { status, data } = error.responseJSON;
-    //            if (status === 401) {
-    //                window.location.href = '../views/401.php';
-    //            }else{
-    //                Swal.fire({
-    //                    icon: 'error',
-    //                    title: 'Ops...',
-    //                    text: `${ data.message }`,
-    //                    footer: '<b>Por favor verifique el formulario de registro</b>'
-    //                })
-    //            };
-    //        }
-    //    });
    } else { // caso contrario mostrar alerta y notificar al usuario 
        Swal.fire({
            icon: 'error',
@@ -568,4 +645,20 @@ const nuevo = () =>{
     //            };
     //        }
     //    });
+}
+
+
+//petición para obtener la imagen adjunta de la solicitud seleccionada
+const visualizarAdjuntos = (respaldo) => {
+    console.log(respaldo);
+    $('#modalRespaldoAdjunto').modal('show');
+    if (respaldo != null){
+        $('#V-respaldoAdjunto').html(`<img src="../../../backend/uploads/documentoRespaldo/departamento/${respaldo}" class="mx-auto img-fluid  img-responsive" /> `);
+    }else {
+        $('#V-respaldoAdjunto').html(`<h6 align="center" style="color:#ffc107" > No se adjunto imagen de respaldo <h6/> `);
+    }
+}
+
+const actualizarRespaldo = () =>{
+    $('#docUpload').trigger('click')
 }

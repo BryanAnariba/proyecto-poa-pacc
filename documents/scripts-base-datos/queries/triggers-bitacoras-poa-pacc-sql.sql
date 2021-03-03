@@ -2732,7 +2732,7 @@ begin
     declare valorI json;
     declare valorf json;
     set valorI = '{}';
-    set valorf = JSON_OBJECT('idGestionDocente',new.idGestionDocente,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numDocenteMaestria',new.numDocenteMaestria,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set valorf = JSON_OBJECT('idGestionDocente',new.idGestionDocente,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numDocenteMaestria',new.numDocenteMaestria,'fechaRegistro',new.fechaRegistro,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     
 	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
@@ -2749,8 +2749,8 @@ create trigger `modificarGestionDocente`
 begin
     declare viejo json;
     declare nuevo json;
-    set viejo = JSON_OBJECT('idGestionDocente',old.idGestionDocente,'idPersonaUsuario',old.idPersonaUsuario,'idTrimestre',old.idTrimestre,'numDocenteMaestria',old.numDocenteMaestria,'fechaRegistro',old.fechaRegistro,'documentoRespaldo',old.documentoRespaldo);
-    set nuevo = JSON_OBJECT('idGestionDocente',new.idGestionDocente,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numDocenteMaestria',new.numDocenteMaestria,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set viejo = JSON_OBJECT('idGestionDocente',old.idGestionDocente,'idPersonaUsuarioRegistro',old.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',old.idPersonaUsuarioModificacion,'idTrimestre',old.idTrimestre,'numDocenteMaestria',old.numDocenteMaestria,'fechaRegistro',old.fechaRegistro,'fechaRegistro',old.fechaRegistro,'fechaModificacion',old.fechaModificacion,'documentoRespaldo',old.documentoRespaldo);
+    set nuevo = JSON_OBJECT('idGestionDocente',new.idGestionDocente,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numDocenteMaestria',new.numDocenteMaestria,'fechaRegistro',new.fechaRegistro,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
     values (@persona,2,viejo,nuevo,now());
@@ -2767,9 +2767,9 @@ begin
     declare temp2 json;
     declare cont int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionDocente,JSON_OBJECT('idGestionDocente',idGestionDocente,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numDocenteMaestria',numDocenteMaestria,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestiondocentes);
-    set cont = (SELECT count(*) FROM gestiondocentes);
-    set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiondocentes',cont),temp);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionDocente,JSON_OBJECT('idGestionDocente',idGestionDocente,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numDocenteMaestria',numDocenteMaestria,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestiondocente);
+    set cont = (SELECT count(*) FROM gestiondocente);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiondocente',cont),temp);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
     values (@persona,3,temp2,'{}',now());
@@ -2787,9 +2787,9 @@ begin
     declare temp2 json;
     declare cont2 int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionDocente,JSON_OBJECT('idGestionDocente',idGestionDocente,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numDocenteMaestria',numDocenteMaestria,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestiondocentes);
-    set cont2 = (SELECT count(*) FROM gestiondocentes);
-    set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiondocentes',cont2),temp);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionDocente,JSON_OBJECT('idGestionDocente',idGestionDocente,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numDocenteMaestria',numDocenteMaestria,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestiondocente);
+    set cont2 = (SELECT count(*) FROM gestiondocente);
+    set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiondocente',cont2),temp);
     set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
     
     UPDATE `poa-pacc-bd`.`bitacora` 
@@ -2808,7 +2808,7 @@ begin
     declare valorI json;
     declare valorf json;
     set valorI = '{}';
-    set valorf = JSON_OBJECT('idGestionGraduado',new.idGestionGraduado,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numGraduado',new.numGraduado,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set valorf = JSON_OBJECT('idGestionGraduado',new.idGestionGraduado,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numGraduado',new.numGraduado,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     
 	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
@@ -2825,8 +2825,8 @@ create trigger `modificarGestionGraduado`
 begin
     declare viejo json;
     declare nuevo json;
-    set viejo = JSON_OBJECT('idGestionGraduado',old.idGestionGraduado,'idPersonaUsuario',old.idPersonaUsuario,'idTrimestre',old.idTrimestre,'numGraduado',old.numGraduado,'fechaRegistro',old.fechaRegistro,'documentoRespaldo',old.documentoRespaldo);
-    set nuevo = JSON_OBJECT('idGestionGraduado',new.idGestionGraduado,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numGraduado',new.numGraduado,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set viejo = JSON_OBJECT('idGestionGraduado',old.idGestionGraduado,'idPersonaUsuarioRegistro',old.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',old.idPersonaUsuarioModificacion,'idTrimestre',old.idTrimestre,'numGraduado',old.numGraduado,'fechaRegistro',old.fechaRegistro,'fechaModificacion',old.fechaModificacion,'documentoRespaldo',old.documentoRespaldo);
+    set nuevo = JSON_OBJECT('idGestionGraduado',new.idGestionGraduado,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numGraduado',new.numGraduado,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
     values (@persona,2,viejo,nuevo,now());
@@ -2843,7 +2843,7 @@ begin
     declare temp2 json;
     declare cont int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionGraduado,JSON_OBJECT('idGestionGraduado',idGestionGraduado,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numGraduado',numGraduado,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestiongraduado);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionGraduado,JSON_OBJECT('idGestionGraduado',idGestionGraduado,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numGraduado',numGraduado,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestiongraduado);
     set cont = (SELECT count(*) FROM gestiongraduado);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiongraduado',cont),temp);
     insert into
@@ -2863,7 +2863,7 @@ begin
     declare temp2 json;
     declare cont2 int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionGraduado,JSON_OBJECT('idGestionGraduado',idGestionGraduado,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numGraduado',numGraduado,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestiongraduado);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionGraduado,JSON_OBJECT('idGestionGraduado',idGestionGraduado,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numGraduado',numGraduado,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestiongraduado);
     set cont2 = (SELECT count(*) FROM gestiongraduado);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestiongraduado',cont2),temp);
     set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
@@ -2884,7 +2884,7 @@ begin
     declare valorI json;
     declare valorf json;
     set valorI = '{}';
-    set valorf = JSON_OBJECT('idGestionMatriculado',new.idGestionMatriculado,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numMatriculado',new.numMatriculado,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set valorf = JSON_OBJECT('idGestionMatriculado',new.idGestionMatriculado,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numMatriculado',new.numMatriculado,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     
 	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
@@ -2901,8 +2901,8 @@ create trigger `modificarGestionMatriculado`
 begin
     declare viejo json;
     declare nuevo json;
-    set viejo = JSON_OBJECT('idGestionMatriculado',old.idGestionMatriculado,'idPersonaUsuario',old.idPersonaUsuario,'idTrimestre',old.idTrimestre,'numMatriculado',old.numMatriculado,'fechaRegistro',old.fechaRegistro,'documentoRespaldo',old.documentoRespaldo);
-    set nuevo = JSON_OBJECT('idGestionMatriculado',new.idGestionMatriculado,'idPersonaUsuario',new.idPersonaUsuario,'idTrimestre',new.idTrimestre,'numMatriculado',new.numMatriculado,'fechaRegistro',new.fechaRegistro,'documentoRespaldo',new.documentoRespaldo);
+    set viejo = JSON_OBJECT('idGestionMatriculado',old.idGestionMatriculado,'idPersonaUsuarioRegistro',old.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',old.idPersonaUsuarioModificacion,'idTrimestre',old.idTrimestre,'numMatriculado',old.numMatriculado,'fechaRegistro',old.fechaRegistro,'fechaModificacion',old.fechaModificacion,'documentoRespaldo',old.documentoRespaldo);
+    set nuevo = JSON_OBJECT('idGestionMatriculado',new.idGestionMatriculado,'idPersonaUsuarioRegistro',new.idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',new.idPersonaUsuarioModificacion,'idTrimestre',new.idTrimestre,'numMatriculado',new.numMatriculado,'fechaRegistro',new.fechaRegistro,'fechaModificacion',new.fechaModificacion,'documentoRespaldo',new.documentoRespaldo);
     insert into
     `poa-pacc-bd`.`bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
     values (@persona,2,viejo,nuevo,now());
@@ -2919,7 +2919,7 @@ begin
     declare temp2 json;
     declare cont int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionMatriculado,JSON_OBJECT('idGestionMatriculado',idGestionMatriculado,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numMatriculado',numMatriculado,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestionmatriculado);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionMatriculado,JSON_OBJECT('idGestionMatriculado',idGestionMatriculado,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numMatriculado',numMatriculado,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestionmatriculado);
     set cont = (SELECT count(*) FROM gestionmatriculado);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestionmatriculado',cont),temp);
     insert into
@@ -2939,7 +2939,7 @@ begin
     declare temp2 json;
     declare cont2 int;
     
-    set temp = (SELECT (JSON_OBJECTAGG(idGestionMatriculado,JSON_OBJECT('idGestionMatriculado',idGestionMatriculado,'idPersonaUsuario',idPersonaUsuario,'idTrimestre',idTrimestre,'numMatriculado',numMatriculado,'fechaRegistro',fechaRegistro,'documentoRespaldo',documentoRespaldo))) as json FROM gestionmatriculado);
+    set temp = (SELECT (JSON_OBJECTAGG(idGestionMatriculado,JSON_OBJECT('idGestionMatriculado',idGestionMatriculado,'idPersonaUsuarioRegistro',idPersonaUsuarioRegistro,'idPersonaUsuarioModificacion',idPersonaUsuarioModificacion,'idTrimestre',idTrimestre,'numMatriculado',numMatriculado,'fechaRegistro',fechaRegistro,'fechaModificacion',fechaModificacion,'documentoRespaldo',documentoRespaldo))) as json FROM gestionmatriculado);
     set cont2 = (SELECT count(*) FROM gestionmatriculado);
     set temp2 = JSON_OBJECT(JSON_OBJECT('Total gestionmatriculado',cont2),temp);
     set cont = (SELECT MAX(idBitacora) AS id FROM bitacora);
