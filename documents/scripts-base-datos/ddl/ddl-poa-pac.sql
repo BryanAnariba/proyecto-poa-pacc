@@ -973,7 +973,7 @@ ENGINE = InnoDB;
 -- Table `poa-pacc-bd`.`TipoAccion`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`TipoAccion` (
-  `idAccion` INT NOT NULL,
+  `idAccion` INT NOT NULL AUTO_INCREMENT,
   `TipoAccion` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`idAccion`))
 ENGINE = InnoDB;
