@@ -13,7 +13,7 @@
     include('../partials/doctype.php');;
     include('verifica-session.php');
 ?>
-<title>Control de Carreras</title>
+<title>Control de Docentes y Estudiantes</title>
 <!--En esta zona podran poner estilos propios de la vista-->
 <link rel="stylesheet" href="../css/animaciones/animate.min.css">
 <!-- <link rel="stylesheet" href="../css/control-estudiantes-docentes/control-estudiantes-docentes.css"> -->
@@ -140,10 +140,9 @@
                         <thead>
                             <tr>
                                 <th scope="col"style="text-align:center">#</th>
-                                <th scope="col"style="text-align:center">Departamento</th>
                                 <th scope="col"style="text-align:center">Trimestre</th>
-                                <th scope="col"style="text-align:center">Fecha de Registro</th>
-                                <th scope="col"style="text-align:center">Fecha de Modificación</th>
+                                <th scope="col"style="text-align:center">Fecha de registro</th>
+                                <th scope="col"style="text-align:center">Fecha de ultima modificación</th>
                                 <th scope="col"style="text-align:center">Población</th>
                                 <th scope="col"style="text-align:center">Cantidad</th>
                                 <th scope="col"style="text-align:center">Usuario Registro</th>
@@ -154,6 +153,9 @@
                             </tr>
                         </thead>
                     </table>
+                    <tbody>
+
+                    </tbody>
                 </div>
                 <div class="modal-footer card-footer amber accent-4">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
@@ -243,12 +245,11 @@
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mx-auto">
                                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 m-auto">
                                             <label for="respaldo" id="labelrespaldo" style="display:none"></label>
-                                            <!-- <input type="file" id="respaldo" name="respaldo"> -->
                                             <input accept="image/png,image/jpeg,image/gif" type="file" id="documentoSubido" name="documentoSubido" style="display:none" onchange="mostrarValorASubir()"> 
                                             <button type="button" class="btn btn-light-blue m-auto"
                                                 onclick="$('#documentoSubido').trigger('click')"
-                                            ><img src="../img/control-estudiantes-docentes/upload.svg" alt="Subir">Adjuntar documento de respaldo
-                                            </button>
+                                            ><img src="../img/control-estudiantes-docentes/upload.svg" alt="Subir"><br>Adjuntar documento de respaldo <br> (Opcional)
+                                            </button><br>
                                             <span id="errorsrespaldo" class="text-danger text-small d-none">
                                                 
                                             </span>
@@ -305,7 +306,6 @@
                 <div class="modal-body">
                     <div class="modal-body text-center mb-1">
                         <div id="tablaM" class="tabla">
-                            <h4 style="color: #757575;border-bottom:solid 1px  rgba(0, 0, 0, 0.089)" align="center" id="tituloRegistroM">Estudiantes matriculados:</h4>
                             <form class="text-center" style="color: #757575;" action="#!">
                                 <div class="form-row">
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
@@ -319,7 +319,17 @@
                                         </div>
                                     </div>
                                     <div id="campoNumM" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
-                                        
+                                        <div class="md-form">
+                                            <input type="number" id="Cantidad" class="form-control" maxlength="2">
+                                            <span id="errorsCantidad" class="text-danger text-small d-none">
+                                            </span>
+                                            <label 
+                                                for="Cantidad"
+                                                id="labelCantidad"
+                                            >
+                                            Cantidad personas
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -345,6 +355,72 @@
                                 aria-label="Close"
                                 id="cerrarM"
                         >Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modificar Respaldo-->
+    <div 
+        class="modal fade" 
+        id="modalModificarRespaldo" 
+        tabindex="-1" role="dialog" 
+        aria-labelledby="ModificarRespaldoLabel" 
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="ModificarRespaldoLabel">Modificar Respaldo</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body text-center mb-1">
+                        <div id="tabla" class="tabla">
+                            <form id="formulario-modificacion-respaldo" class="text-center form" style="color: #757575;" action="#!">
+                                <div class="form-row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mx-auto">
+                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 m-auto">
+                                            <label for="respaldoM" id="labelrespaldoM" style="display:none"></label>
+                                            <input accept="image/png,image/jpeg,image/gif" type="file" id="documentoSubidoM" name="documentoSubidoM" style="display:none" onchange="mostrarValorRespaldoASubir()"> 
+                                            <button type="button" class="btn btn-light-blue m-auto"
+                                                onclick="$('#documentoSubidoM').trigger('click')"
+                                            ><img src="../img/control-estudiantes-docentes/upload.svg" alt="Subir"><br>Adjuntar documento de respaldo <br> (Opcional)
+                                            </button><br>
+                                            <span id="errorsrespaldoM" class="text-danger text-small d-none">
+                                                
+                                            </span>
+                                        </div><br>
+                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 m-auto">
+                                            <input style="width:100%" type="text" id="respaldoM" name="respaldoM" class="form-control" placeholder="Documento subido" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer amber accent-4">
+                    <div class="text-center">
+                        <button 
+                            type="button" 
+                            class="btn btn-light-green btn-rounded btn-sm" 
+                            id="modificarRespaldo"
+                            onclick="verModificacionRespaldo()"
+                        >modificarRespaldo
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <button onclick="CerrarModalM2()" 
+                                type="button" 
+                                class="btn btn-danger btn-rounded btn-sm" 
+                                data-dismiss="modal" 
+                                aria-label="Close"
+                                id="cerrarM2"
+                        >Cancelar
+                        </button>
                     </div>
                 </div>
             </div>
