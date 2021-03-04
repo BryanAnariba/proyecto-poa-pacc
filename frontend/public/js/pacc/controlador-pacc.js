@@ -1,5 +1,12 @@
 $( document ).ready(function() {
-    
+    // $('#listado-dimensiones').DataTable();
+    // $('#listado-dimensiones tbody').html(``);
+    // $('#listado-dimensiones').DataTable({
+    //     language: i18nEspaniol,
+    //     dom: 'Blfrtip',
+    //     buttons: botonesExportacion,
+    //     retrieve: true
+    // });
     $.when(
         $.ajax(`${ API }/pacc/listado-presupuestos-departamento.php`, {
             type: 'POST',
@@ -238,7 +245,6 @@ const generarReporteDepartamentoPACC = () => {
 }
 
 const abrirModalGraficos = () => {
-
     let parametros  = { idEstadoDepartamento: parseInt(1) };
     $.when(
         $.ajax(`${ API }/pacc/genera-lista-anios-presupuestos.php`,{
@@ -296,7 +302,11 @@ function getRandomColor() {
     return color;
 }
 
-const generarGrafico = () => {
+const generarReportes = () => {
+    
+    //$('#listado-dimensiones tbody').html(``);
+    $('#listado-dimensiones').dataTable().fnDestroy();
+    // $('#listado-dimensiones tbody').dataTable().fnDestroy();
     if ($('#FechaPresupuestoDepartamentoGrafica').val() === "") {
         Swal.fire({
             icon: 'error',
@@ -314,6 +324,7 @@ const generarGrafico = () => {
             });
         } else {
             let parametros = { fechaPresupuestoActividad: parseInt($('#FechaPresupuestoDepartamentoGrafica').val()), idDepartamento: parseInt($('#departamentoGrafica').val()) };
+            
             $.ajax(`${ API }/pacc/genera-data-dimensiones-estrategicas-departamentos.php`,{
                 type: 'POST',
                 dataType: 'json',
@@ -322,27 +333,27 @@ const generarGrafico = () => {
                 success:function (response) {
                     const { data } = response;
                     console.log(data);
-                    var grafica = document.querySelector('#grafica-presupuestos-dimensiones').getContext("2d");
-                    
-                    
-                    let dimensiones = data.map(data => data.dimensionEstrategica);
-                    let gastos = data.map(data => data.sumatoriaCostosPorDimension);
-                    grafico = new Chart(grafica, {
-                        type: $('#tipoGrafico').val(),
-                        data: {
-                            labels: dimensiones,
-                            datasets:[{
-                                label: gastos,
-                                data: gastos,
-                                backgroundColor: dimensiones.map( dimension => (getRandomColor()))
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            legend: {
-                                position: 'bottom'
-                            },
-                        }
+        
+                    $('#listado-dimensiones tbody').html(``);
+                    for (let i=0;i<data.length; i++) {
+                        
+    
+                        $('#listado-dimensiones tbody').append(`
+                            <tr>
+                                <td scope="row" class="text-center">${ data[i].idDimension }</td>
+                                <td scope="row" style="background-color: #7CB342;" class="text-white text-center">${ data[i].dimensionEstrategica }</td>
+                                <td scope="row" style="background-color: #D50000;" class="text-white text-center">${ data[i].sumatoriaCostosPorDimension }</td>
+                                <td scope="row" class="text-center">${ data[i].nombreDepartamento }</td>
+                                <td scope="row" class="text-center">${ data[i].anioActividades }</td>
+                            </tr>
+                        `)
+                    }
+
+                    $('#listado-dimensiones').DataTable({
+                        language: i18nEspaniol,
+                        dom: 'Blfrtip',
+                        buttons: botonesExportacion,
+                        retrieve: true
                     });
                 },
                 error:function(error){

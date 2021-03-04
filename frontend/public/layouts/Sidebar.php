@@ -42,11 +42,6 @@
                             <img src="../img/partial-sidebar/graduacion-icon.svg" alt="Control de Dimensiones">
                             <span class="nav__name">Tramites Graduacion</span>
                         </a>
-
-                        <a href="../views/pacc.php" class="nav__link">
-                            <img src="../img/pacc/pacc.svg" alt="Control PACC">
-                            <span class="nav__name">Control PACC</span>
-                        </a>
                     <?php 
                         break; 
                     ?>
@@ -152,6 +147,9 @@
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
                         </a>
+                        <a href="../views/pacc.php" class="nav__link">
+                            <img src="../img/pacc/pacc.svg" alt="Control PACC">
+                            <span class="nav__name">Control PACC</span>
                         </a>
                     <?php 
                         break; 
@@ -181,6 +179,10 @@
                         <a href="../views/control-envio-permisos.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control Permisos</span>
+                        </a>
+                        <a href="../views/pacc.php" class="nav__link">
+                            <img src="../img/pacc/pacc.svg" alt="Control PACC">
+                            <span class="nav__name">Control PACC</span>
                         </a>
                     <?php 
                         break; 

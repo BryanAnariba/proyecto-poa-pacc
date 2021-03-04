@@ -3,8 +3,9 @@ session_start();
 if (!isset($_SESSION['correoInstitucional'])) {
     header('Location: 401.php');
 }
-$superAdmin = 'S_AC';
-if ($_SESSION['abrevTipoUsuario'] != $superAdmin) {
+$usuarioEstratega = 'U_E';
+$secretariaAdministrativa = 'SE_AD';
+if (($_SESSION['abrevTipoUsuario'] != $usuarioEstratega) && ($_SESSION['abrevTipoUsuario'] != $secretariaAdministrativa)) {
     header('Location: 401.php');
 }
 include('../partials/doctype.php');
@@ -14,6 +15,8 @@ include('../partials/doctype.php');
 <!--En esta zona podran poner estilos propios de la vista-->
 <link rel="stylesheet" href="../css/sweet-alert-two/sweetalert2.min.css">
 
+<link rel="stylesheet" href="../js/data-tables/datatables.min.css">
+<link rel="stylesheet" href="../js/data-tables/DataTables/css/dataTables.bootstrap4.min.css">
 
 <link rel="stylesheet" href="https:use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 <link rel="stylesheet" href="../js/chartjs/css/Chart.css" />
@@ -24,6 +27,8 @@ include('../partials/doctype.php');
 <script src="../js/chartjs/Chart.bundle.js"></script>
 <script src="../js/chartjs/Chart.min.js"></script>
 <script src="../js/chartjs/Chart.js"></script>
+
+
 </head>
 
 <body id="body-pd">
@@ -84,7 +89,7 @@ include('../partials/doctype.php');
                                                 <div class="text-center mt-4">
                                                     <button type="button" class="btn amber accent-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalGraficos()">
                                                         <img src="../img/menu/visualizar-icon.svg" alt="">
-                                                        Ver mas opciones de graficos
+                                                        Ver mas opciones de reportes de excel
                                                     </button>
                                                 </div>
                                             </div>
@@ -217,7 +222,7 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-body">
                     <form id="formulario-registron" class="text-center container" style="color: #757575;">
-                        <div class="row">
+                        <div class="row my-auto">
                             <div class="col-lx-4 col-lg-4 col-md-6 col-sm-12">
                                 <div class="md-form">
                                     <select class="browser-default custom-select" id="FechaPresupuestoDepartamentoGrafica" required>
@@ -235,50 +240,87 @@ include('../partials/doctype.php');
                                 </div>
                             </div>
                             <div class="col-lx-4 col-lg-4 col-md-6 col-sm-12">
-                                <div class="md-form">
-                                    <select class="browser-default custom-select" id="tipoGrafico" required>
-                                        <option value="bar">Grafico de Barra</option>
-                                        <option value="pie">Grafico de Pastel</option>
-                                        <option value="doughnut">Grafico de Dona</option>
-                                    </select>
-                                    <span id="" class="text-danger text-small d-none">
-                                    </span>
+                                <div class="text-center mt-4">
+                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="generarReportes()">
+                                        <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                        Ver resultados
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </form>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="chart-container">
-                                <canvas id="grafica-presupuestos-dimensiones" width="400">
-
-                                </canvas>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table" id="listado-dimensiones">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Numero Dimension</th>
+                                            <th scope="col">Dimension Estrategica</th>
+                                            <th scope="col">Gasto Total</th>
+                                            <th scope="col">Departamento</th>
+                                            <th scope="col">Año Presupuesto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gasto-por-dimension-institucionales">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="text-center mt-4">
-                        <button id="btn-registrar-dimension" type="button" class="btn btn-light-green btn-rounded" onclick="generarGrafico()">Generar Grafica</button>
-                    </div>
-                    <div class="text-center mt-4">
-                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+
+                    <div class="modal-footer">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
-    <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
-
-    <script src="../js/libreria-bootstrap-mdb/select2.min.js"></script>
-    <script src="../js/config/config.js"></script>
-    <script src="../js/validators/form-validator.js"></script>
-    <script src="../js/pacc/controlador-pacc.js"></script>
 
 
-    <?php
-    include('../partials/endDoctype.php');
-    ?>
+        <!-- <div class="modal fade" id="listadoGastos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar grafico de gastos por dimnesion en los departamentos de la facultad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <script src="../js/sweet-alert-two/sweetalert2.min.js"></script>
+        <script src="../js/libreria-bootstrap-mdb/jquery.min.js"></script>
+
+        <script src="../js/data-tables/datatables.min.js"></script>
+
+        <script src="../js/data-tables/Buttons/js/dataTables.buttons.min.js"></script>
+        <script src="../js/data-tables/JSZip/jszip.min.js"></script>
+        <script src="../js/data-tables/pdfmake/pdfmake.min.js"></script>
+        <script src="../js/data-tables/pdfmake/vfs_fonts.js"></script>
+        <script src="../js/data-tables/Buttons/js/buttons.html5.min.js"></script>
+
+        <script src="../js/libreria-bootstrap-mdb/select2.min.js"></script>
+        <script src="../js/config/config.js"></script>
+        <script src="../js/validators/form-validator.js"></script>
+        <script src="../js/pacc/controlador-pacc.js"></script>
+
+
+        <?php
+        include('../partials/endDoctype.php');
+        ?>
