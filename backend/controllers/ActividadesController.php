@@ -187,6 +187,12 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function verEstadoPresupuestoAnual () {
+            $this->data = $this->actividadesModel->verificaEstadoPresupuestoAnual();
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function generaDataActividad ($idActividad) {
             $this->actividadesModel->setIdActividad($idActividad);
 

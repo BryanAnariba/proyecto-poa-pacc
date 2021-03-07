@@ -165,6 +165,12 @@ my user -> bsancheza@unah.hn , YTsisOwvTcVx
         IM -> Jefe depto
         -> usernameTen@unah.hn, Le03FcoUTCBh
 
+        IC -> Coordinador Carrera
+        -> usernameElevens@unah.hn, v4TOJPaeVYW1
+
+        IC -> Jefe Carrera
+        -> usernameTwelve@unah.hn, bDJqEEQZWBAz
+
         Secretaria Academica
         academiS@unah.hn, YIL3SNRykUP2
 
