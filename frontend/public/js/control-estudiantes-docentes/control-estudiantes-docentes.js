@@ -19,36 +19,36 @@ const obtenerDocentesEstudiantes = () =>{
                     let fecha;
                     let usuario;
                     if(data[i].fechaModificacion==null || data[i].modifico==null){
-                        fecha=data[i].fechaRegistro;
-                        usuario=data[i].registro
+                        fecha="No modificado";
+                        usuario="No modificado"
                     }else{
                         fecha=data[i].fechaModificacion
                         usuario=data[i].modifico
                     }
                     $('#DocentesEstudiantes tbody').append(`
                         <tr>
-                            <td scope="row">${ i + 1 }</td>
-                            <td><center class="m-auto">${ data[i].nombreTrimeste }</center></td>
-                            <td><center class="m-auto">${ data[i].fechaRegistro }</center></td>
-                            <td><center class="m-auto">${ fecha }</center></td>
-                            <td><center class="m-auto">${ data[i].poblacion }</center></td>
-                            <td><center class="m-auto">${ data[i].cantidad }</center></td>
-                            <td><center class="m-auto">${ data[i].registro }</center></td>
-                            <td><center class="m-auto">${ usuario }</center></td>
-                            <td class="text-center">
+                            <td scope="col"><center class="m-auto">${ i + 1 }</center></td>
+                            <td scope="col"><center class="m-auto">${ data[i].nombreTrimeste }</center></td>
+                            <td scope="col"><center class="m-auto">${ data[i].fechaRegistro }</center></td>
+                            <td scope="col"><center class="m-auto">${ fecha }</center></td>
+                            <td scope="col"><center class="m-auto">${ data[i].poblacion }</center></td>
+                            <td scope="col"><center class="m-auto">${ data[i].cantidad }</center></td>
+                            <td scope="col"><center class="m-auto">${ data[i].registro }</center></td>
+                            <td scope="col"><center class="m-auto">${ usuario }</center></td>
+                            <td class="text-center" scope="col">
                                 <button type="button" class="btn btn-info btn-sm m-auto"
                                 onclick="visualizarAdjuntos('${data[i].idGestion}')">
                                 <img src="../img/control-recibir-permisos/adjuntos-icono.svg" alt="Ver Mas"/>
                                 </button>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" scope="col">
                                     <button type="button" class="btn btn-info btn-sm m-auto"
                                         onclick="verModificacionRespaldo('${data[i].idGestion}')"
                                     >
                                         <img src="../img/control-estudiantes-docentes/upload.svg" alt="Ver Mas"/>
                                     </button>
                             </td>
-                            <td class="my-auto">
+                            <td class="my-auto" scope="col">
                                 <button type="button" class="btn btn-info btn-sm m-auto" 
                                     onclick="verModificar('${data[i].idTipoGestion}','${data[i].idGestion}','${data[i].cantidad}','${data[i].nombreTrimeste}','${data[i].poblacion}','${data[i].fechaRegistro}')">
                                     <img src="../img/menu/visualizar-icon.svg" alt="verObservacion"/>
