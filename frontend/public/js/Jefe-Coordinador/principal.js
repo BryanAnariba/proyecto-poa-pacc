@@ -301,21 +301,36 @@ const avanzar = (idDimension,dimensionEstrategica) =>{
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json'
+        }),
+        $.ajax(`${ API }/actividades/ver-estado-presupuesto-anual.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
         })) 
-        .done(function(objetivoResponse, comparativaPresupuestosResponse) {
-            let listadoObjetivos = objetivoResponse[0].data;
-            let comparativaPresupuestoTotalUsuado = comparativaPresupuestosResponse[0].data;
-            $('#ObjInstitucional').append(`<option value="" selected>Seleccione Objetivo Institucional</option>`);
-            for(let i=0; i<listadoObjetivos.length; i++) {
-                $('#ObjInstitucional').append(`
-                    <option value="${ listadoObjetivos[i].idObjetivoInstitucional }">${ listadoObjetivos[i].objetivoInstitucional }</option>
-                `);
+        .done(function(objetivoResponse, comparativaPresupuestosResponse, estadoPresupuestoAnual) {
+            let estadoPresupuestoAnualActividades = estadoPresupuestoAnual[0].data; 
+            if (estadoPresupuestoAnualActividades.message === true) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'La fecha para el llenado de actividades ya cerro, no puede ingresar mas actividades al sistema hasta que la secretaria administrativa habilite el presupuesto',
+                    footer: '<b style="text-align: center;">Para mas informacion comuniquese con la secretaria administrativa</b>'
+                })
+            } else {
+                let listadoObjetivos = objetivoResponse[0].data;
+                let comparativaPresupuestoTotalUsuado = comparativaPresupuestosResponse[0].data;
+                $('#ObjInstitucional').append(`<option value="" selected>Seleccione Objetivo Institucional</option>`);
+                for(let i=0; i<listadoObjetivos.length; i++) {
+                    $('#ObjInstitucional').append(`
+                        <option value="${ listadoObjetivos[i].idObjetivoInstitucional }">${ listadoObjetivos[i].objetivoInstitucional }</option>
+                    `);
+                }
+                console.log(comparativaPresupuestoTotalUsuado)
+                $('#PresupuestoUtilizado').val(Number(comparativaPresupuestoTotalUsuado.presupuestoConsumidoPorDepto))
+                $('#PresupuestoDisponible').val(Number(comparativaPresupuestoTotalUsuado.presupuestoTotalDepartamento))
+                $('#modalLlenadoDimension').modal('hide');
+                $('#modalFormLlenadoDimension').modal('show');
             }
-            console.log(comparativaPresupuestoTotalUsuado)
-            $('#PresupuestoUtilizado').val(Number(comparativaPresupuestoTotalUsuado.presupuestoConsumidoPorDepto))
-            $('#PresupuestoDisponible').val(Number(comparativaPresupuestoTotalUsuado.presupuestoTotalDepartamento))
-            $('#modalLlenadoDimension').modal('hide');
-            $('#modalFormLlenadoDimension').modal('show');
         })
         .fail(function(error) {
             console.log('Something went wrong', error);
@@ -328,7 +343,7 @@ const avanzar = (idDimension,dimensionEstrategica) =>{
                 title: 'Ops...',
                 text: `${ data.message }`,
                 footer: '<b>Recargue la pagina nuevamente</b>'
-            })
+            });
         });
 };
 

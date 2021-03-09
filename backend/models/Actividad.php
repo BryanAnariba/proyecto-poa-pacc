@@ -224,6 +224,33 @@
             }
         }
 
+        public function verificaEstadoPresupuestoAnual () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT * FROM ControlPresupuestoActividad WHERE estadoLlenadoActividades = :estadoLlenado");
+                $stmt->bindValue(':estadoLlenado', ESTADO_ACTIVO);
+                if ($stmt->execute() && ($stmt->rowCount() == 0)) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => array('message' => true)
+                    );
+                } else {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => array('message' => false)
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status' => SUCCESS_REQUEST,
+                    'data' => array('message' => false)
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
         public function getActividadesPorDimension () {
             try {
                 $this->conexionBD = new Conexion();
