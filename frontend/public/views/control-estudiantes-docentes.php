@@ -148,7 +148,7 @@
                                 <th scope="col"style="text-align:center">Usuario Registro</th>
                                 <th scope="col"style="text-align:center">Usuario Modificación</th>
                                 <th scope="col"style="text-align:center">Visualizar respaldo</th>
-                                <th scope="col"style="text-align:center">Resubir respaldo</th>
+                                <th scope="col"style="text-align:center">Re subir respaldo</th>
                                 <th scope="col"style="text-align:center">Editar</th>
                             </tr>
                         </thead>
@@ -409,7 +409,7 @@
                             class="btn btn-light-green btn-rounded btn-sm" 
                             id="modificarRespaldo"
                             onclick="verModificacionRespaldo()"
-                        >modificarRespaldo
+                        >modificar Respaldo
                         </button>
                     </div>
                     <div class="text-center">

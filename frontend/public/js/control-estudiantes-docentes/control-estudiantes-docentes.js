@@ -60,9 +60,7 @@ const obtenerDocentesEstudiantes = () =>{
                 }
                 $('#DocentesEstudiantes').DataTable({
                     language: i18nEspaniol,
-                    retrieve: true,
-                    "scrollY": false,
-                    "scrollX": true
+                    retrieve: true
                 });
         },
         error:function(error) {
