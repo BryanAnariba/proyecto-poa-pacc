@@ -104,7 +104,7 @@
                                                 inner join departamento
                                                 on departamento.idDepartamento=usuario.idDepartamento
                                                 where departamento.idDepartamento=(select d.idDepartamento from usuario u inner join departamento d on d.idDepartamento=u.idDepartamento where u.idPersonaUsuario=:idUsuario)
-                                                ORDER BY fechaModificacion, fechaRegistro ASC"
+                                                ORDER BY fechaModificacion desc, fechaRegistro asc"
                 );
                 $stmt->bindValue(':idUsuario', $this->idUsuario);
                 if ($stmt->execute()) {

@@ -21,6 +21,6 @@ begin
 	else
 		update tipoacciongestion
 		set fecha = now(), idPersonaUsuario=@persona
-		where idGestion=new.idGestion;
+		where idGestion=new.idGestion and idAccion=2;
 	end if;
 end//

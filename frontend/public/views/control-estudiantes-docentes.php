@@ -127,7 +127,7 @@
         tabindex="-1" role="dialog" 
         aria-labelledby="VisualizarDocentesEstudiantesLabel" 
         aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 1280px">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
                     <h4 class="modal-title w-100" id="VisualizarDocentesEstudiantesLabel">Listado de Docentes y Estudiantes</h4>
@@ -148,7 +148,7 @@
                                 <th scope="col"style="text-align:center">Usuario Registro</th>
                                 <th scope="col"style="text-align:center">Usuario Modificación</th>
                                 <th scope="col"style="text-align:center">Visualizar respaldo</th>
-                                <th scope="col"style="text-align:center">Resubir respaldo</th>
+                                <th scope="col"style="text-align:center">Re subir respaldo</th>
                                 <th scope="col"style="text-align:center">Editar</th>
                             </tr>
                         </thead>
@@ -409,7 +409,7 @@
                             class="btn btn-light-green btn-rounded btn-sm" 
                             id="modificarRespaldo"
                             onclick="verModificacionRespaldo()"
-                        >modificarRespaldo
+                        >modificar Respaldo
                         </button>
                     </div>
                     <div class="text-center">
