@@ -18,6 +18,11 @@
         private $mesRequerido;
         private $descripcion;
         private $unidadDeMedida;
+        private $valorInicial;
+        private $valorFinal;
+
+        private $idDepartamento;
+        private $anioPlanificacion;
 
         private $conexionBD;
         private $consulta;
@@ -130,6 +135,64 @@
         public function setUnidadDeMedida($unidadDeMedida) {
             $this->unidadDeMedida = $unidadDeMedida;
             return $this;
+        }
+
+        public function getIdDepartamento() {
+            return $this->idDepartamento;
+        }
+
+        public function setIdDepartamento($idDepartamento) {
+            $this->idDepartamento = $idDepartamento;
+            return $this;
+        }
+
+        public function getAnioPlanificacion(){
+            return $this->anioPlanificacion;
+        }
+
+        public function setAnioPlanificacion($anioPlanificacion) {
+            $this->anioPlanificacion = $anioPlanificacion;
+            return $this;
+        }
+
+                        /**
+         * Get the value of valorInicial
+         */ 
+        public function getValorInicial()
+        {
+                return $this->valorInicial;
+        }
+
+        /**
+         * Set the value of valorInicial
+         *
+         * @return  self
+         */ 
+        public function setValorInicial($valorInicial)
+        {
+                $this->valorInicial = $valorInicial;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of valorFinal
+         */ 
+        public function getValorFinal()
+        {
+                return $this->valorFinal;
+        }
+
+        /**
+         * Set the value of valorFinal
+         *
+         * @return  self
+         */ 
+        public function setValorFinal($valorFinal)
+        {
+                $this->valorFinal = $valorFinal;
+
+                return $this;
         }
 
         public function __construct () {
@@ -390,5 +453,174 @@
                 );
             }
         }
+
+
+        // Desglose de Inventario para el sistema de inventario
+        public function getItemsParaCompraInventario () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ITEMS_INVENTARIO AS (SELECT DescripcionAdministrativa.idObjetoGasto,ObjetoGasto.codigoObjetoGasto, ObjetoGasto.descripcionCuenta, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.costo AS valorUnitario, DescripcionAdministrativa.nombreActividad, Departamento.idDepartamento, Departamento.nombreDepartamento, YEAR(Actividad.fechaCreacionActividad) AS anioPlanificacion FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT * FROM CTE_LISTA_ITEMS_INVENTARIO WHERE CTE_LISTA_ITEMS_INVENTARIO.anioPlanificacion = :fecha LIMIT :valorInicial, :valorFinal;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':valorInicial', $this->valorInicial);
+                $stmt->bindValue(':valorFinal', $this->valorFinal);
+                if ($stmt->execute()) {
+                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCantidadRegistrosTotales () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ITEMS_INVENTARIO AS (SELECT DescripcionAdministrativa.idObjetoGasto,Departamento.idDepartamento, COUNT(Actividad.idActividad) AS cantidadRegistros, YEAR(Actividad.fechaCreacionActividad) AS anioPlanificacion FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT CTE_LISTA_ITEMS_INVENTARIO.cantidadRegistros FROM CTE_LISTA_ITEMS_INVENTARIO WHERE CTE_LISTA_ITEMS_INVENTARIO.anioPlanificacion = :fecha");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                if ($stmt->execute()) {
+                    return $stmt->fetchObject();
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getItemsCompraPorDeparamento () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ITEMS_INVENTARIO AS (SELECT DescripcionAdministrativa.idObjetoGasto,ObjetoGasto.codigoObjetoGasto, ObjetoGasto.descripcionCuenta, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.costo AS valorUnitario, DescripcionAdministrativa.nombreActividad, Departamento.idDepartamento, Departamento.nombreDepartamento, YEAR(Actividad.fechaCreacionActividad) AS anioPlanificacion FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT * FROM CTE_LISTA_ITEMS_INVENTARIO WHERE CTE_LISTA_ITEMS_INVENTARIO.anioPlanificacion = :fecha AND CTE_LISTA_ITEMS_INVENTARIO.idDepartamento = :idDepartamento LIMIT :valorInicial, :valorFinal;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                $stmt->bindValue(':valorInicial', $this->valorInicial);
+                $stmt->bindValue(':valorFinal', $this->valorFinal);
+                if ($stmt->execute()) {
+                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCantidadRegistrosPorDepartamento () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT COUNT(Departamento.idDepartamento) AS cantidadRegistros FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE YEAR(Actividad.fechaCreacionActividad) = :fecha AND Departamento.idDepartamento = :idDepartamento;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                if ($stmt->execute()) {
+                    return $stmt->fetchObject();
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getItemsCompraPorObjeto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ITEMS_INVENTARIO AS (SELECT DescripcionAdministrativa.idObjetoGasto,ObjetoGasto.codigoObjetoGasto, ObjetoGasto.descripcionCuenta, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.costo AS valorUnitario, DescripcionAdministrativa.nombreActividad, Departamento.idDepartamento, Departamento.nombreDepartamento, YEAR(Actividad.fechaCreacionActividad) AS anioPlanificacion FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT * FROM CTE_LISTA_ITEMS_INVENTARIO WHERE CTE_LISTA_ITEMS_INVENTARIO.anioPlanificacion = :fecha AND CTE_LISTA_ITEMS_INVENTARIO.idObjetoGasto = :idObjetoGasto LIMIT :valorInicial, :valorFinal;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                $stmt->bindValue(':valorInicial', $this->valorInicial);
+                $stmt->bindValue(':valorFinal', $this->valorFinal);
+                if ($stmt->execute()) {
+                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCantidadRegistrosPorObjeto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT COUNT(*) AS cantidadRegistros FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE YEAR(Actividad.fechaCreacionActividad) = :fecha AND ObjetoGasto.idObjetoGasto = :idObjetoGasto;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                if ($stmt->execute()) {
+                    return $stmt->fetchObject();
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getItemsCompraPorObjetoYDepto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ITEMS_INVENTARIO AS (SELECT DescripcionAdministrativa.idObjetoGasto,ObjetoGasto.codigoObjetoGasto, ObjetoGasto.descripcionCuenta, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.Cantidad, DescripcionAdministrativa.costo AS valorUnitario, DescripcionAdministrativa.nombreActividad, Departamento.idDepartamento, Departamento.nombreDepartamento, YEAR(Actividad.fechaCreacionActividad) AS anioPlanificacion FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT * FROM CTE_LISTA_ITEMS_INVENTARIO WHERE CTE_LISTA_ITEMS_INVENTARIO.anioPlanificacion = :fecha AND CTE_LISTA_ITEMS_INVENTARIO.idObjetoGasto = :idObjetoGasto AND CTE_LISTA_ITEMS_INVENTARIO.idDepartamento = :idDepartamento LIMIT :valorInicial, :valorFinal;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                $stmt->bindValue(':valorInicial', $this->valorInicial);
+                $stmt->bindValue(':valorFinal', $this->valorFinal);
+                if ($stmt->execute()) {
+                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function getCantidadRegistrosPorObjetoYDepto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("SELECT COUNT(*) AS cantidadRegistros FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE YEAR(Actividad.fechaCreacionActividad) = :fecha AND ObjetoGasto.idObjetoGasto = :idObjetoGasto AND Departamento.idDepartamento = :idDepartamento;");
+                $stmt->bindValue(':fecha', $this->anioPlanificacion);
+                $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                if ($stmt->execute()) {
+                    return $stmt->fetchObject();
+                } else {
+                    return false;
+                }
+            } catch (PDOException $ex) {
+                return false;
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
     }
 ?>

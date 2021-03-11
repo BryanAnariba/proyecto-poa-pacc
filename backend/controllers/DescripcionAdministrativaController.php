@@ -75,6 +75,90 @@
 
         }
 
+        public function getDataTotalParaCompraInventario ($anioPlaninicacion, $valorInicial, $valorFinal) {
+            $this->descripcionAdministrativaModel->setAnioPlanificacion($anioPlaninicacion);
+            $this->descripcionAdministrativaModel->setValorInicial($valorInicial);
+            $this->descripcionAdministrativaModel->setValorFinal($valorFinal);
+            $articulos = $this->descripcionAdministrativaModel->getItemsParaCompraInventario();
+            $cantidadRegistros = $this->descripcionAdministrativaModel->getCantidadRegistrosTotales();
+
+            if ($articulos != false && $cantidadRegistros != false) {
+                echo json_encode(array(
+                    'status' => SUCCESS_REQUEST, 
+                    'totalItemsPOA' => $cantidadRegistros,
+                    'articulos' => $articulos));
+            } else {
+                $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Ha ocurrido un error, los articulos no fueron listados'));
+
+                $_Respuesta = new Respuesta($this->data);
+                $_Respuesta->respuestaPeticion();
+            }
+        }
+
+        public function getDataParaCompraInventarioPorDepto ($anioPlaninicacion, $valorInicial, $valorFinal, $idDepartamento) {
+            $this->descripcionAdministrativaModel->setAnioPlanificacion($anioPlaninicacion);
+            $this->descripcionAdministrativaModel->setValorInicial($valorInicial);
+            $this->descripcionAdministrativaModel->setValorFinal($valorFinal);
+            $this->descripcionAdministrativaModel->setIdDepartamento($idDepartamento);
+            $articulos = $this->descripcionAdministrativaModel->getItemsCompraPorDeparamento();
+            $cantidadRegistros = $this->descripcionAdministrativaModel->getCantidadRegistrosPorDepartamento();
+
+            if ($articulos != false && $cantidadRegistros != false) {
+                echo json_encode(array(
+                    'status' => SUCCESS_REQUEST, 
+                    'totalItemsPorDepto' => $cantidadRegistros,
+                    'articulos' => $articulos));
+            } else {
+                $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Ha ocurrido un error, los articulos no fueron listados'));
+
+                $_Respuesta = new Respuesta($this->data);
+                $_Respuesta->respuestaPeticion();
+            }
+        }
+
+        public function getDataParaCompraInventarioPorObjeto ($anioPlaninicacion, $valorInicial, $valorFinal, $idObjetoGasto) {
+            $this->descripcionAdministrativaModel->setAnioPlanificacion($anioPlaninicacion);
+            $this->descripcionAdministrativaModel->setValorInicial($valorInicial);
+            $this->descripcionAdministrativaModel->setValorFinal($valorFinal);
+            $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
+            $articulos = $this->descripcionAdministrativaModel->getItemsCompraPorObjeto();
+            $cantidadRegistros = $this->descripcionAdministrativaModel->getCantidadRegistrosPorObjeto();
+
+            if ($articulos != false && $cantidadRegistros != false) {
+                echo json_encode(array(
+                    'status' => SUCCESS_REQUEST, 
+                    'totalItemsPorObjetoGasto' => $cantidadRegistros,
+                    'articulos' => $articulos));
+            } else {
+                $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Ha ocurrido un error, los articulos no fueron listados'));
+
+                $_Respuesta = new Respuesta($this->data);
+                $_Respuesta->respuestaPeticion();
+            }
+        }
+
+        public function getDataParaCompraInventarioPorObjetoDepto ($anioPlaninicacion, $valorInicial, $valorFinal, $idObjetoGasto, $idDepartamento) {
+            $this->descripcionAdministrativaModel->setAnioPlanificacion($anioPlaninicacion);
+            $this->descripcionAdministrativaModel->setValorInicial($valorInicial);
+            $this->descripcionAdministrativaModel->setValorFinal($valorFinal);
+            $this->descripcionAdministrativaModel->setIdObjetoGasto($idObjetoGasto);
+            $this->descripcionAdministrativaModel->setIdDepartamento($idDepartamento);
+            $articulos = $this->descripcionAdministrativaModel->getItemsCompraPorObjetoYDepto();
+            $cantidadRegistros = $this->descripcionAdministrativaModel->getCantidadRegistrosPorObjetoYDepto();
+
+            if ($articulos != false && $cantidadRegistros != false) {
+                echo json_encode(array(
+                    'status' => SUCCESS_REQUEST, 
+                    'itemsPorObjetoGastoYDepto' => $cantidadRegistros,
+                    'articulos' => $articulos));
+            } else {
+                $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Ha ocurrido un error, los articulos no fueron listados'));
+
+                $_Respuesta = new Respuesta($this->data);
+                $_Respuesta->respuestaPeticion();
+            }
+        }
+
         public function peticionNoValida () {
             $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Tipo de peticion no valida'));
 

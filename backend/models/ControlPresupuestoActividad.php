@@ -53,13 +53,12 @@
         }
         public function getEstadoLlenadoActividades()
         {
-                return $this->estadoLlenadoActividades;
+            return $this->estadoLlenadoActividades;
         }
         public function setEstadoLlenadoActividades($estadoLlenadoActividades)
         {
-                $this->estadoLlenadoActividades = $estadoLlenadoActividades;
-
-                return $this;
+            $this->estadoLlenadoActividades = $estadoLlenadoActividades;
+            return $this;
         }
 
         public function verificaCantidadPresupuestosAbiertos() {
@@ -380,6 +379,32 @@
                 }
                 
             }
+        }
+
+        public function getAniosPresupuestoPOA() {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_VER_PRESUPUESTOS_DEPTO AS (SELECT controlPresupuestoActividad.idControlPresupuestoActividad, controlPresupuestoActividad.presupuestoAnual, date_format(controlPresupuestoActividad.fechaPresupuestoAnual, '%Y') AS fechaPresupuesto, ControlPresupuestoActividad.idEstadoPresupuestoAnual, controlPresupuestoActividad.estadoLlenadoActividades FROM ControlPresupuestoActividad) SELECT CTE_VER_PRESUPUESTOS_DEPTO.idControlPresupuestoActividad,  CTE_VER_PRESUPUESTOS_DEPTO.fechaPresupuesto FROM CTE_VER_PRESUPUESTOS_DEPTO ORDER BY CTE_VER_PRESUPUESTOS_DEPTO.idControlPresupuestoActividad DESC;");
+                if ($stmt->execute()) {
+                    return array(
+                        'status'=> SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'ha ocurrido un error al ver los presupuestos, vuelva a ingresar la informacion')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            } 
         }
     }
 ?>

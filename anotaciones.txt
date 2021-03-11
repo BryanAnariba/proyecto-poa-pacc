@@ -1,7 +1,0 @@
-Que servicios web necesito -> deben ser publicas
-
-Filtros -> nombreDepartamento, DescripcionCuenta 
-
-Get Items Descripcion Administrativca
-Get Departamentos Activos
-Get Objetos Activos

@@ -77,7 +77,6 @@
                             <img src="../img/partial-sidebar/ObjetosGasto-icon.png" alt="Control de Objetos de Gasto">
                             <span class="nav__name">Control Objetos de Gasto</span>
                         </a>
-
                         <a href="../views/control-llenado-actividades.php" class="nav__link">
                             <img src="../img/partial-sidebar/envio-permiso-icon.svg" alt="Control de Carreras">
                             <span class="nav__name">Control llenado actividades</span>
