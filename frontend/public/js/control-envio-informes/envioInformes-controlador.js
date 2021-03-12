@@ -146,7 +146,7 @@ const listarInformesPendientes = () => {
             `)
         }
         $('#listado-informesPendientes').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true
@@ -205,7 +205,7 @@ const listarInformesAprobados = () => {
             `)
         }
         $('#listado-informesAprobados').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true

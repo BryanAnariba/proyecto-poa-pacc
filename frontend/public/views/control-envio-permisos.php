@@ -367,7 +367,7 @@ include('verifica-session.php');
                         <div class="form-row">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="btn btn-light-blue btn-rounded">
-                                        <span>Adjuntar imagenes de respaldo /Opc</span>
+                                        <span>Adjuntar imagen de respaldo /Opc</span>
                                         <input type="file" id="respaldo" name="respaldo">
                                     </div>
                                 </div>

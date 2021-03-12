@@ -946,6 +946,25 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`TipoGestion` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `poa-pacc-bd`.`TipoAccion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`TipoAccion` (
+  `idAccion` INT NOT NULL AUTO_INCREMENT,
+  `TipoAccion` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`idAccion`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `poa-pacc-bd`.`Trimestre`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Trimestre` (
+  `idTrimestre` INT NOT NULL AUTO_INCREMENT,
+  `nombreTrimeste` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idTrimestre`),
+  UNIQUE INDEX `nombreTrimeste_UNIQUE` (`nombreTrimeste` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `poa-pacc-bd`.`Gestion`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Gestion` (
@@ -967,25 +986,6 @@ CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Gestion` (
     REFERENCES `poa-pacc-bd`.`Trimestre` (`idTrimestre`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `poa-pacc-bd`.`TipoAccion`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`TipoAccion` (
-  `idAccion` INT NOT NULL AUTO_INCREMENT,
-  `TipoAccion` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`idAccion`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `poa-pacc-bd`.`Trimestre`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `poa-pacc-bd`.`Trimestre` (
-  `idTrimestre` INT NOT NULL AUTO_INCREMENT,
-  `nombreTrimeste` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idTrimestre`),
-  UNIQUE INDEX `nombreTrimeste_UNIQUE` (`nombreTrimeste` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
