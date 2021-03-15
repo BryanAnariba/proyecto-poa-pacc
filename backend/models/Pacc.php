@@ -16,6 +16,8 @@
     class Pacc {
         private $fechaPresupuestoAnual;
         private $idDepartamento;
+        private $idPresupuesto;
+        private $idObjetoGasto;
 
         
         public function getFechaPresupuestoAnual() {
@@ -33,6 +35,25 @@
 
         public function setIdDepartamento($idDepartamento) {
             $this->idDepartamento = $idDepartamento;
+            return $this;
+        }
+
+        public function getIdPresupuesto() {
+            return $this->idPresupuesto;
+        }
+
+        public function setIdPresupuesto($idPresupuesto) {
+            $this->idPresupuesto = $idPresupuesto;
+            return $this;
+        }
+
+        
+        public function getIdObjetoGasto() {
+            return $this->idObjetoGasto;
+        }
+
+        public function setIdObjetoGasto($idObjetoGasto) {
+            $this->idObjetoGasto = $idObjetoGasto;
             return $this;
         }
 
@@ -104,7 +125,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ANIOS_PRESUPUESTOS AS (SELECT ControlPresupuestoActividad.idControlPresupuestoActividad, YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) AS anio FROM ControlPresupuestoActividad) SELECT * FROM CTE_LISTA_ANIOS_PRESUPUESTOS; ");
+                $stmt = $this->consulta->prepare("WITH CTE_LISTA_ANIOS_PRESUPUESTOS AS (SELECT ControlPresupuestoActividad.idControlPresupuestoActividad, YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) AS anio FROM ControlPresupuestoActividad) SELECT * FROM CTE_LISTA_ANIOS_PRESUPUESTOS ORDER BY CTE_LISTA_ANIOS_PRESUPUESTOS.anio DESC; ");
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -123,10 +144,10 @@
             }
         }
 
-        public function generaPaccFacultadIngenieria () {
+        public function generaPaccFacultadIngenieria ($orderBy) {
             $this->conexionBD = new Conexion();
             $this->consulta = $this->conexionBD->connect();
-            $stmt = $this->consulta->prepare("WITH CTE_QUERY_PACC_INGENIERIA AS (SELECT Actividad.CorrelativoActividad, ObjetoGasto.codigoObjetoGasto, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.cantidad, DescripcionAdministrativa.costo, DescripcionAdministrativa.costoTotal, Departamento.nombreDepartamento FROM DescripcionAdministrativa INNER JOIN  Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto)) SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA.nombreDepartamento ASC;");
+            $stmt = $this->consulta->prepare("WITH CTE_QUERY_PACC_INGENIERIA AS (SELECT Actividad.CorrelativoActividad, ObjetoGasto.codigoObjetoGasto, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.cantidad, DescripcionAdministrativa.costo, DescripcionAdministrativa.costoTotal, Departamento.nombreDepartamento FROM DescripcionAdministrativa INNER JOIN  Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto)) SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA. " . $orderBy . " ASC;");
             $stmt->bindValue(':idPresupuesto', $this->fechaPresupuestoAnual);
             if ($stmt->execute()) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -191,10 +212,10 @@
             }
         }
 
-        public function generaPaccPorDepartamento () {
+        public function generaPaccPorDepartamento ($orderBy) {
             $this->conexionBD = new Conexion();
             $this->consulta = $this->conexionBD->connect();
-            $stmt = $this->consulta->prepare("WITH CTE_QUERY_PACC_INGENIERIA AS (SELECT Actividad.CorrelativoActividad, ObjetoGasto.codigoObjetoGasto, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.cantidad, DescripcionAdministrativa.costo, DescripcionAdministrativa.costoTotal, Departamento.nombreDepartamento FROM DescripcionAdministrativa INNER JOIN  Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto) AND Usuario.idDepartamento = :idDepartamento) SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA.nombreDepartamento ASC;");
+            $stmt = $this->consulta->prepare("WITH CTE_QUERY_PACC_INGENIERIA AS (SELECT Actividad.CorrelativoActividad, ObjetoGasto.codigoObjetoGasto, DescripcionAdministrativa.nombreActividad, DescripcionAdministrativa.unidadDeMedida,DescripcionAdministrativa.cantidad, DescripcionAdministrativa.costo, DescripcionAdministrativa.costoTotal, Departamento.nombreDepartamento FROM DescripcionAdministrativa INNER JOIN  Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad,'%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto) AND Usuario.idDepartamento = :idDepartamento) SELECT * FROM CTE_QUERY_PACC_INGENIERIA ORDER BY CTE_QUERY_PACC_INGENIERIA." . $orderBy . " ASC;");
             $stmt->bindValue(':idPresupuesto', $this->fechaPresupuestoAnual);
             $stmt->bindValue(':idDepartamento', $this->idDepartamento);
             if ($stmt->execute()) {
@@ -272,6 +293,129 @@
                     'status'=> BAD_REQUEST,
                     'data' => array('message' => 'Ha ocurrido un error, la informacion digitada es erronea')
                 );
+            }
+        }
+
+        public function generaCostoPorCorrelativoGeneral () {
+            $this->conexionBD = new Conexion();
+            $this->consulta = $this->conexionBD->connect();
+            $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO AS (SELECT Actividad.correlativoActividad, Actividad.costoTotal FROM Actividad WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto)) SELECT * FROM CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO ORDER BY CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO.correlativoActividad ASC;");
+            $stmt->bindValue(':idPresupuesto', $this->fechaPresupuestoAnual);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, los presupuestos no se listaron correctamente')
+                );
+            }
+        } 
+
+        public function generaCostoPorCorrelativoDepartamento () {
+            $this->conexionBD = new Conexion();
+            $this->consulta = $this->conexionBD->connect();
+            $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO AS (SELECT Actividad.correlativoActividad, Actividad.costoTotal, Actividad.idPersonaUsuario, Usuario.idDepartamento FROM Actividad INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto)) SELECT CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO.correlativoActividad, CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO.costoTotal FROM CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO WHERE CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO.idDepartamento = :idDepartamento ORDER BY CTE_GENERA_COSTO_TOTAL_POR_CORRELATIVO.correlativoActividad ASC;");
+            $stmt->bindValue(':idPresupuesto', $this->fechaPresupuestoAnual);
+            $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return array(
+                    'status'=> BAD_REQUEST,
+                    'data' => array('message' => 'Ha ocurrido un error, los presupuestos no se listaron correctamente')
+                );
+            }
+        }
+
+        public function getObjetosPorAnioDescripcion () {
+
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_POR_OBJETO AS (SELECT DescripcionAdministrativa.idObjetoGasto, ObjetoGasto.descripcionCuenta, ObjetoGasto.abrev, Actividad.idActividad, Actividad.fechaCreacionActividad FROM DescripcionAdministrativa INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad)) SELECT CTE_GENERA_COSTO_POR_OBJETO.idObjetoGasto, CTE_GENERA_COSTO_POR_OBJETO.descripcionCuenta, CTE_GENERA_COSTO_POR_OBJETO.abrev, YEAR(CTE_GENERA_COSTO_POR_OBJETO.fechaCreacionActividad) AS fecha FROM CTE_GENERA_COSTO_POR_OBJETO WHERE YEAR(CTE_GENERA_COSTO_POR_OBJETO.fechaCreacionActividad) = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto) GROUP BY CTE_GENERA_COSTO_POR_OBJETO.idObjetoGasto, CTE_GENERA_COSTO_POR_OBJETO.abrev, CTE_GENERA_COSTO_POR_OBJETO.idObjetoGasto ORDER BY CTE_GENERA_COSTO_POR_OBJETO.idObjetoGasto;");
+                    $stmt->bindValue(':idPresupuesto', $this->idPresupuesto);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los objetos de gasto')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function generaCostoPorObjetoGasto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_TOTAL_POR_OG AS (SELECT ObjetoGasto.codigoObjetoGasto, objetoGasto.idObjetoGasto, SUM(DescripcionAdministrativa.costoTotal) AS sumCostoActPorCodObjGasto, ObjetoGasto.descripcionCuenta FROM DescripcionAdministrativa INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto)WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto) GROUP BY ObjetoGasto.idObjetoGasto) SELECT CTE_GENERA_COSTO_TOTAL_POR_OG.codigoObjetoGasto, CTE_GENERA_COSTO_TOTAL_POR_OG.sumCostoActPorCodObjGasto, CTE_GENERA_COSTO_TOTAL_POR_OG.descripcionCuenta FROM CTE_GENERA_COSTO_TOTAL_POR_OG WHERE CTE_GENERA_COSTO_TOTAL_POR_OG.idObjetoGasto = :idObjetoGasto ORDER BY CTE_GENERA_COSTO_TOTAL_POR_OG.codigoObjetoGasto ASC;");
+                    $stmt->bindValue(':idPresupuesto', $this->idPresupuesto);
+                    $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                if ($stmt->execute()) {
+                    if ($stmt->rowCount() == 1) {      
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                        );
+                    } else {
+                        return array(
+                            'status' => SUCCESS_REQUEST,
+                            'data' => null
+                        );
+                    }
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar la informacion')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function generaCostoPorObjetoGastoDepto () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_TOTAL_POR_OG AS (SELECT ObjetoGasto.codigoObjetoGasto, SUM(DescripcionAdministrativa.costoTotal) AS sumCostoActPorCodObjGasto, ObjetoGasto.descripcionCuenta FROM DescripcionAdministrativa INNER JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) INNER JOIN ObjetoGasto ON (DescripcionAdministrativa.idObjetoGasto = ObjetoGasto.idObjetoGasto) INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) WHERE DATE_FORMAT(Actividad.fechaCreacionActividad, '%Y') = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE ControlPresupuestoActividad.idControlPresupuestoActividad = :idPresupuesto AND Usuario.idDepartamento = :idDepartamento AND ObjetoGasto.idObjetoGasto = :idObjetoGasto) GROUP BY ObjetoGasto.idObjetoGasto) SELECT * FROM CTE_GENERA_COSTO_TOTAL_POR_OG ORDER BY CTE_GENERA_COSTO_TOTAL_POR_OG.codigoObjetoGasto ASC;");
+                    $stmt->bindValue(':idObjetoGasto', $this->idObjetoGasto);
+                    $stmt->bindValue(':idPresupuesto', $this->idPresupuesto);
+                    $stmt->bindValue(':idDepartamento', $this->idDepartamento);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los objetos de gasto')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
             }
         }
     }

@@ -14,15 +14,23 @@
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
                 $_POST = json_decode(file_get_contents('php://input'), true);
-                if (isset($_POST['fechaPresupuestoActividad']) && !empty($_POST['fechaPresupuestoActividad'])) {
+                if (isset($_POST['fechaPresupuestoActividad']) && !empty($_POST['fechaPresupuestoActividad']) && isset($_POST['tipoOrdenamiento']) && !empty($_POST['tipoOrdenamiento'])) {
+                    if ($_POST['tipoOrdenamiento'] === 1) {
+                        $orderBy = "codigoObjetoGasto";
+                    } else if ($_POST['tipoOrdenamiento'] === 2) {
+                        $orderBy = "CorrelativoActividad";
+                    } else {
+                        $orderBy = "nombreDepartamento";
+                    }
                     //$pacc = new PaccController();
                     //$pacc->generaReporteGeneral($_POST['fechaPresupuestoActividad']);
                         $pacc = new Pacc();
                         $pacc->setFechaPresupuestoAnual($_POST['fechaPresupuestoActividad']);
                         if (is_int($pacc->getFechaPresupuestoAnual())) {
                             $anioPacc = $pacc->generaAnioPaccSeleccionado();
-                            $paccFacultad = $pacc->generaPaccFacultadIngenieria();
+                            $paccFacultad = $pacc->generaPaccFacultadIngenieria($orderBy);
                             $costoObjetosGasto = $pacc->generaCostoObjetosGastoPaccGeneral();
+                            $costosPorCorrelativo = $pacc->generaCostoPorCorrelativoGeneral();
                             $descripcionesObjetoGasto = $pacc->generaDescripcionObjetosGastoPaccGeneral();
                             $generaCostoTotal = $pacc->generaCostoTotalDescripciones();
                             
@@ -64,7 +72,7 @@
                             $sheet->getStyle('I10')->applyFromArray($styleArray);
 
                             $rowCount = 11;
-                            $i = 0;
+                            $i = 1;
                             foreach ($paccFacultad as $item) {
                                 $sheet->setCellValue('A' . $rowCount, $i++);
                                 $sheet->setCellValue('B' . $rowCount, $item['codigoObjetoGasto']);
@@ -124,6 +132,21 @@
                                 $sheet2->getStyle('A'. $rowCountSheet2)->applyFromArray($styleArray);
                                 $sheet2->getStyle('B'. $rowCountSheet2)->applyFromArray($styleArray);
                                 $rowCountSheet2++;
+                            }
+
+                            $sheet3 = $spreadsheet->createSheet();
+                            $sheet3->setTitle('TOTAL POR CORRELATIVO ACTIVIDAD');
+                            $sheet3->setCellValue('A1', 'Correlativo Actividad');
+                            $sheet3->setCellValue('B1', 'Total');
+                            $sheet3->getStyle('A1')->applyFromArray($styleArray);
+                            $sheet3->getStyle('B1')->applyFromArray($styleArray);
+                            $rowCountSheet3 = 2;
+                            foreach ($costosPorCorrelativo as $itemPorCorrelativo) {
+                                $sheet3->setCellValue('A' . $rowCountSheet3, $itemPorCorrelativo['correlativoActividad']);
+                                $sheet3->setCellValue('B' . $rowCountSheet3, $itemPorCorrelativo['costoTotal']);
+                                $sheet3->getStyle('A'. $rowCountSheet3)->applyFromArray($styleArray);
+                                $sheet3->getStyle('B'. $rowCountSheet3)->applyFromArray($styleArray);
+                                $rowCountSheet3++;
                             }
                             try {
                                 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

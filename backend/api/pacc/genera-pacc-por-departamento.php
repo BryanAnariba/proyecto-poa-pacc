@@ -18,8 +18,17 @@
                     isset($_POST['fechaPresupuestoActividad']) && 
                     !empty($_POST['fechaPresupuestoActividad']) &&
                     isset($_POST['idDepartamento']) &&
-                    !empty($_POST['idDepartamento'])
+                    !empty($_POST['idDepartamento']) && 
+                    isset($_POST['tipoOrdenamiento']) && 
+                    !empty($_POST['tipoOrdenamiento'])
                     ) {
+                        if ($_POST['tipoOrdenamiento'] === 1) {
+                            $orderBy = "codigoObjetoGasto";
+                        } else if ($_POST['tipoOrdenamiento'] === 2) {
+                            $orderBy = "CorrelativoActividad";
+                        } else {
+                            $orderBy = "nombreDepartamento";
+                        }
                         $pacc = new Pacc();
                         
                         $pacc->setFechaPresupuestoAnual($_POST['fechaPresupuestoActividad']);
@@ -27,8 +36,9 @@
                         if (is_int($pacc->getFechaPresupuestoAnual()) && is_int($pacc->getIdDepartamento())) {
                             $anioPacc = $pacc->generaAnioPaccSeleccionado();
                             $departamento = $pacc->getDataDepartamento();    
-                            $paccDepartamento = $pacc->generaPaccPorDepartamento();
+                            $paccDepartamento = $pacc->generaPaccPorDepartamento($orderBy);
                             $costoObjetosGasto = $pacc->generaCostoObjetosGastoPaccDepartamento();
+                            $costosPorDepartamentoCorrelativo = $pacc->generaCostoPorCorrelativoDepartamento();
                             $descripcionesObjetoGasto = $pacc->generaDescripcionObjetosGastoPaccDepartamento();
                             $generaCostoTotal = $pacc->generaCostoTotalDescripcionesDepartamento();
                             
@@ -131,6 +141,21 @@
                                 $sheet2->getStyle('A'. $rowCountSheet2)->applyFromArray($styleArray);
                                 $sheet2->getStyle('B'. $rowCountSheet2)->applyFromArray($styleArray);
                                 $rowCountSheet2++;
+                            }
+
+                            $sheet3 = $spreadsheet->createSheet();
+                            $sheet3->setTitle('TOTAL POR CORRELATIVO ACTIVIDAD');
+                            $sheet3->setCellValue('A1', 'Correlativo Actividad');
+                            $sheet3->setCellValue('B1', 'Total');
+                            $sheet3->getStyle('A1')->applyFromArray($styleArray);
+                            $sheet3->getStyle('B1')->applyFromArray($styleArray);
+                            $rowCountSheet3 = 2;
+                            foreach ($costosPorDepartamentoCorrelativo as $itemPorCorrelativo) {
+                                $sheet3->setCellValue('A' . $rowCountSheet3, $itemPorCorrelativo['correlativoActividad']);
+                                $sheet3->setCellValue('B' . $rowCountSheet3, $itemPorCorrelativo['costoTotal']);
+                                $sheet3->getStyle('A'. $rowCountSheet3)->applyFromArray($styleArray);
+                                $sheet3->getStyle('B'. $rowCountSheet3)->applyFromArray($styleArray);
+                                $rowCountSheet3++;
                             }
                             try {
                                 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

@@ -39,6 +39,33 @@
             $_Respuesta->respuestaPeticion();
         }
 
+        public function obtenerObjetosPorAnio($idPresupuestoAnual) {
+            $this->paccModel->setIdPresupuesto($idPresupuestoAnual);
+            $this->data = $this->paccModel->getObjetosPorAnioDescripcion();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
+        public function generaCostoPorObjetoGasto($idPresupuestoAnual, $idObjetoGasto) {
+            $this->paccModel->setIdPresupuesto($idPresupuestoAnual);
+            $this->paccModel->setIdObjetoGasto($idObjetoGasto);
+            $this->data = $this->paccModel->generaCostoPorObjetoGasto();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+        
+        public function generaCostoPorObjetoGastoDeptos($idPresupuestoAnual, $idObjetoGasto, $idDepatamento) {
+            $this->paccModel->setIdPresupuesto($idPresupuestoAnual);
+            $this->paccModel->setIdObjetoGasto($idObjetoGasto);
+            $this->paccModel->setIdDepartamento($idDepatamento);
+            $this->data = $this->paccModel-> generaCostoPorObjetoGastoDepto();
+
+            $_Respuesta = new Respuesta($this->data);
+            $_Respuesta->respuestaPeticion();
+        }
+
         public function peticionNoAutorizada () {
             $this->data = array('status' => UNAUTHORIZED_REQUEST, 'data' => array(
                 'message' => 'No esta autorizado para realizar esta peticion o su token de acceso ha caducado, debes cerrar sesion y loguearse nuevamente'));

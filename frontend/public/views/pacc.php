@@ -57,7 +57,7 @@ include('../partials/doctype.php');
                                                 <div class="text-center mt-4">
                                                     <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReporteGeneral()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
-                                                        Reporte Excel pacc General
+                                                        Generar Reporte Excel pacc General Facultad
                                                     </button>
                                                 </div>
                                             </div>
@@ -65,7 +65,23 @@ include('../partials/doctype.php');
                                                 <div class="text-center mt-4">
                                                     <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReporteDepartamento()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
-                                                        Reporte Excel por departamento
+                                                        Generar Reporte Excel por departamento
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
+                                                <div class="text-center mt-4">
+                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReportesEspecificos()">
+                                                        <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                                        Generar Reporte filtrado por objeto de gasto
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
+                                                <div class="text-center mt-4">
+                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="">
+                                                        <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
+                                                        Generar Reporte filtrado por correlativo
                                                     </button>
                                                 </div>
                                             </div>
@@ -159,6 +175,16 @@ include('../partials/doctype.php');
                             <span id="errorsFechaPresupuesto" class="text-danger text-small d-none">
                             </span>
                         </div>
+
+                        <div class="md-form">
+                            <select class="browser-default custom-select" id="tipoOrdenamiento" required>
+                                <option value="" selected>Seleccione el tipo de ordenamiento para el pacc</option>
+                                <option value="1">Ordenar por objeto de gasto</option>
+                                <option value="2">Ordenar por correlativo de actividad</option>
+                            </select>
+                            <span id="errorstipoOrdenamiento" class="text-danger text-small d-none">
+                            </span>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -196,6 +222,15 @@ include('../partials/doctype.php');
                             <span id="errorsdepartamento" class="text-danger text-small d-none">
                             </span>
                         </div>
+                        <div class="md-form">
+                            <select class="browser-default custom-select" id="tipoOrdenamientoDepto" required>
+                                <option value="" selected>Seleccione el tipo de ordenamiento para el pacc</option>
+                                <option value="1">Ordenar por objeto de gasto</option>
+                                <option value="2">Ordenar por correlativo de actividad</option>
+                            </select>
+                            <span id="errorstipoOrdenamientoDepto" class="text-danger text-small d-none">
+                            </span>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -210,6 +245,162 @@ include('../partials/doctype.php');
         </div>
     </div>
 
+    <div class="modal fade" id="reporteEspecifico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar reporte especifico por objeto de gasto</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-center" style="color: #757575;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Fecha" required onchange="generarObjetos()">
+                                        </select>
+                                        <span id="errorsFecha" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="contenedorObjetosGasto">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Objetos" required>
+                                            
+                                        </select>
+                                        <span id="errorsObjetos" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="opcion-generacion">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Opciones" onchange="opcionGenerarDeptos()" required>
+                                            <option value="">Opciones para generar costo por correlativo</option>
+                                            <option value="1">General</option>
+                                            <option value="2">Por Departamento</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12" id="opcion-departamento">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Depto" required>
+                                        </select>
+                                        <span id="errorsDepto" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-center mt-4">
+                                        <button id="generarTabla" type="button" class="btn btn indigo darken-4 text-white btn-rounded" onclick="mostrarResultadosFiltroObjetoGasto()">Ver resultados</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table" id="lista-reporte-por-objeto">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Codigo Objeto Gasto</th>
+                                            <th scope="col">Descripcion Cuenta</th>
+                                            <th scope="col">Costo Objeto Gasto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close"
+                            onclick="cancelarOperacion()"
+                        >Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal fade" id="reporteEspecificoCorrelativos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header indigo darken-4 text-white">
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar reporte especifico por correlativo actividad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-center" style="color: #757575;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Objetos" required>
+                                            
+                                        </select>
+                                        <span id="errorsObjetos" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Fecha" required>
+                                        </select>
+                                        <span id="errorsFecha" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Depto" required>
+                                        </select>
+                                        <span id="errorsDepto" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-center mt-4">
+                                        <button id="generarTabla" type="button" class="btn btn indigo darken-4 text-white btn-rounded" onclick="generarInformacionTabla()">Ver resultados</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table" id="lista-reporte-por-objeto">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Codigo Objeto Gasto</th>
+                                            <th scope="col">Descripcion Cuenta</th>
+                                            <th scope="col">Costo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gasto-por-dimension-institucionales">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
 
     <div class="modal fade" id="modalGraficos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">

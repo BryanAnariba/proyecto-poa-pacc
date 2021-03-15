@@ -68,6 +68,7 @@
             $_Respuesta = new Respuesta($this->data);
             $_Respuesta->respuestaPeticion();
         }
+
         public function peticionNoValida () {
             $this->data = array('status' => BAD_REQUEST, 'data' => array('message' => 'Tipo de peticion no valida'));
 
