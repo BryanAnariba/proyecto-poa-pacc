@@ -1,26 +1,26 @@
 <?php
     require_once('../request-headers.php');
     require_once('../../middlewares/VerificarToken.php');
-    require_once('../../controllers/DepartamentoController.php');
+    require_once('../../controllers/EstudiantesDocentesEstrategaController.php');
     
     switch ($_SERVER['REQUEST_METHOD']) {
         case "POST": 
-            //$_POST = json_decode(file_get_contents('php://input'));
+            
             $verificarTokenAcceso = new verificarTokenAcceso();
             $tokenEsValido = $verificarTokenAcceso->verificarTokenAcceso();
             if ($tokenEsValido) {
-                $departamento = new DepartamentoController();
+                $gestion = new EstudiantesDocentesEstrategaController();
                 
-                $resultado = $departamento->obtenerDepartamentos();
+                $resultado = $gestion->obtenerTipoGestion();
             } else {
-                $departamentos = new DepartamentoController();
-                $departamentos->peticionNoAutorizada();
+                $gestiones = new EstudiantesDocentesEstrategaController();
+                $gestiones->peticionNoAutorizada();
                 require_once('../destruir-sesiones.php');
             }
         break;
         default: 
-            $departamentos = new DepartamentoController();
-            $departamentos->peticionNoValida();
+            $gestiones = new EstudiantesDocentesEstrategaController();
+            $gestiones->peticionNoValida();
         break;
     }
 ?>

@@ -58,7 +58,7 @@ const verSolicitudesPermisos = () => {
             `)
         }
         $('#listado-solicitudes').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true

@@ -70,7 +70,7 @@ const verSolicitudesPendientesSecAcademica = () => {
             `)
         }
         $('#listado-solicitudes').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true
@@ -190,7 +190,7 @@ const verSolicitudesPendientesJefes = (idDepartamentoUsuarioVeedor) => {
             `)
         }
         $('#listado-solicitudes').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true
@@ -275,7 +275,7 @@ const verSolicitudesPendientesDecano = () => {
             `)
         }
         $('#listado-solicitudes').DataTable({
-            //language: i18nEspaniol,
+            language: i18nEspaniol,
             //dom: 'Blfrtip',
             //buttons: botonesExportacion,
             //retrieve: true
