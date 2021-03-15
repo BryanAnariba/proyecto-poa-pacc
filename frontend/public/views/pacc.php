@@ -79,7 +79,7 @@ include('../partials/doctype.php');
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mx-auto">
                                                 <div class="text-center mt-4">
-                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="">
+                                                    <button type="button" class="btn indigo darken-4 text-white btn-rounded" data-toggle="modal" onclick="abrirModalReportesEspecificosDepto()">
                                                         <img src="../img/partial-sidebar/agregar-icon.svg" alt="">
                                                         Generar Reporte filtrado por correlativo
                                                     </button>
@@ -278,7 +278,7 @@ include('../partials/doctype.php');
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="opcion-generacion">
                                     <div class="md-form">
                                         <select class="browser-default custom-select" id="Opciones" onchange="opcionGenerarDeptos()" required>
-                                            <option value="">Opciones para generar costo por correlativo</option>
+                                            <option value="">Opciones para generar costo por objeto de gasto</option>
                                             <option value="1">General</option>
                                             <option value="2">Por Departamento</option>
                                         </select>
@@ -329,11 +329,11 @@ include('../partials/doctype.php');
         </div>
     </div>
 
-    <!-- <div class="modal fade" id="reporteEspecificoCorrelativos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="reporteEspecificoCorrelativo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar reporte especifico por correlativo actividad</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar reporte especifico por correlativo</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -342,34 +342,26 @@ include('../partials/doctype.php');
                     <form class="text-center" style="color: #757575;">
                         <div class="container">
                             <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="generarListaFechas">
                                     <div class="md-form">
-                                        <select class="browser-default custom-select" id="Objetos" required>
+                                        <select class="browser-default custom-select" id="Fechas" required onchange="generaCorrelativosActividad()">
+                                        </select>
+                                        <span id="errorsFechas" class="text-danger text-small d-none">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="contenedorCorrelativos">
+                                    <div class="md-form">
+                                        <select class="browser-default custom-select" id="Correlativos" required>
                                             
                                         </select>
-                                        <span id="errorsObjetos" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                    <div class="md-form">
-                                        <select class="browser-default custom-select" id="Fecha" required>
-                                        </select>
-                                        <span id="errorsFecha" class="text-danger text-small d-none">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                    <div class="md-form">
-                                        <select class="browser-default custom-select" id="Depto" required>
-                                        </select>
-                                        <span id="errorsDepto" class="text-danger text-small d-none">
+                                        <span id="errorsCorrelativos" class="text-danger text-small d-none">
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="text-center mt-4">
-                                        <button id="generarTabla" type="button" class="btn btn indigo darken-4 text-white btn-rounded" onclick="generarInformacionTabla()">Ver resultados</button>
+                                        <button id="generarTablas" type="button" class="btn btn indigo darken-4 text-white btn-rounded" onclick="mostrarResultadosFiltroDepto()">Ver resultados</button>
                                     </div>
                                 </div>
                             </div>
@@ -378,15 +370,15 @@ include('../partials/doctype.php');
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <table class="table" id="lista-reporte-por-objeto">
+                                <table class="table" id="lista-reporte-por-correlativo">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Codigo Objeto Gasto</th>
-                                            <th scope="col">Descripcion Cuenta</th>
-                                            <th scope="col">Costo</th>
+                                            <th scope="col">Correlativo Actividad</th>
+                                            <th scope="col">Departametno</th>
+                                            <th scope="col">Costo Total</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="gasto-por-dimension-institucionales">
+                                    <tbody>
                                     </tbody>
                                 </table>
                             </div>
@@ -395,18 +387,20 @@ include('../partials/doctype.php');
                 </div>
                 <div class="modal-footer">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal" aria-label="Close"
+                            onclick="cancelarOperacionCorrelativo()"
+                        >Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <div class="modal fade" id="modalGraficos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header indigo darken-4 text-white">
-                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar grafico de gastos por dimnesion en los departamentos de la facultad</h4>
+                    <h4 class="modal-title w-100" id="myModalLabel">Opciones para generar grafico de gastos por dimension en los departamentos de la facultad</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

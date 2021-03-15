@@ -515,7 +515,7 @@ const opcionGenerarDeptos = () => {
         Swal.fire({
             icon: 'error',
             title: 'Ops...',
-            text: `La opcion seleccionad no es valida`,
+            text: `La opcion seleccionada no es valida`,
             footer: '<b>Por favor elija una opcion correcta</b>'
         });
     }
@@ -681,4 +681,131 @@ const mostrarResultadosFiltroObjetoGasto = () => {
             };
         }
     }
+}
+
+const abrirModalReportesEspecificosDepto = () => {
+    $('#opcion-departamentos').addClass('d-none');
+    $('#contenedorCorrelativos').addClass('d-none');
+    $.ajax(`${ API }/pacc/genera-lista-anios-presupuestos.php`, {
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success:function (response) {
+            const { data } = response;
+            $('#Fechas').html(`<option value="">Seleccione el año</option>`);
+            for(let i=0; i<data.length; i++) {
+                $('#Fechas').append(`<option value="${ data[i].idControlPresupuestoActividad }">${ data[i].anio }</option>`);
+            }
+            $('#Fechas').select2({ width: '100%' });
+            $('#reporteEspecificoCorrelativo').modal('show');
+        },
+        error:function(error){
+            console.log(error.responseText)
+            const { status, data } = error.responseJSON;
+            if (status === 401) {
+                window.location.href = '../views/401.php';
+            }
+            console.log(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: `${ data.message }`,
+                footer: '<b>Por favor recargue la pagina</b>'
+            });
+        }
+    });
+} 
+
+const generaCorrelativosActividad = () => {
+    if ($('#Fechas').val() != "") {
+        let parametros = {
+            idPresupuesto: parseInt($('#Fechas').val())
+        };
+        $.ajax(`${ API }/pacc/generar-correlativos-por-anio.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function (response) {
+                const { data } = response;
+                $('#Correlativos').html(`<option value="">Seleccione el correlativo de la actividad para ver el costo</option>`);
+                for(let i=0; i<data.length; i++) {
+                    $('#Correlativos').append(`<option value="${ data[i].idActividad }">${ data[i].correlativoActividad }</option>`);
+                }
+                $('#Correlativos').select2({ width: '100%' });
+                $('#contenedorCorrelativos').removeClass('d-none');
+            },
+            error:function(error){
+                console.log(error.responseText)
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                console.log(data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor recargue la pagina</b>'
+                });
+            }
+        });
+    } else {
+        $('#Correlativos').html(`<option value="">Seleccione el correlativo de la actividad para ver el costo</option>`);
+        $('#contenedorCorrelativos').addClass('d-none');
+    }
+    
+}
+
+const mostrarResultadosFiltroDepto = () => {
+    if ($('#Fechas').val() === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: "Seleccione una fecha para poder avanzar en el calculo del costo por correlativo",
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    } else if ($('#Correlativos').val() === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: "Seleccione un correlativo para poder avanzar en el calculo del costo por correlativo",
+            footer: '<b>Por favor verifique el formulario de registro</b>'
+        });
+    } else {
+        let parametros = {
+            idActividad: parseInt($('#Correlativos').val())
+        };
+        $.ajax(`${ API }/pacc/generar-costo-correlativo.php`, {
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+            success:function (response) {
+                const { data } = response;
+                console.log(data);
+                cancelarOperacionCorrelativo();
+            },
+            error:function(error){
+                console.log(error.responseText)
+                const { status, data } = error.responseJSON;
+                if (status === 401) {
+                    window.location.href = '../views/401.php';
+                }
+                console.log(data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: `${ data.message }`,
+                    footer: '<b>Por favor recargue la pagina</b>'
+                });
+            }
+        });
+    }
+}
+
+const cancelarOperacionCorrelativo = () => {
+    $('#contenedorCorrelativos').addClass('d-none');
+    $('#Fechas').val("");
+    $('#Correlativos').val("");
 }

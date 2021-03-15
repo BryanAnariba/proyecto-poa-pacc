@@ -18,6 +18,7 @@
         private $idDepartamento;
         private $idPresupuesto;
         private $idObjetoGasto;
+        private $idActividad;
 
         
         public function getFechaPresupuestoAnual() {
@@ -54,6 +55,16 @@
 
         public function setIdObjetoGasto($idObjetoGasto) {
             $this->idObjetoGasto = $idObjetoGasto;
+            return $this;
+        }
+
+        
+        public function getIdActividad() {
+            return $this->idActividad;
+        }
+
+        public function setIdActividad($idActividad) {
+            $this->idActividad = $idActividad;
             return $this;
         }
 
@@ -418,4 +429,59 @@
                 $this->conexionBD = null;
             }
         }
+
+        public function generaCorrelativosPorAnio () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_CORRELATIVOS_ACTIVIDAD AS (SELECT Actividad.idActividad, Actividad.correlativoActividad, Actividad.fechaCreacionActividad FROM Actividad) SELECT CTE_GENERA_CORRELATIVOS_ACTIVIDAD.idActividad, CTE_GENERA_CORRELATIVOS_ACTIVIDAD.correlativoActividad FROM CTE_GENERA_CORRELATIVOS_ACTIVIDAD WHERE YEAR(CTE_GENERA_CORRELATIVOS_ACTIVIDAD.fechaCreacionActividad) = (SELECT YEAR(ControlPresupuestoActividad.fechaPresupuestoAnual) FROM ControlPresupuestoActividad WHERE idControlPresupuestoActividad = :idPresupuesto) ORDER BY CTE_GENERA_CORRELATIVOS_ACTIVIDAD.correlativoActividad ASC;");
+                    $stmt->bindValue(':idPresupuesto', $this->idPresupuesto);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar los objetos de gasto')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
+        public function generaCostoPorCorrelativo () {
+            try {
+                $this->conexionBD = new Conexion();
+                $this->consulta = $this->conexionBD->connect();
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_POR_CORRELATIVO AS (SELECT Actividad.idActividad, Actividad.correlativoActividad, Departamento.nombreDepartamento, Actividad.costoTotal FROM Actividad INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad, CTE_GENERA_COSTO_POR_CORRELATIVO.correlativoActividad , CTE_GENERA_COSTO_POR_CORRELATIVO.costoTotal FROM CTE_GENERA_COSTO_POR_CORRELATIVO WHERE CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad = :idActividad");
+                    $stmt->bindValue(':idActividad', $this->idActividad);
+                if ($stmt->execute()) {
+                    return array(
+                        'status' => SUCCESS_REQUEST,
+                        'data' => $stmt->fetchAll(PDO::FETCH_OBJ)
+                    );
+                } else {
+                    return array(
+                        'status'=> BAD_REQUEST,
+                        'data' => array('message' => 'Ha ocurrido un error al listar el costo de la actividad')
+                    );
+                }
+            } catch (PDOException $ex) {
+                return array(
+                    'status'=> INTERNAL_SERVER_ERROR,
+                    'data' => array('message' => $ex->getMessage())
+                );
+            } finally {
+                $this->conexionBD = null;
+            }
+        }
+
     }
