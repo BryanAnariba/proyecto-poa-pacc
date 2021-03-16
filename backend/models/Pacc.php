@@ -461,7 +461,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_POR_CORRELATIVO AS (SELECT Actividad.idActividad, Actividad.correlativoActividad, Departamento.nombreDepartamento, Actividad.costoTotal FROM Actividad INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad, CTE_GENERA_COSTO_POR_CORRELATIVO.correlativoActividad , CTE_GENERA_COSTO_POR_CORRELATIVO.costoTotal FROM CTE_GENERA_COSTO_POR_CORRELATIVO WHERE CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad = :idActividad");
+                $stmt = $this->consulta->prepare("WITH CTE_GENERA_COSTO_POR_CORRELATIVO AS (SELECT Actividad.idActividad, Actividad.correlativoActividad, Departamento.nombreDepartamento, Actividad.costoTotal FROM Actividad INNER JOIN Usuario ON (Actividad.idPersonaUsuario = Usuario.idPersonaUsuario) INNER JOIN Departamento ON (Usuario.idDepartamento = Departamento.idDepartamento)) SELECT CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad, CTE_GENERA_COSTO_POR_CORRELATIVO.correlativoActividad, CTE_GENERA_COSTO_POR_CORRELATIVO.nombreDepartamento , CTE_GENERA_COSTO_POR_CORRELATIVO.costoTotal FROM CTE_GENERA_COSTO_POR_CORRELATIVO WHERE CTE_GENERA_COSTO_POR_CORRELATIVO.idActividad = :idActividad");
                     $stmt->bindValue(':idActividad', $this->idActividad);
                 if ($stmt->execute()) {
                     return array(

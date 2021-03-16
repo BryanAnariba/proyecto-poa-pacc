@@ -631,7 +631,6 @@ const mostrarResultadosFiltroObjetoGasto = () => {
                     data: JSON.stringify(parametros),
                     success:function (response) {
                         const { data } = response;
-                        console.log(data);
                         $('#lista-reporte-por-objeto').dataTable().fnDestroy();
                         if (data != null) {
                             $('#lista-reporte-por-objeto tbody').html(``);
@@ -784,6 +783,27 @@ const mostrarResultadosFiltroDepto = () => {
             success:function (response) {
                 const { data } = response;
                 console.log(data);
+                $('#lista-reporte-por-correlativo').dataTable().fnDestroy();
+                    if (data != null) {
+                    $('#lista-reporte-por-correlativo tbody').html(``);
+                    for (let i=0;i<data.length; i++) {
+                        $('#lista-reporte-por-correlativo tbody').append(`
+                            <tr>
+                                <td scope="row" class="text-center">${ data[i].correlativoActividad }</td>
+                                <td scope="row" class="text-center">${ data[i].nombreDepartamento }</td>
+                                <td scope="row" class="text-center">${ data[i].costoTotal }</td>
+                            </tr>
+                        `)
+                    }
+                } else {
+                    $('#lista-reporte-por-correlativo tbody').html(``);
+                }
+                $('#lista-reporte-por-correlativo').DataTable({
+                    language: i18nEspaniol,
+                    dom: 'Blfrtip',
+                    buttons: botonesExportacion,
+                    retrieve: true
+                });
                 cancelarOperacionCorrelativo();
             },
             error:function(error){
