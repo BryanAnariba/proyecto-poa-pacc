@@ -59,8 +59,8 @@
         </div>
 
 
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row"  >
+            
                 <div class="card">
                     <div class="card-header indigo darken-4 text-white" >
                         <h5 class="font-weight-bolder">Control Estudiantes Matriculados, Egresados y Docentes con maestría</h5>
@@ -98,7 +98,7 @@
 
                     </div>
                 </div>
-            </div>
+            
         </div>
     </div>
 
@@ -173,7 +173,7 @@
                             <h4 align="center">Seleccione un tipo de registro a visualizar:</h4>
                             <div class="form-row container">
                                 <div class="input-field col-12" align="left">
-                                    <label>Seleccione un Departamento:</label>
+                                    <label>Seleccione un Tipo de Registro:</label>
                                     <select id="tipoRegistro" name='tipoRegistro' class="browser-default custom-select mb-4" size="1">
 
                                     </select>
