@@ -275,7 +275,7 @@
                                                     inner join objetivoinstitucional on actividad.idObjetivoInstitucional=objetivoinstitucional.idObjetivoInstitucional
                                                     inner join usuario on usuario.idPersonaUsuario=actividad.idPersonaUsuario
                                                     inner join departamento on departamento.idDepartamento=usuario.idDepartamento
-                                                    where actividad.idActividad=1;'
+                                                    where actividad.idActividad=:idActividad;'
                                                 );
                 $stmt->bindValue(':idActividad', $this->idActividad);
                 if ($stmt->execute()) {
