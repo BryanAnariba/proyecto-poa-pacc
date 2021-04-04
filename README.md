@@ -11,7 +11,7 @@
 
 
 # Usuarios de prueba para la plataforma
-        -> bsancheza@unah.hn , YTsisOwvTcVx
+        -> bsancheza@unah.hn , asd@123clave
         -> mfsancheza@unah.hn , vgytLqOEUU4B
 
         IS -> Coordinador
@@ -47,7 +47,7 @@
         -> usernameElevens@unah.hn, v4TOJPaeVYW1
 
         IC -> Jefe Carrera
-        -> usernameTwelve@unah.hn, bDJqEEQZWBAz
+        -> usernameTwelve@unah.hn, gJEMJhysgXS$
 
         Secretaria Academica
         academiS@unah.hn, YIL3SNRykUP2

@@ -566,8 +566,8 @@
                 is_int($this->idAreaEstrategica) &&
                 is_int($this->idTipoActividad) &&
                 campoParaTodo($this->actividad, 1, 255) && 
-                campoParaTodo($this->resultadosUnidad, 1, 255) && 
-                campoParaTodo($this->indicadoresResultado, 1, 200) &&
+                campoParaTodo($this->resultadosUnidad, 1, 300) && 
+                campoParaTodo($this->indicadoresResultado, 1, 300) &&
                 campoParaTodo($this->medioVerificacionActividad, 1, 255) &&
                 campoParaTodo($this->poblacionOjetivoActividad, 1, 255) &&
                 campoParaTodo($this->responsableActividad, 1, 255) &&
@@ -757,8 +757,8 @@
                 is_int($this->idAreaEstrategica) &&
                 is_int($this->idTipoActividad) &&
                 campoParaTodo($this->actividad, 1, 200) && 
-                campoParaTodo($this->resultadosUnidad, 1, 200) && 
-                campoParaTodo($this->indicadoresResultado, 1, 200) &&
+                campoParaTodo($this->resultadosUnidad, 1, 300) && 
+                campoParaTodo($this->indicadoresResultado, 1, 300) &&
                 campoParaTodo($this->medioVerificacionActividad, 1, 255) &&
                 campoParaTodo($this->poblacionOjetivoActividad, 1, 255) &&
                 campoParaTodo($this->responsableActividad, 1, 255) &&

@@ -569,7 +569,8 @@ const validar = (posicion) =>{
                 let presupuestoUtilizado = $('#PresupuestoUtilizado').val();
                 let presupuestoTotal = $('#PresupuestoDisponible').val();
                 let nuevoPresupuestoUtilizado = Number(presupuestoUtilizado) + Number(costoActividad.value);
-                console.log(nuevoPresupuestoUtilizado);
+                console.log(sumatoriaPorcentajes);
+                console.log(isValidCostoActividad);
                 if ((isValidCostoActividad===true) && (sumatoriaPorcentajes === 1)) { 
                     let parametros = {
                         costoTotalActividad: Number($('#PresupuestoActividad').val()),
