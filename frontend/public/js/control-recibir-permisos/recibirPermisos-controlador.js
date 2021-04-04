@@ -207,7 +207,7 @@ const verSolicitudesPendientesJefes = (idDepartamentoUsuarioVeedor) => {
 
 
 //Petición para que el usuario decano pueda ver las solicitudes de permisos recibidas por parte
-// de usurio tipo estratega
+// de usuario tipo estratega
 const verSolicitudesPendientesDecano = () => {
     $('#listado-solicitudes').dataTable().fnDestroy();
 

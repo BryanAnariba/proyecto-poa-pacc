@@ -80,7 +80,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: 'green',
+                color: 'rgba(0, 128, 0, 0.37)',
                 textColor: 'white'
             };
             return actividad;
@@ -91,7 +91,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: 'red',
+                color: 'rgba(255, 0, 0, 0.37)',
                 textColor: 'white'
             };
             return actividad;
@@ -113,7 +113,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: 'yellow',
+                color: 'rgba(255, 255, 0, 0.37)',
                 textColor: 'white'
             };
             return actividad;
@@ -124,7 +124,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: 'purple',
+                color: 'rgba(128, 0, 128, 0.37)',
                 textColor: 'white'
             };
             return actividad;
@@ -135,7 +135,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: 'orange',
+                color: 'rgba(255, 166, 0, 0.37)',
                 textColor: 'white'
             };
             return actividad;
@@ -157,7 +157,7 @@ const Adjuntar = (idDimensionAdministrativa,anio,idDescripcionAdministrativa,nom
                 title  : `${nombreActividad}`,
                 start  : `${fecha.start}`,
                 end  : `${fecha.end}`,
-                color: '#white',
+                color: 'white',
                 textColor: 'black'
             };
             return actividad;
@@ -377,14 +377,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -392,14 +391,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>`);
                         $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
@@ -515,14 +513,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -530,14 +527,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
@@ -639,14 +635,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -654,14 +649,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
@@ -762,14 +756,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -777,14 +770,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>
                     <div class="form-group d-flex row">
@@ -899,14 +891,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -914,14 +905,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>`);
                     $("#VerMasActLabel").html(`Informacion correspondiente a la actividad: ${ data[0].nombreActividad }`);
@@ -1022,14 +1012,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -1037,14 +1026,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>
                     <div class="form-group d-flex row">
@@ -1159,14 +1147,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -1174,14 +1161,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>
                     <div class="form-group d-flex row">
@@ -1296,14 +1282,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Justificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="justificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].justificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].justificacionActividad }</textarea>
                             </div>
                         </div>
                         <div class="form-group d-flex row">
@@ -1311,14 +1296,13 @@ const VerMasAct = (idActividad) =>{
                                 <h5 class="form-control">Medio de verificacion de la actividad:</h5>
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <input 
+                                <textarea 
                                     type="text" 
                                     id="medioVerificacionActividad" 
                                     class="form-control"  
-                                    value="${ data[0].medioVerificacionActividad }"
                                     align="justify"
                                     readonly
-                                >
+                                >${ data[0].medioVerificacionActividad }</textarea>
                             </div>
                         </div>
                     <div class="form-group d-flex row">

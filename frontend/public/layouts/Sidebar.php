@@ -97,10 +97,10 @@
                             <span class="nav__name">Presupuesto</span>
                         </a>
 
-                        <a href="" class="nav__link">
+                        <!--a href="" class="nav__link">
                         <img src="../img/partial-sidebar/informes-icon.svg" alt="Control de Departamentos">
                             <span class="nav__name">Reportes</span>
-                        </a>
+                        </a-->
 
                         <a href="../views/Calendario-actividades.php" class="nav__link">
                             <img src="../img/partial-sidebar/calendario-icon.svg" alt="Control de Carreras">
@@ -205,7 +205,7 @@
                         </a> -->
 
                         <a href="../views/control-estudiantes-docentes.php" class="nav__link">
-                        <img src="../img/control-estudiantes-docentes/control-estudiantes-docentes-icon.svg" alt="Control de Docentes y Estudiantes">
+                        <img src="../img/control-envio-informes/solicitud.svg" alt="Control de Docentes y Estudiantes">
                             <span class="nav__name">Control de Docentes y Estudiantes</span>
                         </a>
 
@@ -241,8 +241,8 @@
                         </a> -->
 
                         <a href="../views/control-estudiantes-docentes.php" class="nav__link">
-                        <img src="../img/control-estudiantes-docentes/control-estudiantes-docentes-icon.svg" alt="Control de Docentes y Estudiantes">
-                            <span class="nav__name">Control de Docentes y Estudiantes</span>
+                        <img src="../img/control-envio-informes/solicitud.svg" alt="Control de Docentes y Estudiantes">
+                            <span class="nav__name">Control Estudiantes-Docentes</span>
                         </a>
 
                         <a href="../views/control-recibir-permisos.php" class="nav__link">
