@@ -11,7 +11,7 @@
 
 
 # Usuarios de prueba para la plataforma
-        -> bsancheza@unah.hn , asd@123clave
+        -> bsancheza@unah.hn , 9MwOpiV4smlO
         -> mfsancheza@unah.hn , vgytLqOEUU4B
 
         IS -> Coordinador

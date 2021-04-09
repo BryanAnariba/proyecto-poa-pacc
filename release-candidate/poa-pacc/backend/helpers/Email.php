@@ -98,7 +98,7 @@
                 $mail->Port = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
             
                 //Recipients
-                $mail->setFrom(EMAIL_ADMIN_USERNAME, 'Admin POA PACC'); // Desde mi correo envio a
+                $mail->setFrom(EMAIL_ADMIN_USERNAME, 'Administrador POA PACC'); // Desde mi correo envio a
                 $mail->addAddress($this->emailDestino, 'Usuario POA PACC'); // Para
             
                 // Attachments
@@ -106,13 +106,15 @@
                 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
             
                 // Content
+                $link="<a href=" . APP_URI .  ">Ir a la plataforma POA PACC</a>"; 
                 $mail->isHTML(true);                                  // Set email format to HTML
                 $mail->Subject = $this->headerMensaje . ' ' . $this->nombre . ' ' . $this->apellido;
                 $mail->Body = '
                     <h2> ' . $this->tituloMensaje . ' : </h2> ' .
                     'Nombre Usuario: ' . $this->nombreUsuario . '<br/>' . 
                     'Correo: ' . $this->emailDestino . '<br/>' .
-                    'Password: ' . $this->contenido . '<br/>';
+                    'Password: ' . $this->contenido . '<br/>' .
+                    'Enlace a la plataforma: ' . $link;
                 $mail->AltBody = 'Mantente siempre conectado para que puedas ver las siguientes notificacion';
             
                 if ($mail->send()) {

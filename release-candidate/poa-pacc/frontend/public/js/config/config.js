@@ -1,5 +1,6 @@
 // Enpoint o URI general, a partir de esta URI se debera hacer las peticiones
-const API = 'http://localhost/poa-pacc/backend/api';
+const API = '../../../backend/api';
+const APILogin = 'backend/api';
 
 const error1 = 'Tipo de peticion no valida';
 const error2 = 'La clave digitada es incorrecta, escriba su clave nuevamente';

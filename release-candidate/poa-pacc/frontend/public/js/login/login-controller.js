@@ -9,7 +9,7 @@ const iniciarSesion = () => {
         passwordEmpleado: passwordEmpleado
     };
     //console.log(parametros);
-    $.ajax(`${ API }/usuarios/login.php`, {
+    $.ajax(`${ APILogin }/usuarios/login.php`, {
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(parametros),
@@ -53,7 +53,7 @@ const openModalRecuperaCuenta = async () => {
     })  
     if (unahEmailRegex.test(correoInstitucional)) {
         let parametros = { correoInstitucional: correoInstitucional };
-        $.ajax(`${ API }/usuarios/recuperacion-credenciales.php`, {
+        $.ajax(`${ APILogin }/usuarios/recuperacion-credenciales.php`, {
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(parametros),
