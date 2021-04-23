@@ -27,7 +27,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idCarrera', new.idCarrera ,'carrera',new.carrera,'abrev',new.abrev, 'idDepartamento', new.idDepartamento, 'idEstadoCarrera',new.idEstadoCarrera);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -103,7 +103,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idObjetoGasto', new.idObjetoGasto ,'DescripcionCuenta',new.DescripcionCuenta,'abrev',new.abrev, 'codigoObjetoGasto',new.codigoObjetoGasto, 'idEstadoObjetoGasto',new.idEstadoObjetoGasto);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -178,7 +178,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idDepartamento', new.idDepartamento ,'idEstadoDepartamento',new.idEstadoDepartamento,'nombreDepartamento',new.nombreDepartamento, 'telefonoDepartamento',new.telefonoDepartamento, 'abrev',new.abrev,'correoDepartamento', new.correoDepartamento);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -253,7 +253,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idDimension', new.idDimension ,'idEstadoDimension',new.idEstadoDimension,'dimensionEstrategica',new.dimensionEstrategica);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -327,7 +327,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idObjetivoInstitucional', new.idObjetivoInstitucional ,'idDimensionEstrategica',new.idDimensionEstrategica,'idEstadoObjetivoInstitucional',new.idEstadoObjetivoInstitucional,'objetivoInstitucional',new.objetivoInstitucional);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -401,7 +401,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idAreaEstrategica',new.idAreaEstrategica ,'idEstadoAreaEstrategica',new.idEstadoAreaEstrategica,'idObjetivoInstitucional',new.idObjetivoInstitucional,'areaEstrategica',new.areaEstrategica);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -476,7 +476,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idResultadoInstitucional',new.idResultadoInstitucional ,'idAreaEstrategica',new.idAreaEstrategica,'idEstadoResultadoInstitucional',new.idEstadoResultadoInstitucional,'resultadoInstitucional',new.resultadoInstitucional);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -550,7 +550,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idDimension', new.idDimension ,'idEstadoDimension',new.idEstadoDimension,'dimensionAdministrativa',new.dimensionAdministrativa);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -624,7 +624,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idPersonaUsuario', new.idPersona ,'nombrePersona',new.nombrePersona,'apellidoPersona',new.apellidoPersona,'fechaNacimiento',new.fechaNacimiento,'direccion',new.direccion);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -698,7 +698,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idPersonaUsuario',new.idPersonaUsuario,'nombreUsuario',new.nombreUsuario,'avatarUsuario',new.avatarUsuario,'correoInstitucional',new.correoInstitucional,'codigoEmpleado',new.codigoEmpleado,'tokenAcceso',new.tokenAcceso,'tokenExpiracion',new.tokenExpiracion);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -772,7 +772,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idPresupuestoPorDepartamento',new.idPresupuestoPorDepartamento,'idDepartamento',new.idDepartamento,'montoPresupuesto',new.montoPresupuesto, 'idControlPresupuestoActividad',new.idControlPresupuestoActividad);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -847,7 +847,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoActividad',new.idTipoActividad,'TipoActividad',new.TipoActividad);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -922,7 +922,7 @@ begin
     declare valorf json;
     set valorI = '{}';
     set valorf = JSON_OBJECT('idEstadoActividad',new.idEstadoActividad,'estadoActividad',new.estadoActividad);
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -998,7 +998,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idActividad',new.idActividad,'idPersonaUsuario',new.idPersonaUsuario,'idDimension',new.idDimension,'idObjetivoInstitucional',new.idObjetivoInstitucional,'idResultadoInstitucional',new.idResultadoInstitucional,'idAreaEstrategica',new.idAreaEstrategica,'idTipoActividad',new.idTipoActividad,'idEstadoActividad',new.idEstadoActividad,'resultadosUnidad',new.resultadosUnidad,'indicadoresResultado',new.indicadoresResultado,'actividad',new.actividad,'correlativoActividad',new.correlativoActividad,'justificacionActividad',new.justificacionActividad,'medioVerificacionActividad',new.medioVerificacionActividad,'poblacionObjetivoActividad',new.poblacionObjetivoActividad,'responsableActividad',new.responsableActividad,'fechaCreacionActividad',new.fechaCreacionActividad,'CostoTotal',new.CostoTotal);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1074,7 +1074,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idControlPresupuestoActividad',new.idControlPresupuestoActividad,'idEstadoPresupuestoAnual',new.idEstadoPresupuestoAnual,'presupuestoAnual',new.presupuestoAnual,'fechaPresupuestoAnual',new.fechaPresupuestoAnual);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1150,7 +1150,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idCostActPorTri',new.idCostActPorTri,'idActividad',new.idActividad,'porcentajeTrimestre1',new.porcentajeTrimestre1,'Trimestre1',new.Trimestre1,'abrevTrimestre1',new.abrevTrimestre1,'porcentajeTrimestre2',new.porcentajeTrimestre2,'Trimestre2',new.Trimestre2,'abrevTrimestre2',new.abrevTrimestre2,'porcentajeTrimestre3',new.porcentajeTrimestre3,'Trimestre3',new.Trimestre3,'abrevTrimestre3',new.abrevTrimestre3,'porcentajeTrimestre4',new.porcentajeTrimestre4,'Trimestre4',new.Trimestre4,'abrevTrimestre4',new.abrevTrimestre4);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1226,7 +1226,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idDepartamentoDimension',new.idDepartamentoDimension,'idDimension',new.idDimension,'idDepartamento',new.idDepartamento,'estadoActividad',new.estadoActividad,'fecha',new.fecha);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1302,7 +1302,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idDescripcionAdministrativa',new.idDescripcionAdministrativa,'idObjetoGasto',new.idObjetoGasto,'idTipoPresupuesto',new.idTipoPresupuesto,'idActividad',new.idActividad,'idDimensionAdministrativa',new.idDimensionAdministrativa,'nombreActividad',new.nombreActividad,'Cantidad',new.Cantidad,'Costo',new.Costo,'costoTotal',new.costoTotal,'mesRequerido',new.mesRequerido,'Descripcion',new.Descripcion);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1378,7 +1378,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idEstado',new.idEstado,'estado',new.estado);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1454,7 +1454,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idEstadoInforme',new.idEstadoInforme,'Estado',new.Estado);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1530,7 +1530,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('id_estado_reporte',new.id_estado_reporte,'estado_reporte',new.estado_reporte);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1606,7 +1606,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoEstadoSolicitud',new.idTipoEstadoSolicitud,'TipoEstadoSolicitudSalida',new.TipoEstadoSolicitudSalida);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1681,7 +1681,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoSolicitudSalida',new.idTipoSolicitudSalida,'tipoSolicitudSalida',new.tipoSolicitudSalida);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1756,7 +1756,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idSolicitud',new.idSolicitud,'idTipoSolicitud',new.idTipoSolicitud,'idPersonaUsuario',new.idPersonaUsuario,'motivoSolicitud',new.motivoSolicitud,'edificioAsistencia',new.edificioAsistencia,'firmaDigital',new.firmaDigital,'documentoRespaldo',new.documentoRespaldo,'horaInicioSolicitudSalida',new.horaInicioSolicitudSalida,'horaFinSolicitudSalida',new.horaFinSolicitudSalida,'diasSolicitados',new.diasSolicitados,'fechaInicioPermiso',new.fechaInicioPermiso,'fechaFinPermiso',new.fechaFinPermiso,'fechaRegistroSolicitud',new.fechaRegistroSolicitud);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1831,7 +1831,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idEstadoSolicitudSalida',new.idEstadoSolicitudSalida,'idPersonaUsuarioVeedor',new.idPersonaUsuarioVeedor,'idSolicitudSalida',new.idSolicitudSalida,'idTipoEstadoSolicitud',new.idTipoEstadoSolicitud,'observacionesSolicitud',new.observacionesSolicitud,'fechaRevisionSolicitud',new.fechaRevisionSolicitud);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1906,7 +1906,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idGenero',new.idGenero,'genero',new.genero,'abrev',new.abrev);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -1981,7 +1981,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('id_tipo_grafico',new.id_tipo_grafico,'tipo_grafico',new.tipo_grafico);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2056,7 +2056,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('id_grafico',new.id_grafico,'id_persona_usuario',new.id_persona_usuario,'idTipoGraficos',new.idTipoGraficos,'nombre_grafico',new.nombre_grafico,'fecha_creacion_grafico',new.fecha_creacion_grafico);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2131,7 +2131,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idInforme',new.idInforme,'idPersonaUsuarioEnvia',new.idPersonaUsuarioEnvia,'idPersonaUsuarioAprueba',new.idPersonaUsuarioAprueba,'idEstadoInforme',new.idEstadoInforme,'fechaRecibido',new.fechaRecibido,'fechaAprobado',new.fechaAprobado);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2207,7 +2207,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idLlenadoDimension',new.idLlenadoDimension,'TipoUsuario_idTipoUsuario',new.TipoUsuario_idTipoUsuario,'valorLlenadoDimensionInicial',new.valorLlenadoDimensionInicial,'valorLlenadoDimensionFinal',new.valorLlenadoDimensionFinal);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2282,7 +2282,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idLugar',new.idLugar,'idTipoLugar',new.idTipoLugar,'idLugarPadre',new.idLugarPadre,'nombreLugar',new.nombreLugar);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2357,7 +2357,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('id_tipo_reporte',new.id_tipo_reporte,'tipo_reporte',new.tipo_reporte);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2432,7 +2432,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('id_reporte',new.id_reporte,'id_persona_usuario',new.id_persona_usuario,'id_tipo_reporte',new.id_tipo_reporte,'id_estado_reporte',new.id_estado_reporte,'nombre_reporte',new.nombre_reporte,'descripcion',new.descripcion,'fecha_creacion',new.fecha_creacion);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2508,7 +2508,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoLugar',new.idTipoLugar,'tipoLugar',new.tipoLugar);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2583,7 +2583,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoPresupuesto',new.idTipoPresupuesto,'tipoPresupuesto',new.tipoPresupuesto);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2658,7 +2658,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoUsuario',new.idTipoUsuario,'tipoUsuario',new.tipoUsuario,'abrev',new.abrev);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2733,7 +2733,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoBitacora',new.idTipoBitacora,'tipoBitacora',new.tipoBitacora,'descripcion',new.descripcion);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2809,7 +2809,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idGestion',new.idGestion,'idTipoGestion',new.idTipoGestion,'idTrimestre',new.idTrimestre,'cantidad',new.cantidad,'documentoRespaldo',new.documentoRespaldo);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2885,7 +2885,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idAccion',new.idAccion,'TipoAccion',new.TipoAccion);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -2961,7 +2961,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idGestion',new.idGestion,'idAccion',new.idAccion,'idPersonaUsuario',new.idPersonaUsuario,'fecha',new.fecha);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -3037,7 +3037,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTipoGestion',new.idTipoGestion,'nombre',new.nombre);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
@@ -3113,7 +3113,7 @@ begin
     set valorI = '{}';
     set valorf = JSON_OBJECT('idTrimestre',new.idTrimestre,'nombreTrimeste',new.nombreTrimeste);
     
-	IF NOT EXISTS( SELECT 1 FROM bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
+	IF NOT EXISTS( SELECT 1 FROM Bitacora WHERE nuevoEstadoInformacion = valorf and fechaHoraBitacora=now()) THEN
         insert into `poa-pacc-bd`.`Bitacora` (idPersonaUsuario,idTipoBitacora,estadoInicialInformacion,nuevoEstadoInformacion,fechaHoraBitacora) 
 		values (@persona,1,valorI,valorf,now());
     END IF;
