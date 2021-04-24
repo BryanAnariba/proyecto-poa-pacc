@@ -219,27 +219,27 @@ BEGIN
    declare temp int;
    
    if _peticion = 'insert' then
-		set temp = (SELECT COUNT(*) FROM carrera WHERE carrera = _carrera or abrev=_abrev);
+		set temp = (SELECT COUNT(*) FROM Carrera WHERE carrera = _carrera or abrev=_abrev);
         
         if temp = 1 then
 			set _respuesta = 0;
 		elseif temp = 0 then
 			set _respuesta = 1;
-			insert into carrera (carrera,abrev,idDepartamento,idEstadoCarrera) values (_carrera,_Abrev,_idDepartamento,_idEstadoDCD);
+			insert into Carrera (carrera,abrev,idDepartamento,idEstadoCarrera) values (_carrera,_Abrev,_idDepartamento,_idEstadoDCD);
 		end if;
    elseif _peticion = 'actualizarCarrera' then
-		set temp = (SELECT COUNT(*) FROM carrera WHERE idCarrera=_idCarrera);
+		set temp = (SELECT COUNT(*) FROM Carrera WHERE idCarrera=_idCarrera);
         
         if temp = 0 then
 			set _respuesta = 0;
 		elseif temp = 1 then
-			set temp = (SELECT COUNT(*) FROM carrera WHERE idCarrera<>_idCarrera and (carrera = _carrera or abrev=_abrev));
+			set temp = (SELECT COUNT(*) FROM Carrera WHERE idCarrera<>_idCarrera and (carrera = _carrera or abrev=_abrev));
             
             if temp >= 1 then
 				set _respuesta = 0;
 			elseif temp = 0 then 
                 set _respuesta = 1;
-                UPDATE carrera SET idDepartamento=_idDepartamento,idEstadoCarrera=_idEstadoDCD,carrera=_carrera,abrev=_abrev where idCarrera=_idCarrera;
+                UPDATE Carrera SET idDepartamento=_idDepartamento,idEstadoCarrera=_idEstadoDCD,carrera=_carrera,abrev=_abrev where idCarrera=_idCarrera;
 			end if;
         end if;
    end if;
@@ -264,27 +264,27 @@ BEGIN
    
    if LENGTH(_objeto) >0 && LENGTH(_objeto)<=80 && LENGTH(_abrev) >0 && LENGTH(_abrev)<=25 && LENGTH(_codigoObjeto) >0 && LENGTH(_codigoObjeto)<=8 then
    if _peticion = 'insert' then
-		set temp = (SELECT COUNT(*) FROM objetogasto WHERE (codigoObjetoGasto = _codigoObjeto or abrev=_abrev or DescripcionCuenta=_objeto));
+		set temp = (SELECT COUNT(*) FROM ObjetoGasto WHERE (codigoObjetoGasto = _codigoObjeto or abrev=_abrev or DescripcionCuenta=_objeto));
         
         if temp >= 1 then
 			set _respuesta = 0;
 		elseif temp = 0 then
 			set _respuesta = 1;
-			insert into objetogasto (DescripcionCuenta,abrev,codigoObjetoGasto,idEstadoObjetoGasto) values (_objeto,_Abrev,_codigoObjeto,_idEstadoDCD);
+			insert into ObjetoGasto (DescripcionCuenta,abrev,codigoObjetoGasto,idEstadoObjetoGasto) values (_objeto,_Abrev,_codigoObjeto,_idEstadoDCD);
 		end if;
    elseif _peticion = 'actualizarCarrera' then
-		set temp = (SELECT COUNT(*) FROM objetogasto WHERE idObjetoGasto=_idObjeto);
+		set temp = (SELECT COUNT(*) FROM ObjetoGasto WHERE idObjetoGasto=_idObjeto);
         
         if temp = 0 then
 			set _respuesta = 0;
 		elseif temp = 1 then
-			set temp = (SELECT COUNT(*) FROM objetogasto WHERE idObjetoGasto<>_idObjeto and (codigoObjetoGasto = _codigoObjeto or abrev=_abrev or DescripcionCuenta=_objeto));
+			set temp = (SELECT COUNT(*) FROM ObjetoGasto WHERE idObjetoGasto<>_idObjeto and (codigoObjetoGasto = _codigoObjeto or abrev=_abrev or DescripcionCuenta=_objeto));
             
             if temp >= 1 then
 				set _respuesta = 0;
 			elseif temp = 0 then 
                 set _respuesta = 1;
-                UPDATE objetogasto SET DescripcionCuenta=_objeto,idEstadoObjetoGasto=_idEstadoDCD,codigoObjetoGasto=_codigoObjeto,abrev=_abrev where idObjetoGasto=_idObjeto;
+                UPDATE ObjetoGasto SET DescripcionCuenta=_objeto,idEstadoObjetoGasto=_idEstadoDCD,codigoObjetoGasto=_codigoObjeto,abrev=_abrev where idObjetoGasto=_idObjeto;
 			end if;
         end if;
    end if;
@@ -418,7 +418,7 @@ CREATE PROCEDURE SP_MODIFICAR_DEPARTAMENTO(
     IN abrevM varchar(2), 
     IN correoDepartamentoM varchar(60)
     )
-	UPDATE departamento
+	UPDATE Departamento
     SET idEstadoDepartamento = idEstadoDepartamentoM,
         nombreDepartamento = nombreDepartamentoM,
         telefonoDepartamento = telefonoDepartamentoM,
@@ -723,7 +723,7 @@ SELECT
 	SUM(DescripcionAdministrativa.costoTotal) AS costoDescripcionAdmin,
     Actividad.idActividad,
     (
-		SELECT Actividad.costoTotal FROM ACTIVIDAD WHERE idActividad = 15
+		SELECT Actividad.costoTotal FROM Actividad WHERE idActividad = 15
     ) AS costoActividad
     FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) 
     WHERE Actividad.idActividad = 15

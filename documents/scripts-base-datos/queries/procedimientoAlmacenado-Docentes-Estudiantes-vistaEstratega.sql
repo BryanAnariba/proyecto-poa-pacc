@@ -5,7 +5,7 @@ CREATE PROCEDURE SP_MODIFICAR_REGISTROS_POBLACION(
    	IN cantidadPoblacion INT,
    	IN _idGestion INT
     )
-	UPDATE gestion
+	UPDATE Gestion
 	SET
 	idTrimestre = Trimestre,
 	cantidad = cantidadPoblacion

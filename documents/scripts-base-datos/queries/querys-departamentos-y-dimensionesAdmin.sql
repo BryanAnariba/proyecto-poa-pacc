@@ -9,7 +9,7 @@ CREATE PROCEDURE SP_REGISTRAR_DEPARTAMENTO(
     IN abreviaturaDepartamento varchar(2), 
     IN correoDepartamento varchar(60)
     )
-    INSERT INTO departamento (
+    INSERT INTO Departamento (
         idDepartamento,
 		idEstadoDepartamento, 
         nombreDepartamento, 
@@ -35,7 +35,7 @@ CREATE PROCEDURE SP_MODIFICAR_DEPARTAMENTO(
     IN abrevM varchar(2), 
     IN correoDepartamentoM varchar(60)
     )
-	UPDATE departamento
+	UPDATE Departamento
     SET idEstadoDepartamento = idEstadoDepartamentoM,
         nombreDepartamento = nombreDepartamentoM,
         telefonoDepartamento = telefonoDepartamentoM,

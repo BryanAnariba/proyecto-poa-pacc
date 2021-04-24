@@ -11,10 +11,10 @@ CREATE PROCEDURE `SP_INGRESAR_POBLACION`(
 BEGIN
 	   if _poblacion = 'NumEstudiantesMatriculados' then
 			set @persona = _idUsuario;
-            IF NOT EXISTS( SELECT 1 FROM gestion inner join tipoacciongestion on gestion.idGestion=tipoacciongestion.idGestion 
-							WHERE gestion.idTrimestre = _Trimestre and gestion.idTipoGestion=1 and year(tipoacciongestion.fecha)=year(now())) 
+            IF NOT EXISTS( SELECT 1 FROM Gestion inner join TipoAccionGestion on Gestion.idGestion=TipoAccionGestion.idGestion 
+							WHERE Gestion.idTrimestre = _Trimestre and Gestion.idTipoGestion=1 and year(TipoAccionGestion.fecha)=year(now())) 
 			THEN
-				INSERT INTO `poa-pacc-bd`.`gestion`
+				INSERT INTO `poa-pacc-bd`.`Gestion`
 				(`idTipoGestion`,`idTrimestre`,`cantidad`,`documentoRespaldo`)
 				VALUES(1,_Trimestre,_numeroPoblacion,_respaldo);
                 set _respuesta2 = true;
@@ -25,10 +25,10 @@ BEGIN
             set _respuesta = 'Numero de Estudiantes Matriculados';
 	   elseif _poblacion = 'NumEgresados' then
 			set @persona = _idUsuario;
-            IF NOT EXISTS( SELECT 1 FROM gestion inner join tipoacciongestion on gestion.idGestion=tipoacciongestion.idGestion 
-							WHERE gestion.idTrimestre = _Trimestre and gestion.idTipoGestion=2 and year(tipoacciongestion.fecha)=year(now())) 
+            IF NOT EXISTS( SELECT 1 FROM Gestion inner join TipoAccionGestion on Gestion.idGestion=TipoAccionGestion.idGestion 
+							WHERE Gestion.idTrimestre = _Trimestre and Gestion.idTipoGestion=2 and year(TipoAccionGestion.fecha)=year(now())) 
 			THEN
-				INSERT INTO `poa-pacc-bd`.`gestion`
+				INSERT INTO `poa-pacc-bd`.`Gestion`
 				(`idTipoGestion`,`idTrimestre`,`cantidad`,`documentoRespaldo`)
 				VALUES(2,_Trimestre,_numeroPoblacion,_respaldo);
                 set _respuesta2 = true;
@@ -39,10 +39,10 @@ BEGIN
             set _respuesta = 'Numero de Egresados';
 	   elseif _poblacion = 'NumDocentes' then
 			set @persona = _idUsuario;
-            IF NOT EXISTS( SELECT 1 FROM gestion inner join tipoacciongestion on gestion.idGestion=tipoacciongestion.idGestion 
-							WHERE gestion.idTrimestre = _Trimestre and gestion.idTipoGestion=3 and year(tipoacciongestion.fecha)=year(now())) 
+            IF NOT EXISTS( SELECT 1 FROM Gestion inner join TipoAccionGestion on Gestion.idGestion=TipoAccionGestion.idGestion 
+							WHERE Gestion.idTrimestre = _Trimestre and Gestion.idTipoGestion=3 and year(TipoAccionGestion.fecha)=year(now())) 
 			THEN
-				INSERT INTO `poa-pacc-bd`.`gestion`
+				INSERT INTO `poa-pacc-bd`.`Gestion`
 				(`idTipoGestion`,`idTrimestre`,`cantidad`,`documentoRespaldo`)
 				VALUES(3,_Trimestre,_numeroPoblacion,_respaldo);
                 set _respuesta2 = true;
@@ -64,11 +64,11 @@ CREATE PROCEDURE `SP_MODIFICAR_POBLACION`(
    OUT _respuesta boolean
 )
 BEGIN
-	IF NOT EXISTS( SELECT 1 FROM gestion inner join tipoacciongestion on gestion.idGestion=tipoacciongestion.idGestion 
-					WHERE gestion.idTrimestre = _Trimestre and gestion.idTipoGestion=_idTipoGestion and year(tipoacciongestion.fecha)=year(_fechaRegistro)
-                    and gestion.idGestion<>_idGestion) 
+	IF NOT EXISTS( SELECT 1 FROM Gestion inner join TipoAccionGestion on Gestion.idGestion=TipoAccionGestion.idGestion 
+					WHERE Gestion.idTrimestre = _Trimestre and Gestion.idTipoGestion=_idTipoGestion and year(TipoAccionGestion.fecha)=year(_fechaRegistro)
+                    and Gestion.idGestion<>_idGestion) 
 	THEN
-		UPDATE gestion
+		UPDATE Gestion
 		SET
 		idTrimestre = _Trimestre,
 		cantidad = _numeroPoblacion

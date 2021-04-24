@@ -5,7 +5,7 @@ CREATE PROCEDURE SP_HACER_OBSERVACION(
         IN idSolicitud INT, 
         IN observaciones VARCHAR(255)
         )
-UPDATE estadosolicitudsalida 
+UPDATE EstadoSolicitudSalida 
 SET observacionesSolicitud = observaciones
 WHERE idSolicitudSalida = idSolicitud;
 
@@ -16,7 +16,7 @@ CREATE PROCEDURE SP_ACTUALIZAR_SOLICITUD_PERMISO(
         IN idUsuario INT,
         IN fechaRevision DATE
         )
-UPDATE estadosolicitudsalida 
+UPDATE EstadoSolicitudSalida 
 SET idTipoEstadoSolicitud = idEstado,
         idPersonaUsuarioVeedor = idUsuario,
         fechaRevisionSolicitud = fechaRevision
