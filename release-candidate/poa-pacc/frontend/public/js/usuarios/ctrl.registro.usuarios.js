@@ -289,6 +289,8 @@ const verificarCamposRegistro = () => {
         },
         error:function(error) {
             console.log(error.responseText);
+            console.log(error.responseJSON);
+            console.log(error);
             // Mostramos loadings por mientras se ejecutan las peticiones
             $('.loading-registro').addClass('d-none');
             $('#modalContentRegistro').removeClass('d-none');

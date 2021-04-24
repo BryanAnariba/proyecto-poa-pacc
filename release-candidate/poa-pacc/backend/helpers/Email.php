@@ -3,9 +3,9 @@
     use PHPMailer\PHPMailer\Exception;
     use PHPMailer\PHPMailer\SMTP;
 
-    require '../../vendor/phpmailer/PHPMailer/src/Exception.php';
-    require '../../vendor/phpmailer/PHPMailer/src/PHPMailer.php';
-    require '../../vendor/phpmailer/PHPMailer/src/SMTP.php';
+    require_once 'phpmailer/src/Exception.php';
+    require_once 'phpmailer/src/PHPMailer.php';
+    require_once 'phpmailer/src/SMTP.php';
     require_once '../../config/config.php';
     class Email {
         private $emailDestino;

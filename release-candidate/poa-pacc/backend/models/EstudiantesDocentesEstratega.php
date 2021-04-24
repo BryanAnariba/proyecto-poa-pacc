@@ -110,48 +110,48 @@
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaRegistro,
                                                             fecha as fechaRegistro 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 1
                                                 ), CTE_ACCION_MODIFICACION AS (
                                                     SELECT idGestion,
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaModificacion,
                                                             fecha as fechaModificacion 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 2
                                                 )
-                                                SELECT DISTINCT gestion.idTipoGestion,
+                                                SELECT DISTINCT Gestion.idTipoGestion,
                                                                 CTE_ACCION_INSERCION.idGestion,
                                                                 idPersonaRegistro,
                                                                 idPersonaModificacion,
                                                                 DATE_FORMAT(fechaRegistro,'%d-%m-%Y') as fechaRegistro,
                                                                 DATE_FORMAT(fechaModificacion,'%d-%m-%Y') as fechaModificacion,
-                                                                tipogestion.nombre as poblacion,
-                                                                gestion.documentoRespaldo,
-                                                                departamento.idDepartamento,
-                                                                departamento.nombreDepartamento,
-                                                                gestion.cantidad,
-                                                                trimestre.idTrimestre,
-                                                                trimestre.nombreTrimeste,
+                                                                TipoGestion.nombre as poblacion,
+                                                                Gestion.documentoRespaldo,
+                                                                Departamento.idDepartamento,
+                                                                Departamento.nombreDepartamento,
+                                                                Gestion.cantidad,
+                                                                Trimestre.idTrimestre,
+                                                                Trimestre.nombreTrimeste,
                                                         (SELECT CONCAT(nombrePersona,' ', apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_INSERCION.idPersonaRegistro) as registro,
                                                         (SELECT CONCAT(nombrePersona,' ', apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_MODIFICACION.idPersonaModificacion) as modifico
                                                 FROM CTE_ACCION_INSERCION
                                                 LEFT JOIN CTE_ACCION_MODIFICACION
                                                 ON (CTE_ACCION_MODIFICACION.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN gestion
-                                                ON (gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN tipogestion
-                                                ON (tipogestion.idTipoGestion = gestion.idTipoGestion)
-                                                INNER JOIN trimestre
-                                                ON (trimestre.idTrimestre = gestion.idTrimestre)
-                                                INNER JOIN usuario
-                                                ON (usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
-                                                INNER JOIN departamento
-                                                ON (departamento.idDepartamento = usuario.idDepartamento)
+                                                INNER JOIN Gestion
+                                                ON (Gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
+                                                INNER JOIN TipoGestion
+                                                ON (TipoGestion.idTipoGestion = Gestion.idTipoGestion)
+                                                INNER JOIN Trimestre
+                                                ON (Trimestre.idTrimestre = Gestion.idTrimestre)
+                                                INNER JOIN Usuario
+                                                ON (Usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
+                                                INNER JOIN Departamento
+                                                ON (Departamento.idDepartamento = Usuario.idDepartamento)
                                                 ORDER BY fechaModificacion DESC, fechaRegistro ASC"
                                                 );                         
                 if ($stmt->execute()) {
@@ -186,49 +186,49 @@
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaRegistro,
                                                             fecha as fechaRegistro 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 1
                                                 ), CTE_ACCION_MODIFICACION AS (
                                                     SELECT idGestion,
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaModificacion,
                                                             fecha as fechaModificacion 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 2
                                                 )
-                                                SELECT DISTINCT gestion.idTipoGestion,
+                                                SELECT DISTINCT Gestion.idTipoGestion,
                                                                 CTE_ACCION_INSERCION.idGestion,
                                                                 idPersonaRegistro,
                                                                 idPersonaModificacion,
                                                                 fechaRegistro,
                                                                 fechaModificacion,
-                                                                tipogestion.nombre as poblacion,
-                                                                gestion.documentoRespaldo,
-                                                                departamento.idDepartamento,
-                                                                departamento.nombreDepartamento,
-                                                                gestion.cantidad,
-                                                                trimestre.idTrimestre,
-                                                                trimestre.nombreTrimeste,
+                                                                TipoGestion.nombre as poblacion,
+                                                                Gestion.documentoRespaldo,
+                                                                Departamento.idDepartamento,
+                                                                Departamento.nombreDepartamento,
+                                                                Gestion.cantidad,
+                                                                Trimestre.idTrimestre,
+                                                                Trimestre.nombreTrimeste,
                                                         (SELECT CONCAT(nombrePersona,' ', apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_INSERCION.idPersonaRegistro) as registro,
                                                         (SELECT CONCAT(nombrePersona,' ', apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_MODIFICACION.idPersonaModificacion) as modifico
                                                 FROM CTE_ACCION_INSERCION
                                                 LEFT JOIN CTE_ACCION_MODIFICACION
                                                 ON (CTE_ACCION_MODIFICACION.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN gestion
-                                                ON (gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN tipogestion
-                                                ON (tipogestion.idTipoGestion = gestion.idTipoGestion)
-                                                INNER JOIN trimestre
-                                                ON (trimestre.idTrimestre = gestion.idTrimestre)
-                                                INNER JOIN usuario
-                                                ON (usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
-                                                INNER JOIN departamento
-                                                ON (departamento.idDepartamento = usuario.idDepartamento)
-                                                WHERE departamento.idDepartamento = :idDepartamento
+                                                INNER JOIN Gestion
+                                                ON (Gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
+                                                INNER JOIN TipoGestion
+                                                ON (TipoGestion.idTipoGestion = Gestion.idTipoGestion)
+                                                INNER JOIN Trimestre
+                                                ON (Trimestre.idTrimestre = Gestion.idTrimestre)
+                                                INNER JOIN Usuario
+                                                ON (Usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
+                                                INNER JOIN Departamento
+                                                ON (Departamento.idDepartamento = Usuario.idDepartamento)
+                                                WHERE Departamento.idDepartamento = :idDepartamento
                                                 ORDER BY fechaModificacion DESC, fechaRegistro ASC"
                                                 );   
                 $stmt->bindValue(':idDepartamento', $this->idDepartamento);                      
@@ -264,49 +264,49 @@
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaRegistro,
                                                             fecha as fechaRegistro 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 1
                                                 ), CTE_ACCION_MODIFICACION AS (
                                                     SELECT idGestion,
                                                             idAccion,
                                                             idPersonaUsuario as idPersonaModificacion,
                                                             fecha as fechaModificacion 
-                                                    FROM tipoacciongestion
+                                                    FROM TipoAccionGestion
                                                     WHERE idAccion = 2
                                                 )
-                                                SELECT DISTINCT gestion.idTipoGestion,
+                                                SELECT DISTINCT Gestion.idTipoGestion,
                                                                 CTE_ACCION_INSERCION.idGestion,
                                                                 idPersonaRegistro,
                                                                 idPersonaModificacion,
                                                                 DATE_FORMAT(fechaRegistro,'%d-%m-%Y') as fechaRegistro,
                                                                 DATE_FORMAT(fechaModificacion,'%d-%m-%Y') as fechaModificacion,
-                                                                tipogestion.nombre as poblacion,
-                                                                gestion.documentoRespaldo,
-                                                                departamento.idDepartamento,
-                                                                departamento.nombreDepartamento,
-                                                                gestion.cantidad,
-                                                                trimestre.idTrimestre,
-                                                                trimestre.nombreTrimeste,    
+                                                                TipoGestion.nombre as poblacion,
+                                                                Gestion.documentoRespaldo,
+                                                                Departamento.idDepartamento,
+                                                                Departamento.nombreDepartamento,
+                                                                Gestion.cantidad,
+                                                                Trimestre.idTrimestre,
+                                                                Trimestre.nombreTrimeste,    
                                                         (SELECT CONCAT(nombrePersona,' ',apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_INSERCION.idPersonaRegistro) as registro,
                                                         (SELECT CONCAT(nombrePersona,' ', apellidoPersona) AS nombreCompleto
-                                                            FROM persona
+                                                            FROM Persona
                                                             WHERE idPersona = CTE_ACCION_MODIFICACION.idPersonaModificacion) as modifico
                                                 FROM CTE_ACCION_INSERCION
                                                 LEFT JOIN CTE_ACCION_MODIFICACION
                                                 ON (CTE_ACCION_MODIFICACION.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN gestion
-                                                ON (gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
-                                                INNER JOIN tipogestion
-                                                ON (tipogestion.idTipoGestion = gestion.idTipoGestion AND
-                                                    tipogestion.idTipoGestion = :idTipoGestion)
-                                                INNER JOIN trimestre
-                                                ON (trimestre.idTrimestre = gestion.idTrimestre)
-                                                INNER JOIN usuario
-                                                ON (usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
-                                                INNER JOIN departamento
-                                                ON (departamento.idDepartamento = usuario.idDepartamento)
+                                                INNER JOIN Gestion
+                                                ON (Gestion.idGestion = CTE_ACCION_INSERCION.idGestion)
+                                                INNER JOIN TipoGestion
+                                                ON (TipoGestion.idTipoGestion = Gestion.idTipoGestion AND
+                                                    TipoGestion.idTipoGestion = :idTipoGestion)
+                                                INNER JOIN Trimestre
+                                                ON (Trimestre.idTrimestre = Gestion.idTrimestre)
+                                                INNER JOIN Usuario
+                                                ON (Usuario.idPersonaUsuario = CTE_ACCION_INSERCION.idPersonaRegistro)
+                                                INNER JOIN Departamento
+                                                ON (Departamento.idDepartamento = Usuario.idDepartamento)
                                                 ORDER BY fechaModificacion DESC, fechaRegistro ASC"
                                                 );   
                 $stmt->bindValue(':idTipoGestion', $this->idTipoGestion);                      
@@ -361,7 +361,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT documentoRespaldo from gestion where idGestion=:idGestion");
+                $stmt = $this->consulta->prepare("SELECT documentoRespaldo from Gestion where idGestion=:idGestion");
                 $stmt->bindValue(':idGestion', $this->idGestion);
                 if ($stmt->execute()) {
                     return array(
@@ -427,7 +427,7 @@
                 set @persona = {$_SESSION['idUsuario']};
             ")->execute();
             try {
-                $stmt = $this->consulta->prepare("UPDATE gestion
+                $stmt = $this->consulta->prepare("UPDATE Gestion
                                                     SET
                                                     documentoRespaldo = '$this->respaldo'
                                                     WHERE idGestion = $this->idGestion"
@@ -458,7 +458,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM departamento');
+                $stmt = $this->consulta->prepare('SELECT * FROM Departamento');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -486,7 +486,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM tipogestion');
+                $stmt = $this->consulta->prepare('SELECT * FROM TipoGestion');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,

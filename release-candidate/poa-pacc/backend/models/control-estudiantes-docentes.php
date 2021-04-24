@@ -80,30 +80,30 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("WITH CTE_ACCION_INSERCION AS (
-                                                    select idGestion,idAccion,idPersonaUsuario as idPersonaRegistro,fecha as fechaRegistro from tipoacciongestion
+                                                    select idGestion,idAccion,idPersonaUsuario as idPersonaRegistro,fecha as fechaRegistro from TipoAccionGestion
                                                     where idAccion=1
                                                 ), CTE_ACCION_MODIFICACION AS (
-                                                    select idGestion,idAccion,idPersonaUsuario as idPersonaModificacion,fecha as fechaModificacion from tipoacciongestion
+                                                    select idGestion,idAccion,idPersonaUsuario as idPersonaModificacion,fecha as fechaModificacion from TipoAccionGestion
                                                     where idAccion=2
                                                 )
-                                                SELECT distinct gestion.idTipoGestion,CTE_ACCION_INSERCION.idGestion,idPersonaRegistro,idPersonaModificacion,fechaRegistro,fechaModificacion,tipogestion.nombre as poblacion,gestion.documentoRespaldo,
-                                                        departamento.idDepartamento,departamento.nombreDepartamento,gestion.cantidad,trimestre.idTrimestre,trimestre.nombreTrimeste,
-                                                        (select us.nombreUsuario from usuario us where us.idPersonaUsuario=CTE_ACCION_INSERCION.idPersonaRegistro) as registro,
-                                                        (select usu.nombreUsuario from usuario usu where usu.idPersonaUsuario=CTE_ACCION_MODIFICACION.idPersonaModificacion) as modifico
+                                                SELECT distinct Gestion.idTipoGestion,CTE_ACCION_INSERCION.idGestion,idPersonaRegistro,idPersonaModificacion,fechaRegistro,fechaModificacion,TipoGestion.nombre as poblacion,Gestion.documentoRespaldo,
+                                                        Departamento.idDepartamento,Departamento.nombreDepartamento,Gestion.cantidad,Trimestre.idTrimestre,Trimestre.nombreTrimeste,
+                                                        (select us.nombreUsuario from Usuario us where us.idPersonaUsuario=CTE_ACCION_INSERCION.idPersonaRegistro) as registro,
+                                                        (select usu.nombreUsuario from Usuario usu where usu.idPersonaUsuario=CTE_ACCION_MODIFICACION.idPersonaModificacion) as modifico
                                                 FROM CTE_ACCION_INSERCION
                                                 left join CTE_ACCION_MODIFICACION
                                                 on CTE_ACCION_MODIFICACION.idGestion=CTE_ACCION_INSERCION.idGestion
-                                                inner join gestion
-                                                on gestion.idGestion=CTE_ACCION_INSERCION.idGestion
-                                                inner join tipogestion
-                                                on tipogestion.idTipoGestion=gestion.idTipoGestion
-                                                inner join trimestre
-                                                on trimestre.idTrimestre=gestion.idTrimestre
-                                                inner join usuario
-                                                on usuario.idPersonaUsuario=CTE_ACCION_INSERCION.idPersonaRegistro
-                                                inner join departamento
-                                                on departamento.idDepartamento=usuario.idDepartamento
-                                                where departamento.idDepartamento=(select d.idDepartamento from usuario u inner join departamento d on d.idDepartamento=u.idDepartamento where u.idPersonaUsuario=:idUsuario)
+                                                inner join Gestion
+                                                on Gestion.idGestion=CTE_ACCION_INSERCION.idGestion
+                                                inner join TipoGestion
+                                                on TipoGestion.idTipoGestion=Gestion.idTipoGestion
+                                                inner join Trimestre
+                                                on Trimestre.idTrimestre=Gestion.idTrimestre
+                                                inner join Usuario
+                                                on Usuario.idPersonaUsuario=CTE_ACCION_INSERCION.idPersonaRegistro
+                                                inner join Departamento
+                                                on Departamento.idDepartamento=Usuario.idDepartamento
+                                                where Departamento.idDepartamento=(select d.idDepartamento from Usuario u inner join Departamento d on d.idDepartamento=u.idDepartamento where u.idPersonaUsuario=:idUsuario)
                                                 ORDER BY fechaModificacion desc, fechaRegistro asc"
                 );
                 $stmt->bindValue(':idUsuario', $this->idUsuario);
@@ -158,7 +158,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT documentoRespaldo from gestion where idGestion=:idGestion");
+                $stmt = $this->consulta->prepare("SELECT documentoRespaldo from Gestion where idGestion=:idGestion");
                 $stmt->bindValue(':idGestion', $this->idGestion);
                 if ($stmt->execute()) {
                     return array(

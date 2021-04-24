@@ -204,7 +204,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('SELECT  SUM(DescripcionAdministrativa.costoTotal) AS costoDescripcionAdmin,
-                Actividad.idActividad, (SELECT Actividad.costoTotal FROM ACTIVIDAD WHERE idActividad = :idActividad) AS costoActividad FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) WHERE Actividad.idActividad = :idActividad1');
+                Actividad.idActividad, (SELECT Actividad.costoTotal FROM Actividad WHERE idActividad = :idActividad) AS costoActividad FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) WHERE Actividad.idActividad = :idActividad1');
                 $stmt->bindValue(':idActividad', $this->idActividad);
                 $stmt->bindValue(':idActividad1', $this->idActividad);
                 if ($stmt->execute()) {
@@ -237,7 +237,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('SELECT SUM(DescripcionAdministrativa.costoTotal) AS costoDescripcionAdmin,
-                Actividad.idActividad, (SELECT Actividad.costoTotal FROM ACTIVIDAD WHERE idActividad = :idActividad) AS costoActividad , (SELECT CostoTotal FROM DescripcionAdministrativa WHERE idDescripcionAdministrativa = :idDescripcion) AS costoItem FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) WHERE Actividad.idActividad = :idActividad1;');
+                Actividad.idActividad, (SELECT Actividad.costoTotal FROM Actividad WHERE idActividad = :idActividad) AS costoActividad , (SELECT CostoTotal FROM DescripcionAdministrativa WHERE idDescripcionAdministrativa = :idDescripcion) AS costoItem FROM DescripcionAdministrativa RIGHT JOIN Actividad ON (DescripcionAdministrativa.idActividad = Actividad.idActividad) WHERE Actividad.idActividad = :idActividad1;');
                 $stmt->bindValue(':idActividad', $this->idActividad);
                 $stmt->bindValue(':idDescripcion', $this->idDescripcionAdministrativa);
                 $stmt->bindValue(':idActividad1', $this->idActividad);

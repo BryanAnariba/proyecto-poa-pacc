@@ -94,16 +94,16 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT departamento.idDepartamento,
-                                                        departamento.nombreDepartamento,
-                                                        departamento.abrev,
-                                                        departamento.telefonoDepartamento,            
-                                                        departamento.correoDepartamento,
+                $stmt = $this->consulta->prepare('SELECT Departamento.idDepartamento,
+                                                        Departamento.nombreDepartamento,
+                                                        Departamento.abrev,
+                                                        Departamento.telefonoDepartamento,            
+                                                        Departamento.correoDepartamento,
                                                         EstadoDCDUOAO.estado
-                                                FROM departamento
+                                                FROM Departamento
                                                 LEFT JOIN EstadoDCDUOAO 
-                                                ON (departamento.idEstadoDepartamento = EstadoDCDUOAO.idEstado) 
-                                                ORDER BY departamento.idDepartamento;');
+                                                ON (Departamento.idEstadoDepartamento = EstadoDCDUOAO.idEstado) 
+                                                ORDER BY Departamento.idDepartamento;');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -131,7 +131,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM estadodcduoao');
+                $stmt = $this->consulta->prepare('SELECT * FROM EstadoDCDUOAO');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -217,7 +217,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM departamento');
+                $stmt = $this->consulta->prepare('SELECT * FROM Departamento');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -245,7 +245,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT * from departamento where idDepartamento=$this->idDepartamento");
+                $stmt = $this->consulta->prepare("SELECT * from Departamento where idDepartamento=$this->idDepartamento");
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,

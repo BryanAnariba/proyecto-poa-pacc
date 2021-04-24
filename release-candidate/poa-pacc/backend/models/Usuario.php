@@ -506,7 +506,7 @@
                 (validaCampoEmail($this->correoInstitucional) == true)
             ) {
                 $noExisteEmail = $this->verificaEmailUsuario();
-                if ($noExisteEmail) { // ->debe retornar true
+                if ($noExisteEmail == false) { // ->debe retornar true
                     // Clave sin hashear aun solo generada
                     $generadorClaves = new GeneradorClaves();
                     $password = $generadorClaves->generarClave();

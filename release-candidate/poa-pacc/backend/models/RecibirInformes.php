@@ -70,13 +70,13 @@
                                                         C.apellidoPersona as apellidoPersonaEnvia,
                                                         D.nombrePersona as nombrePersonaAprueba,
                                                         D.apellidoPersona as apellidoPersonaAprueba
-                                                FROM informe A
-                                                INNER JOIN estadoinforme B
+                                                FROM Informe A
+                                                INNER JOIN Estadoinforme B
                                                 ON (A.idEstadoInforme = 2 AND
                                                     A.idEstadoInforme = B.idEstadoInforme)	
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON (A.idPersonaUsuarioEnvia = C.idPersona)	
-                                                INNER JOIN persona D
+                                                INNER JOIN Persona D
                                                 ON (A.idPersonaUsuarioAprueba = D.idPersona)	
                                                 ORDER BY A.idInforme DESC"); 
                 if ($stmt->execute()) {
@@ -115,11 +115,11 @@
                                                         B.Estado,
                                                         C.nombrePersona,
                                                         C.apellidoPersona
-                                                FROM informe A
-                                                INNER JOIN estadoinforme B
+                                                FROM Informe A
+                                                INNER JOIN EstadoInforme B
                                                 ON (A.idEstadoInforme = 1 AND
                                                     A.idEstadoInforme = B.idEstadoInforme)	
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON (A.idPersonaUsuarioEnvia = C.idPersona)	
                                                 ORDER BY A.idInforme DESC"); 
                 if ($stmt->execute()) {
@@ -153,7 +153,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT descripcionInforme
-                                                FROM informe
+                                                FROM Informe
                                                 WHERE idInforme = $this->idInforme"); 
                 if ($stmt->execute()) {
                     return array(
@@ -186,7 +186,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT informe 
-                                                FROM informe 
+                                                FROM Informe 
                                                 WHERE idInforme = $this->idInforme"); 
                 if ($stmt->execute()) {
                     return array(
@@ -220,7 +220,7 @@
                 $this->consulta->prepare("
                     set @persona = {$_SESSION['idUsuario']};
                 ")->execute();
-                $stmt = $this->consulta->prepare("UPDATE informe 
+                $stmt = $this->consulta->prepare("UPDATE Informe 
                                                 SET idEstadoInforme = 2,
                                                     idPersonaUsuarioAprueba = {$_SESSION['idUsuario']},
                                                     fechaAprobado = '$fechaActual'

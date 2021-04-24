@@ -69,8 +69,8 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('SELECT * from 
-                                                  objetogasto as og
-                                                  inner join estadodcduoao as es
+                                                  ObjetoGasto as og
+                                                  inner join EstadoDCDUOAO as es
                                                   on og.idEstadoObjetoGasto=es.idEstado
                                                   order by og.codigoObjetoGasto asc');
                 if ($stmt->execute()) {
@@ -99,8 +99,8 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('SELECT * from 
-                                                  objetogasto as og
-                                                  inner join estadodcduoao as es
+                                                  ObjetoGasto as og
+                                                  inner join EstadoDCDUOAO as es
                                                   on og.idEstadoObjetoGasto=es.idEstado
                                                   where og.idEstadoObjetoGasto = :idEstado
                                                   order by og.codigoObjetoGasto asc');
@@ -131,7 +131,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM estadodcduoao');
+                $stmt = $this->consulta->prepare('SELECT * FROM EstadoDCDUOAO');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,

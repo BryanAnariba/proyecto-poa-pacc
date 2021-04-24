@@ -178,15 +178,15 @@
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
                                                         E.idTipoUsuario
-                                                FROM tiposolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM TipoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoSolicitudSalida = B.idTipoSolicitud)		
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON(B.idPersonaUsuario = C.idPersona)
-                                                INNER JOIN estadosolicitudsalida D
+                                                INNER JOIN EstadoSolicitudSalida D
                                                 ON(D.idTipoEstadoSolicitud = 1 AND
                                                     B.idSolicitud = D.idSolicitudSalida)
-                                                INNER JOIN usuario E
+                                                INNER JOIN Usuario E
                                                 ON(E.idTipoUsuario = 6 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario)
                                                 ORDER BY B.idSolicitud DESC"); 
@@ -218,7 +218,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT idDepartamento
-                                                FROM usuario 
+                                                FROM Usuario 
                                                 WHERE idPersonaUsuario = $this->idUsuario"); 
                 if ($stmt->execute()) {
                     return array(
@@ -259,15 +259,15 @@
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
                                                         E.idTipoUsuario
-                                                FROM tiposolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM TipoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoSolicitudSalida = B.idTipoSolicitud)		
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON(B.idPersonaUsuario = C.idPersona)
-                                                INNER JOIN estadosolicitudsalida D
+                                                INNER JOIN EstadoSolicitudSalida D
                                                 ON(D.idTipoEstadoSolicitud = 1 AND
                                                     B.idSolicitud = D.idSolicitudSalida)
-                                                INNER JOIN usuario E
+                                                INNER JOIN Usuario E
                                                 ON(E.idTipoUsuario = 3 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario AND
                                                     E.idDepartamento = $this->idDepartamento)
@@ -309,15 +309,15 @@
                                                         C.apellidoPersona,
                                                         D.idTipoEstadoSolicitud,
                                                         E.idTipoUsuario
-                                                FROM tiposolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM TipoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoSolicitudSalida = B.idTipoSolicitud)		
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON(B.idPersonaUsuario = C.idPersona)
-                                                INNER JOIN estadosolicitudsalida D
+                                                INNER JOIN EstadoSolicitudSalida D
                                                 ON(D.idTipoEstadoSolicitud = 1 AND
                                                     B.idSolicitud = D.idSolicitudSalida)
-                                                INNER JOIN usuario E
+                                                INNER JOIN Usuario E
                                                 ON(E.idTipoUsuario = 5 AND
                                                     E.idPersonaUsuario = B.idPersonaUsuario)
                                                 ORDER BY B.idSolicitud DESC"); 
@@ -355,16 +355,16 @@
                                                         E.apellidoPersona,
                                                         A.tipoSolicitudSalida,
                                                         D.TipoEstadoSolicitudSalida 
-                                                FROM tiposolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM TipoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoSolicitudSalida = B.idTipoSolicitud)
-                                                INNER JOIN estadosolicitudsalida C
+                                                INNER JOIN EstadoSolicitudSalida C
                                                 ON (B.idSolicitud = C.idSolicitudSalida AND
                                                     C.idPersonaUsuarioVeedor = $this->idUsuario)
-                                                INNER JOIN tipoestadosolicitudsalida D
+                                                INNER JOIN TipoEstadoSolicitudSalida D
                                                 ON (C.idTipoEstadoSolicitud = D.idTipoEstadoSolicitud AND
                                                     C.idTipoEstadoSolicitud != 1)
-                                                INNER JOIN persona E
+                                                INNER JOIN Persona E
                                                 ON(B.idPersonaUsuario = E.idPersona)
                                                 ORDER BY B.idSolicitud DESC"); 
                 if ($stmt->execute()) {
@@ -406,12 +406,12 @@
                                                         D.horaFinSolicitudSalida,
                                                         D.diasSolicitados,
                                                         DATE_FORMAT(D.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud
-                                                FROM persona A
-                                                INNER JOIN usuario B
+                                                FROM Persona A
+                                                INNER JOIN Usuario B
                                                 ON (A.idPersona = B.idPersonaUsuario)
-                                                INNER JOIN departamento C
+                                                INNER JOIN Departamento C
                                                 ON (B.idDepartamento = C.idDepartamento)
-                                                INNER JOIN solicitudsalida D
+                                                INNER JOIN SolicitudSalida D
                                                 ON (D.idPersonaUsuario = B.idPersonaUsuario AND
                                                     D.idSolicitud = $this->idSolicitud)"); 
                 if ($stmt->execute()) {
@@ -442,7 +442,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT observacionesSolicitud
-                                                FROM estadosolicitudsalida
+                                                FROM EstadoSolicitudSalida
                                                 WHERE idSolicitudSalida = $this->idSolicitud"); 
                 if ($stmt->execute()) {
                     return array(
@@ -515,7 +515,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT documentoRespaldo, firmaDigital 
-                                                FROM solicitudsalida 
+                                                FROM SolicitudSalida 
                                                 WHERE idSolicitud  = $this->idSolicitud"); 
                 if ($stmt->execute()) {
                     return array(
@@ -543,7 +543,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM tipoestadosolicitudsalida');
+                $stmt = $this->consulta->prepare('SELECT * FROM TipoEstadoSolicitudSalida');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,

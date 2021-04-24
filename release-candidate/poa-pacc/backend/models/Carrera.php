@@ -69,10 +69,10 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare('SELECT ca.idCarrera, ca.carrera, ca.abrev, dep.nombreDepartamento, es.estado
-                                                  from carrera as ca
-                                                  inner join departamento as dep
+                                                  from Carrera as ca
+                                                  inner join Departamento as dep
                                                       on dep.idDepartamento=ca.idDepartamento
-                                                  inner join estadodcduoao as es
+                                                  inner join EstadoDCDUOAO as es
                                                       on es.idEstado=ca.idEstadoCarrera');
                 if ($stmt->execute()) {
                     return array(
@@ -99,7 +99,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM departamento');
+                $stmt = $this->consulta->prepare('SELECT * FROM Departamento');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -125,7 +125,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare('SELECT * FROM estadodcduoao');
+                $stmt = $this->consulta->prepare('SELECT * FROM EstadoDCDUOAO');
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -151,7 +151,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT * from carrera where idDepartamento=$idDepartamento");
+                $stmt = $this->consulta->prepare("SELECT * from Carrera where idDepartamento=$idDepartamento");
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,
@@ -177,7 +177,7 @@
             try {
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
-                $stmt = $this->consulta->prepare("SELECT * from carrera where idCarrera=$this->idCarrera");
+                $stmt = $this->consulta->prepare("SELECT * from Carrera where idCarrera=$this->idCarrera");
                 if ($stmt->execute()) {
                     return array(
                         'status' => SUCCESS_REQUEST,

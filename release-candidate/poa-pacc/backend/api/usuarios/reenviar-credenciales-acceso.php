@@ -27,4 +27,3 @@
             $usuario->peticionNoValida();
         break;
     }
-?>

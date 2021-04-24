@@ -20,4 +20,3 @@
             $usuario->peticionNoValida();
         break;
     }
-?>

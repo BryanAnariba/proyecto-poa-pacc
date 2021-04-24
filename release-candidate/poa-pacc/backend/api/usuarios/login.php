@@ -22,4 +22,3 @@
             $usuario->peticionNoValida();
         break;
     }
-?>

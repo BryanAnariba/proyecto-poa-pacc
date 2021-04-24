@@ -197,13 +197,13 @@
                                                         A.tipoSolicitudSalida,
                                                         DATE_FORMAT(B.fechaRegistroSolicitud,'%d-%m-%Y') as fechaRegistroSolicitud,
                                                         D.TipoEstadoSolicitudSalida
-                                                FROM tiposolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM TipoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoSolicitudSalida = B.idTipoSolicitud AND
                                                     B.idPersonaUsuario = $this->idUsuario)
-                                                INNER JOIN estadosolicitudsalida C
+                                                INNER JOIN EstadoSolicitudSalida C
                                                 ON (B.idSolicitud = C.idSolicitudSalida)
-                                                INNER JOIN tipoestadosolicitudsalida D
+                                                INNER JOIN TipoEstadoSolicitudSalida D
                                                 ON (C.idTipoEstadoSolicitud = D.idTipoEstadoSolicitud)
                                                 ORDER BY B.idSolicitud DESC"); 
                 if ($stmt->execute()) {
@@ -243,8 +243,8 @@
                                                         A.horaFinSolicitudSalida,
                                                         A.diasSolicitados,
                                                         DATE_FORMAT(B.fechaRevisionSolicitud,'%d-%m-%Y') as fechaRevisionSolicitud
-                                                FROM solicitudsalida A
-                                                INNER JOIN estadosolicitudsalida B
+                                                FROM SolicitudSalida A
+                                                INNER JOIN EstadoSolicitudSalida B
                                                 ON (A.idSolicitud = B.idSolicitudSalida AND
                                                     A.idSolicitud = $this->idSolicitud)"); 
                 if ($stmt->execute()) {
@@ -275,7 +275,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT observacionesSolicitud
-                                                FROM estadosolicitudsalida
+                                                FROM EstadoSolicitudSalida
                                                 WHERE idSolicitudSalida = $this->idSolicitud"); 
                 if ($stmt->execute()) {
                     return array(
@@ -319,7 +319,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
+                    $stmt = $this->consulta->prepare("INSERT INTO SolicitudSalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
                                                             motivoSolicitud, 
@@ -358,7 +358,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
+                        $stmt1 = $this->consulta->prepare("INSERT INTO EstadoSolicitudSalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
                                                                 idTipoEstadoSolicitud,
@@ -378,7 +378,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
+                        $stmt2 = $this->consulta->prepare("UPDATE SolicitudSalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();  
@@ -440,7 +440,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
+                    $stmt = $this->consulta->prepare("INSERT INTO SolicitudSalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
                                                             motivoSolicitud, 
@@ -479,7 +479,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
+                        $stmt1 = $this->consulta->prepare("INSERT INTO EstadoSolicitudSalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
                                                                 idTipoEstadoSolicitud,
@@ -499,7 +499,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
+                        $stmt2 = $this->consulta->prepare("UPDATE SolicitudSalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
@@ -558,7 +558,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
+                    $stmt = $this->consulta->prepare("INSERT INTO SolicitudSalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
                                                             motivoSolicitud, 
@@ -597,7 +597,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
+                        $stmt1 = $this->consulta->prepare("INSERT INTO EstadoSolicitudSalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
                                                                 idTipoEstadoSolicitud,
@@ -617,7 +617,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
+                        $stmt2 = $this->consulta->prepare("UPDATE SolicitudSalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
@@ -675,7 +675,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $stmt = $this->consulta->prepare("INSERT INTO solicitudsalida
+                    $stmt = $this->consulta->prepare("INSERT INTO SolicitudSalida
                                                         (idTipoSolicitud, 
                                                             idPersonaUsuario, 
                                                             motivoSolicitud, 
@@ -714,7 +714,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt1 = $this->consulta->prepare("INSERT INTO estadosolicitudsalida(
+                        $stmt1 = $this->consulta->prepare("INSERT INTO EstadoSolicitudSalida(
                                                                 idPersonaUsuarioVeedor,
                                                                 idSolicitudSalida,
                                                                 idTipoEstadoSolicitud,
@@ -734,7 +734,7 @@
                         $this->consulta->prepare("
                             set @persona = {$_SESSION['idUsuario']};
                         ")->execute();
-                        $stmt2 = $this->consulta->prepare("UPDATE solicitudsalida 
+                        $stmt2 = $this->consulta->prepare("UPDATE SolicitudSalida 
                                                             SET diasSolicitados = DATEDIFF(fechaFinPermiso,fechaInicioPermiso)
                                                             WHERE idSolicitud = $id");
                         $stmt2->execute();
@@ -780,7 +780,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT documentoRespaldo, firmaDigital 
-                                                FROM solicitudsalida 
+                                                FROM SolicitudSalida 
                                                 WHERE idSolicitud  = $this->idSolicitud"); 
                 if ($stmt->execute()) {
                     return array(
@@ -821,7 +821,7 @@
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
                     $obtenerCorreoSecAcademica = $this->consulta->prepare("SELECT correoInstitucional
-                                                                            FROM usuario
+                                                                            FROM Usuario
                                                                             WHERE idTipoUsuario = 7 AND
                                                                                 idEstadoUsuario = 1");
                     $obtenerCorreoSecAcademica->execute(); 
@@ -851,7 +851,7 @@
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
                     $obtenerCorreoJefe = $this->consulta->prepare("SELECT correoInstitucional
-                                                                    FROM usuario
+                                                                    FROM Usuario
                                                                     WHERE idTipoUsuario = 2 AND
                                                                         idEstadoUsuario = 1 AND
                                                                         idDepartamento = {$_SESSION['idDepartamento']}");
@@ -879,7 +879,7 @@
                     $this->conexionBD = new Conexion();
                     $this->consulta = $this->conexionBD->connect();
                     $obtenerCorreoDecano = $this->consulta->prepare("SELECT correoInstitucional
-                                                                    FROM usuario
+                                                                    FROM Usuario
                                                                     WHERE idTipoUsuario = 4 AND
                                                                         idEstadoUsuario = 1");
                     $obtenerCorreoDecano->execute(); 

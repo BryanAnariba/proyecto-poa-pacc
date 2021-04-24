@@ -201,11 +201,11 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(A.idSolicitudSalida) as cantidadSolicitudes
-                                                FROM estadosolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM EstadoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoEstadoSolicitud = 1 AND
                                                 A.idSolicitudSalida = B.idSolicitud)
-                                                INNER JOIN usuario C
+                                                INNER JOIN Usuario C
                                                 ON (B.idPersonaUsuario = C.idPersonaUsuario AND
                                                     C.idTipoUsuario = 6)"); 
                 if ($stmt->execute()) {
@@ -237,11 +237,11 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(A.idSolicitudSalida) as cantidadSolicitudes
-                                                FROM estadosolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM EstadoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoEstadoSolicitud = 1 AND
                                                 A.idSolicitudSalida = B.idSolicitud)
-                                                INNER JOIN usuario C
+                                                INNER JOIN Usuario C
                                                 ON (B.idPersonaUsuario = C.idPersonaUsuario AND
                                                     C.idTipoUsuario = 3 AND
                                                     C.idDepartamento = {$_SESSION['idDepartamento']})"); 
@@ -275,11 +275,11 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(A.idSolicitudSalida) as cantidadSolicitudes
-                                                FROM estadosolicitudsalida A
-                                                INNER JOIN solicitudsalida B
+                                                FROM EstadoSolicitudSalida A
+                                                INNER JOIN SolicitudSalida B
                                                 ON (A.idTipoEstadoSolicitud = 1 AND
                                                 A.idSolicitudSalida = B.idSolicitud)
-                                                INNER JOIN usuario C
+                                                INNER JOIN Usuario C
                                                 ON (B.idPersonaUsuario = C.idPersonaUsuario AND
                                                     C.idTipoUsuario = 5)"); 
                 if ($stmt->execute()) {
@@ -311,7 +311,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(idInforme) as cantidadInformes
-                                                FROM informe
+                                                FROM Informe
                                                 WHERE idEstadoInforme = 1"); 
                 if ($stmt->execute()) {
                     return array(
@@ -343,8 +343,8 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(A.idActividad) as cantidadActividadesPendientes
-                                                FROM actividad A
-                                                INNER JOIN usuario B
+                                                FROM Actividad A
+                                                INNER JOIN Usuario B
                                                 ON (A.idEstadoActividad = 1 AND
                                                     A.idPersonaUsuario = B.idPersonaUsuario AND
                                                     A.idPersonaUsuario = {$_SESSION['idUsuario']} AND
@@ -377,8 +377,8 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT COUNT(A.idActividad) as cantidadActividadesPendientes
-                                                FROM actividad A
-                                                INNER JOIN usuario B
+                                                FROM Actividad A
+                                                INNER JOIN Usuario B
                                                 ON (A.idEstadoActividad = 1 AND
                                                 	A.idPersonaUsuario = B.idPersonaUsuario AND
                                                     A.idPersonaUsuario = {$_SESSION['idUsuario']} AND

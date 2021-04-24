@@ -74,7 +74,7 @@
                     $this->consulta->prepare("
                         set @persona = {$_SESSION['idUsuario']};
                     ")->execute();
-                    $stmt = $this->consulta->prepare("INSERT INTO informe
+                    $stmt = $this->consulta->prepare("INSERT INTO Informe
                                                         (idPersonaUsuarioEnvia, 
                                                             idPersonaUsuarioAprueba,
                                                             idEstadoInforme, 
@@ -144,12 +144,12 @@
                                                         B.Estado,
                                                         C.nombrePersona,
                                                         C.apellidoPersona
-                                                FROM informe A
-                                                INNER JOIN estadoinforme B
+                                                FROM Informe A
+                                                INNER JOIN EstadoInforme B
                                                 ON (A.idEstadoInforme = 2 AND
                                                     A.idEstadoInforme = B.idEstadoInforme AND
                                                     A.IdPersonaUsuarioEnvia = {$_SESSION['idUsuario']})	
-                                                INNER JOIN persona C
+                                                INNER JOIN Persona C
                                                 ON (A.idPersonaUsuarioAprueba = C.idPersona)	
                                                 ORDER BY A.idInforme DESC"); 
                 if ($stmt->execute()) {
@@ -186,8 +186,8 @@
                                                         A.tituloInforme,
                                                         DATE_FORMAT(A.fechaRecibido,'%d-%m-%Y') as fechaRecibido,
                                                         B.Estado
-                                                FROM informe A
-                                                INNER JOIN estadoinforme B
+                                                FROM Informe A
+                                                INNER JOIN EstadoInforme B
                                                 ON (A.idEstadoInforme = 1 AND
                                                     A.idEstadoInforme = B.idEstadoInforme AND
                                                     A.IdPersonaUsuarioEnvia = {$_SESSION['idUsuario']})	
@@ -222,7 +222,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT descripcionInforme
-                                                FROM informe
+                                                FROM Informe
                                                 WHERE idInforme = $this->idInforme"); 
                 if ($stmt->execute()) {
                     return array(
@@ -255,7 +255,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $stmt = $this->consulta->prepare("SELECT informe 
-                                                FROM informe 
+                                                FROM Informe 
                                                 WHERE idInforme = $this->idInforme"); 
                 if ($stmt->execute()) {
                     return array(
@@ -287,7 +287,7 @@
                 $this->conexionBD = new Conexion();
                 $this->consulta = $this->conexionBD->connect();
                 $obtenerCorreoEstratega = $this->consulta->prepare("SELECT correoInstitucional
-                                                                        FROM usuario
+                                                                        FROM Usuario
                                                                         WHERE idTipoUsuario = 5 AND
                                                                             idEstadoUsuario = 1");
                 $obtenerCorreoEstratega->execute(); 
