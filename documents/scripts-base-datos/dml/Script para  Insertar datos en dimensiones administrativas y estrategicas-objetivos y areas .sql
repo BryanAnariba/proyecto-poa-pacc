@@ -3,7 +3,7 @@
 --institucionales y sus respectivas areas estrategicas
 
 -- INSERTANDO DIMENSIONES ADMINISTRATIVAS
-INSERT INTO `dimensionadmin` (`idDimension`, `dimensionAdministrativa`, `idEstadoDimension`) 
+INSERT INTO `DimensionAdmin` (`idDimension`, `dimensionAdministrativa`, `idEstadoDimension`) 
 VALUES (NULL, 'TALLERES SEMINARIOS', '1'), 
     (NULL, 'CONTRATACION DE PERSONAL', '1'), 
     (NULL, 'EQUIPO DE OFICINA', '1'), 
@@ -15,7 +15,7 @@ VALUES (NULL, 'TALLERES SEMINARIOS', '1'),
 
 
 -- INSERTANDO DIMENSIONES ESTRATEGICAS
-INSERT INTO `dimensionestrategica` (`idDimension`, `idEstadoDimension`, `dimensionEstrategica`) 
+INSERT INTO `DimensionEstrategica` (`idDimension`, `idEstadoDimension`, `dimensionEstrategica`) 
 VALUES (NULL, '1', 'Desarrollo e Innov. Curricu.'), 
     (NULL, '1', 'Investigación Científica'), 
     (NULL, '1', 'Vinculación Univ. Sociedad'), 
@@ -36,7 +36,7 @@ VALUES (NULL, '1', 'Desarrollo e Innov. Curricu.'),
 
 
 -- iNSERTANDO OBJETIVOS INSTITUCIONALES PARA CADA DIMENSION ESTRATEGICA
-INSERT INTO `objetivoinstitucional` (`idObjetivoInstitucional`, `idDimensionEstrategica`, `idEstadoObjetivoInstitucional`, `objetivoInstitucional`) 
+INSERT INTO `ObjetivoInstitucional` (`idObjetivoInstitucional`, `idDimensionEstrategica`, `idEstadoObjetivoInstitucional`, `objetivoInstitucional`) 
 VALUES (NULL, '1', '1', 'Impulsar un proceso de desarrollo curricular siguiendo los lineamientos del Modelo Educativo de la UNAH en consonancia con las nuevas tendencias y diversidad educativa (formal, no formal y continua); se diseñaran currículos innovadores (abiertos, flexibles e incluyentes) acordes a estándares internacionales y que contaran con referentes axiológicos que orienten la selección de contenidos y la coherencia entre estos.'), 
     (NULL, '1', '1', 'Consolidar la aplicación de la política de bimodalidad en la UNAH.'), 
     (NULL, '2', '1', 'Consolidar el sistema de investigación científica y tecnológica de la UNAH, para posicionarse en una situación de liderazgo nacional y regional, tanto del conocimiento como de sus aplicaciones, desarrollando una investigación de impacto nacional y con reconocimiento internacional, ampliamente integrada a la docencia, especialmente al postgrado y vinculada a la solución de problemas, promoviendo sustantivamente el desarrollo del país.'), 
@@ -73,7 +73,7 @@ VALUES (NULL, '1', '1', 'Impulsar un proceso de desarrollo curricular siguiendo 
 
 
 -- INSERTANDO AREAS ESTRATEGICAS PARA CADA OBJETIVO INSTITUCIONAL DE CADA DIMENSION ESTRATEGICA
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '1', 'Mejoramiento de la Calidad Educativa.'), 
     (NULL, '1', '2', 'Mejoramiento de la Calidad Educativa. '), 
     (NULL, '1', '3', 'a) Las facultades y los centros regionales se insertan en el eje de fomento de la investigación; desarrollan investigación en el marco de las prioridades de investigación.'),
@@ -85,7 +85,7 @@ VALUES (NULL, '1', '1', 'Mejoramiento de la Calidad Educativa.'),
     (NULL, '1', '4', 'B. Socialización y creación de conocimiento en vinculación'), 
     (NULL, '1', '4', 'C. Gestión académica y administrativa de la vinculación');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '5', 'A. Servicio Social y gestión del riesgo'), 
     (NULL, '1', '5', 'B. Educacion No Formal'), 
     (NULL, '1', '5', 'C. Comunicación y Difusión'), 
@@ -98,7 +98,7 @@ VALUES (NULL, '1', '5', 'A. Servicio Social y gestión del riesgo'),
     (NULL, '1', '6', 'F. Servicios y Beneficios'), 
     (NULL, '1', '6', 'G. Eventos y Encuentros');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '7', 'Fortalecemiento de las competencias docentes para la educación superior que faciliten el aprendizaje y mejoren la eficiencia terminal.'), 
     (NULL, '1', '8', 'a. Brindar atención a los estudiantes universitarios de forma integral en su dimensión psico-pedagógica y social, que involucre aspectos interpersonales-afectivos, mediación de conflictos, orientación, asesoría, rendimiento académico, inducción vocacional y laboral. '), 
     (NULL, '1', '8', 'b. Contribuir a la promoción, prevención y atención integral de la salud en el estudiantado universitario, para mejorar su calidad de vida y rendimiento académico. '), 
@@ -110,7 +110,7 @@ VALUES (NULL, '1', '7', 'Fortalecemiento de las competencias docentes para la ed
     (NULL, '1', '11', 'b) Mejorar significativamente la cobertura de la UNAH y el acceso de la población hondureña a los servicios académicos de la UNAH.'), 
     (NULL, '1', '11', 'c) Desarrollar los Centros Regionales de la UNAH, como polos de desarrollo científico, técnico, y cultural de las regiones del país.');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '12', 'ÉTICA: Transversalización del Eje Curricular de Ética en las actividades administrativas y como eje integrador de los demás ejes del Modelo Educativo de la UNAH.'), 
     (NULL, '1', '13', 'CIUDADANÍA: Expansión del perfil profesional con elementos de  ciudadanía educativa.'), 
     (NULL, '1', '14', 'IDENTIDAD: Producción del conocimiento con identidad, nacional, regional, local, y para la internacionalización académica de la UNAH.'), 
@@ -127,7 +127,7 @@ VALUES (NULL, '1', '12', 'ÉTICA: Transversalización del Eje Curricular de Éti
     (NULL, '1', '20', 'F) Las facultades y los centros regionales se insertan en el eje de Regionalización e internacionalización; elaboración y ejecución de estrategias de regionalización interna e internacionalización de los posgrados, con el propósito de formar profesionales con visión de mundo y de enfoque inter y multidisciplinario.'), 
     (NULL, '1', '20', 'G) Las facultades y los centro regionales se insertan en el eje de Formación y capacitación; registrando y acreditando un cuerpo de profesionales especializado en la gestión de posgrados, incluyendo el componente de investigación.');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '21', 'Las Unidades Académicas y Administrativas disponen y tienen  acceso a los servicios de la plataforma tecnológica y al programa de desarrollo tecnológico de la UNAH.'), 
     (NULL, '1', '21', 'La infraestructura de las sedes universitarias en termino de aulas, salones, talleres, laboratorios, oficinas u otros, son suficientes y adecuados para el logro de los objetivos institucionales.'), 
     (NULL, '1', '21', 'Los Departamentos Académicos y las carreras disponen del equipo didáctico necesario para facilitar el proceso del desarrollo educativo.'), 
@@ -139,7 +139,7 @@ VALUES (NULL, '1', '21', 'Las Unidades Académicas y Administrativas disponen y 
     (NULL, '1', '25', 'b) Incremento del grado de visibilidad e involucramiento interinstitucional de la UNAH en el marco de las redes universitarias.'), 
     (NULL, '1', '25', 'c) Implementación del registro de acciones de internacionalización.');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '26', 'Lograr que la UNAH lleve a cabo en forma sostenida y permanente, un ejercicio pleno y responsable del principio de autonomía, que le permita participar activamente en la transformación de la sociedad hondureña.'), 
     (NULL, '1', '27', 'Fortalecer la atribución que la Constitución de la República le otorga a la UNAH de organizar, dirigir y desarrollar la educación superior y profesional.'), 
     (NULL, '1', '29', 'a. Conducir en coordinación con la Rectoría de la UNAH, el cumplimiento de la atribución que la Constitución de la República le otorga a la UNAH de organizar, dirigir y desarrollar la educación superior y profesional de Honduras'), 
@@ -152,7 +152,7 @@ VALUES (NULL, '1', '26', 'Lograr que la UNAH lleve a cabo en forma sostenida y p
     (NULL, '1', '30', 'Contar con un Sistema de Unidades de Recursos de Información certificado'), 
     (NULL, '1', '30', 'Intercambiar información con otras instituciones de manera rápida y eficiente. ');
 
-INSERT INTO `areaestrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
+INSERT INTO `AreaEstrategica` (`idAreaEstrategica`, `idEstadoAreaEstrategica`, `idObjetivoInstitucional`, `areaEstrategica`) 
 VALUES (NULL, '1', '31', 'Promover las TICs en apoyo a la docencia no presencial para el fortalecimiento del Sistema de Educación a Distancia'), 
     (NULL, '1', '31', 'Fortalecer la docencia presencial a travès de las TICs.'), 
     (NULL, '1', '32', 'Apoyar el desarrollo permanente, sostenibilidad y seguridad de la UNAHnet.'), 
@@ -165,7 +165,7 @@ VALUES (NULL, '1', '31', 'Promover las TICs en apoyo a la docencia no presencial
 
 
 -- INSERTANDO RESULTADOS INSTITUCIONALES
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '1', '1', 'Implementados currículos innovadores a nivel de grado y postgrado (macro, meso y micro currículos), en todas las Facultades y Centros Regionales Universitarios. '), 
     (NULL, '2', '1', 'Aplicada la política de bimodalidad con base en los diagnósticos regionales de necesidades y potencialidades auténticas.'), 
     (NULL, '3', '1', 'Las facultades y los centros regionales  desarrollan proyectos de investigación enmarcados en los temas prioritarios de la UNAH y de la facultad o centro regional a la cual están adscritas.'), 
@@ -179,7 +179,7 @@ VALUES (NULL, '1', '1', 'Implementados currículos innovadores a nivel de grado 
     (NULL, '4', '1', 'Las facultades y los centros regionales organizan encuentros (foros, conversatorios, simposios talleres etc.), para divulgar los resultados de las investigaciones realizadas.'), 
     (NULL, '4', '1', 'Las facultades y los centros regionales impulsan la representación institucional con ponencias en eventos científicos internacionales con recursos internos y externos.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '5', '1', 'Las facultades y los centros regionales identifican los proyectos de investigación, cuyos resultados sean susceptibles de protección, uso y explotación de la propiedad '), 
     (NULL, '6', '1', 'Las facultades y los centros regionales  participan en el programa de capacitación ofertado por la Dirección de Investigación Científica.'), 
     (NULL, '7', '1', 'Las faculttades y centros regionales cuenta con una estructura de investigación creada y fortalecida: institutos de investigación, unidades de gestión de la investigación, grupos de investigación, observatorios académicos, círculos de creatividad, spin off universitarias e incubadoras.'), 
@@ -192,7 +192,7 @@ VALUES (NULL, '5', '1', 'Las facultades y los centros regionales identifican los
     (NULL, '9', '1', 'La Dirección de Vinculación organiza anualmente encuentros locales, regionales, nacionales e internacionales que contribuye al debate académico del quehacer de vinculación.'), 
     (NULL, '9', '1', 'Creado un Sistema de información de procesos de vinculación con indicadores de resultados.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '10', '1', 'Los Comités de Vinculación (CV) en las Unidades Académicas de las Facultades y Centros Regionales, funcionan y cumplen con la planificación académica en vinculación y asignan recursos para su ejecución.'), 
     (NULL, '10', '1', 'La carrera gestiona recursos internos y externos en coordinación con la Dirección de Vinculación UNAH-Sociedad y la Vicerrectoría de Relaciones Internacionales.'), 
     (NULL, '11', '1', 'Ejecución del Sistema Integral de Atención Primaria en Salud Familiar-Comunitario en 30 municipios del país conjuntamente con la Secretaría de Salud, las municipalidades, la SEPLAN, la Secretaría de Educación y la AMOHN.'), 
@@ -212,7 +212,7 @@ VALUES (NULL, '10', '1', 'Los Comités de Vinculación (CV) en las Unidades Acad
     (NULL, '14', '1', 'Se mejoran los niveles nutricionales locales y se estimula la generación de empleo e ingresos mediante la creación de microempresas familiares comunitarias en los municipios seleccionados.'), 
     (NULL, '14', '1', 'Ejecutar un proyecto piloto de APOYO A LA GESTIÓN CULTURAL orientado a potenciar los factores culturales como elementos de desarrollo local y regional, en complemento y coordinación con los programas de salud, producción y educación, en dos municipios en los que funcionen dichos programas.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '15', '1', 'Creación de la bolsa de empleo de graduados.'), 
     (NULL, '16', '1', 'Creación de un programa de actualización de conocimientos para los graduados y no graduados en todas las áreas.'), 
     (NULL, '17', '1', 'Realización de estudios de graduados en las temáticas siguientes: Empleabilidad, pertinencia de la calidad educativa, percepción de los empleadores, satisfacción de los empleadores, satisfacción de la comunidad con el graduado de la UNAH, etnre otros.'), 
@@ -232,7 +232,7 @@ VALUES (NULL, '15', '1', 'Creación de la bolsa de empleo de graduados.'),
     (NULL, '25', '1', 'Desarrollados programas socio-culturales para el fomento de una cultura y valores de paz, integración y cohesión estudiantil, familiar y social.'), 
     (NULL, '25', '1', 'Realizados los primeros Juegos Universitarios Deportivos de la UNAH (JUDUNAH) para promover el intercambio estudiantil universitario y la identificación de atletas  para la conformación de delegaciones que representan a la UNAH en instancias deportivas nacionales y regionales.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '26', '1', 'Reformulada las políticas de estímulos educativos bajo criterios de equidad y calidad:'), 
     (NULL, '26', '1', 'Becas Municipales'), 
     (NULL, '26', '1', 'Becas de Inclusión Social (Pueblos Indígenas y Afrodescendientes)'), 
@@ -246,7 +246,7 @@ VALUES (NULL, '26', '1', 'Reformulada las políticas de estímulos educativos ba
     (NULL, '31', '1', 'Gestión exitosa del Sistema de Difusión Científica y Cultural de la UNAH, con participación sostenida y permanente en redes asociativas nacionales e internacionales.'), 
     (NULL, '32', '1', 'Transversalizado el EJE CURRICULAR DE ÉTICA en los planes de estudio de la UNAH, que propicie un sello de “Lo Esencial” en los graduados de la UNAH. (R. de Desarrollo Curricular Integral).');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '33', '1', 'Fortalecida la IDENTIDAD NACIONAL E INSTITUCIONAL, con un saber local revalorizado e internacionalizado.'), 
     (NULL, '34', '1', 'Gestionados una serie de instrumentos culturales (en especial la POLÍTICA DE CULTURA, y oferta educativa, encaminada hacia la formación integral – profesional en la relación de cultura y desarrollo.'), 
     (NULL, '35', '1', 'Impregnados los currículos de una preocupación por los derechos humanos, lo socio-cultural, la interculturalidad y la gestión de vida cultural, desde actividades curriculares, extracurriculares, y la vinculación universidad – sociedad.'), 
@@ -264,7 +264,7 @@ VALUES (NULL, '33', '1', 'Fortalecida la IDENTIDAD NACIONAL E INSTITUCIONAL, con
     (NULL, '42', '1', 'Las facultades y centros regionales realizan procesos de utoevaluación, evaluación, rediseño y acreditación de sus posgrados.'), 
     (NULL, '42', '1', 'Las facultades y los centros regionales promueven la creación o reconversión de algunos posgrados de la UNAH en posgrados regionales. ');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '43', '1', ' Las facultades y centros regionales definen y articulan los temas prioritarios de posgrado a los ya definidos por la UNAH.'), 
     (NULL, '43', '1', 'Las facultades y centros regionales impulsan la integración de los estudiantes de posgrado a los grupos de investigación de la UNAH.'), 
     (NULL, '43', '1', 'Las facultades y centros regionales impulsan la publicación de artículos de trabajos de graduación de los estudiantes de posgrado en las revistas de la UNAH.'), 
@@ -282,7 +282,7 @@ VALUES (NULL, '43', '1', ' Las facultades y centros regionales definen y articul
     (NULL, '46', '1', 'Las facultades y centros regionales promueven que los posgrados participen en el programa de capacitación ofertado por la Dirección del Sistema de Estudios de Posgrado.'), 
     (NULL, '46', '1', 'Las facultades y centros regionales impulsan los cursos de actualización a los egresados de posgrado de la UNAH,  de acuerdo a su temática.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '47', '1', 'Plataforma tecnológica eficiente, accesible en todos los predios de las sedes, modalidades y unidades académicas de la UNAH.'), 
     (NULL, '48', '1', '\"Macro proyecto de Desarrollo Físico implementado, incluyendo Centros Regionales, CRAED, ITS.\r\n2) Infraestructura física de CRAED pilotos en proceso de construcción.\"'), 
     (NULL, '49', '1', '\"Aulas equipadas con proyectores y equipos de ayuda multimedia, 2) Fortalecida la red de bibliotecas universitarias, librerías universitarias y la editorial, tanto virtuales como físicas.\"'), 
@@ -294,7 +294,7 @@ VALUES (NULL, '47', '1', 'Plataforma tecnológica eficiente, accesible en todos 
     (NULL, '54', '1', 'Incremento de las movilidades internacionales realizadas'), 
     (NULL, '54', '1', 'Proyectos y/o programas de cooperación e investigación gestionados por la unidad');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '55', '1', 'Relaciones internacionales con otras instituciones fortalecidas'), 
     (NULL, '56', '1', 'Actividades en internacionalización registradas y monitoreadas'), 
     (NULL, '57', '1', 'Instancias que conforman las autoridades de dirección superior, desarrollando su respectivo rol en forma coordinada.'), 
@@ -306,7 +306,7 @@ VALUES (NULL, '55', '1', 'Relaciones internacionales con otras instituciones for
     (NULL, '59', '1', 'Servicios ofrecidos con plena satisfacción de los usuarios'), 
     (NULL, '59', '1', 'Plan Estratégico DES  y planes operativos anuales de la DES, y de los Departamentos cumplidos,  Informes de proyectos impulsados por la Dirección de Educación Superior, observatorio de la Educación Superior funcionando, Sistemas informativos y bases de dato funcionando, sitios web actualizados y activos, edición y distribución de publicaciones varias.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '60', '1', 'Sistema de Educación Superior vinculado con los sistemas educativos regionales y mundiales, convenios de cooperación suscritos y en ejecución, adaptación de las grandes tendencias internacionales a las políticas educativas del país. Vinculación amplia con expertos, asesoría, pasantías.'), 
     (NULL, '60', '1', 'Sistema de Educación Superior integrado a redes socioeducativas nacionales e internacionales.'), 
     (NULL, '60', '1', 'Documento de Plan Plan Estratégico de Desarrollo del Sistema validado y aprobado. Objetivos propuestos cumplidos.  Sistema de Educación Superior en camino a su desarrollo.'), 
@@ -322,7 +322,7 @@ VALUES (NULL, '60', '1', 'Sistema de Educación Superior vinculado con los siste
     (NULL, '62', '1', 'Comunidad Universitaria con mayor conocimiento en el uso de las TIC en las Facultades y Centros Regionales'), 
     (NULL, '63', '1', 'Portal Web activo y actualizado difundiendo información en el ámbito Universitario.');
 
-INSERT INTO `resultadoinstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
+INSERT INTO `ResultadoInstitucional` (`idResultadoInstitucional`, `idAreaEstrategica`, `idEstadoResultadoInstitucional`, `resultadoInstitucional`) 
 VALUES (NULL, '64', '1', 'Comunidad Universitaria haciendo uso de nuevos recursos de aprendizaje de acuerdo a la tendencia del nuevo modelo educativo.'), 
     (NULL, '65', '1', 'Unidades académicas, administrativas y de servicio aplicando las buenas prácticas para el uso adecuado, ético y solidario de las TICs'), 
     (NULL, '66', '1', 'Servicios y procesos de la biblioteca estandarizados'), 
