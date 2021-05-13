@@ -1,9 +1,8 @@
 -- INSERTANDO EL CATALOGO DE OBJETOS DE GASTO
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'SERVICIOS PERSONALES', '10000-00', '1-00-00-00-00');
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'SERVICIOS PERSONALES', '10000-00', '1-00-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'PERSONAL PERMANENTE', '11000-00', '1-01-00-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'PERSONAL PERMANENTE', '11000-00', '1-01-00-00-00'), 
     (NULL, '1', 'SUELDOS BASICOS','11100-00', '1-01-01-01-00'),
     (NULL, '1', 'SUELDOS Y SALARIOS PERMANENTES', '11100-01', '1-01-01-01-00'), 
     (NULL, '1', 'PAGOS A PERSONAL NO CLASIFICADO', '11100-02', '1-01-01-02-00'), 
@@ -17,8 +16,20 @@ INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionC
     (NULL, '1', 'RECLASIFICACIONES PERSONAL DOCENTE Y ADMINISTRATIVO', '11400-04', '1-01-04-04-00'), 
     (NULL, '1', 'APLICACIÓN DEL MANUAL DE PUESTOS Y SALARIOS', '11400-05', '1-01-04-05-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'AGUINALDO Y DECIMOCUARTO MES', '11400-00', '1-01-04-00-00'), 
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`)  VALUES (NULL, '1', 'AGUINALDO Y DECIMOCUARTO MES', '11400-00', '1-01-04-00-00'), 
     (NULL, '1', 'DÉCIMO TERCER MES (PERSONAL PERMANENTE)', '11510-01', '1-01-05-01-00'),
     (NULL, '1', 'DÉCIMO TERCER MES (PERSONAL NO CLASIFICADO)', '11510-02', '1-01-05-02-00'),
     (NULL, '1', 'DÉCIMO TERCER MES (PROFESORES POR HORA)', '11510-03', '1-01-05-03-00'),
@@ -30,8 +41,7 @@ VALUES (NULL, '1', 'AGUINALDO Y DECIMOCUARTO MES', '11400-00', '1-01-04-00-00'),
     (NULL, '1', 'DÉCIMO CUARTO MES (TUTORES)', '11520-04', '1-01-05-04-00'),
     (NULL, '1', 'DÉCIMO CUARTO MES (INSTRUCTORES Y ASISTENTES TÉCNICOS DE LABORATORIO)', '11520-06', '1-01-05-06-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'COMPLEMENTOS (VACACIONES)', '11600-00', '1-01-06-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`)  VALUES (NULL, '1', 'COMPLEMENTOS (VACACIONES)', '11600-00', '1-01-06-00-00'), 
     (NULL, '1', 'COMPLEMENTO DE VACACIONES (BONO) ', '11600-01', '1-01-06-01-00'), 
     (NULL, '1', 'COMPLEMENTO DE VACACIONES (BONO) PERSONAL NO CLASIFICADO', '11600-02', '1-01-06-02-00'), 
     (NULL, '1', 'COMPLEMENTO DE VACACIONES (BONO) PROFESORES POR HORA', '11600-03', '1-01-06-03-00'), 
@@ -47,8 +57,7 @@ VALUES (NULL, '1', 'COMPLEMENTOS (VACACIONES)', '11600-00', '1-01-06-00-00'),
     (NULL, '1', 'AGUINALDO Y DECIMOCUARTO MES', '12400-00', '1-02-04-00-00'), 
     (NULL, '1', 'DECIMOTERCER MES', '12410-00', '1-02-04-01-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'DECIMOCUARTO MES', '12420-00', '1-02-04-02-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'DECIMOCUARTO MES', '12420-00', '1-02-04-02-00'), 
     (NULL, '1', 'OTROS SERVICIOS PERSONALES', '12900-00', '1-02-09-00-00'),
     (NULL, '1', 'CONTRATOS ESPECIALES', '12910-00', '1-02-09-01-00'), 
     (NULL, '1', 'RETRIBUCIONES EXTRAORDINARIAS', '141000-00', '1-04-01-00-00'),
@@ -64,8 +73,7 @@ VALUES (NULL, '1', 'DECIMOCUARTO MES', '12420-00', '1-02-04-02-00'),
     (NULL, '1', 'SERVICIOS NO PERSONALES', '20000', '2-00-00-00-00'),
     (NULL, '1', 'SERVICIOS BASICOS', '21000-00', '2-01-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-    VALUES (NULL, '1', 'ENERGÍA ELÉCTRICA', '21110-00', '2-01-01-01-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`)  VALUES (NULL, '1', 'ENERGÍA ELÉCTRICA', '21110-00', '2-01-01-01-00'), 
         (NULL, '1', 'SUMINISTRO DE ENERGÍA ELÉCTRICA ', '21110-00', '2-01-01-01-00'), 
         (NULL, '1', 'PROYECCIÓN CONSUMO DE ENERGÍA NUEVAS EDIFICACIONES.', '21120-00', '2-01-01-02-00'), 
         (NULL, '1', 'AGUA', '21200-00', '2-01-02-00-00'), 
@@ -76,8 +84,7 @@ INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionC
         (NULL, '1', 'TELEFONÍA CELULAR', '21430-00', '2-01-04-03-00'), 
         (NULL, '1', 'TELEX Y TELEFAX', '21440-00', '2-01-04-04-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'OTROS SERVICIOS BÁSICOS', '21500-00', '2-01-05-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'OTROS SERVICIOS BÁSICOS', '21500-00', '2-01-05-00-00'), 
     (NULL, '1', 'ALQUILERES Y DERECHOS SOBRE BIENES INTANGIBLES', '22000-00', '2-02-00-00-00'), 
     (NULL, '1', 'ALQUILER DE EDIFICIOS, VIVIENDAS Y LOCALES', '22100-00', '2-02-01-00-00'), 
     (NULL, '1', 'ALQUILER DE EQUIPOS Y MAQUINARIAS', '22200-00', '2-02-02-00-00'), 
@@ -93,8 +100,7 @@ VALUES (NULL, '1', 'OTROS SERVICIOS BÁSICOS', '21500-00', '2-01-05-00-00'),
     (NULL, '1', 'OTROS ALQUILERES', '22900-00', '2-02-09-00-00'), 
     (NULL, '1', 'MANTENIMIENTO,REPARACIONES Y LIMPIEZA', '23000', '2-03-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE EDIFICIOS Y LOCALES', '23100-00', '2-03-01-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`)  VALUES (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE EDIFICIOS Y LOCALES', '23100-00', '2-03-01-00-00'), 
     (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE EQUIPO Y MEDIOS DE TRANSPORTE', '23200-00', '2-03-02-00-00'), 
     (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE MAQUINARIA Y EQUIPO', '23300-00', '2-03-03-00-00'), 
     (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE EQUIPOS Y MAQUINARIAS DE PRODUCCIÓN', '23310-00', '2-03-03-01-00'), 
@@ -115,8 +121,7 @@ VALUES (NULL, '1', 'MANTENIMIENTO Y REPARACIÓN DE EDIFICIOS Y LOCALES', '23100-
     (NULL, '1', 'SERVICIOS DE CAPACITACIÓN', '24500-00', '2-04-05-00-00'),
     (NULL, '1', 'SERVICIOS DE INFORMÁTICA Y SISTEMAS COMPUTARIZADOS', '24600-00', '2-04-06-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`)
-VALUES (NULL, '1', 'SERVICIOS DE CONSULTORÍA PARA APOYO ADMNISTRATIVO', '24700-00', '2-04-07-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'SERVICIOS DE CONSULTORÍA PARA APOYO ADMNISTRATIVO', '24700-00', '2-04-07-00-00'), 
     (NULL, '1', 'SERVICIOS DE CONSULTORÍA DE GESTIÓN ADMINISTRATIVA Y FINANCIERA', '24710-00', '2-04-07-01-00'),
     (NULL, '1', 'SERVICIOS DE CONSULTORÍA DE MONITOREO Y EVALUACIÓN', '24720-00', '2-04-07-02-00'), 
     (NULL, '1', 'SERVICIOS COMERCIALES Y FINANCIEROS', '25000-00', '2-05-00-00-00'), 
@@ -137,7 +142,7 @@ VALUES (NULL, '1', 'SERVICIOS DE CONSULTORÍA PARA APOYO ADMNISTRATIVO', '24700-
     (NULL, '1', 'VIÁTICOS AL EXTERIOR', '26220-00', '2-06-02-02-00'),
     (NULL, '1', 'IMPUESTOS, DERECHOS, TASAS Y GASTOS JUDICIALES', '27000-00', '2-07-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
 VALUES (NULL, '1', 'TASAS Y DERECHOS', '27200-00', '2-07-02-00-00'), 
     (NULL, '1', 'TASAS', '2710-00', '2-07-01-00-00'), 
     (NULL, '1', 'DERECHOS', '27220-00', '2-07-02-02-00'), 
@@ -149,8 +154,7 @@ VALUES (NULL, '1', 'TASAS Y DERECHOS', '27200-00', '2-07-02-00-00'),
     (NULL, '1', 'CEREMONIAL Y PROTOCOLO', '29100-00', '2-09-01-00-00'), 
     (NULL, '1', 'SERVICIOS DE VIGILANCIA', '29200-00', '2-09-02-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'ACTUACIONES DEPORTIVAS', '29300-00', '2-09-03-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'ACTUACIONES DEPORTIVAS', '29300-00', '2-09-03-00-00'), 
     (NULL, '1', 'ACTUACIONES ARTÍSTICAS', '29400-00', '2-09-04-00-00'), 
     (NULL, '1', 'MATERIALES Y SUMINISTROS', '30000-00', '3-00-00-00-00'),
     (NULL, '1', 'ALIMENTOS, PRODUCTOS  AGROPECUARIOS Y FORESTALES', '31000-00', '3-01-00-00-00'), 
@@ -172,8 +176,7 @@ VALUES (NULL, '1', 'ACTUACIONES DEPORTIVAS', '29300-00', '2-09-03-00-00'),
     (NULL, '1', 'PRENDA DE VESTIR', '32310-00', '3-02-03-01-00'),
     (NULL, '1', 'MATERIALES Y ACCESORIOS PARA COSTURA', '32320-00', '3-02-03-02-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'CALZADOS', '32400-00', '3-02-04-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'CALZADOS', '32400-00', '3-02-04-00-00'), 
     (NULL, '1', 'PRODUCTOS DE PAPEL, CARTÓN E IMPRESOS', '33000-00', '3-03-00-00-00'),
     (NULL, '1', 'PRODUCTOS DE PAPEL Y CARTÓN', '33100-00', '3-03-01-00-00'),
     (NULL, '1', 'PRODUCTOS DE ARTES GRÁFICAS', '33300-00', '3-03-03-00-00'), 
@@ -194,8 +197,7 @@ VALUES (NULL, '1', 'CALZADOS', '32400-00', '3-02-04-00-00'),
     (NULL, '1', 'INSECTICIDAS, FUMIGANTES Y OTROS', '35400-00', '3-05-04-00-00'), 
     (NULL, '1', 'TINTES, PINTURAS Y COLORANTES', '35500-00', '3-05-05-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'COMBUSTIBLES Y LUBRICANTES', '35600-00', '3-05-06-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'COMBUSTIBLES Y LUBRICANTES', '35600-00', '3-05-06-00-00'), 
     (NULL, '1', 'GASOLINA', '35610-00', '3-05-06-01-00'),
     (NULL, '1', 'DIÉSEL', '35620-00', '3-05-06-02-00'), 
     (NULL, '1', 'KEROSÉN', '35630-00', '3-05-06-03-00'),
@@ -211,8 +213,7 @@ VALUES (NULL, '1', 'COMBUSTIBLES Y LUBRICANTES', '35600-00', '3-05-06-00-00'),
     (NULL, '1', 'PRODUCTOS FERROSOS Y NO FERROSOS', '36100-00', '3-06-01-00-00'), 
     (NULL, '1', 'HERRAMIENTAS MENORES', '36400-00', '3-06-04-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'OTROS PRODUCTOS METÁLICOS', '36900-00', '3-06-09-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'OTROS PRODUCTOS METÁLICOS', '36900-00', '3-06-09-00-00'), 
     (NULL, '1', 'ELEMENTOS DE FERRETERÍA', '36930-00', '3-06-09-03-00'), 
     (NULL, '1', 'PRODUCTOS MINERALES NO METÁLICOS', '37000-00', '3-07-00-00-00'), 
     (NULL, '1', 'PRODUCTOS DE CEMENTO, ASBESTO, YESO Y OTROS', '37100-00', '3-07-01-00-00'), 
@@ -227,8 +228,7 @@ VALUES (NULL, '1', 'OTROS PRODUCTOS METÁLICOS', '36900-00', '3-06-09-00-00'),
     (NULL, '1', 'ÚTILES Y MATERIALES ELÉCTRICOS', '39300-00', '3-09-03-00-00'), 
     (NULL, '1', 'UTENSILIOS DE COCINA Y COMEDOR', '39400-00', '3-09-04-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'INSTRUMENTALES, MATERIALES Y SUMINISTROS MÉDICOS, MENORES Y DE LABORATORIO', '39500-00', '3-09-05-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'INSTRUMENTALES, MATERIALES Y SUMINISTROS MÉDICOS, MENORES Y DE LABORATORIO', '39500-00', '3-09-05-00-00'), 
     (NULL, '1', 'INSTRUMENTAL MÉDICO QUIRÚRGICO MENOR', '39510-00', '3-09-05-01-00'), 
     (NULL, '1', 'INSTRUMENTAL Y MATERIAL PARA LABORATORIO', '39520-00', '3-09-05-02-00'),
     (NULL, '1', 'MATERIAL MÉDICO QUIRÚRGICO MENOR', '39530-00', '3-09-05-03-00'), 
@@ -239,8 +239,7 @@ VALUES (NULL, '1', 'INSTRUMENTALES, MATERIALES Y SUMINISTROS MÉDICOS, MENORES Y
     (NULL, '1', 'REPUESTOS Y ACCESORIOS', '39600-00', '3-09-06-00-00'),
     (NULL, '1', 'ÚTILES DEPORTIVOS, RECREATIVOS Y DE RESCATE', '39800-00', '3-09-08-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'BIENES CAPITALIZABLES', '40000', '4-00-00-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'BIENES CAPITALIZABLES', '40000', '4-00-00-00-00'), 
     (NULL, '1', 'BIENES PREEXISTENTES', '41000-00', '4-01-00-00-00'), 
     (NULL, '1', 'TIERRAS Y TERRENOS', '41100-00', '4-01-01-00-00'), 
     (NULL, '1', 'PARA CONSTRUCCIÓN DE BIENES EN DOMINIO PRIVADO', '41110-00', '4-01-01-01-00'), 
@@ -251,15 +250,13 @@ VALUES (NULL, '1', 'BIENES CAPITALIZABLES', '40000', '4-00-00-00-00'),
     (NULL, '1', 'INSTALACIONES VARIAS', '41240-00', '4-01-02-04-00'), 
     (NULL, '1', 'MAQUINARIA Y EQUIPO', '42000-00', '4-02-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'EQUIPOS DE OFICINA Y MUEBLES', '42100-00', '4-02-01-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'EQUIPOS DE OFICINA Y MUEBLES', '42100-00', '4-02-01-00-00'), 
     (NULL, '1', 'MUEBLES VARIOS DE OFICINA', '42120-00', '4-02-01-02-00'), 
     (NULL, '1', 'ELECTRODOMÉSTICOS', '42140-00', '4-02-01-04-00'), 
     (NULL, '1', 'MÁQUINAS Y EQUIPOS DE PRODUCCIÓN', '42200-00', '4-02-02-00-00'), 
     (NULL, '1', 'MÁQUINAS Y EQUIPO DE CONSTRUCCIÓN', '42210-00', '4-02-02-01-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'MAQUINARIA Y EQUIPO DE PRODUCCIÓN AGROPECUARIA Y FORESTAL', '42220-00', '4-02-02-02-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'MAQUINARIA Y EQUIPO DE PRODUCCIÓN AGROPECUARIA Y FORESTAL', '42220-00', '4-02-02-02-00'), 
     (NULL, '1', ' EQUIPO DE TRANSPORTE, ELEVACIÓN Y TRACCIÓN', '42300-00', '4-02-03-00-00'), 
     (NULL, '1', 'EQUIPO DE TRANSPORTE TERRESTRE PARA PERSONAS', '42310-00', '4-02-03-01-00'), 
     (NULL, '1', 'EQUIPO DE ELEVACIÓN Y TRACCIÓN', '42340-00', '4-02-03-04-00'), 
@@ -275,8 +272,7 @@ VALUES (NULL, '1', 'MAQUINARIA Y EQUIPO DE PRODUCCIÓN AGROPECUARIA Y FORESTAL',
     (NULL, '1', 'MUEBLES Y EQUIPOS EDUCACIONALES', '42710-00', '4-02-07-01-00'), 
     (NULL, '1', 'EQUIPOS RECREATIVOS Y DEPORTIVOS', '42720-00', '4-02-07-02-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'HERRAMIENTAS MAYORES', '42800-00', '4-02-08-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'HERRAMIENTAS MAYORES', '42800-00', '4-02-08-00-00'), 
     (NULL, '1', 'EQUIPOS PARA ELECTRIFICACIÓN (MEDIDORES, TRANSFORMADORES Y POSTES)', '42900-00', '4-02-09-00-00'), 
     (NULL, '1', 'LIBROS, REVISTAS Y OTROS ELEMENTOS COLECCIONABLES', '43000-00', '4-03-00-00-00'), 
     (NULL, '1', 'LIBROS Y REVISTAS', '43100-00', '4-03-01-00-00'), 
@@ -302,8 +298,7 @@ VALUES (NULL, '1', 'HERRAMIENTAS MAYORES', '42800-00', '4-02-08-00-00'),
     (NULL, '1', 'SUPERVISIÓN DE CONSERVACIÓN Y MEJORAS DE BIENES CULTURALES', '47320-00', '4-07-03-02-00'), 
     (NULL, '1', 'TRANSFERENCIAS Y DONACIONES', '50000-00', '5-00-00-00-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'TRANSFERENCIAS Y DONACIONES CORRIENTES AL SECTOR PRIVADO', '51000-00', '5-01-00-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'TRANSFERENCIAS Y DONACIONES CORRIENTES AL SECTOR PRIVADO', '51000-00', '5-01-00-00-00'), 
     (NULL, '1', 'PRESTACIONES DE ASISTENCIA SOCIAL', '51200-00', '5-01-02-00-00'), 
     (NULL, '1', 'BECAS NACIONALES', '51211-00', '5-01-02-01-00'), 
     (NULL, '1', 'BECAS NACIONALES UNAH', '51211-01', '5-01-02-01-01'), 
@@ -326,8 +321,7 @@ VALUES (NULL, '1', 'TRANSFERENCIAS Y DONACIONES CORRIENTES AL SECTOR PRIVADO', '
     (NULL, '1', 'BECAS DE INVESTIGACIÓN PARA ESTUDIANTES DE POSGRADO', '51211-23', '5-01-02-01-23'), 
     (NULL, '1', 'BECAS EXTERNAS', '51212-00', '5-01-02-01-00');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'AYUDA SOCIAL A PERSONAS', '51220-00', '1-01-05-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'AYUDA SOCIAL A PERSONAS', '51220-00', '1-01-05-00-00'), 
     (NULL, '1', 'PREMIO INVESTIGADOR LARGA TRAYECTORIA', '51220-01', '5-01-02-02-01'),
     (NULL, '1', 'PREMIOS AL INVESTIGADOR', '51220-08', '5-01-02-02-08'),
     (NULL, '1', 'PREMIOS A ESTUDIANTES DE SECUNDARIA', '51220-23', '5-01-02-02-23'), 
@@ -347,8 +341,7 @@ VALUES (NULL, '1', 'AYUDA SOCIAL A PERSONAS', '51220-00', '1-01-05-00-00'),
     (NULL, '1', 'INVESTIGADOR EN CONSOLIDACIÓN', '51220-75', '5-01-02-02-75'), 
     (NULL, '1', 'INVESTIGADOR EN FORMACIÓN PROFESOR', '51220-76', '5-01-02-02-76');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'INVESTIGADOR EN FORMACIÓN ESTUDIANTE', '51220-77', '5-01-02-02-77'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'INVESTIGADOR EN FORMACIÓN ESTUDIANTE', '51220-77', '5-01-02-02-77'), 
     (NULL, '1', 'PROFESOR INVESTIGADOR', '51220-78', '5-01-02-02-78'), 
     (NULL, '1', 'ESTUDIANTE INVESTIGADOR', '51220-79', '5-01-02-02-79'),
     (NULL, '1', 'PREMIO ENSAYO SOBRE INVESTIGACIÓN, TRANSFERENCIA TECNOLÓGICA', '51220-80', '5-01-02-02-80'), 
@@ -383,8 +376,7 @@ VALUES (NULL, '1', 'INVESTIGADOR EN FORMACIÓN ESTUDIANTE', '51220-77', '5-01-02
     (NULL, '1', 'MEMBRESÍA RED CLARA Y FUNDACIÓN SALAMANCA', '53310-24', '5-03-03-01-24'), 
     (NULL, '1', 'MEMBRESÍA COLLEGEBOARD', '53310-25', '5-03-03-01-25');
 
-INSERT INTO `objetogasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) 
-VALUES (NULL, '1', 'SERVICIO DE LA DEUDA PÚBLICA', '70000-00', '7-00-00-00-00'), 
+INSERT INTO `ObjetoGasto` (`idObjetoGasto`, `idEstadoObjetoGasto`, `DescripcionCuenta`, `codigoObjetoGasto`, `abrev`) VALUES (NULL, '1', 'SERVICIO DE LA DEUDA PÚBLICA', '70000-00', '7-00-00-00-00'), 
     (NULL, '1', 'SERVICIO DE LA DEUDA PÚBLICA A INTERNA A CORTO PLAZO', '71000-00', '7-01-00-00-00'), 
     (NULL, '1', 'AMORTIZACIÓN DE LA DEUDA PÚBLICA INTERNA CORTO PLAZO', '71100-00', '7-01-01-00-00'), 
     (NULL, '1', 'DEUDA IMPREUNAH AÑOS ANTERIORES', '71100-52', '7-01-01-00-52'), 

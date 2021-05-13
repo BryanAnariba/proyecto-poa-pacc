@@ -2,7 +2,9 @@
     require_once('../request-headers.php');
     require_once('../../middlewares/VerificarToken.php');
     require_once('../../controllers/PaccController.php');
-    require('../../vendor/autoload.php');
+    require('phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php');
+    require('phpoffice/phpspreadsheet/src/PhpSpreadsheet/Spreadsheet.php');
+    
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     use PhpOffice\PhpSpreadsheet\IOFactory;
